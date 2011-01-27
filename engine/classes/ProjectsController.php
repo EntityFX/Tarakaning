@@ -9,8 +9,8 @@ require_once '../libs/mysql/MySQLConnector.php';
 		добавление проекта +
 		удаление проекта
 		редактирование проекта
-		изменение имени
-		изменение описания
+			изменение имени
+			изменение описания
 		получить список всех проектов
 		получить список по фильтру
 		
@@ -28,12 +28,17 @@ require_once '../libs/mysql/MySQLConnector.php';
 		public function addProject($userId, $projectName, $description)
 		{
 			$projectName = htmlspecialchars($projectName);
-			$description = htmlspecialchars($description);die("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`)
-			VALUES ('', '$projectName', '$description', '$userId');");
+			$description = htmlspecialchars($description);
 			$r = $this->_sql->query("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`)
 			VALUES ('', '$projectName', '$description', '$userId');");
-			
+			die("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`)
+			VALUES ('', '$projectName', '$description', '$userId');");
 			return $r;
+		}
+		
+		public function editProjectName()
+		{
+			
 		}
 	}
 ?>
