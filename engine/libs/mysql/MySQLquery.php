@@ -7,7 +7,7 @@
 * @copyright Idel Media Group: Developers Team (Solopiy Artem, Jusupziyanov Timur)
 */
 
-require_once "../config/databaseConsts.php";
+require_once "engine/config/databaseConsts.php";
 
     /**
     * Класс MySQL запросов

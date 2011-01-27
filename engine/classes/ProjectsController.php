@@ -1,6 +1,6 @@
-<?php
+<?php 
 require_once 'engine/libs/mysql/MySQLConnector.php';
-//die("sdfasd");	
+
 
 	class ProjectsController extends MySQLConnector
 	{

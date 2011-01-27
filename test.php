@@ -1,6 +1,9 @@
 <?php 
 require_once "engine/config/databaseConsts.php";
 require_once 'engine/classes/ProjectsController.php';
+var_dump(mysql_connect("localhost","root","")); echo "<br />";
+
+
 
 $n = new ProjectsController();
 //var_dump();
