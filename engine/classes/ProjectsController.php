@@ -28,7 +28,7 @@ require_once '../libs/mysql/MySQLConnector.php';
 		public function addProject($userId, $projectName, $description)
 		{
 			$projectName = htmlspecialchars($projectName);
-			$description = htmlspecialchars($description);
+			$description = htmlspecialchars($description);var_dump($this->_sql);
 			$r = $this->_sql->query("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`)
 			VALUES ('', '$projectName', '$description', '$userId');");
 			die("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`)
@@ -36,9 +36,9 @@ require_once '../libs/mysql/MySQLConnector.php';
 			return $r;
 		}
 		
-		public function editProjectName()
+	/*	public function editProjectName()
 		{
 			
-		}
+		}*/
 	}
 ?>
