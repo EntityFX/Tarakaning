@@ -1,10 +1,12 @@
 <?php
-require_once 'engine/libs/mysql/MySQLConnector.php';
+require_once '../libs/mysql/MySQLConnector.php';
+//die("sdfasd");	
+
 	class ProjectsController extends MySQLConnector
 	{
 		/*Класс управления проектами - ProjectsController: +
 
-		добавление проекта
+		добавление проекта +
 		удаление проекта
 		редактирование проекта
 		изменение имени
@@ -26,9 +28,12 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 		public function addProject($userId, $projectName, $description)
 		{
 			$projectName = htmlspecialchars($projectName);
-			$description = htmlspecialchars($description);
-			return $this->_sql->query("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID` )
+			$description = htmlspecialchars($description);die("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`)
 			VALUES ('', '$projectName', '$description', '$userId');");
+			$r = $this->_sql->query("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`)
+			VALUES ('', '$projectName', '$description', '$userId');");
+			
+			return $r;
 		}
 	}
 ?>
