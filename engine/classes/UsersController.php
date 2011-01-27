@@ -23,5 +23,10 @@
         {
             
         }
+        
+        private function checkPassword($password)
+        {
+            
+        }
     }
 ?>
