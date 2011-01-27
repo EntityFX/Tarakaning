@@ -1,5 +1,5 @@
 <?php 
-
+require_once "../config/databaseConsts.php";
 require_once 'ProjectsController.php';
 
 $n = new ProjectsController();
