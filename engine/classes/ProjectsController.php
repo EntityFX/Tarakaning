@@ -1,5 +1,5 @@
 <?php
-require_once '../libs/mysql/MySQLConnector.php';
+require_once 'engine/libs/mysql/MySQLConnector.php';
 //die("sdfasd");	
 
 	class ProjectsController extends MySQLConnector
@@ -25,18 +25,28 @@ require_once '../libs/mysql/MySQLConnector.php';
 		 * 
 		 * @todo проверку существования пользователя.
 		 */
-		public function addProject($userId, $projectName, $description)
+		public function addProject($userID, $projectName, $description)
 		{
 			$projectName = htmlspecialchars($projectName);
-			$description = htmlspecialchars($description);var_dump($this->_sql);
+			$description = htmlspecialchars($description);
+			
+			var_dump($this->_sql);
+			
 			$r = $this->_sql->query("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`)
 			VALUES ('', '$projectName', '$description', '$userId');");
+			
 			die("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`)
-			VALUES ('', '$projectName', '$description', '$userId');");
+			VALUES ('', '$projectName', '$description', '$userID');");
 			return $r;
 		}
 		
-	/*	public function editProjectName()
+		/**
+		 * Обновление имени проекта
+		 * @param unknown_type $userID - id пользователя, создавшего проект.
+		 * @param unknown_type $projectNewName - новое название проекта.
+		 * @param unknown_type $projectID - id проекта, подлежащего изменению названия.
+		 */
+	/*	public function editProjectName($userID, $projectNewName, $projectID)
 		{
 			
 		}*/
