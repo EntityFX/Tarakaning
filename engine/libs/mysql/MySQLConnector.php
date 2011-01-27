@@ -9,7 +9,7 @@
     
     require_once "MySQL.php";
     
-    
+    require_once "engine/config/databaseConsts.php";
     /**
     * Создаёт класс и соединяет с БД
     * @abstract
