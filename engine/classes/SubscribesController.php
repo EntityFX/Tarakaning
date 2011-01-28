@@ -12,21 +12,106 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			 * 2) отклонить заявку (удалить из таблицы SubscribesRequest)
 			 * 3) показать список всех заявок (получить из SubscribesRequest)
 			 */
-			public function acceptRequest($requestID, $userID, $projectID) 
+			
+			/**
+			 * Подтверждение запроса на подписку.
+			 * @param int $requestID - id запроса.
+			 * @param int $userID - id пользователя, пославшего запрос.
+			 * @param int $projectID - id проекта.
+			 * @param int $ownerID - id автора проекта.
+			 */
+			public function acceptRequest($requestID, $userID, $projectID, $ownerID) 
 			{
-				$this->_sql->query("INSERT INTO `UsersInProjects` ( `RecordID` , `ProjectID` , `UserID` )
-				VALUES ('', '$projectID', '$userID');");
-				$this->_sql->query("DELETE FROM `SubscribesRequest` WHERE `ID` = '$requestID' LIMIT 1");
+				$userID = (int)$userID;
+				$projectID = (int)$projectID;
+				$requestID = (int)$requestID;
+				$ownerID = (int)$ownerID;
+				$p = new ProjectsController();
+				if ($p->isOwner($ownerID, $projectID))
+				{
+					if($this->isSubscribed($userID, $projectID))
+					{
+						return FALSE;
+					}
+					else 
+					{
+						$this->_sql->query("INSERT INTO `UsersInProjects` ( `RecordID` , `ProjectID` , `UserID` )
+						VALUES ('', '$projectID', '$userID');");
+						$this->_sql->query("DELETE FROM `SubscribesRequest` WHERE `ID` = '$requestID' LIMIT 1");
+						return TRUE;
+					}
+				}
+				else 
+				{
+					return FALSE;
+				}
 			}
 			
-			public function declineRequest() 
+			/**
+			 * Проверяется подписан ли данный пользователь в данном проекте.
+			 * @param int $userID - id пользователя.
+			 * @param int $projectID - id проекта.
+			 */
+			public function isSubscribed($userID, $projectID) 
 			{
-				;
+				$userID = (int)$userID;
+				$projectID = (int)$projectID;
+				$res = $this->_sql->query("SELECT * FROM `UsersInProjects` WHERE `ProjectID` = '$projectID' AND `UserID`='$userID'");
+				$tmp = $this->_sql->fetchArr($res);
+				if ($tmp == null) 
+				{
+					return FALSE;
+				}
+				else 
+				{
+					return TRUE;
+				}
 			}
 			
-			public function getRequests() 
+			/**
+			 * Отклонение заявки.
+			 * @param int $requestID - id запроса.
+			 * @param int $userID - id пользователя, пославшего запрос.
+			 * @param int $projectID - id проекта.
+			 * @param int $ownerID - id автора проекта.
+			 */
+			public function declineRequest($requestID, $userID, $projectID, $ownerID) 
 			{
-				;
+				$userID = (int)$userID;
+				$projectID = (int)$projectID;
+				$requestID = (int)$requestID;
+				$ownerID = (int)$ownerID;
+				$p = new ProjectsController();
+				if ($p->isOwner($ownerID, $projectID))
+				{
+					if($this->isSubscribed($userID, $projectID))
+					{
+						return FALSE;
+					}
+					else 
+					{
+						$this->_sql->query("DELETE FROM `SubscribesRequest` WHERE `ID` = '$requestID' LIMIT 1");
+						return TRUE;
+					}
+				}
+				else 
+				{
+					return FALSE;
+				}
+			}
+			
+			public function getRequests($userID, $projectID, $startIndex=0, $maxCount=20) 
+			{
+				$userID = (int)$userID;
+				$projectID = (int)$projectID;	
+				$startIndex = (int)$startIndex;
+				$maxCount = (int)$maxCount;
+				$res = $this->_sql->query("SELECT * FROM `SubscribesRequest` WHERE `ProjectID` = '$projectID' LIMIT $startIndex, $maxCount");
+				while ($tmp = $this->_sql->fetchArr($res))
+				{
+					$ret[] = $tmp;
+				}
+				return $ret;
 			}
 		}
 ?>

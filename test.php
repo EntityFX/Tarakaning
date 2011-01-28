@@ -1,23 +1,25 @@
 <?php 
 require_once "engine/config/databaseConsts.php";
 require_once 'engine/classes/ProjectsController.php';
-$var = "3";
-$nn = (int)$var;
-echo $nn;
+require_once 'engine/classes/Subscribes.php';
+require_once 'engine/classes/SubscribesController.php';
+
+$userID = 1;
+$projectID = 19;
+$requestID = 1;
+
+
+
+/*$s = new SubscribesController();
+var_dump($s->getRequests($userID, $projectID));*/
 
 $n = new ProjectsController();
-//var_dump();
-$userID = 1;
-$projectID = 11;
+var_dump($n->isProjectExists($projectID));
+/*
 $projectName = "какой проект 3";
 $description = "описание";
 $newDescription = "новое описание"; 
-$projectNewName = "новое имя";
-/*
-die("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`, `CreateDate`)
-			VALUES ('', '$projectName', '$description', '$userID', '". date("c")."');");*/
+$projectNewName = "новое имя";*/
 
-//$r2 = $n->addProject($userID, $projectName, $description);
-//var_dump($n->setProjectName($userID, $projectNewName, $projectID));
-//die(var_dump($r2));
+
 ?>

@@ -139,6 +139,13 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			return $ret;
 		}
 		
+		/**
+		 * Получение списка проектов по фильтру.
+		 * @param string $sortType - фильтр поиска. "date", "name".
+		 * @param bool $ask - по возрастанию или по убыванию.
+		 * @param int $startIndex - вывод резултатов с данной позиции.
+		 * @param int $maxCount - количество результатов вывода.
+		 */
 		public function getSortedProjects($sortType = "date", $ask = true, $startIndex = 0, $maxCount = 20) 
 		{
 			$startIndex = (int)$startIndex;
@@ -171,5 +178,13 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			return $ret;
 		}
 		
+		
+		public function isProjectExists($projectID)
+		{
+			$projectID = (int)$projectID;
+			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `ProjectID` = '$projectID'");
+			$tmp = $this->_sql->fetchArr($res);
+			return $tmp == null ? FALSE : TRUE;
+		}
 	}
 ?>
