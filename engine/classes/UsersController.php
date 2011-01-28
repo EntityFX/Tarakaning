@@ -22,17 +22,21 @@
             {
                 throw new Exception("Пользователь уже существует",0);
             }
-            if (!$this->checkMail($email))
+            if (!self::checkMail($email))
             {
                 throw new Exception("Неверный формат почты",1);
             }
+            if (!self::checkPassword($password))
+            {
+                throw new Exception("Неверный формат пароля",2);
+            }           
             $val=new ArrayObject(array(
                 $login,
-                md5($password),
+                md5(md5($password)."MOTPWBAH"),
                 $type,
-                htmlspecialchars($name),
-                htmlspecialchars($surname),
-                htmlspecialchars($secondName),
+                htmlspecialchars($name,ENT_QUOTES),
+                htmlspecialchars($surname,ENT_QUOTES),
+                htmlspecialchars($secondName,ENT_QUOTES),
                 $email
             ));
             $this->_sql->insert("Users",$val,$fields);
@@ -40,18 +44,42 @@
         
         public function deleteUser($id)
         {
-            
+            $id=(int)$id;
+            $this->_sql->delete("Users","UserID=$id");
         }
         
         public function changeUserType($id,$type)
         {
-            
+            $this->changeField($id,$type,"UserType");
+        }
+        
+        public function activateUser($id)
+        {
+            $this->changeField($id,true,"Active"); 
+        }
+ 
+        private function changeField($id,$type,$fieldName)
+        {
+            $id=(int)$id;
+            $type=(bool)$type;
+            if ($this->checkIfExsist($id))    
+            {
+                $this->_sql->query("UPDATE Users SET $fieldName=$type WHERE UserID=$id");
+            }
         }
         
         public function getAllUsers()
         {
-            
+            $this->_sql->selAll("Users");
+            return $this->_sql->getTable();
         }
+        
+        public function getAllByFirstLetter($letter)
+        {
+            $letter=(string)$letter[0];
+            $this->_sql->selAllWhere("Users","NickName Like '$letter%'");
+            return $this->_sql->getTable();
+        }        
         
         /**
         * Проверить существование логина
@@ -61,18 +89,32 @@
         */
         private function checkIfExsistLogin($login)
         {
+            $login=mysql_escape_string($login);
             $countGroups=$this->_sql->countQuery("Users","NickName='$login'");
             return (Boolean)$countGroups;    
         }
+        
+        /**
+        * Проверить существование лпо ID
+        * 
+        * @param string $name Заголовок группы
+        * @return bool
+        */
+        private function checkIfExsist($id)
+        {
+            $id=(int)$id;
+            $countGroups=$this->_sql->countQuery("Users","UserID=$id");
+            return (Boolean)$countGroups;    
+        }        
         
         /**
         * Проверка формата почты
         * 
         * @param string $mail
         */
-        private function checkMail($mail)
+        public static function checkMail($mail)
         {
-            if (preg_match("/^[a-zA-Z0-9._-]+@([a-zA-Z0-9_-]+.)*[a-zA-Z]{2,}$/",$mail)==1)
+            if (preg_match("/^([a-zA-Z0-9]([a-zA-Z0-9\._-]*)@)([a-zA-Z0-9_-]+\.)*[a-z]{2,}$/",$mail)==1)
             {
                 return true;    
             }
@@ -82,9 +124,16 @@
             }
         }         
         
-        private function checkPassword($password)
+        public static function checkPassword($password)
         {
-            
+            if (strlen($password)>=7)    
+            {
+                return true;   
+            }
+            else
+            {
+                return false;   
+            }
         }
     }
 ?>

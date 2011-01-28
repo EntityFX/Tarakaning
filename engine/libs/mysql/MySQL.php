@@ -326,7 +326,7 @@
 			}
 			else 
 			{
-				$query_res=$this->query($query);
+                $query_res=$this->query($query);
 				if (!$query_res)
 				throw new Exception(MySQL::NO_QUERY." $query_res");
 			}

@@ -195,7 +195,7 @@ require_once "engine/config/databaseConsts.php";
             {
                 for($i=0;$i<count($fields_arr);++$i)
                 {
-                    $fld=$fields_arr[$i];
+                    $fld=mysql_escape_string($fields_arr[$i]);
                     if (is_string($fld) && $char!="`")
                     {
                         $fld="'$fld'";
