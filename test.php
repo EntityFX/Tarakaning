@@ -13,8 +13,8 @@ $requestID = 1;
 /*$s = new SubscribesController();
 var_dump($s->getRequests($userID, $projectID));*/
 
-$n = new ProjectsController();
-var_dump($n->isProjectExists($projectID));
+/*$n = new ProjectsController();
+var_dump($n->isProjectExists($projectID));*/
 /*
 $projectName = "какой проект 3";
 $description = "описание";

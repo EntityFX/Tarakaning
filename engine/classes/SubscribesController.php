@@ -100,18 +100,33 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 				}
 			}
 			
+			/**
+			 * ѕолучение списка за€вок дл€ данного проекта.
+			 * @param unknown_type $userID
+			 * @param unknown_type $projectID
+			 * @param unknown_type $startIndex
+			 * @param unknown_type $maxCount
+			 */
 			public function getRequests($userID, $projectID, $startIndex=0, $maxCount=20) 
 			{
 				$userID = (int)$userID;
-				$projectID = (int)$projectID;	
-				$startIndex = (int)$startIndex;
-				$maxCount = (int)$maxCount;
-				$res = $this->_sql->query("SELECT * FROM `SubscribesRequest` WHERE `ProjectID` = '$projectID' LIMIT $startIndex, $maxCount");
-				while ($tmp = $this->_sql->fetchArr($res))
-				{
-					$ret[] = $tmp;
+				$projectID = (int)$projectID;
+				$p = new ProjectsController();
+				if ($p->isOwner($ownerID, $projectID))
+				{	
+					$startIndex = (int)$startIndex;
+					$maxCount = (int)$maxCount;
+					$res = $this->_sql->query("SELECT * FROM `SubscribesRequest` WHERE `ProjectID` = '$projectID' LIMIT $startIndex, $maxCount");
+					while ($tmp = $this->_sql->fetchArr($res))
+					{
+						$ret[] = $tmp;
+					}
+					return $ret;
 				}
-				return $ret;
+				else 
+				{
+					return NULL;
+				}
 			}
 		}
 ?>
