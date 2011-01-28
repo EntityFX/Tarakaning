@@ -1,15 +1,23 @@
 <?php 
 require_once "engine/config/databaseConsts.php";
 require_once 'engine/classes/ProjectsController.php';
-var_dump(mysql_connect("localhost","root","")); echo "<br />";
-
-
+$var = "3";
+$nn = (int)$var;
+echo $nn;
 
 $n = new ProjectsController();
 //var_dump();
-$userId = 1;
-$projectName = "Вах какой проект";
-$description = "описание"; 
-$r2 = $n->addProject($userId, $projectName, $description);
-die(var_dump($r2));
+$userID = 1;
+$projectID = 11;
+$projectName = "какой проект 3";
+$description = "описание";
+$newDescription = "новое описание"; 
+$projectNewName = "новое имя";
+/*
+die("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`, `CreateDate`)
+			VALUES ('', '$projectName', '$description', '$userID', '". date("c")."');");*/
+
+//$r2 = $n->addProject($userID, $projectName, $description);
+//var_dump($n->setProjectName($userID, $projectNewName, $projectID));
+//die(var_dump($r2));
 ?>
