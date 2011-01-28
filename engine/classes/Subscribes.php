@@ -1,6 +1,11 @@
 <?php
 require_once 'engine/libs/mysql/MySQLConnector.php';
 	
+/**
+ *  ласс управлени€ подписками на проект.
+ * @author timur 28.01.2011
+ *
+ */
 	class Subscribes extends MySQLConnector
 		{
 /*
@@ -40,6 +45,10 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 				return $res == null ? false : true;
 			}
 
+			/**
+			 * ѕолучение списка проектов, на котороые подписан пользователь.
+			 * @param int $userID - id пользовател€, подавшего за€вку.
+			 */
 			public function getUserSubscribes($userID)
 			{
 				$userID = (int)$userID;
@@ -51,6 +60,11 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 				return $ret;
 			}
 			
+			/**
+			 * ”даление данного пользовател€ из списка участников проекта.
+			 * @param int $userID - id пользовател€.
+			 * @param int $projectID - id проекта, из которого пользователь удал€етс€.
+			 */
 			public function removeSubscribe($userID, $projectID)
 			{
 				$userID = (int)$userID;
