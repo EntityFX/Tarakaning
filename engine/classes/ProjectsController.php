@@ -38,6 +38,9 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			$projectName = mysql_escape_string($projectName);
 			$description = mysql_escape_string($description);
 			$userID = (int)$userID;
+			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `Name`='$description'");
+			$ret = $this->_sql->fetchArr($res);
+			if ($ret != null) throw new Exception("Проект с таким именем уже существует.", 103); 
 			$r = $this->_sql->query("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`, `CreateDate`)
 			VALUES ('', '$projectName', '$description', '$userID', '". date("c")."');");
 
@@ -59,16 +62,23 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 		{
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;
-			$projectNewName = htmlspecialchars($projectNewName);
-			$projectNewName = mysql_escape_string($projectNewName);
-			if ($this->isOwner($userID, $projectID))  
+			if ($this->isProjectExists($projectID))
 			{
-				return $this->_sql->query("UPDATE `Projects` SET `Name` = '$projectNewName'
-				WHERE `ProjectID` = '$projectID' AND `OwnerID` = '$userID';");
+				$projectNewName = htmlspecialchars($projectNewName);
+				$projectNewName = mysql_escape_string($projectNewName);
+				if ($this->isOwner($userID, $projectID))  
+				{
+					return $this->_sql->query("UPDATE `Projects` SET `Name` = '$projectNewName'
+					WHERE `ProjectID` = '$projectID' AND `OwnerID` = '$userID';");
+				}
+				else 
+				{
+					throw new Exception("Не Вы являетесь Создателем проекта.",102);  
+				}
 			}
 			else 
 			{
-				return FALSE;  
+				throw new Exception("Проект не существует.",101);
 			}
 		}
 		
@@ -88,17 +98,29 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			$newDescription = mysql_escape_string($newDescription);
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;
-			if ($this->isOwner($userID, $projectID)) 
+			if ($this->isProjectExists($projectID))
 			{
-				return $this->_sql->query("UPDATE `Projects` SET `Description` = '$newDescription'
-				WHERE `ProjectID` = '$projectID' AND `OwnerID` = '$userID'"); 
+				if ($this->isOwner($userID, $projectID)) 
+				{
+					return $this->_sql->query("UPDATE `Projects` SET `Description` = '$newDescription'
+					WHERE `ProjectID` = '$projectID' AND `OwnerID` = '$userID'"); 
+				}
+				else 
+				{
+					throw new Exception("Не Вы являетесь Создателем проекта.",102);  
+				}
 			}
 			else 
 			{
-				return FALSE; 
+				throw new Exception("Проект не существует.",101);
 			}
 		}
 		
+		/**
+		 * Проверяется является ли пользователь автором проекта.
+		 * @param int $userID - id пользователя, создавшего проект.
+		 * @param int $projectID - id проекта, подлежащего изменению названия.
+		 */
 		public function isOwner($userID, $projectID) 
 		{
 			$userID = (int)$userID;
@@ -121,7 +143,21 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 		{
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;
-			return  $this->_sql->query("DELETE FROM `Projects` WHERE `ProjectID` = '$projectID' AND `OwnerID` = '$userID' LIMIT 1");
+			if ($this->isProjectExists($projectID))
+			{
+				if ($this->isOwner($userID, $projectID)) 
+				{
+					return  $this->_sql->query("DELETE FROM `Projects` WHERE `ProjectID` = '$projectID' AND `OwnerID` = '$userID' LIMIT 1");
+				}
+				else 
+				{
+					throw new Exception("Не Вы являетесь Создателем проекта.",102);  
+				}
+			}
+			else 
+			{
+				throw new Exception("Проект не существует.",101);
+			}
 		}
 		
 		/**
@@ -176,7 +212,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 		 * Проверка существования проекта.
 		 * @param int $projectID - id проекта.
 		 */
-		public function isProjectExists($projectID)
+		public static function isProjectExists($projectID)
 		{
 			$projectID = (int)$projectID;
 			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `ProjectID` = '$projectID'");

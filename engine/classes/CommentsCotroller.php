@@ -7,8 +7,8 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 	 */
 	class CommentsController extends MySQLConnector
 		{
-			/*
-			 * 1) прокомментировать ошибку
+			/* ErorrReportHistory, ReportComment 
+			 * 1) прокомментировать ошибку 
 			 * 2) удаление комментария
 			 * 3) получить список всех комментариев к проекту
 			 * 4) получить список комментариев к ошибке
