@@ -49,14 +49,13 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			 * Получение списка проектов, на котороые подписан пользователь.
 			 * @param int $userID - id пользователя, подавшего заявку.
 			 */
-			public function getUserSubscribes($userID)
+			public function getUserSubscribes($userID, $startIndex = 0, $maxCount = 30)
 			{
 				$userID = (int)$userID;
-				$res = $this->_sql->query("SELECT * FROM `UsersInProjects` WHERE `UserID` = $userID");
-				while($tmp = $this->_sql->fetchArr($res))
-				{
-					$ret[] = $tmp;
-				}
+				$startIndex = (int)$startIndex;
+				$maxCount = (int)$maxCount;
+				$res = $this->_sql->query("SELECT * FROM `UsersInProjects` WHERE `UserID` = $userID LIMIT $startIndex, $maxCount");
+				$ret = $this->_sql->GetRows($res);
 				return $ret;
 			}
 			

@@ -17,7 +17,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			изменение имени +
 			изменение описания + 
 		получить список всех проектов +
-		получить список по фильтру
+		получить список по фильтру +
 		
 		*/
 		
@@ -33,6 +33,8 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 		 */
 		public function addProject($userID, $projectName, $description)
 		{
+			$projectName = htmlspecialchars($projectName);
+			$description = htmlspecialchars($description);
 			$projectName = mysql_escape_string($projectName);
 			$description = mysql_escape_string($description);
 			$userID = (int)$userID;
@@ -57,6 +59,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 		{
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;
+			$projectNewName = htmlspecialchars($projectNewName);
 			$projectNewName = mysql_escape_string($projectNewName);
 			if ($this->isOwner($userID, $projectID))  
 			{
@@ -65,7 +68,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			}
 			else 
 			{
-				return false;  
+				return FALSE;  
 			}
 		}
 		
@@ -81,6 +84,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 		 */
 		public function setProjectDescription($userID, $projectID, $newDescription) 
 		{
+			$newDescription = htmlspecialchars($newDescription);
 			$newDescription = mysql_escape_string($newDescription);
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;
@@ -91,7 +95,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			}
 			else 
 			{
-				return false; 
+				return FALSE; 
 			}
 		}
 		
@@ -101,7 +105,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			$projectID = (int)$projectID;
 			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `ProjectID` = '$projectID'");
 			$tmp = $this->_sql->fetchArr($res);
-			return ($userID != $tmp["OwnerID"]) ? false : true; 
+			return ($userID != $tmp["OwnerID"]) ? FALSE : TRUE; 
 			
 		}
 		/**
@@ -130,12 +134,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			$startIndex = (int)$startIndex;
 			$maxCount = (int)$maxCount;
 			$res = $this->_sql->query("SELECT * FROM `Projects` LIMIT $startIndex, $maxCount");
-			while ($temp = $this->_sql->fetchArr($res)) 
-			{
-				$temp["Name"]=htmlspecialchars($temp["Name"]);
-				$temp["Description"]=htmlspecialchars($temp["Description"]);
-				$ret[] = $temp;
-			}
+			$ret = $this->_sql->GetRows($res);
 			return $ret;
 		}
 		
@@ -163,18 +162,13 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 					break;
 				
 				default:
-					return false;
+					return FALSE;
 				break;
 			}
 			$q = "SELECT * FROM `Projects` ORDER BY `$sorting` $type LIMIT $startIndex, $maxCount";
 			//die($q);
 			$res = $this->_sql->query($q);
-			while ($temp = $this->_sql->fetchArr($res)) 
-			{
-				$temp["Name"]=htmlspecialchars($temp["Name"]);
-				$temp["Description"]=htmlspecialchars($temp["Description"]);
-				$ret[] = $temp;
-			}
+			$ret = $this->_sql->GetRows($res);
 			return $ret;
 		}
 		
@@ -185,9 +179,9 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 		public function isProjectExists($projectID)
 		{
 			$projectID = (int)$projectID;
-			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `ProjectID` = $projectID");
+			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `ProjectID` = '$projectID'");
 			$tmp = $this->_sql->fetchArr($res);
-			return $tmp == null ? false : true;
+			return $tmp == null ? FALSE : TRUE;
 		}
 	}
 ?>

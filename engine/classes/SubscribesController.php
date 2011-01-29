@@ -117,10 +117,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 					$startIndex = (int)$startIndex;
 					$maxCount = (int)$maxCount;
 					$res = $this->_sql->query("SELECT * FROM `SubscribesRequest` WHERE `ProjectID` = '$projectID' LIMIT $startIndex, $maxCount");
-					while ($tmp = $this->_sql->fetchArr($res))
-					{
-						$ret[] = $tmp;
-					}
+					$ret = $this->_sql->GetRows($res);
 					return $ret;
 				}
 				else 
