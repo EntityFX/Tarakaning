@@ -1,4 +1,5 @@
 <?php
+    require_once "ProjectsController.php";
     
     class ConcreteUser extends MySQLConnector
     {
@@ -13,6 +14,8 @@
         public $mail;
         
         public $id;
+        
+        public $defaultProjectID;
         
         private $_passwordHash;
         
@@ -82,6 +85,36 @@
                     Email='$this->mail' 
                 WHERE UserID=$id
             ");
+        }
+        
+        public function setDefaultProject($projectID=NULL)
+        {
+            if ($projectID!=NULL)
+            {
+                $projectID=(int)$projectID;
+            }
+            $pContr=new ProjectsController();
+            if ($pContr->isProjectExists($projectID))
+            {
+                $this->_sql->query("
+                    UPDATE Users SET 
+                        DefaultProjectID=$projectID 
+                    WHERE UserID=$this->id
+                ");                    
+            }
+            else
+            {
+                throw new Exception("Проект не существует. Зверский хак!",4);
+            }
+        }
+        
+        public function deleteDefaultProject()
+        {
+            $this->_sql->query("
+                UPDATE Users SET 
+                    DefaultProjectID=NULL 
+                WHERE UserID=$this->id
+            ");             
         }
         
         /**

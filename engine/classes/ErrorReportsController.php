@@ -1,7 +1,7 @@
 <?php
     class ErrorReportsController extends MySQLConnector
     {
-        public function addReport()
+        public function addReport($projectId)
         {
             
         }   
