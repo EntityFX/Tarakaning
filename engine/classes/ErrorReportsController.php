@@ -1,7 +1,9 @@
 <?php
+    require_once "ErrorStatusENUM.php";
+    
     class ErrorReportsController extends MySQLConnector
     {
-        public function addReport($projectId)
+        public function addReport($projectId,ErrorStatusENUM $errorStatus)
         {
             
         }   
