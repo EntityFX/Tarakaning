@@ -24,26 +24,32 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			{
 				$userID = (int)$userID;
 				$projectID = (int)$projectID;
-				$requestID = (int)$requestID;
-				$ownerID = (int)$ownerID;
-				$p = new ProjectsController();
-				if ($p->isOwner($ownerID, $projectID))
+				if (ProjectsController::isProjectExists($projectID))
 				{
-					if($this->isSubscribed($userID, $projectID))
+					$requestID = (int)$requestID;
+					$ownerID = (int)$ownerID;
+					if (ProjectsController::isOwner($ownerID, $projectID))
 					{
-						return FALSE;
+						if($this->isSubscribed($userID, $projectID))
+						{
+							throw new Exception("Пользователь уже участвует в проекте.",601);
+						}
+						else 
+						{
+							$this->_sql->query("INSERT INTO `UsersInProjects` ( `RecordID` , `ProjectID` , `UserID` )
+							VALUES ('', '$projectID', '$userID');");
+							$this->_sql->query("DELETE FROM `SubscribesRequest` WHERE `ID` = '$requestID' LIMIT 1");
+							return TRUE;
+						}
 					}
 					else 
 					{
-						$this->_sql->query("INSERT INTO `UsersInProjects` ( `RecordID` , `ProjectID` , `UserID` )
-						VALUES ('', '$projectID', '$userID');");
-						$this->_sql->query("DELETE FROM `SubscribesRequest` WHERE `ID` = '$requestID' LIMIT 1");
-						return TRUE;
+						throw new Exception("Не Вы являетесь Создателем проекта.",102);  
 					}
 				}
 				else 
 				{
-					return FALSE;
+					throw new Exception("Проект не существует.",101);
 				}
 			}
 			
@@ -79,24 +85,31 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			{
 				$userID = (int)$userID;
 				$projectID = (int)$projectID;
-				$requestID = (int)$requestID;
-				$ownerID = (int)$ownerID;
-				$p = new ProjectsController();
-				if ($p->isOwner($ownerID, $projectID))
+				if (ProjectsController::isProjectExists($projectID))
 				{
-					if($this->isSubscribed($userID, $projectID))
+					$requestID = (int)$requestID;
+					$ownerID = (int)$ownerID;
+					
+					if (ProjectsController::isOwner($ownerID, $projectID))
 					{
-						return FALSE;
+						if($this->isSubscribed($userID, $projectID))
+						{
+							throw new Exception("Пользователь уже участвует в проекте.",601);
+						}
+						else 
+						{
+							$this->_sql->query("DELETE FROM `SubscribesRequest` WHERE `ID` = '$requestID' LIMIT 1");
+							return TRUE;
+						}
 					}
 					else 
 					{
-						$this->_sql->query("DELETE FROM `SubscribesRequest` WHERE `ID` = '$requestID' LIMIT 1");
-						return TRUE;
+						throw new Exception("Не Вы являетесь Создателем проекта.",102);  
 					}
 				}
 				else 
 				{
-					return FALSE;
+					throw new Exception("Проект не существует.",101);
 				}
 			}
 			
@@ -111,18 +124,24 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			{
 				$userID = (int)$userID;
 				$projectID = (int)$projectID;
-				$p = new ProjectsController();
-				if ($p->isOwner($ownerID, $projectID))
-				{	
-					$startIndex = (int)$startIndex;
-					$maxCount = (int)$maxCount;
-					$res = $this->_sql->query("SELECT * FROM `SubscribesRequest` WHERE `ProjectID` = '$projectID' LIMIT $startIndex, $maxCount");
-					$ret = $this->_sql->GetRows($res);
-					return $ret;
+				if (ProjectsController::isProjectExists($projectID))
+				{
+					if (ProjectsController::isOwner($ownerID, $projectID))
+					{	
+						$startIndex = (int)$startIndex;
+						$maxCount = (int)$maxCount;
+						$res = $this->_sql->query("SELECT * FROM `SubscribesRequest` WHERE `ProjectID` = '$projectID' LIMIT $startIndex, $maxCount");
+						$ret = $this->_sql->GetRows($res);
+						return $ret;
+					}
+					else 
+					{
+						throw new Exception("Не Вы являетесь Создателем проекта.",102); 
+					}
 				}
 				else 
 				{
-					return NULL;
+					throw new Exception("Проект не существует.",101);
 				}
 			}
 		}

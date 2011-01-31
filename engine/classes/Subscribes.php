@@ -1,6 +1,6 @@
 <?php
 require_once 'engine/libs/mysql/MySQLConnector.php';
-	
+require_once 'engine/classes/ProjectsController.php';	
 /**
  * Класс управления подписками на проект.
  * @author timur 28.01.2011
@@ -24,11 +24,13 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			{
 				$userID = (int)$userID;
 				$projectID = (int)$projectID;
-				$state = $this->isSubscribed($userID, $projectID);
+				
+				$state = $this->isRequestExists($userID, $projectID);
 				$state ? $r = TRUE : 
 				$r = $this->_sql->query("INSERT INTO `SubscribesRequest` ( `ID` , `UserID` , `ProjectID` )
 				VALUES ('', '$userID', '$projectID');");
 				return $r;
+				
 			}
 			
 			/**
@@ -37,12 +39,19 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			 * @param int $projectID - id проекта, на который пользователь подал заявку.
 			 * @return bool - результат проверки.
 			 */
-			public function isSubscribed($userID, $projectID) 
+			public function isRequestExists($userID, $projectID) 
 			{
 				$userID = (int)$userID;
 				$projectID = (int)$projectID;
-				$res = $this->_sql->query("SELECT * FROM `SubscribesRequest` WHERE `UserID` = '$userID' AND `ProjectID` = '$projectID'");
-				return $res == null ? false : true;
+				if(ProjectsController::isProjectExists($projectID))
+				{
+					$res = $this->_sql->query("SELECT * FROM `SubscribesRequest` WHERE `UserID` = '$userID' AND `ProjectID` = '$projectID'");
+					return $res == null ? false : true;
+				}
+				else 
+				{
+					throw new Exception("Проект не существует.", 101);
+				}
 			}
 
 			/**
@@ -67,8 +76,15 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			public function removeSubscribe($userID, $projectID)
 			{
 				$userID = (int)$userID;
-				$projectID = (int)$projectID;
-				return $this->_sql->query("DELETE FROM `UsersInProjects` WHERE `OwnerID` = '$userID' AND `ProjectID` = '$projectID' LIMIT 1");
+				$projectID = (int)$projectID;//если проект не существует, то вернет ошибку.
+				if ($this->isRequestExists($userID, $projectID))
+				{
+					return $this->_sql->query("DELETE FROM `UsersInProjects` WHERE `OwnerID` = '$userID' AND `ProjectID` = '$projectID' LIMIT 1");
+				}
+				else 
+				{
+					throw new Exception("Вы не являетесь участником проекта.", 501);
+				}
 			}
 		}
 ?>

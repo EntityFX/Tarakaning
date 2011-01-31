@@ -121,7 +121,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 		 * @param int $userID - id пользователя, создавшего проект.
 		 * @param int $projectID - id проекта, подлежащего изменению названия.
 		 */
-		public function isOwner($userID, $projectID) 
+		public static function isOwner($userID, $projectID) 
 		{
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;

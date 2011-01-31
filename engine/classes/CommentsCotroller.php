@@ -14,6 +14,13 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			 * 4) получить список комментариев к ошибке
 			 */
 			
+			/*
+			 * $reportID = (int)$reportID;
+			 * $userID = (int)$userID;
+			 * $projectID = (int)$projectID;
+			 * $commentID = (int)$commentID;
+			 */
+			
 			public function setReportComment($userID,$reportID, $comment)
 			{
 				$projectName = htmlspecialchars($projectName);
@@ -24,17 +31,17 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 				$projectID = (int)$projectID;
 			}
 			
-			public function deleteComment() 
+			public function deleteComment($userID, $commentID) 
 			{
 				;
 			}
 			
-			public function getProjectComments() 
+			public function getProjectComments($projectID,$userID) 
 			{
 				;
 			}		
 
-			public function getReportComments() 
+			public function getReportComments($reportID, $userID) 
 			{
 				;
 			}
