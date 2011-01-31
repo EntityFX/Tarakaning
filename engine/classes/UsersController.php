@@ -100,7 +100,7 @@
         * @param string $name Заголовок группы
         * @return bool
         */
-        private function checkIfExsist($id)
+        public function checkIfExsist($id)
         {
             $id=(int)$id;
             $countGroups=$this->_sql->countQuery("Users","UserID=$id");
