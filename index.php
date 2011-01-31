@@ -19,4 +19,5 @@
     //$cUser->deleteDefaultProject();
     $en=new ErrorPriorityENUM(675675);
     var_dump($en->getValue(),$en->check());
+    $erc=new ErrorReportsController(1);
 ?>

@@ -9,7 +9,9 @@
     
     require_once "ProjectsController.php"; 
     
-    require_once "UsersController.php"; 
+    require_once "UsersController.php";
+    
+    require_once "Subscribes.php";      
     
     class ErrorReportsController extends MySQLConnector
     {
@@ -19,25 +21,10 @@
         
         public function __construct($projectID=NULL,$ownerID=NULL)
         {
+            $concreteUser=new ConcreteUser(); 
             if ($projectID==NULL)
             {
-                $concreteUser=new ConcreteUser();
-                if ($ownerID==NULL)    
-                {
-                    $this->_errorOwnerID=$concreteUser->id;
-                }
-                else
-                {
-                    $usersController=new UsersController();
-                    if ($usersController->checkIfExsist((int)$ownerID))
-                    {
-                        $this->_errorOwnerID=$ownerID;    
-                    }
-                    else
-                    {
-                        throw new Exception("Обнаружена попытка назначить отчёт несуществующему пользователю");
-                    }
-                }
+                $this->_errorOwnerID=$concreteUser->id;
                 if ($concreteUser->defaultProjectID!=NULL)
                 {
                     $this->_projectOwnerID=$concreteUser->defaultProjectID;
@@ -51,8 +38,31 @@
             {
                 if (ProjectsController::isProjectExists((int)$projectID))
                 {
-                    $this->_projectOwnerID=(int)$projectID;
-                            
+                    $sub=new Subscribes();
+                    if ($ownerID==NULL)
+                    {
+                        $this->_errorOwnerID=$concreteUser->id; 
+                    }
+                    else
+                    {
+                        $usrController=new UsersController();
+                        if ($usrController->checkIfExsist((int)$ownerID))
+                        {
+                            $this->_errorOwnerID=(int)$ownerID;        
+                        }
+                        else
+                        {
+                            throw new Exception("Пользователь не существует. Нельзя несуществующему пользователю отставлять отчёт об ошибках");
+                        }
+                    }
+                    if ($sub->isSubscribed($this->_errorOwnerID,(int)$projectID))
+                    {
+                        $this->_projectOwnerID=(int)$projectID;        
+                    }
+                    else
+                    {
+                        throw new Exception("Пользователь №".$concreteUser->id." не подписан на проект");
+                    }
                 }
                 else
                 {
@@ -61,7 +71,7 @@
             }
         }
         
-        public function addReport($projectId, ErrorPriorityENUM $priority, ErrorStatusENUM $errorStatus, ErrorTypeEnum $type, $title="", $description="", $steps="")
+        public function addReport(ErrorPriorityENUM $priority, ErrorStatusENUM $errorStatus, ErrorTypeEnum $type, $title="", $description="", $steps="")
         {
             $title=htmlspecialchars($title);
             $description=htmlspecialchars($description);

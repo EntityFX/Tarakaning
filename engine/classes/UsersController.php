@@ -97,7 +97,7 @@
         /**
         * Проверить существование лпо ID
         * 
-        * @param string $name Заголовок группы
+        * @param int $name ID пользователя
         * @return bool
         */
         public function checkIfExsist($id)
