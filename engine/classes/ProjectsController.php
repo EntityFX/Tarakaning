@@ -26,7 +26,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 		 * @param $userId - id пользователя, создавшего проект.
 		 * @param $projectName - название проекта.
 		 * @param $description - описание проекта.
-		 * @return bool результат операции.
+		 * @return bool результат операции. 
 		 * 
 		 * @todo 1) проверку существования пользователя.<br />
 		 * 2) при добавлении проекта должно происходить добавление в таблицу истории.
@@ -38,15 +38,23 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			$projectName = mysql_escape_string($projectName);
 			$description = mysql_escape_string($description);
 			$userID = (int)$userID;
-			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `Name`='$description'");
-			$ret = $this->_sql->fetchArr($res);
-			if ($ret != null) throw new Exception("Проект с таким именем уже существует.", 103); 
+			if ($this->isExistThisProjectName($description)) throw new Exception("Проект с таким именем уже существует.", 103); ;
 			$r = $this->_sql->query("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`, `CreateDate`)
 			VALUES ('', '$projectName', '$description', '$userID', '". date("c")."');");
 
 			return $r;
 		}
 		
+		/**
+		 * Проверяет существует ли проект с ананлогичным названием.
+		 * @param unknown_type $description
+		 */
+		public function isExistThisProjectName($description) 
+		{
+			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `Name`='$description'");
+			$ret = $this->_sql->fetchArr($res);
+			if ($ret != null) return TRUE;//throw new Exception("Проект с таким именем уже существует.", 103); 
+		}
 		/**
 		 * Обновление имени проекта. Обновить имя может только создатель проекта. Создано 28.01.2011.
 		 * @param int $userID - id пользователя, создавшего проект.
