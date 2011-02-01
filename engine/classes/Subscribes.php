@@ -43,7 +43,8 @@ require_once 'engine/classes/ProjectsController.php';
 			{
 				$userID = (int)$userID;
 				$projectID = (int)$projectID;
-				if(ProjectsController::isProjectExists($projectID))
+				$p = new ProjectsController();
+				if($p->isProjectExists($projectID))
 				{
 					$res = $this->_sql->query("SELECT * FROM `SubscribesRequest` WHERE `UserID` = '$userID' AND `ProjectID` = '$projectID'");
 					return $res == null ? false : true;
@@ -55,7 +56,7 @@ require_once 'engine/classes/ProjectsController.php';
 			}
 
 			/**
-			 * Получение списка проектов, на котороые подписан пользователь.
+			 * Получение списка проектов, на которые подписан пользователь.
 			 * @param int $userID - id пользователя, подавшего заявку.
 			 */
 			public function getUserSubscribes($userID, $startIndex = 0, $maxCount = 30)
