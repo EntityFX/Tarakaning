@@ -54,6 +54,10 @@ require_once 'engine/classes/RequestsController.php';
 						$comment = htmlspecialchars($comment);
 						$comment = mysql_escape_string($comment);
 						$reportID = (int)$reportID;
+						
+						$q = "INSERT INTO `ReportComment` ( `ID` , `ReportID` , `UserID` , `Time` , `Comment` )
+						VALUES ('', '$reportID', '$userID', NOW( ) , '$comment');";
+						$this->_sql->query($q);
 					}
 					else 
 					{
@@ -86,7 +90,8 @@ require_once 'engine/classes/RequestsController.php';
 						$r = new RequestsController();
 						if ($r->isSubscribed($userID, $projectID))  
 						{
-							;
+							$this->_sql->query("DELETE FROM `ReportComment` WHERE `ID` = '$commentID' LIMIT 1");
+							return TRUE;
 						}
 						else 
 						{
@@ -121,7 +126,7 @@ require_once 'engine/classes/RequestsController.php';
 					$r = new RequestsController();
 					if ($r->isSubscribed($userID, $projectID))  
 					{
-						;
+						//$this->_sql->query("");  			какой запрос тут надо????
 					}
 					else 
 					{
@@ -140,15 +145,34 @@ require_once 'engine/classes/RequestsController.php';
 			 * @param unknown_type $reportID
 			 * @param unknown_type $userID
 			 */
-			public function getReportComments($projectID, $reportID, $userID) 
+			public function getReportComments($projectID, $reportID, $userID, $startIndex = 0, $maxCount = 20) 
 			{
 				$userID = (int)$userID;
 				$projectID = (int)$projectID;
 				$reportID = (int)$reportID;
+				$startIndex = (int)$startIndex;
+				$maxCount = (int)$maxCount;
 				$p = new ProjectsController();
 				if($p->isProjectExists($projectID))
 				{
-				
+					$r = new RequestsController();
+					if ($r->isSubscribed($userID, $projectID))  
+					{
+						if ($this->isCommentExist($commentID))
+						{
+							$res = $this->_sql->query("SELECT * FROM `ReportComment` WHERE `ReportID` = '$reportID' LIMIT $startIndex, $maxCount");
+							$ret = $this->_sql->GetRows($res);
+							return $ret;
+						}
+						else 
+						{
+							throw new Exception("Комментария не существует.", 1001);
+						}
+					}
+					else 
+					{
+						throw new Exception("Вы не являетесь участником проекта.", 602);
+					}
 				}
 				else 
 				{
@@ -156,11 +180,41 @@ require_once 'engine/classes/RequestsController.php';
 				}
 			}
 			
+			/**
+			 * Проверка существования комментария.
+			 * @param unknown_type $commentID
+			 */
 			public function isCommentExist($commentID)
 			{
 				$res = $this->_sql->query("SELECT * FROM `ReportComment` WHERE `ID`='$commentID'");
 				$ret = $this->_sql->fetchArr($res);
 				return $ret == NULL ? FALSE : TRUE;
+			}
+			
+			/**
+			 * Получение id пользователя по id комментария.
+			 * @param unknown_type $commentID
+			 */
+			public function getUserIDbyCommentID($commentID) 
+			{
+				$commentID = (int)$commentID;
+				$res = $this->_sql->query("SELECT * FROM `ReportComment` WHERE `ID`='$commentID'");
+				$ret = $this->_sql->fetchArr($res);
+				return $ret["UserID"];
+			}
+			
+			/**
+			 * Проверяет является ли данный пользователь автором данного комментария.
+			 * @param unknown_type $commentID
+			 * @param unknown_type $userID
+			 */
+			public function isCommentOwner($commentID, $userID) 
+			{
+				$userID = (int)$userID;
+				$commentID = (int)$commentID;
+				$res = $this->_sql->query("SELECT * FROM `ReportComment` WHERE `ID`='$commentID' AND `UserID`='$userID'");
+				$ret = $this->_sql->fetchArr($res);
+				return $ret == null ? FALSE : TRUE;
 			}
 		}
 ?>
