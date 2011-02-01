@@ -11,13 +11,13 @@
     /*$f=new ProjectsController();
     
     */
-    //$f=new UserAuth();
-    //$f->logIn("Vasya","biohazard");
+    $f=new UserAuth();
+    //$f->logIn("Vasya","helloworld");
     //$f->logOut();
     
     //$cUser->setDefaultProject(1);
     //$cUser->deleteDefaultProject();
-    $en=new ErrorPriorityENUM(675675);
-    var_dump($en->getValue(),$en->check());
+    //$en=new ErrorPriorityENUM(675675);
+    //var_dump($en->getValue(),$en->check());
     $erc=new ErrorReportsController(1);
 ?>

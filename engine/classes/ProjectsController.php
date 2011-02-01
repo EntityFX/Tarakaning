@@ -212,7 +212,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 		 * ѕроверка существовани€ проекта.
 		 * @param int $projectID - id проекта.
 		 */
-		public static function isProjectExists($projectID)
+		public function isProjectExists($projectID)
 		{
 			$projectID = (int)$projectID;
 			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `ProjectID` = '$projectID'");

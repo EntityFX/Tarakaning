@@ -11,7 +11,7 @@
     
     require_once "UsersController.php";
     
-    require_once "Subscribes.php";      
+    require_once "SubscribesController.php";      
     
     class ErrorReportsController extends MySQLConnector
     {
@@ -21,7 +21,8 @@
         
         public function __construct($projectID=NULL,$ownerID=NULL)
         {
-            $concreteUser=new ConcreteUser(); 
+            $concreteUser=new ConcreteUser();
+            $projectsController=new ProjectsController(); 
             if ($projectID==NULL)
             {
                 $this->_errorOwnerID=$concreteUser->id;
@@ -36,12 +37,12 @@
             }
             else
             {
-                if (ProjectsController::isProjectExists((int)$projectID))
+                if ($projectsController->isProjectExists((int)$projectID))
                 {
-                    $sub=new Subscribes();
+                    $sub=new SubscribesController();
                     if ($ownerID==NULL)
                     {
-                        $this->_errorOwnerID=$concreteUser->id; 
+                        $this->_errorOwnerID=$concreteUser->id;
                     }
                     else
                     {
@@ -61,7 +62,7 @@
                     }
                     else
                     {
-                        throw new Exception("Пользователь №".$concreteUser->id." не подписан на проект");
+                        throw new Exception("Пользователь №".$this->_errorOwnerID." не подписан на проект");
                     }
                 }
                 else

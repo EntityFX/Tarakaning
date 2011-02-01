@@ -22,7 +22,7 @@
         public function __construct($id=NULL)
         {
             parent::__construct();
-            session_start(); 
+            session_start();
             if ($id==NULL)
             {
                 if (isset($_SESSION["user"])) 
