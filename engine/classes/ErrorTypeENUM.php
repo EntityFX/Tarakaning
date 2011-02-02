@@ -3,16 +3,16 @@
     
     final class ErrorTypeENUM extends AEnumChecker
     {
-        const CRASH=0;
-        const COSMETIC=1;
-        const ERROR_HANDLE=2;
-        const FUNCTIONAL=3;
-        const MINOR=4;
-        const MAJOR=5;
-        const SETUP=6;
-        const BLOCK=7;
+        const CRASH             = 1;
+        const COSMETIC          = 2;
+        const ERROR_HANDLE      = 3;
+        const FUNCTIONAL        = 4;
+        const MINOR             = 5;
+        const MAJOR             = 6;
+        const SETUP             = 7;
+        const BLOCK             = 8;
                 
-        public function __construct($value=self::NORMAL)
+        public function __construct($value=self::CRASH)
         {
             $this->__value=$value;
         }

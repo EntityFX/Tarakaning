@@ -3,10 +3,10 @@
     
     final class ErrorStatusENUM extends AEnumChecker
     {
-        const IS_NEW=0;
-        const ASSIGNED=1;
-        const CONFIRMED=2;
-        const SOLVED=3;
-        const CLOSED=4;
+        const IS_NEW        = 1;
+        const ASSIGNED      = 2;
+        const CONFIRMED     = 3;
+        const SOLVED        = 4;
+        const CLOSED        = 5;
     }
 ?>

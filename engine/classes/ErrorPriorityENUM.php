@@ -3,9 +3,9 @@
     
     final class ErrorPriorityENUM extends AEnumChecker
     {
-        const MINIMAL=0;
-        const NORMAL=1;
-        const HIGH=2;
+        const MINIMAL   = 1;
+        const NORMAL    = 2;
+        const HIGH      = 3;
                 
         public function __construct($value=self::NORMAL)
         {

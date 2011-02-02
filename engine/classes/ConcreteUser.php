@@ -100,7 +100,8 @@
                     UPDATE Users SET 
                         DefaultProjectID=$projectID 
                     WHERE UserID=$this->id
-                ");                    
+                ");
+                $_SESSION["user"]["DefaultProjectID"]=$projectID;                    
             }
             else
             {
@@ -130,7 +131,8 @@
             $this->surname=$resArray["Surname"];
             $this->mail=$resArray["Email"];
             $this->id=(int)$resArray["UserID"];
-            $this->_passwordHash=$resArray["PasswordHash"];           
+            $this->_passwordHash=$resArray["PasswordHash"]; 
+            $this->defaultProjectID=$resArray["DefaultProjectID"];
         }
     }
 ?>

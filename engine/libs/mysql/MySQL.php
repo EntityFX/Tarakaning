@@ -131,7 +131,7 @@
 		public function selAll($table_name)
 		{
 			$query_res=$this->queryExecute("SELECT * FROM `$table_name`");
-			$this->rows=$this->getRows($query_res);
+			$this->rows=&$this->getRows($query_res);
 		}    
 		/**
 		* Выбрать всё из таблицы с WHERE
@@ -155,7 +155,7 @@
 		{
 			$fields=$this->MakeFieldString($fields_arr);
 			$query_res=$this->queryExecute("SELECT $fields FROM `$table_name`");
-			$this->rows=$this->GetRows($query_res);    
+			$this->rows=&$this->GetRows($query_res);    
 		}
 		/**
 		* Выбрать всё из таблицы, поля перечислены ввиде строковых параметров 
@@ -169,7 +169,7 @@
 			$fields_arr=array_slice($args,1);
 			$fields=$this->MakeFieldString($fields_arr);
 			$query_res=$this->queryExecute("SELECT $fields FROM `$table_name`");
-			$this->rows=$this->getRows($query_res);    
+			$this->rows=&$this->getRows($query_res);    
 		}
 		/**
 		* Выбрать всё из таблицы с условием 
@@ -182,7 +182,7 @@
 		{
 			$fields=$this->MakeFieldString($fields_arr);
 			$query_res=$this->queryExecute("SELECT $fields FROM `$table_name` WHERE $where");
-			$this->rows=$this->getRows($query_res);    
+			$this->rows=&$this->getRows($query_res);    
 		} 
 		/**
 		* Выбрать всё из таблицы с условием
