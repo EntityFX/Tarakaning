@@ -60,9 +60,9 @@ require_once 'engine/classes/RequestsController.php';
 		
 		/**
 		 * Удаление элемента из истории.
-		 * @param unknown_type $userID
-		 * @param unknown_type $projectID
-		 * @param unknown_type $reportID
+		 * @param  $userID
+		 * @param  $projectID
+		 * @param  $reportID
 		 * @throws Exception
 		 */
 		public function deleteFromHistory($userID,$projectID, $reportID) 
@@ -91,12 +91,12 @@ require_once 'engine/classes/RequestsController.php';
 		}
 		
 		/**
-		 * 
-		 * @param unknown_type $userID
-		 * @param unknown_type $projectID
-		 * @param unknown_type $reportID
-		 * @param unknown_type $startIndex
-		 * @param unknown_type $maxCount
+		 * Получение элементов в истории.
+		 * @param  $userID
+		 * @param  $projectID
+		 * @param  $reportID
+		 * @param  $startIndex
+		 * @param  $maxCount
 		 * @throws Exception
 		 */
 		public function getHistory($userID, $projectID, $reportID, $startIndex = 0, $maxCount = 20) 
@@ -110,6 +110,32 @@ require_once 'engine/classes/RequestsController.php';
 				if ($r->isSubscribed($userID, $projectID)) 
 				{
 					$q = "SELECT * FROM `ErorrReportHistory` WHERE `ID` = '$reportID' LIMIT $startIndex,$maxCount";
+					$res = $this->_sql->query($q);
+					$ret = $this->_sql->fetchArr($res);
+					return $ret;
+				}
+				else 
+				{
+					throw new Exception("Вы не являетесь участником проекта.", 602);
+				}
+			}
+			else 
+			{
+				throw new Exception("Проект не существует.",101);
+			}
+		}
+		
+		public function getSomeOfHistory($userID, $projectID, $reportID, $count = 3) 
+		{
+			$projectID = (int)$projectID;
+			$p = new ProjectsController();
+			if($p->isProjectExists($projectID))
+			{	
+				$r = new RequestsController();
+				$userID = (int)$userID;
+				if ($r->isSubscribed($userID, $projectID)) 
+				{
+					$q = "SELECT * FROM `ErorrReportHistory` WHERE `ErrorReportID` = '$reportID' ORDER BY `OldTime` DESC LIMIT $count";
 					$res = $this->_sql->query($q);
 					$ret = $this->_sql->fetchArr($res);
 					return $ret;
