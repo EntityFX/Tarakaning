@@ -19,6 +19,10 @@
             if ($res!=NULL)
             {
                 $res=$res[0];
+                if ($res["Active"]==false)
+                {
+                    throw new Exception("Пользователь не активирован");
+                }
                 if ($res["PasswordHash"]==md5(md5($password)."MOTPWBAH"))
                 {
                     $_SESSION["user"]=$res;    

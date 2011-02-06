@@ -28,6 +28,10 @@
                 if (isset($_SESSION["user"])) 
                 {
                     $this->setData($_SESSION["user"]);
+                }
+                else
+                {
+                    throw new Exception("Выполните аутентификацию",5);
                 }       
             }
             else

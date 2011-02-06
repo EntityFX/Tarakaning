@@ -11,7 +11,9 @@
     
     require_once "UsersController.php";
     
-    require_once "SubscribesController.php";      
+    require_once "SubscribesController.php";
+    
+    require_once "ReportsAssigment.php";
     
     class ErrorReportsController extends MySQLConnector
     {
@@ -146,7 +148,7 @@
             $this->_sql->delete("ErrorReport","ID=$id");    
         }
         
-        public function editReport($reportID,ErrorStatusENUM $errorStatus)
+        public function editReport($reportID,ErrorStatusENUM $errorStatus, $userID)
         {
             if ($errorStatus->check())
             {
@@ -160,12 +162,28 @@
             {
                 if ($this->checkIsProjectError($reportID))
                 {
-                    $reportID=(int)$reportID;
-                    if ($errorStatusValue==ErrorStatusENUM::ASSIGNED || $errorStatusValue==ErrorStatusENUM::CONFIRMED)
+                    $report=$this->getReportByID($reportID);
+                    if ($report["Status"]!=$errorStatus->getValue())
                     {
-                        
-                    }   
-                    $this->_sql->query("UPDATE ErrorReport SET Status=$errorStatusValue WHERE ID=$reportID");
+                        $reportID=(int)$reportID;
+                        if ($this->chekProjectOwnerOrReportOwner($reportID))
+                        {
+                            $repAss=new ReportsAssigment($reportID);
+                            if ($errorStatusValue==ErrorStatusENUM::ASSIGNED)
+                            {
+                                $repAss->addAssigment($userID);
+                            }
+                            else
+                            {
+                                $repAss->deleteAssigment($userID);
+                            }   
+                            $this->_sql->query("UPDATE ErrorReport SET Status=$errorStatusValue WHERE ID=$reportID");                        
+                        }
+                        else
+                        {
+                            throw new Exception("Отчёт могут редактировать владелец проекта и создатель отчёта");
+                        }
+                    }
                 }
                 else
                 {
@@ -178,6 +196,19 @@
             }      
         }
         
+        /**
+        * Получиить владельца отчёта
+        * 
+        * @param int $reportID ID отчёта
+        * @return int
+        */
+        private function getReportOwner($reportID)
+        {
+            $this->_sql->selFieldsWhere("ErrorReport","ID=$reportID","UserID");
+            $res=$this->_sql->GetRows();
+            return $res[0]["UserID"];
+        }
+        
         private function checkIsProjectError($reportID)
         {
             $reportID=(int)$reportID;
@@ -187,7 +218,7 @@
             return $projectID==$this->_projectOwnerID;
         }
         
-        private function checkIsExsist($reportId)
+        public function checkIsExsist($reportId)
         {
             $id=(int)$reportId;
             $countGroups=$this->_sql->countQuery("ErrorReport","ID=$id");
@@ -240,6 +271,20 @@
         {
             $this->_sql->selAll("ErrorReport");
             return $this->_sql->getTable();
+        }
+        
+        private function getReportByID($reportID)
+        {
+            $this->_sql->selAllWhere("ErrorReport","ID=$reportID");
+            $arr=$this->_sql->getTable();
+            return $arr[0];
+        }
+        
+        private function chekProjectOwnerOrReportOwner($reportID)
+        {
+            $id=(int)$id;
+            $pC=new ProjectsController();
+            return ($this->_errorOwnerID==$this->getReportOwner($reportID) || $this->_errorOwnerID==$pC->isOwner($this->_errorOwnerID,$this->_projectOwnerID));               
         }
     }
 ?>
