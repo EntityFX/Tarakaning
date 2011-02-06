@@ -50,21 +50,27 @@
             }
         }
         
-        public function deleteAssigment($userID)
+        public function deleteAssigment()
         {
-            if ($this->checkByReportAndUser($this->_errorReportID,$userID))            
+            if ($this->checkByReport($this->_errorReportID))            
             {
-                $userID=(int)$userID;
                 $rep=$this->_errorReportID;
-                $this->_sql->delete("ReportsUsersHandling","ReportID=$rep AND UserID=$userID");
+                $this->_sql->delete("ReportsUsersHandling","ReportID=$rep");
             }
         }
         
-        private function checkByReportAndUser($reportId,$userID)
+        public function getByReportID($reportID)
+        {
+            $rep=$this->_errorReportID;            
+            $res=$this->_sql->selAllWhere("ReportsUsersHandling","ReportID=$rep");
+            return $res[0];
+        }
+        
+        private function checkByReport($reportId)
         {
             $reportId=(int)$reportId;
             $userID=(int)$userID;
-            return $this->_sql->countQuery("ReportsUsersHandling","ReportID=$reportId AND UserID=$userID")==1;
+            return $this->_sql->countQuery("ReportsUsersHandling","ReportID=$reportId")==1;
         }
         
         private function checkIfExsist($assigmentId)

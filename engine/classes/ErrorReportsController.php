@@ -163,26 +163,44 @@
                 if ($this->checkIsProjectError($reportID))
                 {
                     $report=$this->getReportByID($reportID);
-                    if ($report["Status"]!=$errorStatus->getValue())
+                    if ($report["Status"]!=$errorStatusValue)
                     {
                         $reportID=(int)$reportID;
-                        if ($this->chekProjectOwnerOrReportOwner($reportID))
+                        switch ($report["Status"])
                         {
-                            $repAss=new ReportsAssigment($reportID);
-                            if ($errorStatusValue==ErrorStatusENUM::ASSIGNED)
-                            {
-                                $repAss->addAssigment($userID);
-                            }
-                            else
-                            {
-                                $repAss->deleteAssigment($userID);
-                            }   
-                            $this->_sql->query("UPDATE ErrorReport SET Status=$errorStatusValue WHERE ID=$reportID");                        
-                        }
-                        else
-                        {
-                            throw new Exception("Отчёт могут редактировать владелец проекта и создатель отчёта");
-                        }
+                            case ErrorStatusENUM::CLOSED:
+                                $pC=new ProjectsController();
+                                if ($pC->isOwner($this->_errorOwnerID,$this->_projectOwnerID))
+                                {
+                                    $this->doEdit($reportID,$errorStatusValue,$userID);  
+                                }
+                                else
+                                {
+                                    throw new Exception("Отчёт со статусом CLOSED может редактировать владелец проекта");
+                                }
+                                break;
+                            case ErrorStatusENUM::ASSIGNED:
+                                $repAss=new ReportsAssigment($reportID);
+                                $repAsigmentRecord=$repAss->getByReportID($reportID);
+                                if ($this->chekProjectOwnerOrReportOwner($reportID) || $repAsigmentRecord["UserID"]==$this->_errorOwnerID)
+                                {
+                                    $this->doEdit($reportID,$errorStatusValue,$userID);    
+                                } 
+                                else
+                                {
+                                    throw new Exception("Отчёт со статусом ASSIGNED могут редактировать владелец проекта и создатель отчёта, а также тот, кому был назначен отчёт");
+                                }
+                                break;
+                            default:
+                                if ($this->chekProjectOwnerOrReportOwner($reportID))
+                                {
+                                    $this->doEdit($reportID,$errorStatusValue,$userID);
+                                }
+                                else
+                                {
+                                    throw new Exception("Отчёт со статусом $report[Status] могут редактировать владелец проекта и создатель отчёта");
+                                }                           
+                        }                        
                     }
                 }
                 else
@@ -194,6 +212,20 @@
             {
                 throw new Exception("Отчёт об ошибке не существует");
             }      
+        }
+        
+        private function doEdit($reportID,$errorStatusValue,$userID)
+        {
+            $repAss=new ReportsAssigment($reportID);
+            if ($errorStatusValue==ErrorStatusENUM::ASSIGNED)
+            {
+                $repAss->addAssigment($userID);
+            }
+            else
+            {
+                $repAss->deleteAssigment($userID);
+            }   
+            $this->_sql->query("UPDATE ErrorReport SET Status=$errorStatusValue WHERE ID=$reportID");
         }
         
         /**
