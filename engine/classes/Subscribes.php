@@ -110,13 +110,20 @@ require_once 'engine/classes/ProjectsController.php';
 			{
 				$projectID = (int)$projectID;
 				$p = new ProjectsController();
-				$ownerID = $p->getOwnerID($projectID);
-				$startIndex = (int)$startIndex;
-				$maxCount = (int)$maxCount;
-				$res = $this->_sql->query("SELECT `UserID` FROM `UsersInProjects` WHERE `ProjectID` = '$projectID' LIMIT $startIndex, $maxCount"); 
-				$tmp = $this->_sql->GetRows($res);
-				array_unshift($tmp, $ownerID);
-				return $tmp;
+				if($p->isProjectExists($projectID))
+				{
+					$ownerID = $p->getOwnerID($projectID);
+					$startIndex = (int)$startIndex;
+					$maxCount = (int)$maxCount;
+					$res = $this->_sql->query("SELECT `UserID` FROM `UsersInProjects` WHERE `ProjectID` = '$projectID' LIMIT $startIndex, $maxCount"); 
+					$tmp = $this->_sql->GetRows($res);
+					$startIndex == 0 ? array_unshift($tmp, $ownerID): TRUE;
+					return $tmp;
+				}
+				else 
+				{
+					throw new Exception("Проект не существует.", 101);
+				}	
 			}
 		}
 ?>
