@@ -104,18 +104,7 @@
             else
             {
                 throw new Exception("Неверный формат ошибки");
-            } 
-            var_dump(new ArrayObject(array(
-                    $this->_errorOwnerID,
-                    $this->_projectOwnerID,
-                    $priorityValue,
-                    $errorStatusValue,
-                    time(),
-                    $title,
-                    $typeValue,
-                    $description,
-                    $steps    
-                )));
+            }
             $this->_sql->insert("ErrorReport",
                 new ArrayObject(array(
                     $this->_errorOwnerID,
