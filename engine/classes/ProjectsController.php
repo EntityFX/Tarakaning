@@ -216,7 +216,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			return $ret;
 		}
 		
-		/**
+		/** 
 		 * ѕроверка существовани€ проекта.
 		 * @param int $projectID - id проекта.
 		 */
