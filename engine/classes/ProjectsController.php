@@ -227,5 +227,14 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			$tmp = $this->_sql->fetchArr($res);
 			return $tmp == null ? FALSE : TRUE;
 		}
+		
+		public function getOwnerID($projectID) 
+		{
+			$projectID = (int)$projectID;
+			
+			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `ProjectID` = '$projectID'");
+			$tmp = $this->_sql->fetchArr($res);
+			return $tmp["OwnerID"];
+		}
 	}
 ?>

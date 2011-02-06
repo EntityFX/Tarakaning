@@ -90,8 +90,15 @@ require_once 'engine/classes/RequestsController.php';
 						$r = new RequestsController();
 						if ($r->isSubscribed($userID, $projectID))  
 						{
-							$this->_sql->query("DELETE FROM `ReportComment` WHERE `ID` = '$commentID' LIMIT 1");
-							return TRUE;
+							if ($this->isCommentOwner($commentID, $userID, $projectID))
+							{
+								$this->_sql->query("DELETE FROM `ReportComment` WHERE `ID` = '$commentID' LIMIT 1");
+								return TRUE;
+							}
+							else 
+							{
+								throw new Exception("Вы не являетесь автором комментария или проекта", 1002);
+							}
 						}
 						else 
 						{
@@ -208,13 +215,15 @@ require_once 'engine/classes/RequestsController.php';
 			 * @param unknown_type $commentID
 			 * @param unknown_type $userID
 			 */
-			public function isCommentOwner($commentID, $userID) 
+			public function isCommentOwner($commentID, $userID, $projectID) 
 			{
 				$userID = (int)$userID;
 				$commentID = (int)$commentID;
-				$res = $this->_sql->query("SELECT * FROM `ReportComment` WHERE `ID`='$commentID' AND `UserID`='$userID'");
+				$res = $this->_sql->query("SELECT * FROM `ReportComment` WHERE `ID`='$commentID'");
 				$ret = $this->_sql->fetchArr($res);
-				return $ret == null ? FALSE : TRUE;
+				$p = new ProjectsController();
+				$s = $p->isOwner($userID, $projectID);
+				return  $ret["UserID"] == $userID || $s ? TRUE : FALSE;
 			}
 		}
 ?>

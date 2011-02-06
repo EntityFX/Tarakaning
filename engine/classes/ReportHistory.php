@@ -21,6 +21,7 @@ require_once 'engine/classes/RequestsController.php';
 		 * $commentID = (int)$commentID;
 		 * $newStatus = (int)$newStatus;
 		 * $reportID = (int)$reportID;
+		 * $historyID = (int)$historyID;
 		 * $description
 		 */
 		
@@ -65,7 +66,7 @@ require_once 'engine/classes/RequestsController.php';
 		 * @param  $reportID
 		 * @throws Exception
 		 */
-		public function deleteFromHistory($userID,$projectID, $reportID) 
+		public function deleteFromHistory($userID,$projectID, $reportID, $historyID) 
 		{
 			$projectID = (int)$projectID;
 			$p = new ProjectsController();
@@ -75,9 +76,16 @@ require_once 'engine/classes/RequestsController.php';
 				$userID = (int)$userID;
 				if ($r->isSubscribed($userID, $projectID)) 
 				{
-					$q = "DELETE FROM `ErorrReportHistory` WHERE `ID` = '$reportID' LIMIT 1";
-					$this->_sql->query($q);
-					return TRUE;
+					if ($this->isOwner($userID, $historyID,$projectID)) 
+					{
+						$q = "DELETE FROM `ErorrReportHistory` WHERE `ID` = '$reportID' LIMIT 1";
+						$this->_sql->query($q);
+						return TRUE;
+					}
+					else 
+					{
+						throw new Exception("Удалять может только автор или админ.", 901);
+					}
 				}
 				else 
 				{
@@ -150,5 +158,27 @@ require_once 'engine/classes/RequestsController.php';
 				throw new Exception("Проект не существует.",101);
 			}
 		}
+		
+		/**
+		 * Проверяет является ли данный пользователь автором в истории или автором всего проекта.
+		 * @param  $userID
+		 * @param  $historyID
+		 */
+		public function isOwner($userID, $historyID, $projectID) 
+		{
+			$res = $this->_sql->query("SELECT * FROM `ErorrReportHistory` WHERE `ID`='$historyID'");
+			$tmp = $this->_sql->fetchArr($res);
+			$p = new ProjectsController();
+			$s = $p->isOwner($userID, $projectID);
+			return $tmp["UserID"] == $userID || $s ? TRUE : FALSE;
+		}
+		
+		public function isHistoryIdExists($historyID)
+		{
+			$res = $this->_sql->query("SELECT * FROM `ErorrReportHistory` WHERE `ID`='$historyID'");
+			$tmp = $this->_sql->fetchArr($res);
+			return ($tmp == NULL) ? FALSE : TRUE;
+		}
+		
 	}
 ?>
