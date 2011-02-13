@@ -214,7 +214,7 @@
             {
                 $repAss->deleteAssigment($userID);
             }   
-            $this->_sql->query("UPDATE ErrorReport SET Status=$errorStatusValue WHERE ID=$reportID");
+            $this->_sql->query("UPDATE ErrorReport SET Status='$errorStatusValue' WHERE ID=$reportID");
         }
         
         /**
