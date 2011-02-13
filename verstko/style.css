@@ -126,7 +126,7 @@
 		}
 
 
-
+/* Тута и ниже будет идти мой код*/
 	#content_body .projects_table {
 		width: 100%;
 		border: #dedede solid 1px;
@@ -154,3 +154,5 @@
 		#content_body .projects_table  tr.even {
 			background: #eeeeee;
 		}
+
+/* конец моего кода.*/
