@@ -47,6 +47,36 @@
 		font-size: 18px;
 	}
 
+	#content_body table{
+		width: 100%;
+		border: #dedede solid 1px;
+		text-align: center;
+		border-collapse: collapse;
+	}
+		
+		#content_body  td,th {
+			border: #dedede solid 1px;
+			padding: 3px;
+		}
+		
+		#content_body  td {
+			font-size: 14px;
+		}
+		
+		#content_body  thead {
+			background: #f1f1f1;
+		}
+		
+		#content_body  thead a {
+			color: black;
+		}
+		
+		#content_body thead a#sort {
+			color: red;
+		}	
+	
+	
+	
 #content_body {
 	padding: 10px;
 }
@@ -118,7 +148,7 @@
 			color: red;
 		}
 		
-		#content_body .report_table a {
+		#content_body a {
 			color: #28166f
 		}
 		
