@@ -54,6 +54,12 @@
 		border-collapse: collapse;
 	}
 		
+		#content_body table caption{
+			margin-top: 20px;
+			text-align: left;
+			font-size: 18px;
+		}
+		
 		#content_body  td,th {
 			border: #dedede solid 1px;
 			padding: 3px;
@@ -63,7 +69,7 @@
 			font-size: 14px;
 		}
 		
-		#content_body  thead {
+		#content_body  thead, tbody {
 			background: #f1f1f1;
 		}
 		
@@ -82,8 +88,8 @@
 }
 	
 	#content_body  .groupier {
-		margin: 5px 0;
-		height: 25px;
+		margin: 7px 0;
+		height: 20px;
 	}
 	
 	#content_body  .groupier ul {
@@ -100,62 +106,54 @@
 			color: #28166f;
 		}
 	
-	#content_body .report_table {
-		width: 100%;
-		border: #dedede solid 1px;
-		text-align: center;
-		border-collapse: collapse;
-	}
-		
-		#content_body .report_table  td,th {
-			border: #dedede solid 1px;
-			padding: 3px;
-		}
-		
-		#content_body .report_table  td {
-			font-size: 14px;
-		}
-		
-		#content_body .report_table  tr.new {
+		#content_body .new {
 			background: #eea8a8;
 		}
 
-		#content_body .report_table  tr.closed {
+		#content_body .closed {
 			background: #b5b597;
 		}
 
-		#content_body .report_table  tr.assigned {
+		#content_body .assigned {
 			background: #7991c4;
 		}
 
-		#content_body .report_table  tr.solved {
+		#content_body .solved {
 			background: #93cc88;
 		}
 
-		#content_body .report_table  tr.confirmed {
+		#content_body .confirmed {
 			background: #eeeea8;
 		}		
-		
-		#content_body .report_table thead {
-			background: #f1f1f1;
-		}
-		
-		#content_body .report_table thead a {
-			color: black;
-		}
-		
-		#content_body .report_table thead a#sort {
-			color: red;
-		}
 		
 		#content_body a {
 			color: #28166f
 		}
 		
-		#content_body .report_table strong {
+		strong.strongest {
 			color: red;
 		}
 
+	#content_body  table#report {
+		text-align: left;
+		margin-bottom: 30px;
+	}	
+	
+		#content_body  table#report strong {
+			font-size: 22px;
+		}
+		
+		#report ul {
+			margin-left: 20px;
+		}
+	
+	#content_body table .left{
+		text-align: left;
+	}	
+	
+	#content_body table .date{
+		min-width: 200px;
+	}
 
 /* Тута и ниже будет идти мой код*/
 
