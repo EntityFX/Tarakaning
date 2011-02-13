@@ -51,21 +51,22 @@
 	padding: 10px;
 }
 	
-	#content_body  #groupier {
+	#content_body  .groupier {
 		margin: 5px 0;
+		height: 25px;
 	}
 	
-	#content_body  #groupier ul {
+	#content_body  .groupier ul {
 		list-style-type: none;
 		float: right;
 	}
-		#groupier ul  li {
+		.groupier ul  li {
 			float: left;
 			margin: 0 3px;
 			color: #28166f;
 		}
 		
-		#groupier ul  li a {
+		.groupier ul  li a {
 			color: #28166f;
 		}
 	
