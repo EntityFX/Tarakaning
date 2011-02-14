@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Tarakaning</title>
+		<!--<link rel="shortcut icon" href="images/quki.ico" />-->
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+	<body>
+		<div id="header">
+			<img id="img_logo" src="images/logotype.png" alt="Tarakaning" />
+			<div id="logo">
+				<h1>Tarakaning</h1>
+				<span>Багтреккер и управление проектами</span>
+			</div>
+		</div>
+		<div id="main_menu">
+			<ul>
+				<li><a href="#">Мои отчёты</a></li>
+				<li><a href="#">Отчёты проекта</a></li>
+				<li><a href="#">Мои проекты</a></li>
+				<li><a href="#">Подписчики</a></li>
+				<li><a href="#">Профиль</a></li>
+			</ul>
+		</div>
+		<div id="content_body">
+			<form action="#">
+				<div class="add_form">
+					<table>
+						<tbody>
+							<tr>
+								<td><label for="project_id">Выберите проект</label></td>
+								<td>
+									<select id="project_id" name="project_id">
+										<option>QUKI</option>
+										<option>Tarakaning</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td><label for="title">Укажите заголовок</label></td>
+								<td><input type="text" id="title" name="title" /></td>
+							</tr>
+							<tr>
+								<td><label for="title">Тип ошибки</td>
+								<td>
+									<select id="error_type" name="error_type">
+										<option>Критическая</option>
+										<option>Косметическая</option>
+										<option>Исключение</option>
+										<option>Функциональная</option>
+										<option>Незначительная</option>
+										<option>Важная</option>
+										<option>Ошибка установки</option>
+										<option>Блокирующая</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td><label for="title">Описание</label></td>
+								<td><textarea></textarea></td>
+							</tr>
+							<tr>
+								<td><label for="title">Действия, которые привели к ошибке</label></td>
+								<td><textarea></textarea></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
