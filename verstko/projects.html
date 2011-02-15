@@ -18,14 +18,14 @@
 </div>
 
 <div id="main_menu">
-<ul>
-  <li><a href="#">Мои отчёты</a></li>
-  <li><a href="#">Отчёты проекта</a></li>
-  <li><a href="projects.html">Мои проекты</a></li>
-  <li><a href="subscribes.html">Мои подписки</a></li>
-  <li><a href="#">Подписчики</a></li>
-  <li><a href="#">Профиль</a></li>
-</ul>
+	<ul>
+		<li><a href="my_reports_with_checkboxes.html">Мои отчёты</a></li>
+		<li><a href="reports_with_checkboxes.html">Отчёты проекта</a></li>
+		<li><a href="projects.html">Мои проекты</a></li>
+		<li><a href="subscribes.html">Мои заявки</a></li>
+		<li><a href="#">Подписаться</a></li>
+		<li><a href="#">Профиль</a></li>
+	</ul>
 </div>
 
 <div id="content_body">
@@ -50,8 +50,7 @@
 		  <th><input name="del" type="checkbox" /></th>
 		  <th><a href="#">Проект</a></th>
 		  <th><a href="#">Заголовок</a></th>
-		  <th><a href="#">Количество ответов</a></th>
-		  <th><a href="#">Количество решенных</a></th>
+		  <th><a href="#">Закрыто отчётов</a></th>
 		  <th><a href="#">Заявки</a></th>
 		  <th><a href="#">Дата</a></th>
 		</tr>
@@ -62,18 +61,16 @@
         <td>ООО Волосатый<br />
         </td>
         <td>Парикмахерыы</td>
-        <td><a href="#">213</a></td>
         <td><a href="#">100</a></td>
-        <td><a href="requests.html">213</a></td>
+        <td><a href="requests.html" class="strongest">2</a></td>
         <td>6 февраля 2007 12:56</td>
       </tr>
       <tr class="even">
         <td><input name="delId" type="checkbox" /></td>
         <td>ОАО Пингви</td>
         <td>ставим линукс</td>
-        <td><a href="#">213</a></td>
         <td><a href="#">20</a></td>
-        <td><a href="#">213</a></td>
+        <td><a href="requests.html" class="strongest">1</a></td>
         <td>7 октября 2011 07:48</td>
       </tr>
       <tr class="odd">
@@ -81,9 +78,8 @@
         <td>ООО ЭнтитиЭфИкс</td>
         <td>Тити<br />
         </td>
-        <td><a href="#">213</a></td>
         <td><a href="#">32</a></td>
-        <td><a href="#">213</a></td>
+        <td><a href="requests.html" class="strongest">6</a></td>
         <td>23 февраля 1989 11:34</td>
       </tr>
       <tr class="even">
@@ -91,9 +87,8 @@
         <td>ООО Тараканинг</td>
         <td>крекер. баг-крекер<br />
         </td>
-        <td><a href="#">213</a></td>
         <td><a href="#">123</a></td>
-        <td><a href="#">213</a><br />
+        <td>0<br />
         </td>
         <td>7 июля 2008 22:37</td>
       </tr>
@@ -101,9 +96,8 @@
         <td><input name="delId" type="checkbox" /></td>
         <td><a href="my_project_properties.html">ООО ТС </a></td>
         <td>Выбор себя</td>
-        <td><a href="#">213</td>
-        <td><a href="#">213</a></td>
         <td><a href="custom_requests.html">777</a></td>
+        <td><a href="requests.html" class="strongest">7</a></td>
         <td>7 июля 2008 22:37</td>
       </tr>
     </tbody>
@@ -112,7 +106,6 @@
 		<input value="Удалить" name="delBtn" type="button" />
 	</div>
 </form>
-</div>
 </div>
 
 </body></html>

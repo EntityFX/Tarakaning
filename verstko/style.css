@@ -87,7 +87,7 @@
 			font-weight: normal;
 		}
 		
-		#content_body thead a#sort {
+		#content_body thead a.sort {
 			color: red;
 		}	
 	
@@ -106,21 +106,30 @@
 	#content_body  .groupier {
 		margin: 5px 0;
 		height: 20px;
+		width: 100%;
 	}
 	
-	#content_body  .groupier ul {
-		list-style-type: none;
-		float: right;
-	}
-		.groupier ul  li {
+		#content_body .groupier form {
+			display: block;
 			float: left;
-			margin: 0 3px;
-			color: #28166f;
 		}
+			#content_body .groupier form  input[type="submit"] {
+				margin: -1px 0pt 0pt 5px;
+			}
 		
-		.groupier ul  li a {
-			color: #28166f;
+		#content_body  .groupier ul {
+			list-style-type: none;
+			float: right;
 		}
+			.groupier ul  li {
+				float: left;
+				margin: 0 3px;
+				color: #28166f;
+			}
+			
+			.groupier ul  li a {
+				color: #28166f;
+			}
 	
 		#content_body .new {
 			background: #eea8a8;
@@ -146,8 +155,9 @@
 			color: #28166f
 		}
 		
-		strong.strongest {
-			color: red;
+		strong.strongest, a.strongest {
+			color: red !important;
+			font-weight: bold;
 		}
 
 	#content_body  table#report {
@@ -207,11 +217,11 @@
 /* Тута и ниже будет идти мой код*/
 
 
-		#content_body .projects_table  tr.odd {
+		#content_body tr.odd {
 			background: #dedede;
 		}
 
-		#content_body .projects_table  tr.even {
+		#content_body tr.even {
 			background: #eeeeee;
 		}
 
