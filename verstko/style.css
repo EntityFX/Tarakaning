@@ -27,24 +27,29 @@
 	width: auto;
 	border-top: #dedede solid 1px;
 	border-bottom: #dedede solid 1px;
-	background: #f1f1f1; 
-	height: 28px;
+	background: url("custom-theme/images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #f1f1f1;
+	height: 24px;
 }
 	
 	#main_menu ul{
-		float: left;
 		list-style-type: none;
+		display: block;
 	}
 	
 	#main_menu li{
 		float: left;
 		padding: 3px 5px;
+		border-left: #aaa solid 1px;
+	}
+	
+	#main_menu a:hover{
+		color: #fff;
 	}
 	
 	#main_menu a {
 		color: black;
-		font-weight: bold;
-		font-size: 18px;
+		font-size: 16px;
+		text-decoration: none;
 	}
 
 	#content_body table{
@@ -69,12 +74,17 @@
 			font-size: 14px;
 		}
 		
+		#content_body  th {
+			background: url("custom-theme/images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #f1f1f1;
+		}
+		
 		#content_body  thead, tbody {
 			background: #f1f1f1;
 		}
 		
 		#content_body  thead a {
 			color: black;
+			font-weight: normal;
 		}
 		
 		#content_body thead a#sort {
@@ -162,26 +172,36 @@
 	}
 
 .add_form {
-	border: 1px solid #3b7eb5;
-	width: 700px;
-	height: 170px;
-	background: #d4effb;
-	border-radius: 15px;
-	-moz-border-radius: 15px;
+	border: 1px solid #dedede;
+	margin: 0 20px;
+	background: #f1f1f1;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
 }
 	
 	.add_form  dd {
-		float:left;
-		padding:7px 0;
-		margin: 4px 0;
-		width: 100px;
+		width: auto;
+		margin: 5px 10px 5px 250px;
+	}
+	
+	.add_form  dd.subm {
+		text-align: right;
+		margin-right: 5px;
 	}
 	
 	.add_form dt {
-		float: right;
-		clear:none;
-		width: auto;
-		margin:5px 0 3px;
+		float: left;
+		margin: 0 5px;
+		width: 220px;
+		text-align: right;
+	}
+	
+	.add_form input[type="text"] , .add_form textarea{
+		width: 100%;
+	}
+	
+	select, input[type="text"], textarea {
+		border: 2px solid #dedede;
 	}
 
 /* Тута и ниже будет идти мой код*/

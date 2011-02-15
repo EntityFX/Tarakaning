@@ -26,46 +26,44 @@
 		<div id="content_body">
 			<form action="#">
 				<div class="add_form">
-					<table>
-						<tbody>
-							<tr>
-								<td><label for="project_id">Выберите проект</label></td>
-								<td>
-									<select id="project_id" name="project_id">
-										<option>QUKI</option>
-										<option>Tarakaning</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td><label for="title">Укажите заголовок</label></td>
-								<td><input type="text" id="title" name="title" /></td>
-							</tr>
-							<tr>
-								<td><label for="title">Тип ошибки</td>
-								<td>
-									<select id="error_type" name="error_type">
-										<option>Критическая</option>
-										<option>Косметическая</option>
-										<option>Исключение</option>
-										<option>Функциональная</option>
-										<option>Незначительная</option>
-										<option>Важная</option>
-										<option>Ошибка установки</option>
-										<option>Блокирующая</option>
-									</select>
-								</td>
-							</tr>
-							<tr>
-								<td><label for="title">Описание</label></td>
-								<td><textarea></textarea></td>
-							</tr>
-							<tr>
-								<td><label for="title">Действия, которые привели к ошибке</label></td>
-								<td><textarea></textarea></td>
-							</tr>
-						</tbody>
-					</table>
+					<dl>
+						<dt><label for="project_id">Выберите проект</label></dt>
+						<dd>
+							<select id="project_id" name="project_id">
+								<option>QUKI</option>
+								<option>Tarakaning</option>
+							</select>
+						</dd>
+						<dt><label for="title">Укажите заголовок</label></dt>
+						<dd><input type="text" id="title" name="title" /></dd>
+						<dt><label for="error_type">Тип ошибки</label></dt>
+						<dd>									
+							<select id="error_type" name="error_type">
+								<option>Критическая</option>
+								<option>Косметическая</option>
+								<option>Исключение</option>
+								<option>Функциональная</option>
+								<option>Незначительная</option>
+								<option>Важная</option>
+								<option>Ошибка установки</option>
+								<option>Блокирующая</option>
+							</select>
+						</dd>
+						<dt><label for="priority">Приоритет</label></dt>
+						<dd>									
+							<select id="priority" name="error_type">
+								<option>Низкий</option>
+								<option checked="checked">Обычный</option>
+								<option>Важный</option>
+							</select>
+						</dd>
+						<dt><label for="description">Описание</label></dt>
+						<dd><textarea id="description" rows="7" cols="20" ></textarea></dd>
+						<dt><label for="steps">Действия, которые привели к ошибке</label></dt>
+						<dd><textarea id="steps" rows="10" cols="20" ></textarea></dd>
+						<dt>&nbsp;</dt>
+						<dd class="subm"><input type="submit" value="Создать отчёт" /></dd>						
+					</dl>
 				</div>
 			</form>
 		</div>

@@ -29,13 +29,18 @@
 </div>
 
 <div id="content_body">
-<form method="post" action="#">
-Создание нового проекта: <br />
-	<dt>Название </dt> <dd><input type="text" name="project_name"></dd>
-	<dt>Описание </dt> <dd><textarea name="dscription" rows="0" cols="0"></textarea></dd>
-<input type="submit" value="Создать">
-</form>
-</div>
+	<form action="#">
+		<div class="add_form">
+			<dl>
+				<dt><label for="project_name">Имя проекта</label></dt>
+				<dd><input type="text" name="project_name" id="project_name"/></dd>
+				<dt><label for="description">Описание проекта</label></dt>
+				<dd><textarea name="description" rows="10" cols="5" id="description"></textarea></dd>
+				<dt>&nbsp;</dt>
+				<dd class="subm"><input type="submit" value="Создать проект" /></dd>						
+			</dl>
+		</div>
+	</form>
 </div>
 
 </body></html>

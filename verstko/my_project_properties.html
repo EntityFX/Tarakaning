@@ -5,11 +5,11 @@
   
 <!--<link rel="shortcut icon" href="images/quki.ico" />-->
   
-  <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
-   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+	<link href="custom-theme/jquery-ui-1.8.9.custom.css" rel="stylesheet" type="text/css"/>
 	<script type="text/javascript" src="../js/jquery-1.4.2.min.js"></script>
 	<script type="text/javascript" src="../js/jquery-ui-1.8.5.custom.min.js"></script>
-  <script>
+  <script type="text/javascript">
   $(document).ready(function() {
     $("#tabs").tabs();
   });
@@ -35,103 +35,99 @@
 </ul>
 </div>
 
-
-<div id="tabs">
-    <ul>
-        <li><a href="#about"><span>Описание</span></a></li>
-        <li><a href="#users"><span>Подписчики</span></a></li>
-    </ul>
-    <div id="about">			
+<div id="content_body">
+	<div id="tabs">
+		<ul>
+			<li><a href="#about"><span>Описание</span></a></li>
+			<li><a href="#users"><span>Подписчики</span></a></li>		
+		</ul>
+		<div id="about">			
 			<dl>
-				<dd><label for="id">Название</label></dd>
+				<dd>Название</dd>
 				<dt>ООО ТС</dt>
 			</dl>
 			<dl>
 				<dd>Описание</dd>
 				<dt>Трансерфинг реальности. Вадим Зеланд</dt>
 			</dl>
-<form action="#" method="post"><input type="submit" value="Подписаться на проект"></form>
+			<form action="#" method="post"><div><input type="submit" value="Подписаться на проект" /></div></form>
+		</div>
+		<div id="users">
+			<div class="groupier">
+				<ul>
+				  <li><a href="#">&lt;&lt;</a></li>
+				  <li><a href="#">&lt;</a></li>
+				  <li><a href="#">6</a></li>
+				  <li>7</li>
+				  <li><a href="#">8</a></li>
+				  <li><a href="#">9</a></li>
+				  <li><a href="#">10</a></li>
+				  <li><a href="#">&gt;</a></li>
+				  <li><a href="#">&gt;&gt;</a></li>
+				</ul>
+			</div>
+			<form action="#">
+				<table class="projects_table">
+					<thead> <tr>
+						<th><input name="del" type="checkbox" /></th>
+						<th><a href="#">Пользователь</a></th>
+						<th><a href="#">Количество отчетов</a></th>
+						<th><a href="#">Количество комментариев</a></th>
+						<th><a href="#">Назначенных заданий</a></th>
+						<th><a href="#">Количество решенных</a></th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr class="odd">
+						<td><input name="delId" type="checkbox" /></td>
+						<td><a href="#">Sudo777</a>
+						</td>
+						<td>456</td>
+						<td><a href="#">213</a></td>
+						<td><a href="#">100</a></td>
+						<td><a href="#">213</a></td>
+						</tr>
+						<tr class="even">
+						<td><input name="delId" type="checkbox" /></td>
+						<td><a href="#">EntityFX</a></td>
+						<td>123</td>
+						<td><a href="#">213</a></td>
+						<td><a href="#">20</a></td>
+						<td><a href="#">213</a></td>
+						</tr>
+						<tr class="odd">
+						<td><input name="delId" type="checkbox" /></td>
+						<td><a href="#">Flood</a></td>
+						<td>789<br />
+						</td>
+						<td><a href="#">213</a></td>
+						<td><a href="#">32</a></td>
+						<td><a href="#">213</a></td>
+						</tr>
+						<tr class="even">
+						<td><input name="delId" type="checkbox" /></td>
+						<td><a href="#">EntityFX</a></td>
+						<td>123<br />
+						</td>
+						<td><a href="#">213</a></td>
+						<td><a href="#">123</a></td>
+						<td><a href="#">213</a></td>
+						</tr>
+						<tr class="odd">
+						<td><input name="delId" type="checkbox" /></td>
+						<td><a href="#">Ignatyy</a></td>
+						<td>123</td>
+						<td><a href="#">213</a></td>
+						<td><a href="#">213</a></td>
+						<td><a href="#">213</a></td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="groupier">
+					<input value="Удалить выделенных подписчиков" name="delBtn" type="button" />
+				</div>
+			</form>
+		</div>
     </div>
-    <div id="users">
-       <div id="content_body">
-
-<div class="groupier">
-<ul>
-  <li><a href="#">&lt;&lt;</a></li>
-  <li><a href="#">&lt;</a></li>
-  <li><a href="#">6</a></li>
-  <li>7</li>
-  <li><a href="#">8</a></li>
-  <li><a href="#">9</a></li>
-  <li><a href="#">10</a></li>
-  <li><a href="#">&gt;</a></li>
-  <li><a href="#">&gt;&gt;</a></li>
-</ul>
 </div>
-<form action="#">
-  <table class="projects_table">
-    <thead> <tr>
-      <th><input name="del" type="checkbox" /></th>
-      <th><a href="#">Пользователь</a></th>
-      <th><a href="#">Количество отчетов</a></th>
-      <th><a href="#">Количество комментариев</a></th>
-      <th><a href="#">Назначенных заданий</a></th>
-      <th><a href="#">Количество решенных</a></th>
-    </tr>
-    </thead> <tbody>
-      <tr class="odd">
-        <td><input name="delId" type="checkbox" /></td>
-        <td><a href="#">Sudo777</a></td>
-        <td>456</td>
-        <td><a href="#">213</a></td>
-        <td><a href="#">100</a></td>
-        <td><a href="#">213</a></td>
-      </tr>
-      <tr class="even">
-        <td><input name="delId" type="checkbox" /></td>
-        <td><a href="#">EntityFX</a></td>
-        <td>123</td>
-        <td><a href="#">213</a></td>
-        <td><a href="#">20</a></td>
-        <td><a href="#">213</a></td>
-      </tr>
-      <tr class="odd">
-        <td><input name="delId" type="checkbox" /></td>
-        <td><a href="#">Flood</a></td>
-        <td>789<br />
-        </td>
-        <td><a href="#">213</a></td>
-        <td><a href="#">32</a></td>
-        <td><a href="#">213</a></td>
-      </tr>
-      <tr class="even">
-        <td><input name="delId" type="checkbox" /></td>
-        <td><a href="#">EntityFX</a></td>
-        <td>123<br />
-        </td>
-        <td><a href="#">213</a></td>
-        <td><a href="#">123</a></td>
-        <td><a href="#">213</a></td>
-      </tr>
-      <tr class="odd">
-        <td><input name="delId" type="checkbox" /></td>
-        <td><a href="#">Ignatyy</a></td>
-        <td>123</td>
-        <td><a href="#">213</td>
-        <td><a href="#">213</a></td>
-        <td><a href="#">213</a></td>
-      </tr>
-    </tbody>
-  </table>
-	<div class="groupier">
-		<input value="Удалить выделенных подписчиков" name="delBtn" type="button" />
-	</div>
-</form>
-</div>
-    </div>
-</div>
-
-
-</div>
-
 </body></html>

@@ -32,18 +32,18 @@
 						<option>Tarakaning</option>
 					</select>
 					<ul>
-						<li><a href="#"><<</a></li>
-						<li><a href="#"><</a></li>
+						<li><a href="#">&lt;&lt;</a></li>
+						<li><a href="#">&lt;</a></li>
 						<li><a href="#">6</a></li>
 						<li>7</li>
 						<li><a href="#">8</a></li>
 						<li><a href="#">9</a></li>
 						<li><a href="#">10</a></li>
-						<li><a href="#">></a></li>
-						<li><a href="#">>></a></li>						
+						<li><a href="#">&gt;</a></li>
+						<li><a href="#">&gt;&gt;</a></li>						
 					</ul>
 				</div>
-				<form>
+				<form action="#">
 					<table class="report_table">
 						<thead>
 							<tr>
@@ -59,7 +59,7 @@
 						</thead>
 						<tbody>
 							<tr class="new">
-							    <th><input name="del1" type="checkbox" /></th>
+							    <td><input name="del1" type="checkbox" /></td>
 								<td>56</td>
 								<td>Новая</td>
 								<td>Ошибка выполнения</td>
@@ -69,17 +69,17 @@
 								<td>6 февраля 2007 12:56</td>
 							</tr>
 							<tr class="closed">
-							    <th><input name="del2" type="checkbox" /></th>
+							    <td><input name="del2" type="checkbox" /></td>
 								<td>57</td>
 								<td>Закрытая</td>
-								<td>Ошибка выполнения (<a href="#">ред<a>)</td>
+								<td>Ошибка выполнения (<a href="#">ред</a>)</td>
 								<td><strong class="strongest">Важный</strong></td>
 								<td><a href="#">EntityFX</a></td>
 								<td>Незначительная</td>
 								<td>7 октября 2011 07:48</td>
 							</tr>
 							<tr class="assigned">
-							    <th><input name="del3" type="checkbox" /></th>
+							    <td><input name="del3" type="checkbox" /></td>
 								<td>2348</td>
 								<td>Назначена (<a href="#">Sudo777</a>)</td>
 								<td>Выдало исключение</td>
@@ -89,20 +89,20 @@
 								<td>23 февраля 1989 11:34</td>
 							</tr>
 							<tr class="solved">
-							    <th><input name="del3" type="checkbox" /></th>
+							    <td><input name="del3" type="checkbox" /></td>
 								<td>4867</td>
 								<td>Решённая</td>
-								<td>Переполнение стека при рекурсии (<a href="#">ред<a>)</td>
+								<td>Переполнение стека при рекурсии (<a href="#">ред</a>)</td>
 								<td><strong class="strongest">Важный</strong></td>
 								<td><a href="#">EntityFX</a></td>
 								<td>Незначительная</td>
 								<td>7 июля 2008 22:37</td>
 							</tr>
 							<tr class="confirmed">
-							    <th><input name="del3" type="checkbox" /></th>
+							    <td><input name="del3" type="checkbox" /></td>
 								<td>5096</td>
 								<td>Рассматривается</td>
-								<td>Падение сервера в датацентре (<a href="#">ред<a>)</td>
+								<td>Падение сервера в датацентре (<a href="#">ред</a>)</td>
 								<td><strong class="strongest">Важный</strong></td>
 								<td><a href="#">Ignatyy</a></td>
 								<td>Незначительная</td>
@@ -111,7 +111,8 @@
 						</tbody>
 					</table>
 					<div class="groupier">
-						<input type="submit" value="Удалить выделенные"/>
+						<input type="submit" value="Удалить выделенные" title="Удалить выделенные" name="del" />
+						<input type="submit" value="Добавить отчёт" title="Добавить новый отчёт об ошибке" name="add"/>
 					</div>
 				</form>
 			</div>
