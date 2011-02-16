@@ -1,16 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-  <title>Tarakaning</title>
-
-  
-<!--<link rel="shortcut icon" href="images/quki.ico" />-->
-  
-  <meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
-
-  
-  <link rel="stylesheet" type="text/css" href="style.css" />
-
-</head><body>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Tarakaning</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+		<link href="custom-theme/jquery-ui-1.8.9.custom.css" rel="stylesheet" type="text/css"/>
+		<script type="text/javascript" src="../js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="../js/jquery-ui-1.8.5.custom.min.js"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			$(document).ready(function() {
+				$("#tabs").tabs();
+			});
+		/* ]]>*/
+		</script>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+<body>
 <div id="header"> <img id="img_logo" src="images/logotype.PNG" alt="Tarakaning" />
 <div id="logo">
 <h1>Tarakaning</h1>
@@ -29,83 +34,93 @@
 </div>
 
 <div id="content_body">
-<div class="groupier">
-<a href="new_project.html">Создать новый проект</a>
-<ul>
-  <li><a href="#">&lt;&lt;</a></li>
-  <li><a href="#">&lt;</a></li>
-  <li><a href="#">6</a></li>
-  <li>7</li>
-  <li><a href="#">8</a></li>
-  <li><a href="#">9</a></li>
-  <li><a href="#">10</a></li>
-  <li><a href="#">&gt;</a></li>
-  <li><a href="#">&gt;&gt;</a></li>
-</ul>
-</div>
-<form action="#">
-  <table class="projects_table">
-    <thead> 
-		<tr>
-		  <th><input name="del" type="checkbox" /></th>
-		  <th><a href="#">Проект</a></th>
-		  <th><a href="#">Заголовок</a></th>
-		  <th><a href="#">Закрыто отчётов</a></th>
-		  <th><a href="#">Заявки</a></th>
-		  <th><a href="#">Дата</a></th>
-		</tr>
-    </thead> 
-	<tbody>
-      <tr class="odd">
-        <td><input name="delId" type="checkbox" /></td>
-        <td>ООО Волосатый<br />
-        </td>
-        <td>Парикмахерыы</td>
-        <td><a href="#">100</a></td>
-        <td><a href="requests.html" class="strongest">2</a></td>
-        <td>6 февраля 2007 12:56</td>
-      </tr>
-      <tr class="even">
-        <td><input name="delId" type="checkbox" /></td>
-        <td>ОАО Пингви</td>
-        <td>ставим линукс</td>
-        <td><a href="#">20</a></td>
-        <td><a href="requests.html" class="strongest">1</a></td>
-        <td>7 октября 2011 07:48</td>
-      </tr>
-      <tr class="odd">
-        <td><input name="delId" type="checkbox" /></td>
-        <td>ООО ЭнтитиЭфИкс</td>
-        <td>Тити<br />
-        </td>
-        <td><a href="#">32</a></td>
-        <td><a href="requests.html" class="strongest">6</a></td>
-        <td>23 февраля 1989 11:34</td>
-      </tr>
-      <tr class="even">
-        <td><input name="delId" type="checkbox" /></td>
-        <td>ООО Тараканинг</td>
-        <td>крекер. баг-крекер<br />
-        </td>
-        <td><a href="#">123</a></td>
-        <td>0<br />
-        </td>
-        <td>7 июля 2008 22:37</td>
-      </tr>
-      <tr class="odd">
-        <td><input name="delId" type="checkbox" /></td>
-        <td><a href="my_project_properties.html">ООО ТС </a></td>
-        <td>Выбор себя</td>
-        <td><a href="custom_requests.html">777</a></td>
-        <td><a href="requests.html" class="strongest">7</a></td>
-        <td>7 июля 2008 22:37</td>
-      </tr>
-    </tbody>
-  </table>
 	<div class="groupier">
-		<input value="Удалить" name="delBtn" type="button" />
+		<a href="new_project.html">Создать новый проект</a>
+		<ul>
+			<li><a href="#">&lt;&lt;</a></li>
+			<li><a href="#">&lt;</a></li>
+			<li><a href="#">6</a></li>
+			<li>7</li>
+			<li><a href="#">8</a></li>
+			<li><a href="#">9</a></li>
+			<li><a href="#">10</a></li>
+			<li><a href="#">&gt;</a></li>
+			<li><a href="#">&gt;&gt;</a></li>
+		</ul>
 	</div>
-</form>
+	<div id="tabs">
+		<ul>
+			<li><a href="#my_project"><span>Мои проекты</span></a></li>
+			<li><a href="#all_projects"><span>Все проекты</span></a></li>			
+		</ul>
+		<div id="my_project">
+			<form action="#">
+			  <table class="projects_table">
+				<thead> 
+					<tr>
+					  <th><input name="del" type="checkbox" /></th>
+					  <th><a href="#">Проект</a></th>
+					  <th><a href="#">Заголовок</a></th>
+					  <th><a href="#">Закрыто отчётов</a></th>
+					  <th><a href="#">Заявки</a></th>
+					  <th><a href="#">Дата</a></th>
+					</tr>
+				</thead> 
+				<tbody>
+				  <tr class="odd">
+					<td><input name="delId" type="checkbox" /></td>
+					<td>ООО Волосатый<br />
+					</td>
+					<td>Парикмахерыы</td>
+					<td><a href="#">100</a></td>
+					<td><a href="requests.html" class="strongest">2</a></td>
+					<td>6 февраля 2007 12:56</td>
+				  </tr>
+				  <tr class="even">
+					<td><input name="delId" type="checkbox" /></td>
+					<td>ОАО Пингви</td>
+					<td>ставим линукс</td>
+					<td><a href="#">20</a></td>
+					<td><a href="requests.html" class="strongest">1</a></td>
+					<td>7 октября 2011 07:48</td>
+				  </tr>
+				  <tr class="odd">
+					<td><input name="delId" type="checkbox" /></td>
+					<td>ООО ЭнтитиЭфИкс</td>
+					<td>Тити<br />
+					</td>
+					<td><a href="#">32</a></td>
+					<td><a href="requests.html" class="strongest">6</a></td>
+					<td>23 февраля 1989 11:34</td>
+				  </tr>
+				  <tr class="even">
+					<td><input name="delId" type="checkbox" /></td>
+					<td>ООО Тараканинг</td>
+					<td>крекер. баг-крекер<br />
+					</td>
+					<td><a href="#">123</a></td>
+					<td>0<br />
+					</td>
+					<td>7 июля 2008 22:37</td>
+				  </tr>
+				  <tr class="odd">
+					<td><input name="delId" type="checkbox" /></td>
+					<td><a href="my_project_properties.html">ООО ТС </a></td>
+					<td>Выбор себя</td>
+					<td><a href="custom_requests.html">777</a></td>
+					<td><a href="requests.html" class="strongest">7</a></td>
+					<td>7 июля 2008 22:37</td>
+				  </tr>
+				</tbody>
+			  </table>
+				<div class="groupier">
+					<input value="Удалить" name="delBtn" type="button" />
+				</div>
+			</form>
+		</div>
+		<div id="all_projects">
+		</div>
+	</div>
 </div>
 
 </body></html>
