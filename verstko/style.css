@@ -151,7 +151,7 @@
 			background: #eeeea8;
 		}		
 		
-		#content_body a {
+		#content_body a, #enter a {
 			color: #28166f
 		}
 		
@@ -228,6 +228,52 @@
 		float: left;
 		margin: 0 20px 0 0;
 		text-align: right;
+	}
+	
+#enter {
+	background: none repeat scroll 0 0 #F1F1F1;
+	border: 2px solid #DEDEDE;
+	height: 160px;
+	left: 50%;
+	margin-left: -150px;
+	margin-top: -80px;
+	position: absolute;
+	top: 50%;
+	width: 300px;
+	radius: 15px 15px 15px 15px;
+	-moz-border-radius: 15px 15px 15px 15px;
+}
+
+	#enter div#hdr {
+		background: url("custom-theme/images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #DEDEDE;
+		color: white;
+		font-weight: bold;
+		padding: 5px 0 5px 10px;
+		radius: 13px 13px 0 0;
+		-moz-border-radius: 13px 13px 0 0;
+	}
+	
+	#enter input[type="text"], #enter input[type="password"] {
+		border: 1px solid #DEDEDE;
+		font-size: 24px;
+		height: 30px;
+		width: 180px;
+	}
+	
+	#enter dt {
+		float: left;
+		margin: 6px 20px 6px 10px;
+		text-align: right;
+	}	
+	
+	#enter dd {
+		width: auto;
+		margin: 10px 0 10px 100px;
+	}
+
+	#enter #sigIn {
+		float: right;
+		margin-right: 18px;
 	}
 
 /* Тута и ниже будет идти мой код*/
