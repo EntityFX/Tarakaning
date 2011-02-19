@@ -28,7 +28,7 @@
 		<li><a href="reports_with_checkboxes.html">Отчёты проекта</a></li>
 		<li><a href="projects.html">Мои проекты</a></li>
 		<li><a href="subscribes.html">Мои заявки</a></li>
-		<li><a href="#">Подписаться</a></li>
+		<li><a href="#">Поиск</a></li>
 		<li><a href="#">Профиль</a></li>
 	</ul>
 </div>
@@ -40,12 +40,14 @@
 			<li><a href="#users"><span>Участники</span></a></li>
 			<li><a href="#requests"><span>Заявки</span></a></li>			
 		</ul>
-		<div id="about">			
+		<div id="about" class="info_div">			
 			<dl>
 				<dt>Название</dt>
 				<dd>ООО ТС</dd>
+				<dt>Автор</dt>
+				<dd><a href="#">Zeland</a></dd>				
 				<dt>Описание</dt>
-				<dd>Трансерфинг реальности. Вадим Зеланд</dd>
+				<dd>Реальность имеет две формы: физическую, которую можно потрогать руками, и метафизическую, лежащую за пределами восприятия, но не менее объективную. В некотором смысле мир представляет собой бескрайнее дуальное зеркало, по одну сторону которого находится материальная вселенная, а по другую простирается метафизическое пространство вариантов – информационная структура, в которой хранятся сценарии всех возможных событий. Число вариантов бесконечно, как бесконечно множество допустимых положений точки на координатной плоскости. Там записано все что было, есть и будет, оттуда же к нам приходят сны, ясновидение, интуитивные знания и озарения. </dd>
 			</dl>
 			<form action="#" method="post"><div><input type="submit" value="Редактировать проект" /></div></form>
 		</div>
@@ -65,6 +67,7 @@
 			</div>
 			<form action="#">
 				<table class="projects_table">
+					<col width="23" />
 					<thead> <tr>
 						<th><input name="del" type="checkbox" /></th>
 						<th><a href="#">Пользователь</a></th>
@@ -76,7 +79,7 @@
 					<tbody>
 						<tr class="odd">
 						<td><input name="delId" type="checkbox" /></td>
-						<td><a href="#">Sudo777</a>
+						<td><strong><a href="#">Sudo777</a></strong>
 						</td>
 						<td>456</td>
 						<td><a href="#">213</a></td>
@@ -122,6 +125,9 @@
 		<div id="requests">
 			<form action="#">
 			  <table class="projects_table">
+				<col width="23" />
+				<col />
+				<col width="250" />
 				<thead> <tr>
 				  <th><input name="del" type="checkbox" /></th>
 				  <th><a href="#">Пользователь</a></th>
