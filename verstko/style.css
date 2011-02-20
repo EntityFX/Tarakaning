@@ -243,6 +243,7 @@ dd.subm {
 	#reg {width: 500px; margin: 0 auto;}
 	#reg input { width: auto !important; }
 	#reg dt { width: 180px;}
+	#reg dd {margin-left: 210px !important;}
 	#reg .subm {margin-right: 14px;}
 	#reg span {
 		margin: 3px;
