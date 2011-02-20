@@ -286,5 +286,20 @@
 		#content_body tr.even {
 			background: #eeeeee;
 		}
-
+	.find_results {
+		width:800px;
+		background: #dedede;
+		margin:10px 0 10px 0;
+		border: solid 1px silver;
+		padding: 5px;
+	}
+	.author {
+		margin-left:50px;
+		margin-right:10px;
+	}
+	
+	.description {
+		margin-left:25px;
+		font-size: 12px;
+	}
 /* конец моего кода.*/

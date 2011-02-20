@@ -37,12 +37,17 @@
 	<a href="user_info.html">	Просмотреть мою страницу.</a> <br />
 	Редактирование информации: <br />
 	<form action="#" method="post">
-		Имя: <input type="text" value="Тимур" /><br />
-		Фамилия: <input type="text" value="Тимур" /><br />
-		Отчество: <input type="text" value="Тимур" /> <br />
-		Ник: <input type="text" value="Тимур" /><br />
-
-		<input type="submit" value="Сохранить" />
-	</form>
+		<dl>
+			<dt>Имя:</dt>
+			<dd><input type="text" name="u_name" value="Тимур" /></dd>
+			<dt>Фамилия:</dt>
+			<dd><input type="text" name="u_f_name" value="Тимур" /></dd>
+			<dt>Отчество:</dt>
+			<dd><input type="text" name="u_s_name" value="Тимур" /></dd>
+			<dt>Ник:</dt>
+			<dd><input type="text" name="u_n_name"value="Тимур" /></dd>
+		</dl>
+		<input type="submit" name="save_btn" value="Сохранить" />
+		</form>
 </div>
 </body></html>
