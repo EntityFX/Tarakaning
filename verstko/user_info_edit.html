@@ -32,11 +32,12 @@
 		<li><a href="#">Профиль</a></li>
 	</ul>
 </div>
-
-<div id="content_body">
-	<a href="user_info.html">	Просмотреть мою страницу.</a> <br />
-	Редактирование информации: <br />
-	<form action="#" method="post">
+<div class="content_body">
+<form action="#" method="post">
+	<div class="add_form">
+		<a href="user_info.html">	Просмотреть мою страницу.</a> <br />
+		Редактирование информации: <br />
+	
 		<dl>
 			<dt>Имя:</dt>
 			<dd><input type="text" name="u_name" value="Тимур" /></dd>
@@ -47,7 +48,9 @@
 			<dt>Ник:</dt>
 			<dd><input type="text" name="u_n_name"value="Тимур" /></dd>
 		</dl>
-		<input type="submit" name="save_btn" value="Сохранить" />
-		</form>
+		<dd class="subm"><input type="submit" name="save_btn" value="Сохранить" /></dd>
+		
+	</div>
+</form>
 </div>
 </body></html>
