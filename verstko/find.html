@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Tarakaning</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+		<link href="custom-theme/jquery-ui-1.8.9.custom.css" rel="stylesheet" type="text/css"/>
+		<script type="text/javascript" src="../js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="../js/jquery-ui-1.8.5.custom.min.js"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			$(document).ready(function() {
+				$("#tabs").tabs();
+			});
+		/* ]]>*/
+		</script>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+	</head>
+<body>
+<div id="header"> <img id="img_logo" src="images/logotype.PNG" alt="Tarakaning" />
+<div id="logo">
+<h1>Tarakaning</h1>
+<span>Багтреккер и управление проектами</span> </div>
+</div>
+
+<div id="main_menu">
+	<ul>
+		<li><a href="my_reports_with_checkboxes.html">Мои отчёты</a></li>
+		<li><a href="reports_with_checkboxes.html">Отчёты проекта</a></li>
+		<li><a href="projects.html">Мои проекты</a></li>
+		<li><a href="subscribes.html">Мои заявки</a></li>
+		<li><a href="#">Подписаться</a></li>
+		<li><a href="#">Профиль</a></li>
+	</ul>
+</div>
+
+<div id="content_body">
+
+	Поищем: <br />
+	<form action="find_results.html" method="get">
+		<input type="text" name="finder" value="" />
+		<input type="submit" value="Найти" />
+		</form>
+</div>
+</body></html>
