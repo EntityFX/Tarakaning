@@ -34,11 +34,18 @@
 </div>
 
 <div id="content_body">
-
-	Поищем: <br />
 	<form action="find_results.html" method="get">
-		<input type="text" name="finder" value="" />
-		<input type="submit" value="Найти" />
-		</form>
+		<div class="add_form fixed_width">		
+			<span class="author">Поиск</span>
+			<dl>
+			<dt>По названию:</dt>
+			<dd><input type="text" name="by_proj" value="" /></dd>
+			
+			<dt>По автору:</dt>
+			<dd><input type="text" name="by_author" value="" /></dd>
+			<dd class="subm"><input type="submit" value="Найти" /></dd>
+			</dl>
+		</div>
+	</form>
 </div>
 </body></html>

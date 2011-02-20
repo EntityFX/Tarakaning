@@ -302,4 +302,8 @@
 		margin-left:25px;
 		font-size: 12px;
 	}
+	
+	.fixed_width { 
+		width: 500px !important; 
+	}
 /* конец моего кода.*/
