@@ -155,7 +155,7 @@
 			color: #28166f
 		}
 		
-		strong.strongest, a.strongest {
+		strong.strongest, a.strongest, #reg strong {
 			color: red !important;
 			font-weight: bold;
 		}
@@ -194,10 +194,6 @@
 		margin: 5px 10px 5px 250px;
 	}
 	
-	.add_form  dd.subm {
-		text-align: right;
-		margin-right: 5px;
-	}
 	
 	.add_form dt {
 		float: left;
@@ -219,10 +215,10 @@
 		margin: 5px 0 5px 100px;
 	}
 	
-	.info_div  dd.subm {
-		text-align: right;
-		margin-right: 5px;
-	}
+dd.subm {
+	text-align: right;
+	margin-right: 5px;
+}
 	
 	.info_div dt {
 		float: left;
@@ -244,6 +240,11 @@
 	-moz-border-radius: 15px 15px 15px 15px;
 }
 
+	#reg {width: 500px; margin: 0 auto;}
+	#reg input { width: auto !important; }
+	#reg dt { width: 180px;}
+	#reg .subm {margin-right: 14px;}
+	
 	#enter div#hdr, .add_form  div#hdr {
 		background: url("custom-theme/images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #DEDEDE;
 		color: white;
@@ -253,20 +254,21 @@
 		-moz-border-radius: 13px 13px 0 0;
 	}
 	
-	#enter input[type="text"], #enter input[type="password"] {
-		border: 1px solid #DEDEDE;
+	#enter input[type="text"], #enter input[type="password"], #reg input[type="text"], #reg input[type="password"]{
+		border: 2px solid #DEDEDE;
 		font-size: 24px;
 		height: 30px;
 		width: 180px;
 	}
 	
-	#enter dt {
+	
+	#enter dt, #reg dt {
 		float: left;
 		margin: 6px 20px 6px 10px;
 		text-align: right;
 	}	
 	
-	#enter dd {
+	#enter dd, #reg dd {
 		width: auto;
 		margin: 10px 0 10px 100px;
 	}
