@@ -38,10 +38,8 @@
 			<li><a href="#edit_info"><span>Редактировать информацию</span></a></li>
 			<li><a href="#pass_change"><span>Смена пароля</span></a></li>			
 		</ul>
-		<div id="edit_info">
-			<div>
-				<a href="user_info.html">	Просмотреть мою страницу.</a> <br />
-					Редактирование информации: <br />
+		<div id="edit_info" class="add_form">
+				<a href="user_info.html">	Просмотреть мою страницу.</a>
 	
 				<dl>
 					<dt>Имя:</dt>
@@ -54,9 +52,17 @@
 					<dd><input type="text" name="u_n_name"value="Тимур" /></dd>
 				</dl>
 				<dd class="subm"><input type="submit" name="save_btn" value="Сохранить" /></dd>
-			</div>
 	</div>
-	<div id="pass_change">
+	<div id="pass_change" class="add_form">
+				<dl>
+					<dt>Старый пароль:</dt>
+					<dd><input type="password" name="old_pass"  /></dd>
+					<dt>Новый пароль:</dt>
+					<dd><input type="password" name="new_pass" /></dd>
+					<dt>Повтор нового пароля:</dt>
+					<dd><input type="password" name="new_repass" /></dd>
+				</dl>
+				<dd class="subm"><input type="submit" name="save_btn" value="Сохранить" /></dd>
 	</div>
 </form>
 </div>
