@@ -10,7 +10,7 @@
 		/* <![CDATA[ */
 			$(document).ready(function() {
 				$("#tabs").tabs();
-				$("input:button, input:submit").button();
+				$("input:button, input:submit, a").button();
 			});
 		/* ]]>*/
 		</script>
@@ -24,13 +24,12 @@
 </div>
 	<div id="enter">
 		<div id="hdr">Вход в систему</div>
-
 		<form action="#" method="post" id="form">
 			<div>
 				<dl>
 					<dt><label for="login">Логин </label></dt><dd><input id="login" class="edit" type="text" name="login" /></dd>
 					<dt><label for="psw">Пароль </label></dt><dd><input id="psw" class="edit" type="password" name="pswrd" /></dd>
-					<dt><a href="#">Регистрация</a></dt><dd id="button"><input type="button" name="sigIn" id="sigIn" value="Войти" class="button" /></dd>
+					<dt style="margin-top: 1px;"><a href="registration.html">Регистрация</a></dt><dd id="button"><input type="button" name="sigIn" id="sigIn" value="Войти" class="button" /></dd>
 				</dl>
 			</div>
 		</form>
