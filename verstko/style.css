@@ -244,6 +244,12 @@ dd.subm {
 	#reg input { width: auto !important; }
 	#reg dt { width: 180px;}
 	#reg .subm {margin-right: 14px;}
+	#reg span {
+		margin: 3px;
+		font-size: 11px;
+		display: block;
+		color: #777;
+	}
 	
 	#enter div#hdr, .add_form  div#hdr {
 		background: url("custom-theme/images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #DEDEDE;
