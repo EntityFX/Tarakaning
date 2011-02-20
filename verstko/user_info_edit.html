@@ -33,23 +33,30 @@
 	</ul>
 </div>
 <div id="content_body">
-<form action="#" method="post">
-	<div class="add_form">
-		<a href="user_info.html">	Просмотреть мою страницу.</a> <br />
-		Редактирование информации: <br />
+	<div id="tabs">
+		<ul>
+			<li><a href="#edit_info"><span>Редактировать информацию</span></a></li>
+			<li><a href="#pass_change"><span>Смена пароля</span></a></li>			
+		</ul>
+		<div id="edit_info">
+			<div>
+				<a href="user_info.html">	Просмотреть мою страницу.</a> <br />
+					Редактирование информации: <br />
 	
-		<dl>
-			<dt>Имя:</dt>
-			<dd><input type="text" name="u_name" value="Тимур" /></dd>
-			<dt>Фамилия:</dt>
-			<dd><input type="text" name="u_f_name" value="Тимур" /></dd>
-			<dt>Отчество:</dt>
-			<dd><input type="text" name="u_s_name" value="Тимур" /></dd>
-			<dt>Ник:</dt>
-			<dd><input type="text" name="u_n_name"value="Тимур" /></dd>
-		</dl>
-		<dd class="subm"><input type="submit" name="save_btn" value="Сохранить" /></dd>
-		
+				<dl>
+					<dt>Имя:</dt>
+					<dd><input type="text" name="u_name" value="Тимур" /></dd>
+					<dt>Фамилия:</dt>
+					<dd><input type="text" name="u_f_name" value="Тимур" /></dd>
+					<dt>Отчество:</dt>
+					<dd><input type="text" name="u_s_name" value="Тимур" /></dd>
+					<dt>Ник:</dt>
+					<dd><input type="text" name="u_n_name"value="Тимур" /></dd>
+				</dl>
+				<dd class="subm"><input type="submit" name="save_btn" value="Сохранить" /></dd>
+			</div>
+	</div>
+	<div id="pass_change">
 	</div>
 </form>
 </div>

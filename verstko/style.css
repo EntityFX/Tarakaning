@@ -287,9 +287,9 @@
 			background: #eeeeee;
 		}
 	.find_results {
-		width:800px;
+		width:auto;
 		background: #dedede;
-		margin:10px 0 10px 0;
+		margin:10px 20px 10px 20px;
 		border: solid 1px silver;
 		padding: 5px;
 	}

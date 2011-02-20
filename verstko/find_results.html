@@ -35,8 +35,17 @@
 
 <div id="content_body">
 	<form action="find_results.html" method="get">
-		<input type="text" name="finder" value="" />
-		<input type="submit" name="save_btn" value="Найти" />
+		<div class="add_form fixed_width">		
+			<div id="hdr">Поиск</div>
+			<dl>
+			<dt>По названию:</dt>
+			<dd><input type="text" name="by_proj" value="" /></dd>
+			
+			<dt>По автору:</dt>
+			<dd><input type="text" name="by_author" value="" /></dd>
+			<dd class="subm"><input type="submit" value="Найти" /></dd>
+			</dl>
+		</div>
 	</form>
 <div class="groupier">
 <ul>
@@ -80,6 +89,19 @@
 		<form action="#" method="post">
 			<input type="submit" value="Прервать участие">		
 		</form>
+	</div>
+	<div class="groupier">
+		<ul>
+			<li><a href="#">&lt;&lt;</a></li>
+			<li><a href="#">&lt;</a></li>
+			<li><a href="#">6</a></li>
+			<li>7</li>
+			<li><a href="#">8</a></li>
+			<li><a href="#">9</a></li>
+			<li><a href="#">10</a></li>
+			<li><a href="#">&gt;</a></li>
+			<li><a href="#">&gt;&gt;</a></li>
+		</ul>
 	</div>
 </div>
 </body></html>
