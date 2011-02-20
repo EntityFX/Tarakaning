@@ -185,8 +185,8 @@
 	border: 1px solid #dedede;
 	margin: 0 20px;
 	background: #f1f1f1;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
+	border-radius: 15px 15px 5px 5px;
+	-moz-border-radius: 15px 15px 5px 5px;
 }
 	
 	.add_form  dd {
@@ -244,7 +244,7 @@
 	-moz-border-radius: 15px 15px 15px 15px;
 }
 
-	#enter div#hdr {
+	#enter div#hdr, .add_form  div#hdr {
 		background: url("custom-theme/images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #DEDEDE;
 		color: white;
 		font-weight: bold;

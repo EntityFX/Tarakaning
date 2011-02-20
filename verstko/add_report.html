@@ -27,6 +27,7 @@
 		<div id="content_body">
 			<form action="#">
 				<div class="add_form">
+					<div id="hdr">Добавление отчёта об ошибке</div>
 					<dl>
 						<dt><label for="project_id">Выберите проект</label></dt>
 						<dd>
@@ -40,21 +41,21 @@
 						<dt><label for="error_type">Тип ошибки</label></dt>
 						<dd>									
 							<select id="error_type" name="error_type">
-								<option>Критическая</option>
-								<option>Косметическая</option>
-								<option>Исключение</option>
-								<option>Функциональная</option>
-								<option>Незначительная</option>
-								<option>Важная</option>
-								<option>Ошибка установки</option>
-								<option>Блокирующая</option>
+								<option value="Critical">Критическая</option>
+								<option value="Cosmetic">Косметическая</option>
+								<option value="Exception">Исключение</option>
+								<option value="Functional">Функциональная</option>
+								<option value="Minor">Незначительная</option>
+								<option selected="selected" value="Major">Важная</option>
+								<option value="Install">Ошибка установки</option>
+								<option value="Block">Блокирующая</option>
 							</select>
 						</dd>
 						<dt><label for="priority">Приоритет</label></dt>
 						<dd>									
 							<select id="priority" name="error_type">
 								<option>Низкий</option>
-								<option checked="checked">Обычный</option>
+								<option selected="selected">Обычный</option>
 								<option>Важный</option>
 							</select>
 						</dd>
