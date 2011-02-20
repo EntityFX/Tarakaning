@@ -121,9 +121,9 @@
 			list-style-type: none;
 			float: right;
 		}
-			.groupier ul  li {
+			.groupier ul li {
 				float: left;
-				margin: 0 3px;
+				margin: 0 1px;
 				color: #28166f;
 			}
 			
