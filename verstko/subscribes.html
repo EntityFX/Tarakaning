@@ -12,11 +12,13 @@
 		<link href="custom-theme/jquery-ui-1.8.9.custom.css" rel="stylesheet" type="text/css"/>
 		<script type="text/javascript" src="../js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="../js/jquery-ui-1.8.5.custom.min.js"></script>
+		<script type="text/javascript" src="../js/j.checkboxes.js"></script>
 		<script type="text/javascript">
 		/* <![CDATA[ */
 			$(document).ready(function() {
 				$("#tabs").tabs();
-				$("input:button, input:submit, button, .groupier a, .groupier li span").button();
+				$("input:button, input:submit, button, .groupier a, .groupier li span").button();	
+				$('.reports_form').checkboxes();
 			});
 		/* ]]>*/
 		</script>
@@ -53,7 +55,7 @@
   <li><a href="#">&gt;&gt;</a></li>
 </ul>
 </div>
-<form action="#">
+<form action="#" class="reports_form">
   <table class="projects_table">
     <thead> <tr>
       <th><input name="del" type="checkbox" /></th>

@@ -130,6 +130,13 @@
 			.groupier ul  li a {
 				color: #28166f;
 			}
+			
+			.groupier li .selected {
+				font-weight: bold; 
+				color: rgb(170, 136, 136);
+				border-color: rgb(170, 136, 0);
+				background: none repeat scroll 0% 0% rgb(213, 213, 151) ! important;
+			}
 	
 		#content_body .new {
 			background: #eea8a8;
