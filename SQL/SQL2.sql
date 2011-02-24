@@ -1,5 +1,5 @@
 -- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 4.50.303.1
--- Дата: 25.02.2011 0:42:37
+-- Дата: 25.02.2011 0:52:31
 -- Версия сервера: 5.0.45-community-nt
 -- Версия клиента: 4.1
 
@@ -97,6 +97,23 @@ CREATE TABLE ReportsUsersHandling(
   CONSTRAINT FK_ReportsUsersHandling_ErrorReport_ID FOREIGN KEY (ReportID)
   REFERENCES errorreport (ID),
   CONSTRAINT FK_ReportsUsersHandling_Users_UserID FOREIGN KEY (UserID)
+  REFERENCES users (UserID)
+)
+ENGINE = INNODB
+AUTO_INCREMENT = 1
+CHARACTER SET cp1251
+COLLATE cp1251_general_ci;
+
+CREATE TABLE SubscribesRequest(
+  ID INT(11) NOT NULL AUTO_INCREMENT,
+  UserID INT(10) UNSIGNED DEFAULT NULL,
+  ProjectID INT(11) DEFAULT NULL,
+  PRIMARY KEY (ID),
+  INDEX fk_SubscribesRequest_Projects1 (ProjectID),
+  INDEX fk_SubscribesRequest_Users1 (UserID),
+  CONSTRAINT fk_SubscribesRequest_Projects1 FOREIGN KEY (ProjectID)
+  REFERENCES projects (ProjectID),
+  CONSTRAINT fk_SubscribesRequest_Users1 FOREIGN KEY (UserID)
   REFERENCES users (UserID)
 )
 ENGINE = INNODB
