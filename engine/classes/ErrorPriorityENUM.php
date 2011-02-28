@@ -1,15 +1,10 @@
 <?php
-    require_once "AEnumChecker.php";
+    require_once "engine/system/AEnum.php";
     
-    final class ErrorPriorityENUM extends AEnumChecker
+    final class ErrorPriorityENUM extends AEnum
     {
         const MINIMAL   = 1;
         const NORMAL    = 2;
         const HIGH      = 3;
-                
-        public function __construct($value=self::NORMAL)
-        {
-            $this->__value=$value;
-        }
     }  
 ?>

@@ -3,7 +3,7 @@
 * Файл с классами для работы с MySQL.
 * @package MySQL
 * @author Solopiy Artem
-* @version 0.9 Beta
+* @version 1.0 Beta
 * @copyright Idel Media Group: Developers Team (Solopiy Artem, Jusupziyanov Timur)
 */
 
@@ -24,6 +24,12 @@
 	* @filesource engine/libs/mysql/MySQLquery.php 
 	*/
 	require_once "MySQLquery.php";
+    
+    /**
+    * Подключает файл с классом  MySQLOrderENUM
+    * @filesource engine/libs/mysql/MySQLOrderENUM.php
+    */
+    require_once "MySQLOrderENUM.php";
 	
 	/**
 	* Подключает класс с интерфейсом IMySQLSingleton.php
@@ -37,7 +43,7 @@
 	* @author Solopiy Artem
 	* @final
 	*/
-	final class MySQL extends MySQLquery implements IMySQLSingleton
+	class MySQL extends MySQLquery implements IMySQLSingleton
 	{
 		/**
 		* Содержит в себе единственный экземпляр текущего класса
@@ -63,6 +69,49 @@
 		* @var String
 		*/
 		private $db_name;
+        
+        /**
+        * Включить лимит
+        * 
+        * @var Boolean
+        */
+        private $_limited;
+        
+        /**
+        * Начало лимита
+        * 
+        * @var Integer
+        */
+        private $_limitFrom;
+        
+        /**
+        * Размер лимита
+        * 
+        * @var Integer
+        */
+        private $_limitSize;
+        
+        /**
+        * Сортируемый
+        * 
+        * @var Boolean
+        */
+        private $_ordered;
+        
+        /**
+        * Сортируемое поле
+        * 
+        * @var String;
+        */
+        private $_orderField;
+        
+        /**
+        * Направление сортировкиж
+        * 
+        * @var MySQLOrderENUM
+        */
+        private $_orderDirection;
+
 		/**
 		* Сообщение о том, что не выбрана БД
 		*/
@@ -123,6 +172,72 @@
 			$this->base_selected=true;
 			return true;
 		}
+        
+        /**
+        * Установить лимит
+        * 
+        * @param Integer $from
+        * @param Integer $size
+        */
+        public function setLimit($from,$size)
+        {
+            $this->_limited=true;
+            $this->_limitFrom=(int)$from;
+            $this->_limitSize=(int)$size;
+        }
+        
+        /**
+        * Установлен ли лимит
+        * 
+        * @return Boolean 
+        */
+        public function isLimit()
+        {
+            return $this->_limited;
+        }
+        
+        /**
+        * Сброс лимита
+        * 
+        */
+        public function clearLimit()
+        {
+            $this->_limited=false;     
+            $this->_limitFrom=0;
+            $this->_limitSize=100;
+        }
+        
+        public function setOrder(AEnum $orderedField, MySQLOrderENUM $direction)
+        {
+            $this->_ordered=true;
+            $this->_orderField=$orderedField->getValue();
+            $this->_orderDirection=$direction->getValue();
+        }
+        
+        public function clearOrder()
+        {
+            $this->_ordered=false;
+        }
+        
+        public function isOrdered()
+        {
+            return $this->_ordered;
+        }
+        
+        private function getPostfix()
+        {
+            $str="";
+            if ($this->_ordered)
+            {
+                $str.=" ORDER BY ".$this->_orderField." ".$this->_orderDirection;
+            }
+            if ($this->_limited)
+            {
+                $str.=" LIMIT ".$this->_limitFrom.", ".$this->_limitSize;
+            }
+            return $str;
+        }
+        
 		/**
 		* Выбрать всё из таблицы
 		* 
@@ -130,7 +245,7 @@
 		*/
 		public function selAll($table_name)
 		{
-			$query_res=$this->queryExecute("SELECT * FROM `$table_name`");
+			$query_res=$this->queryExecute("SELECT * FROM `$table_name`".$this->getPostfix());
 			$this->rows=&$this->getRows($query_res);
 		}    
 		/**
@@ -141,7 +256,7 @@
 		*/
 		public function selAllWhere($table_name,$where)
 		{
-			$query_res=$this->queryExecute("SELECT * FROM `$table_name` WHERE $where");
+			$query_res=$this->queryExecute("SELECT * FROM `$table_name` WHERE $where".$this->getPostfix());
 			$this->rows=&$this->getRows($query_res);    
 		}
 		
@@ -154,7 +269,7 @@
 		public function selFieldsA($table_name,$fields_arr)
 		{
 			$fields=$this->MakeFieldString($fields_arr);
-			$query_res=$this->queryExecute("SELECT $fields FROM `$table_name`");
+			$query_res=$this->queryExecute("SELECT $fields FROM `$table_name`".$this->getPostfix());
 			$this->rows=&$this->GetRows($query_res);    
 		}
 		/**
@@ -168,7 +283,7 @@
 			$args = func_get_args();
 			$fields_arr=array_slice($args,1);
 			$fields=$this->MakeFieldString($fields_arr);
-			$query_res=$this->queryExecute("SELECT $fields FROM `$table_name`");
+			$query_res=$this->queryExecute("SELECT $fields FROM `$table_name`".$this->getPostfix());
 			$this->rows=&$this->getRows($query_res);    
 		}
 		/**
@@ -181,7 +296,7 @@
 		public function selFieldsWhereA($table_name,$fields_arr,$where)
 		{
 			$fields=$this->MakeFieldString($fields_arr);
-			$query_res=$this->queryExecute("SELECT $fields FROM `$table_name` WHERE $where");
+			$query_res=$this->queryExecute("SELECT $fields FROM `$table_name` WHERE $where".$this->getPostfix());
 			$this->rows=&$this->getRows($query_res);    
 		} 
 		/**
@@ -196,7 +311,7 @@
 			$args = func_get_args();
 			$fields_arr=array_slice($args,2);
 			$fields=$this->MakeFieldString($fields_arr);            
-			return $this->queryExecute("SELECT $fields FROM `$tableName` WHERE $where");   
+			return $this->queryExecute("SELECT $fields FROM `$tableName` WHERE $where".$this->getPostfix());   
 		}
 		/**
 		* Создать таблицу

@@ -43,6 +43,39 @@
         public function __destruct()
         {
             $this->_sql->debugging=false;
+            $this->_sql->clearLimit();
+        }
+        
+        /**
+        * Использовать лимит
+        * 
+        * @param Integer $from Начальное положение
+        * @param Integer $size Размер лимита
+        */
+        protected function useLimit($from,$size=0)
+        {
+            if (!$this->_sql->isLimit() && $size>0)
+            {
+                $this->_sql->setLimit($from,$size);
+            } 
+            else
+            {
+                $this->_sql->clearLimit();
+            }   
+        }
+
+        /**
+        * Использовать сортировку
+        * 
+        * @param AEnum $field Сортируемое поле
+        * @param MySQLOrderEnum $direction Направление
+        */
+        protected function useOrder(AEnum $field, MySQLOrderEnum $direction)
+        {
+            if (!$this->_sql->isOrdered())    
+            {     
+                $this->_sql->setOrder($field,$direction);
+            }
         }
     }
 ?>

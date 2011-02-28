@@ -1,7 +1,7 @@
 <?php
-    require_once "AEnumChecker.php";
+    require_once "engine/system/AEnum.php";
     
-    final class ErrorStatusENUM extends AEnumChecker
+    final class ErrorStatusENUM extends AEnum
     {
         const IS_NEW        = "NEW";
         const ASSIGNED      = "ASSIGNED";

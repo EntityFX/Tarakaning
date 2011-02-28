@@ -234,7 +234,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 			
 			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `ProjectID` = '$projectID'");
 			$tmp = $this->_sql->fetchArr($res);
-			return $tmp["OwnerID"];
+			return (int)$tmp["OwnerID"];
 		}
 	}
 ?>

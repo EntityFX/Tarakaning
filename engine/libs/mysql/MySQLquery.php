@@ -225,8 +225,7 @@ require_once "engine/config/databaseConsts.php";
         * @return Resource
         */
         public function query($string)
-        {
-            
+        {           
             if ($this->debugging || self::$globalDebugging)
             {
                 echo $string."\n\r";

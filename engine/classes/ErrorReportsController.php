@@ -15,6 +15,8 @@
     
     require_once "ReportsAssigment.php";
     
+    require_once 'ErrorFieldsENUM.php';
+    
     class ErrorReportsController extends MySQLConnector
     {
         private $_errorOwnerID;
@@ -59,13 +61,13 @@
                             throw new Exception("Пользователь не существует. Нельзя несуществующему пользователю отставлять отчёт об ошибках");
                         }
                     }
-                    if ($sub->isSubscribed($this->_errorOwnerID,(int)$projectID))
+                    if ($sub->isSubscribed($this->_errorOwnerID,(int)$projectID) || $this->_errorOwnerID==$projectsController->getOwnerID((int)$projectID))
                     {
                         $this->_projectOwnerID=(int)$projectID;        
                     }
                     else
                     {
-                        throw new Exception("Пользователь №".$this->_errorOwnerID." не подписан на проект");
+                        throw new Exception("Пользователь №".$this->_errorOwnerID." не подписан на проект или не является его владельцем");
                     }
                 }
                 else
@@ -248,6 +250,13 @@
         
         public function getReportsByProject($projectID=NULL)
         {
+            $this->checkProject($projectID);
+            $this->_sql->selAllWhere("ErrorReport","ProjectID=$projectID");
+            return $this->_sql->getTable();    
+        }
+        
+        private function checkProject(&$projectID)
+        {
             if ($projectID==NULL)
             {
                 $projectID=$this->_projectOwnerID;    
@@ -264,11 +273,9 @@
                     throw new Exception("Проект не существует. Нельзя получить список ошибок по несуществующему проекту");    
                 }     
             }
-            $this->_sql->selAllWhere("ErrorReport","ProjectID=$projectID");
-            return $this->_sql->getTable();    
         }
         
-        public function getReportsByUser($userID=NULL)
+        public function getReportsByUser($userID=NULL,$projectID=NULL)
         {
             $res=NULL;
             if ($userID==NULL)
@@ -281,11 +288,34 @@
                 $uc=new UsersController();
                 if ($uc->checkIfExsist($userID))
                 {
-                    $this->_sql->selAllWhere("ErrorReport","UserID=$userID");
-                    $res=$this->_sql->getTable();
+                    $this->checkProject($projectID); 
+                }
+                else
+                {
+                    throw new Exception("Пользователь не существует. Нельзя несуществующему пользователю оставлять отчёт об ошибках");    
                 }
             }
+            if ($projectID==NULL)
+            {
+                $projectID=$this->_projectOwnerID;    
+            }
+            $this->_sql->selAllWhere("ErrorReport","UserID=$userID AND ProjectID=$projectID");
+            $res=$this->_sql->getTable();
             return $res;
+        }
+        
+        public function getMyOrdered(ErrorFieldsENUM $field, MySQLOrderEnum $direction, $from, $size)
+        {
+            $this->useLimit($from,$size);
+            $this->useOrder($field,$direction);   
+            return $this->getReportsByUser();
+        }
+        
+        public function getProjectOrdered(ErrorFieldsENUM $field, MySQLOrderEnum $direction,$from,$size)
+        {
+            $this->useLimit($from,$size);
+            $this->useOrder($field,$direction);
+            return $this->getReportsByProject();
         }
         
         public function getAllReports()

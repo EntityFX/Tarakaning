@@ -100,11 +100,19 @@
             $pContr=new ProjectsController();
             if ($pContr->isProjectExists($projectID))
             {
-                $this->_sql->query("
-                    UPDATE Users SET 
-                        DefaultProjectID=$projectID 
-                    WHERE UserID=$this->id
-                ");
+                $u=new SubscribesController();
+                if ($u->isSubscribed($this->id,$projectID) || $pContr->getOwnerID($projectID)==$this->id)
+                {
+                    $this->_sql->query("
+                        UPDATE Users SET 
+                            DefaultProjectID=$projectID 
+                        WHERE UserID=$this->id
+                    ");
+                }
+                else
+                {
+                    throw new Exception("Пользователь не подписан на проект");
+                }
                 $_SESSION["user"]["DefaultProjectID"]=$projectID;                    
             }
             else

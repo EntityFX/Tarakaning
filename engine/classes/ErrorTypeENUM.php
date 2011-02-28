@@ -1,7 +1,7 @@
 <?php
-    require_once "AEnumChecker.php";
+    require_once "engine/system/AEnum.php";
     
-    final class ErrorTypeENUM extends AEnumChecker
+    final class ErrorTypeENUM extends AEnum
     {
         const CRASH             = 1;
         const COSMETIC          = 2;
@@ -14,7 +14,7 @@
                 
         public function __construct($value=self::CRASH)
         {
-            $this->__value=$value;
+            parent::__construct($value);
         }
     }  
 ?>
