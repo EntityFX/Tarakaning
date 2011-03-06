@@ -1,6 +1,7 @@
 <?php
 
-    require_once "engine/classes/UsersController.php";
+
+   /* require_once "engine/classes/UsersController.php";
     require_once "engine/classes/UserAuth.php"; 
     require_once "engine/classes/ConcreteUser.php";
     require_once "engine/classes/ProjectsController.php";
@@ -33,6 +34,27 @@
         "Возник BSOD",
         "При попытке вызвать экран, вышла критическая ошибка",
         ""
-    );*/
+    );*/  
     
+    /**
+    * @global Const Путь к файлам
+    * @name SOURCE_PATH
+    */
+    define("SOURCE_PATH","");
+    
+    /**
+    * Подключает константы БД
+    * @filesource config/databaseConsts.php 
+    */    
+    require_once "config/databaseConsts.php";    
+    
+    require_once "engine/kernel/FrontController.php";
+    
+    /**
+    * Важный экземпляр класса
+    * 
+    * @var Kernel
+    */
+    $kernel=FrontController::getInstance();
+    $kernel->run();    
 ?>
