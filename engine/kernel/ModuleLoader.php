@@ -12,13 +12,15 @@ require_once 'PageController.php';
 
 require_once 'classLoader.php';   
 
+require_once SOURCE_PATH."engine/libs/db/DBConnector.php"; 
+
 	/**
 	* Выполняет загрузку модулей и передаёт управление им
 	* @package kernel
 	* @author Solopiy Artem 
 	*/
 
-	class ModuleLoader
+	class ModuleLoader extends DBConnector
 	{
 		/**
 		* Константа содержит по-умолчанию путь к модулям
@@ -44,9 +46,7 @@ require_once 'classLoader.php';
 		* 
 		* @var Integer
 		*/
-		private $_moduleID;
-        
-        private $_sql;
+		private $_moduleID=null;
 		
 		/**
 		* Конструктор
@@ -57,16 +57,7 @@ require_once 'classLoader.php';
 		*/
 		public function __construct($type,&$data=NULL)
 		{
-            try
-            {
-                $this->_sql=MySQL::getInstance(DB_SERVER,DB_USER,DB_PASSWORD); 
-                $this->_sql->selectDB(DB_NAME);
-                $result=$this->_sql->query("SELECT `path`,`moduleId` FROM `Modules` WHERE `moduleid`=$type"); 
-            }
-            catch (Exception $dbError)
-            {
-                throw new Exception("MODULE LOADER ERROR: CHECK DB CONNECTION");
-            }
+            parent::__construct();
             $this->loadModule($type,$data);
 		}
 		
@@ -79,7 +70,14 @@ require_once 'classLoader.php';
 		*/
 		public function loadModule($type,&$data)    
 		{
-			$array=$this->_sql->fetchArr();
+			$type=(int)$type;
+			$this->_sql->selAllWhere("Modules", "moduleId=$type");
+			$array=$this->_sql->getTable();
+			$array=$array[0];
+			if ($array==null)
+			{
+				throw new Exception("ENGINE: Module (id=$type) is not declared");
+			}
 			$this->_moduleID=$array["moduleId"];
 			$fullPath=ModuleLoader::MODULE_PATH.$array["path"]."/".$array["path"]."Controller.php";           
             $className=$array["path"]."Controller"; 
@@ -92,7 +90,7 @@ require_once 'classLoader.php';
 			}
 			else
 			{
-				throw new Exception("ENGINE: File with class ".$className." FOR $fullPath MODULE IS NOT EXSIST");
+				throw new Exception("ENGINE: Module (id=$this->_moduleID) controller with class ".$className." FOR $fullPath MODULE IS NOT EXSIST");
 			}
 			$this->_output=$output;
 			return $output;

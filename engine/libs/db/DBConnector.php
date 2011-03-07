@@ -7,9 +7,10 @@
 * @copyright Idel Media Group: Developers Team (Solopiy Artem, Jusupziyanov Timur) © 2010 
 */
 
-    //require_once "engine/config/databaseConsts.php";
+    require_once "engine/config/databaseConsts.php";
     
     require_once "mysql/MySQL.php";
+    
     
     /**
     * Создаёт класс и соединяет с БД

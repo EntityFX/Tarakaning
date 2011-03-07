@@ -8,6 +8,6 @@
         * Возвращает инстанцию синглтона
         * 
         */
-        public static function &creator($server,$user,$password);
+        public static function &getInstance($server,$user,$password);
     }
 ?>

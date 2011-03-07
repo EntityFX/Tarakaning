@@ -1,13 +1,22 @@
 <?
-	require_once "TextModule.php";
-    
+	require_once "TextPage.php";
+	
     class TextController extends PageController
 	{
         public function initializePages()
         {
-            var_dump($this);
-            $textController=new TextModule($this->_sectionID);
-            $textController->getTextData();
+            /*$textController=new TextModule($this->_sectionID);
+            //$request->setRedirect("/error/404/");
+            try 
+            {
+            	$textController->getTextData();
+            }
+            catch (Exception $e)
+            {
+            	echo "Не найдена запись в таблице TextModule";	
+            }*/
+        	$page=new TextPage($this,"textTemplate.tpl");
+        	//var_dump($page);
         }
         
 	}

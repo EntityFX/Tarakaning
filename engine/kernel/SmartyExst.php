@@ -11,7 +11,7 @@
     * Подключает константы для Smarty
     * @filesource config/smartyConsts.php 
     */  
-    require_once "./config/smartyConsts.php";
+    require_once "engine/config/smartyConsts.php";
     
     /**
     * Подключает Smarty

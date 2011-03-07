@@ -132,7 +132,7 @@
 		* @param string $user
 		* @param string $password
 		*/
-		public static function &creator($server,$user,$password)
+		public static function &getInstance($server,$user,$password)
 		{
 			if (self::$_instance==NULL)
 			{
