@@ -69,6 +69,8 @@
         
         private $_arr;
         
+        static private $_encoding="win-1251";
+        
         static private $_instance=null;
 		
 		/**
@@ -117,7 +119,7 @@
 					header("Location: /error/404/".urlencode($this->url));
 				}
 			}
-			header("Content-type: text/html; charset=\"win-1251\"");
+			header("Content-type: text/html; charset=\"".self::$_encoding."\"");
 			$moduleType=(int)$this->_arr["module"];
 			$data=$this->makeGet();
 			$module=new ModuleLoader($moduleType,$data);
@@ -213,6 +215,11 @@
 				}
 			}
             $this->_useParameters=$flag;
+		}
+		
+		public static function setGlobalEncoding($encoding)
+		{
+			self::$_encoding=$encoding;	
 		}
 	}
 ?>

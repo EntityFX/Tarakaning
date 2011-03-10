@@ -50,5 +50,12 @@
 			}
 		}
 		
+		protected function navigare($url)
+		{
+			$url=(string)$url;
+			if ($url=="") $url="/";
+			$this->response->setRedirect($url);
+		}
+		
 		abstract protected function doAssign();
 	}
