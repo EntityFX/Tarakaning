@@ -6,7 +6,8 @@
 * @version 0.9 Beta
 * @copyright Idel Media Group: Developers Team (Solopiy Artem, Jusupziyanov Timur)
 */
-
+   
+	require_once "engine/system/AEnum.php";
     
     /**
     * Перечисление констант для типов полей
@@ -14,7 +15,7 @@
     * @author Solopiy Artem
     * @abstract MySQLTypeEnumerator 
     */
-    abstract class MySQLTypeEnumerator
+    final class MySQLTypeEnumerator extends AEnum
     {
         const INT="int";
         const SMALLINT="smallint";        

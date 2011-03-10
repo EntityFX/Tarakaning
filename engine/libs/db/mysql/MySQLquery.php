@@ -9,6 +9,8 @@
 
 require_once "engine/config/databaseConsts.php";
 
+require_once 'MySQLException.php';
+
     /**
     * Класс MySQL запросов
     * @package MySQL 
@@ -67,6 +69,12 @@ require_once "engine/config/databaseConsts.php";
         */
         protected $_password;
         
+        /**
+         * 
+         * Запрос пеерд выполнением
+         * @var string
+         */
+        protected $_internalQuery;
         
         /**
         * Конструктор
@@ -85,7 +93,7 @@ require_once "engine/config/databaseConsts.php";
             }
             catch (Exception $e)
             {
-                throw new Exception(NO_CONNECTION);                
+                throw new MySQLException($this,NO_CONNECTION);                
             }
             $this->_server=$server;
             $this->_user=$user;
@@ -155,7 +163,7 @@ require_once "engine/config/databaseConsts.php";
             if ($is_primary_key)
             {
                 $str.= "\tPRIMARY KEY (`$primary_key`)\r\n);";    
-            } else throw new Exception(MySQLquery::EXCEPTION_NO_PRIMARY_KEY);
+            } else throw new MySQLException($this,MySQLquery::EXCEPTION_NO_PRIMARY_KEY);
             return $str;    
         }
         
@@ -225,7 +233,8 @@ require_once "engine/config/databaseConsts.php";
         * @return Resource
         */
         public function query($string)
-        {           
+        {      
+            $this->_internalQuery=$string;     
             if ($this->debugging || self::$globalDebugging)
             {
                 echo $string."\n\r";
@@ -233,7 +242,7 @@ require_once "engine/config/databaseConsts.php";
             $resource=mysql_query($string);
             if ($resource==false)
             {
-                throw new Exception("\n\rENGINE: BAD QUERY. QUERY is $string\n\r");
+                throw new MySQLException($this,"BAD QUERY: $string");
             }
             $this->_internalResource=$resource;
             return $resource;
@@ -258,5 +267,11 @@ require_once "engine/config/databaseConsts.php";
             }
             return mysql_fetch_assoc($res);
         }
+        
+        public function getServerName()
+        {
+        	return $this->_server;
+        }
+        
     }
 ?>

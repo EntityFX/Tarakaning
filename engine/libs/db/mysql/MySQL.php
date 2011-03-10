@@ -167,7 +167,7 @@
 			}
 			catch (Exception $e)
 			{
-				throw new Exception("MySQL ERROR: Can't connect to DB");
+				throw new MySQLException($this, "MySQL ERROR: Can't connect to DB");
 			}
 			$this->base_selected=true;
 			return true;
@@ -399,7 +399,7 @@
 		{
 			if (!$this->base_selected) 
 			{
-			   throw new Exception(MySQL::NO_DB_SELECTION);
+			   throw new MySQLException($this, MySQL::NO_DB_SELECTION);
 			}
 			else 
 			{
@@ -417,7 +417,7 @@
 		{
 			if (!$this->base_selected) 
 			{
-			   throw new Exception(MySQL::NO_DB_SELECTION);
+			   throw new MySQLException($this, MySQL::NO_DB_SELECTION);
 			}
 			else 
 			{
@@ -437,15 +437,20 @@
 			$query_res=null;
 			if (!$this->base_selected) 
 			{
-			   throw new Exception(MySQL::NO_DB_SELECTION);
+			   throw new MySQLException($this, MySQL::NO_DB_SELECTION);
 			}
 			else 
 			{
                 $query_res=$this->query($query);
 				if (!$query_res)
-				throw new Exception(MySQL::NO_QUERY." $query_res");
+				throw new MySQLException($this, MySQL::NO_QUERY." $query_res");
 			}
 			return $query_res;
+		}
+		
+		public function getDBName()
+		{
+			return $this->db_name;
 		}
 		
 	} 

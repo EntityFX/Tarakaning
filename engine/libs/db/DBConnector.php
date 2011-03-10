@@ -29,7 +29,6 @@
         /**
         * Конструктор инициализирует объект $_sql
         * 
-        * 
         */
         protected function __construct()
         {

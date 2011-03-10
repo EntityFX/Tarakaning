@@ -12,7 +12,7 @@
     * @package MySQL
     * @author Solopiy Artem    
     */
-    class MySQLField extends MySQLTypeEnumerator
+    class MySQLField
     {               
         /**
         * —ообщение о неправильном типе пол€
@@ -70,47 +70,47 @@
         * @param Bool $auto_inc явл€етс€ auto_increment 
         * @return MySQLField
         */
-        public function __construct($name,$type,$not_null=false,$primary_key=false,$auto_inc=false)
+        public function __construct($name,MySQLTypeEnumerator $type,$not_null=false,$primary_key=false,$auto_inc=false)
         {
             $this->name=$name;
-            switch ($type)
+            switch ($type->getValue())
             {
-                case MySQLField::INT:
+                case MySQLTypeEnumerator::INT:
                     $this->type=$type;
                     break;
-                case MySQLField::SMALLINT:
+                case MySQLTypeEnumerator::SMALLINT:
                     $this->type=$type;
                     break;
-                case MySQLField::FLOAT:
+                case MySQLTypeEnumerator::FLOAT:
                     $this->type=$type;
                     $this->max_length="8,4";
                     break;
-                case MySQLField::DATETIME:
+                case MySQLTypeEnumerator::DATETIME:
                     $this->type=$type;
                     $this->max_length="";
                     break;
-                case MySQLField::DATE:
+                case MySQLTypeEnumerator::DATE:
                     $this->type=$type;
                     $this->max_length="";
                     break;
-                case MySQLField::TIME:
+                case MySQLTypeEnumerator::TIME:
                     $this->type=$type;
                     $this->max_length="";
                     break;
-                case MySQLField::MEDIUMTEXT:
+                case MySQLTypeEnumerator::MEDIUMTEXT:
                     $this->type=$type;
                     break;
-                case MySQLField::TEXT:
+                case MySQLTypeEnumerator::TEXT:
                     $this->type=$type;
                     break;
-                case MySQLField::VARCHAR:
+                case MySQLTypeEnumerator::VARCHAR:
                     $this->type=$type;
                     break;
-                case MySQLField::BLOB:
+                case MySQLTypeEnumerator::BLOB:
                     $this->type=$type;
                     $this->max_length="";
                     break;
-                case MySQLField::MEDIUMBLOB:
+                case MySQLTypeEnumerator::MEDIUMBLOB:
                     $this->type=$type;
                     $this->max_length="";
                     break;                    
