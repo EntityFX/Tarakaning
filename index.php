@@ -56,5 +56,6 @@
     * @var Kernel
     */
     $kernel=FrontController::getInstance();
+    FrontController::setGlobalEncoding("ISO-8859-5");
     $kernel->run();    
 ?>
