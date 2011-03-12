@@ -14,9 +14,9 @@
 			$this->_host=$dbObject->getServerName();
 			$this->_db=$dbObject->getDBName();
 			$mes="\n\rHOST: $this->_host\n\r";
-			$mes.="DATABSE: $this->_db\n\r";
+			$mes.="DATABASE: $this->_db";
 			$mes.=$message;
-			$this->message=$mes."\n\r";
+			$this->message=nl2br($mes);
 			$this->_dbObject=$dbObject;
 		}
 		

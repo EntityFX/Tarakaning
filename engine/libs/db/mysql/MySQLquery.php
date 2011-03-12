@@ -208,6 +208,10 @@ require_once 'MySQLException.php';
                         $fld=mysql_escape_string($fields_arr[$i]);                          
                         $fld="'$fld'";
                     }
+                    else if (is_bool($fields_arr[$i]))
+                    {
+                    	$fld=(int)$fields_arr[$i];	
+                    }
                     else
                     {
                         $fld=$fields_arr[$i];
@@ -273,5 +277,9 @@ require_once 'MySQLException.php';
         	return $this->_server;
         }
         
+        public function getResource()
+        {
+        	return $this->_internalResource;
+        }    
     }
 ?>

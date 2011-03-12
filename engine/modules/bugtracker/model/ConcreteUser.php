@@ -1,7 +1,7 @@
 <?php
     require_once "ProjectsController.php";
     
-    class ConcreteUser extends MySQLConnector
+    class ConcreteUser extends DBConnector
     {
         public $login;
         

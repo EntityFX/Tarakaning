@@ -1,5 +1,5 @@
 <?php 
-require_once 'engine/libs/mysql/MySQLConnector.php';
+require_once 'engine/libs/mysql/DBConnector.php';
 
 	/**
 	 * Класс управления проектами.
@@ -7,7 +7,7 @@ require_once 'engine/libs/mysql/MySQLConnector.php';
 	 *
 	 */
 
-	class ProjectsController extends MySQLConnector
+	class ProjectsController extends DBConnector
 	{
 		/*Класс управления проектами - ProjectsController: +
 

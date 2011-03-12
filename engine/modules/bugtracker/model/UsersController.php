@@ -1,10 +1,5 @@
 <?php
-
-    require_once "engine/libs/mysql/MySQLConnector.php";
-    
-    require_once "engine/config/databaseConsts.php";
-        
-    class UsersController extends MySQLConnector {
+    class UsersController extends DBConnector {
         
         public function createUser($login,$password,$type=0,$name="",$surname="",$secondName="",$email="")            
         {

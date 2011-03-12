@@ -1,22 +1,18 @@
 <?
 	require_once "TextPage.php";
 	
+	require_once 'engine/kernel/URLEditor.php';
+	
+	require_once 'TextModule.php';
+	
     class TextController extends PageController
 	{
         public function initializePages()
         {
-            /*$textController=new TextModule($this->_sectionID);
-            //$request->setRedirect("/error/404/");
-            try 
-            {
-            	$textController->getTextData();
-            }
-            catch (Exception $e)
-            {
-            	echo "Не найдена запись в таблице TextModule";	
-            }*/
+        	$url=new URLEditor();
+        	$mod=new ModuleEditor();
+        	//$url->addUrl("hi", 36, 11);
         	$page=new TextPage($this,"textTemplate.tpl");
-        	//var_dump($page);
         }
         
 	}

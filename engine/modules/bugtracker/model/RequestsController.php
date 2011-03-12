@@ -1,12 +1,12 @@
 <?php
-require_once 'engine/libs/mysql/MySQLConnector.php';
+
 require_once 'engine/classes/ProjectsController.php';	
 	/**
 	 *  ласс подтверждени€/отклонени€ на подписку.
 	 * @author timur 28.01.2011
 	 *
 	 */
-	class RequestsController extends MySQLConnector
+	class RequestsController extends DBConnector
 		{
 			/*
 			 * 1) подтвердить за€вку (вз€ть из таблицы SubscribesRequest, записать в таблицу UsersInProjects)

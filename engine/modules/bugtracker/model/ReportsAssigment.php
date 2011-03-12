@@ -1,7 +1,6 @@
 <?php
-    require_once 'engine/libs/mysql/MySQLConnector.php';
 
-    class ReportsAssigment extends MySQLConnector
+    class ReportsAssigment extends DBConnector
     {
         private $_errorReportID;
         

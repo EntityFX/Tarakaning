@@ -1,9 +1,8 @@
 <?php
-require_once 'engine/libs/mysql/MySQLConnector.php';
 require_once 'engine/classes/ProjectsController.php';	
 require_once 'engine/classes/RequestsController.php';
 
-	class ReportHistory extends MySQLConnector
+	class ReportHistory extends DBConnector
 	{
 		/*
 		 *Класс управления историей ошибки - ReportHistory:

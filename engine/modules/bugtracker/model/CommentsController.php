@@ -1,13 +1,12 @@
 <?php
-require_once 'engine/libs/mysql/MySQLConnector.php';
-require_once 'engine/classes/ProjectsController.php';	
-require_once 'engine/classes/RequestsController.php';
+require_once 'ProjectsController.php';	
+require_once 'RequestsController.php';
 	/**
 	 * Класс управления комментариями к ошибкам.
 	 * @author timur 29.01.2011
 	 *
 	 */
-	class CommentsController extends MySQLConnector
+	class CommentsController extends DBConnector
 		{
 			/* ErorrReportHistory, ReportComment 
 			 * 1) прокомментировать ошибку 

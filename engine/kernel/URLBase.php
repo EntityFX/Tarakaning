@@ -17,7 +17,9 @@
         
         protected $_parentID;
         
-        protected $_sectionID;  
+        protected $_sectionID; 
+
+        protected $_title;
 
         private $_initData;
         
@@ -32,6 +34,7 @@
             $this->_moduleDescription=$initData["descr"]; 
             $this->_parentID=(int)$initData["pid"]; 
             $this->_moduleID=(int)$initData["moduleID"];
+            $this->_title=$initData["title"];
             $this->_initData=$initData;
         }
 

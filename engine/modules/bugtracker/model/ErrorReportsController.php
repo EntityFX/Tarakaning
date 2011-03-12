@@ -17,7 +17,7 @@
     
     require_once 'ErrorFieldsENUM.php';
     
-    class ErrorReportsController extends MySQLConnector
+    class ErrorReportsController extends DBConnector
     {
         private $_errorOwnerID;
         

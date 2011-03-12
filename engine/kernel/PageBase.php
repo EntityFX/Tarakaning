@@ -31,7 +31,7 @@
 			$this->response=new Zend_Controller_Response_Http();
 			$this->_smarty=new SmartyExst();
 			$this->_templatePath=$templatePath;
-			
+			$this->onInit();
 		}
 		
 		public function __destruct()
@@ -58,4 +58,6 @@
 		}
 		
 		abstract protected function doAssign();
+		
+		abstract protected function onInit();
 	}

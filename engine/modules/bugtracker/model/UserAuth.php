@@ -1,5 +1,5 @@
 <?php
-    class UserAuth extends MySQLConnector
+    class UserAuth extends DBConnector
     {
         public function __construct()
         {

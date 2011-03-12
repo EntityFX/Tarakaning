@@ -1,12 +1,11 @@
 <?php
-require_once 'engine/libs/mysql/MySQLConnector.php';
 require_once 'engine/classes/ProjectsController.php';	
 /**
  * Класс управления подписками на проект.
  * @author timur 28.01.2011
  *
  */
-	class Subscribes extends MySQLConnector
+	class Subscribes extends DBConnector
 		{
 /*
  *  1) получить список проектов, в которых участвует пользователь (для меня минимум) (из таблицы UsersInProjects)

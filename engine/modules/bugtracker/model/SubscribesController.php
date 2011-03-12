@@ -1,11 +1,10 @@
 <?php
-require_once 'engine/libs/mysql/MySQLConnector.php';
 	/**
 	 *  ласс подтверждени€/отклонени€ на подписку.
 	 * @author timur 28.01.2011
 	 *
 	 */
-	class SubscribesController extends MySQLConnector
+	class SubscribesController extends DBConnector
 		{
 			/*
 			 * 1) подтвердить за€вку (вз€ть из таблицы SubscribesRequest, записать в таблицу UsersInProjects)

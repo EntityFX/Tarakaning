@@ -26,14 +26,13 @@
         {
             $result=$this->_sql->selAllWhere("TextModule","textID = $this->_sectionID");
             $array=$this->_sql->getTable();
-            var_dump($array);
             if ($array!=null)
             {
-                return $array;
+                return $array[0];
             }
             else
             {
-                return 0;
+                return "";
             }                          
         }
     }
