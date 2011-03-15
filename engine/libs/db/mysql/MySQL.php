@@ -4,7 +4,7 @@
 * @package MySQL
 * @author Solopiy Artem
 * @version 1.0 Beta
-* @copyright Idel Media Group: Developers Team (Solopiy Artem, Jusupziyanov Timur)
+* @copyright Developers Team (Solopiy Artem, Jusupziyanov Timur)
 */
 
 	/**
