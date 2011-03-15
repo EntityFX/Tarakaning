@@ -4,7 +4,7 @@
 * @package kernel  
 * @author Solopiy Artem
 * @version 0.9 Beta
-* @copyright Idel Media Group: Developers Team (Solopiy Artem, Jusupziyanov Timur) © 2010 
+* @copyright Developers Team (Solopiy Artem, Jusupziyanov Timur) © 2010 
 */
 	
 	/**
