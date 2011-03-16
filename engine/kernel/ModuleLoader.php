@@ -12,7 +12,7 @@ require_once 'PageController.php';
 
 require_once 'classLoader.php';   
 
-require_once SOURCE_PATH."engine/libs/db/DBConnector.php"; 
+require_once SOURCE_PATH."engine/system/db/DBConnector.php"; 
 
 	/**
 	* Выполняет загрузку модулей и передаёт управление им
@@ -90,7 +90,7 @@ require_once SOURCE_PATH."engine/libs/db/DBConnector.php";
 			}
 			else
 			{
-				throw new Exception("ENGINE: Module (id=$this->_moduleID) controller with class ".$className." FOR $fullPath MODULE IS NOT EXSIST");
+				throw new Exception("ENGINE: Module (id=$this->_moduleID) controller with class ".$className." FOR $fullPath IS NOT EXSIST");
 			}
 			$this->_output=$output;
 			return $output;

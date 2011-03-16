@@ -16,9 +16,8 @@ require_once SOURCE_PATH."engine/kernel/ModuleLoader.php";
  * Подключает класс для работы с БД
  * @filesource engine/libs/mysql/MySQL.php
  */
-require_once SOURCE_PATH."engine/libs/db/mysql/MySQL.php";
 
-require_once SOURCE_PATH."engine/libs/db/DBConnector.php";
+require_once SOURCE_PATH."engine/system/db/DBConnector.php";
 
 /**
  * Подключает Smarty с настройками

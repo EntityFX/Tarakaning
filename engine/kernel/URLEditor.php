@@ -5,7 +5,7 @@ require_once 'ModuleEditor.php';
 
 class URLEditor extends DBConnector
 {
-	private $_urlInfo;
+	protected $_urlInfo;
 
 	public function __construct()
 	{
@@ -28,7 +28,6 @@ class URLEditor extends DBConnector
 			throw new URLException($nodeLink,"Link $nodeLink with parent id ".$parentID." already exsist");
 		}
 		$moduleEditor=new ModuleEditor();
-		var_dump($moduleEditor->checkIfExsist($moduleID));
 		if (!$moduleEditor->checkIfExsist($moduleID))
 		{
 			throw new URLException($nodeLink,"Module for this url is not exsist");
@@ -57,6 +56,9 @@ class URLEditor extends DBConnector
 					"use_parameters"
 				))
 			);
+			$resource=$this->_sql->query("SELECT LAST_INSERT_ID() as ID ");
+			$res=$this->_sql->GetRows($resource);
+			return (int)$res[0]["ID"];
 		}
 		else
 		{
@@ -66,7 +68,7 @@ class URLEditor extends DBConnector
 
 	public function getByID($urlId)
 	{
-		$id=(int)$urlId;
+		$urlId=(int)$urlId;
 		$this->_sql->selAllWhere("URL", "id=$urlId");
 		$arr=$this->_sql->getTable();
 		return $arr[0];
@@ -74,10 +76,63 @@ class URLEditor extends DBConnector
 
 	public function deleteUrl($id,$deleteChildsRecurs)
 	{
-			
+		$id=(int)$id;
+		if (!$this->checkIfExist($id))
+		{
+			throw new URLException($nodeLink,"Url with id=".$id." is not exsist");
+		}
+		if ($this->_urlInfo["pid"]==0)
+		{
+			throw new URLException($nodeLink, "Can't delete root");	
+		}
+		if ($deleteChildsRecurs)
+		{
+			$parentID=(int)$this->_urlInfo["pid"];
+			$this->_sql->selAllWhere("URL", "pid=$id");
+			$childNodes=$this->_sql->getTable();
+			if ($childNodes!=null)
+			{
+				foreach($childNodes as $child)
+				{
+					$childID=$child["id"];
+					$this->_sql->update("URL", "id=$childID", new ArrayObject(
+						array(
+							"pid" => $parentID
+						)
+					));				
+				}
+			}
+			$this->_sql->delete("URL", "id=$id");
+		}			
+	}
+	
+	public function updateUrl($id, $link, $title)
+	{
+		$id=(int)$id;
+		if (!$this->checkIfExist($id))
+		{
+			throw new URLException($link,"Url with id=".$id." is not exsist");
+		}
+		if ($this->_urlInfo["pid"]!=0)
+		{
+			if (preg_match("/^[a-zA-Z0-9_-]+$/", $link)==0)
+			{
+				throw new URLException($link,"Url must contain only latin, number, _ and - charakters. Min length is 1 character.");
+			}
+			$this->_sql->update("URL", "id=$id", new ArrayObject(array(
+				"link" => urlencode($link),
+				"title" => htmlspecialchars($title)
+			)));	
+		}
+		else
+		{
+			$this->_sql->update("URL", "id=$id", new ArrayObject(array(
+				"title" => htmlspecialchars($title)
+			)));			
+		}		
 	}
 
-	private function checkIfExist($urlId)
+	protected function checkIfExist($urlId)
 	{
 		$arr=$this->getByID($urlId);
 		if ($arr==null)
@@ -91,11 +146,18 @@ class URLEditor extends DBConnector
 		}
 	}
 
-	private function checkLinkIsExsist($nodeLink,$pid)
+	public function checkLinkIsExsist($nodeLink,$pid)
 	{
 		$pid=(int)$pid;
 		$nodeLink=mysql_escape_string($nodeLink);
 		$countGroups=$this->_sql->countQuery("URL","pid=$pid AND link='$nodeLink'");
 		return (Boolean)$countGroups;
+	}
+	
+	public function getParent()
+	{
+		$this->_sql->selAllWhere("URL", "pid=0 AND link='/'");
+		$arr=$this->_sql->getTable();
+		return $arr[0];
 	}
 }
