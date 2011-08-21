@@ -10,7 +10,7 @@
 		/* <![CDATA[ */
 			$(document).ready(function() {
 				$("#tabs").tabs();
-				$("input:button, input:submit, button, .add_form a, .groupier li span").button();
+				$("input:button, input:submit, button, .add_form a, .groupier a, .groupier li span, .info_div a").button();
 			});
 		/* ]]>*/
 		</script>
@@ -41,9 +41,8 @@
 		</ul>
 		<div id="edit_info" >
 			<form action="#">
-				<div class="add_form">
-					<a href="user_info.html">	Просмотреть мою страницу.</a>
-					<dl>
+				<div class="info_div">
+					<dl class="prof">
 						<dt>Имя:</dt>
 						<dd><input type="text" name="u_name" value="Тимур" /></dd>
 						<dt>Фамилия:</dt>
@@ -54,21 +53,21 @@
 						<dd><input type="text" name="u_n_name" value="Тимур" /></dd>
 						<dt>e-mail:</dt>
 						<dd><input type="text" name="u_e_mail" value="email@email.com" /></dd>
-						<dd class="subm"><input type="submit" name="save_btn" value="Сохранить" /></dd>
+						<dd class="subm"><a href="#">Просмотреть</a><input type="submit" name="save_btn" value="Сохранить" /></dd>
 					</dl>
 				</div>
 			</form>
 		</div>
 		<div id="pass_change" >
-			<form action="#">
-				<div class="add_form">
-					<dl>
-						<dt>Старый пароль:</dt>
-						<dd><input type="password" name="old_pass"  /></dd>
-						<dt>Новый пароль:</dt>
-						<dd><input type="password" name="new_pass" /></dd>
-						<dt>Повтор нового пароля:</dt>
-						<dd><input type="password" name="new_repass" /></dd>
+			<form action="#" method="post">
+				<div class="info_div">
+					<dl class="prof">
+						<dt><label for="old_pass">Старый пароль:</label></dt>
+						<dd><input type="password" name="old_pass"  id="old_pass" /></dd>
+						<dt><label for="new_pass">Новый пароль:</label></dt>
+						<dd><input type="password" name="new_pass" id="new_pass" /></dd>
+						<dt><label for="new_repass">Повтор нового пароля:</label></dt>
+						<dd><input type="password" name="new_repass" id="new_repass" /></dd>
 						<dd class="subm"><input type="submit" name="save_btn" value="Сменить пароль" /></dd>
 					</dl>
 				</div>

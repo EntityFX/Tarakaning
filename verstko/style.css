@@ -6,12 +6,15 @@
 
 #header {
 	width: auto;
+	min-width: 722px;
 	height: 150px;
-	margin: 10px;
+	padding: 10px;
+	position: relative;
+	background: url("images/header_background.png") repeat-x #fef8f6;
 }
 
 	#header div#logo {
-		margin: 25px 0 25px 150px;
+		margin: 0 0 25px 150px;
 	}
 
 	#header img#img_logo{
@@ -24,8 +27,9 @@
 	}
 
 #main_menu {
-	width: auto;
-	border-top: #dedede solid 1px;
+	width: 100%;
+	min-width:722px;
+	border-top: #e00 solid 3px;
 	border-bottom: #dedede solid 1px;
 	background: url("custom-theme/images/ui-bg_highlight-soft_75_cccccc_1x100.png") repeat-x scroll 50% 50% #f1f1f1;
 	height: 24px;
@@ -42,8 +46,16 @@
 		border-left: #aaa solid 1px;
 	}
 	
-	#main_menu a:hover{
-		color: #fff;
+	#main_menu li:hover {
+		cursor: pointer;
+	}
+	
+	#main_menu li:hover a {
+		color: white;
+	}
+	
+	#main_menu li#cur {
+		background: url("images/link_selected.png") repeat-x scroll 50% 50% #999;
 	}
 	
 	#main_menu a {
@@ -94,7 +106,9 @@
 	
 	
 #content_body {
-	padding: 10px;
+	width: 99%;
+	min-width: 722px;
+	margin: 5px;
 }
 
 #content_body hr {
@@ -105,7 +119,7 @@
 	
 	#content_body  .groupier {
 		margin: 5px 0;
-		height: 20px;
+		min-height: 22px;
 		width: 100%;
 	}
 	
@@ -192,8 +206,8 @@
 	border: 1px solid #dedede;
 	margin: 0 20px;
 	background: #f1f1f1;
-	border-radius: 15px 15px 5px 5px;
-	-moz-border-radius: 15px 15px 5px 5px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
 }
 	
 	.add_form  dd {
@@ -213,8 +227,18 @@
 		width: 100%;
 	}
 	
-	select, input[type="text"], textarea {
+	select, input[type="text"], textarea, input[type="password"] {
 		border: 2px solid #dedede;
+	}
+	
+	.info_div input[type="password"]
+	{
+		width: 200px;
+	}
+	
+	.info_div dt {
+		float: left;
+		text-align: right;
 	}
 	
 	.info_div  dd {
@@ -222,16 +246,19 @@
 		margin: 5px 0 5px 100px;
 	}
 	
+	.info_div .prof dt {
+		width: 190px;
+	}
+	
+	.info_div  .prof dd {
+		margin: 5px 0 5px 200px;
+	}
+	
 dd.subm {
 	text-align: right;
-	margin-right: 5px;
+	margin-right: 5px !important;
 }
 	
-	.info_div dt {
-		float: left;
-		margin: 0 20px 0 0;
-		text-align: right;
-	}
 	
 #enter {
 	background: none repeat scroll 0 0 #F1F1F1;
@@ -264,8 +291,18 @@ dd.subm {
 		color: white;
 		font-weight: bold;
 		padding: 5px 0 5px 10px;
+	}
+	
+	#enter div#hdr
+	{
 		radius: 13px 13px 0 0;
 		-moz-border-radius: 13px 13px 0 0;
+	}
+	
+	.add_form  div#hdr
+	{
+		radius: 3px 3px 0 0;
+		-moz-border-radius: 3px 3px 0 0;
 	}
 	
 	#enter input[type="text"], #enter input[type="password"], #reg input[type="text"], #reg input[type="password"]{
@@ -305,17 +342,20 @@ dd.subm {
 	.find_results {
 		width:auto;
 		background: #dedede;
-		margin:10px 20px 10px 20px;
+		margin: 10px 3px;
 		border: solid 1px silver;
 		padding: 5px;
 	}
 	.author {
-		margin-left:50px;
-		margin-right:10px;
+		margin: 0 10px;
+
 	}
 	
-	.description {
-		margin-left:25px;
+	.find_results p {
+		margin: 5px 10px 10px 25px;
+		text-indent: 1cm;
+		max-height: 100px;
+		overflow-x: hidden;
 		font-size: 12px;
 	}
 	
@@ -330,4 +370,36 @@ dd.subm {
 	.fixed_width dd {
 		margin: 5px 10px 5px 150px;
 	}
+	
+		#goTask {
+			background: #F1F1F1;
+			position: absolute;
+			bottom: 5px;
+			right: 5px;
+			padding: 5px;
+			border: 2px solid #DEDEDE;
+			border-radius: 5px;
+			-moz-border-radius: 5px;
+		}
+		
+		#goTask input[type="text"]
+		{
+			width:85px;
+			height: 20px;
+			text-align: right;
+		}
+		
+		#account_panel {
+			position: absolute;
+			top: 5px;
+			right: 5px;
+			text-align: right;
+		}
+		
+		#account_panel #exit {
+			float: right;
+		}
+		#account_panel strong {
+			color: #e00;
+		}
 /* конец моего кода.*/

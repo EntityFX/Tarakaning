@@ -4,7 +4,7 @@
 * @package MySQL
 * @author Solopiy Artem
 * @version 0.9 Beta
-* @copyright Developers Team (Solopiy Artem, Jusupziyanov Timur)
+* @copyright Idel Media Group: Developers Team (Solopiy Artem, Jusupziyanov Timur)
 */
 
 require_once "engine/config/databaseConsts.php";
@@ -146,7 +146,7 @@ require_once 'MySQLException.php';
         * @param Array[MySQLField ] $fields Массив полей MySQLField
         * @return String
         */
-        public function CreateTableTemplate($table_name,&$fields)
+        protected function CreateTableTemplate($table_name,&$fields)
         {
             $str="CREATE TABLE `$table_name` (\r\n";
             $is_primary_key=false;
@@ -175,7 +175,7 @@ require_once 'MySQLException.php';
         * @param Array[MySQLField] $fields Массив имён полей для добавляения записей. По-умолчанию для всех полей 
         * @return String
         */
-        public function InsertIntoTemplate($table_name,&$values,&$fields=null)
+        protected function InsertIntoTemplate($table_name,&$values,&$fields=null)
         {
             $values=$this->MakeFieldString($values,"");
             $res="INSERT INTO `$table_name`";
@@ -186,6 +186,39 @@ require_once 'MySQLException.php';
                 $res.=" ($flds)";
             }
             return $res." VALUES ($values)";
+        }
+        
+        protected function updateTemplate($table_name,$where,&$values)
+        {
+        	if ($values!=null)
+        	{
+        		$it=0;
+        		$fld="";
+        		$fields;
+        		foreach($values as $key => $val)
+        		{
+        			if (is_string($val))
+        			{
+        				$fld="`$key`"."='".mysql_escape_string($val)."'";			
+        			}
+        			else if (is_bool($val))
+        			{
+        				$fld="`$key`"."=".(int)$val;	
+        			}
+        			else
+        			{
+        				$fld="`$key`"."=".$val;
+        			}	
+        			if ($it==0)
+                    {
+                        $fields.=$fld;
+                    } else $fields.=", ".$fld;
+                    $it++;
+        		}
+        		$res="UPDATE `$table_name` SET $fields ";
+        		return $res."WHERE $where";	
+        	}	
+        	return null;	
         }
         
         /**

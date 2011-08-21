@@ -13,8 +13,18 @@
 		/* <![CDATA[ */
 			$(document).ready(function() {
 				$("#tabs").tabs();
-				$("input:button, input:submit, button, .groupier a, .groupier li span").button();	
-				$('.reports_form').checkboxes();
+				$("input:button, input:submit, button, .groupier a, .groupier li span, #exit").button();	
+				$('.reports_form').checkboxes({
+					onText: "*",
+					offText: "",
+					titleOn: "Отметить все",
+					titleOff: "Убрать всё"
+				});
+				
+				$("#project_id").change(function(){
+					var form=$("#selectProjectForm");
+					form[0].submit();
+				});
 			});
 		/* ]]>*/
 		</script>
@@ -26,10 +36,24 @@
 				<h1>Tarakaning</h1>
 				<span>Багтреккер и управление проектами</span>
 			</div>
+			<div id="goTask">
+				<form action="#">
+					<div>
+						<label>№ </label><input type="text" maxlength="10" name="bug" />
+						<input type="submit" value="OK" />
+					</div>
+				</form>
+			</div>
+			<div id="account_panel">
+				<strong>EntityFX</strong><br/>
+				<span>Солопий Артём Валерьевич</span><br />
+				<span>Вошёл: <span style="color: #aaa">07.07.2011 2:09</span></span><br />
+				<a href="#" id="exit" >Выход</a>
+			</div>
 		</div>
 		<div id="main_menu">
 			<ul>
-				<li><a href="my_reports_with_checkboxes.html">Мои отчёты</a></li>
+				<li id="cur"><a href="my_reports_with_checkboxes.html">Мои отчёты</a></li>
 				<li><a href="reports_with_checkboxes.html">Отчёты проекта</a></li>
 				<li><a href="projects.html">Мои проекты</a></li>
 				<li><a href="subscribes.html">Мои заявки</a></li>
@@ -40,7 +64,7 @@
 		<div id="content_body">
 			<div>
 				<div class="groupier">
-					<form action="#"><div>
+					<form action="#" id="selectProjectForm"><div>
 						<label for="project_id">Проект</label>
 						<select id="project_id" name="project_id">
 							<option>QUKI</option>
@@ -63,13 +87,15 @@
 					</ul>
 				</div>
 				<form action="#" class="reports_form">
+					<!--<a class="z" href="#">Выбрать всё</a>-->
 					<table class="report_table">
 						<thead>
 							<tr>
-								<th><input name="del_all" type="checkbox" title="" /></th>
+								<th><input name="del_all" type="button" value="" title="" style="width:18px; padding: 0px; height: 18px;" /></th>
 								<th><a href="#" class="sort">№ &uarr;</a></th>
 								<th><a href="#">Статус</a></th>
 								<th><a href="#">Заголовок</a></th>
+								<th><a href="#">Назначена</a></th>
 								<th><a href="#">Приоритет</a></th>
 								<th><a href="#">Тип</a></th>
 								<th><a href="#">Дата</a></th>
@@ -81,6 +107,7 @@
 								<td>56</td>
 								<td>Новая</td>
 								<td>Ошибка выполнения</td>
+								<td><a href="#">Ignatty</a></td>
 								<td>Обычный</td>
 								<td>Критическая</td>
 								<td>6 февраля 2007 12:56</td>
@@ -90,6 +117,7 @@
 								<td>57</td>
 								<td>Закрытая</td>
 								<td>Ошибка выполнения (<a href="#">ред</a>)</td>
+								<td><a href="#">Sudo777</a></td>
 								<td><strong class="strongest">Важный</strong></td>
 								<td>Незначительная</td>
 								<td>7 октября 2011 07:48</td>
@@ -97,8 +125,9 @@
 							<tr class="assigned">
 							    <td><input name="del3" type="checkbox" /></td>
 								<td>2348</td>
-								<td>Назначена (<a href="#">Sudo777</a>)</td>
+								<td>Выполняется</td>
 								<td>Выдало исключение</td>
+								<td><a href="#">Efim</a></td>
 								<td>Низкий</td>
 								<td>Блокирующая</td>
 								<td>23 февраля 1989 11:34</td>
@@ -108,6 +137,7 @@
 								<td>4867</td>
 								<td>Решённая</td>
 								<td>Переполнение стека при рекурсии (<a href="#">ред</a>)</td>
+								<td><a href="#">Ignatty</a></td>
 								<td><strong class="strongest">Важный</strong></td>
 								<td>Незначительная</td>
 								<td>7 июля 2008 22:37</td>
@@ -117,6 +147,7 @@
 								<td>5096</td>
 								<td>Рассматривается</td>
 								<td>Падение сервера в датацентре (<a href="#">ред</a>)</td>
+								<td><a href="#">EntityFX</a></td>
 								<td><strong class="strongest">Важный</strong></td>
 								<td>Незначительная</td>
 								<td>7 июля 2008 22:37</td>
@@ -147,74 +178,82 @@
 					<table class="report_table">
 						<thead>
 							<tr>
-								<th><input name="del_all" type="checkbox" title=""/></th>
+								<th><input name="del_all" type="button" value="" title="" style="width:18px; padding: 0px; height: 18px;" /></th>
 								<th><a href="#" class="sort">№ &uarr;</a></th>
 								<th><a href="#">Заголовок</a></th>
+								<th><a href="#">Статус</a></th>
 								<th><a href="#">Приоритет</a></th>
 								<th><a href="#">Владелец</a></th>
 								<th><a href="#">Тип</a></th>
 								<th><a href="#">Дата</a></th>
 							</tr>
 						</thead>
-						<tbody  class="assigned">
-							<tr>
+						<tbody>
+							<tr class="assigned">
 							    <td><input name="del1" type="checkbox" /></td>
 								<td>4</td>
 								<td>Ошибка выполнения</td>
+								<td>Выполняется</td>
 								<td>Обычный</td>
 								<td><a href="#">Sudo777</a></td>
 								<td>Критическая</td>
 								<td>6 февраля 2007 12:56</td>
 							</tr>
-							<tr>
+							<tr class="assigned">
 							    <td><input name="del2" type="checkbox" /></td>
 								<td>5</td>
 								<td>Ошибка выполнения (<a href="#">ред</a>)</td>
+								<td>Выполняется</td>
 								<td><strong class="strongest">Важный</strong></td>
 								<td><a href="#">Ignatty</a></td>
 								<td>Незначительная</td>
 								<td>7 октября 2011 07:48</td>
 							</tr>
-							<tr>
+							<tr class="solved">
 							    <td><input name="del3" type="checkbox" /></td>
 								<td>8</td>
 								<td>Выдало исключение</td>
+								<td>Решённая</td>
 								<td>Низкий</td>
 								<td><a href="#">Flood</a></td>
 								<td>Блокирующая</td>
 								<td>23 февраля 1989 11:34</td>
 							</tr>
-							<tr>
+							<tr class="confirmed">
 							    <td><input name="del3" type="checkbox" /></td>
 								<td>15</td>
 								<td>Переполнение стека при рекурсии (<a href="#">ред</a>)</td>
+								<td>Рассматривается</td>
 								<td>Низкий</td>
 								<td><a href="#">EntityFX</a></td>
 								<td>Незначительная</td>
 								<td>7 июля 2008 22:37</td>
 							</tr>
-							<tr>
+							<tr class="closed">
 							    <td><input name="del3" type="checkbox" /></td>
 								<td>16</td>
 								<td>Падение сервера в датацентре (<a href="#">ред</a>)</td>
+								<td>Закрытая</td>
 								<td><strong class="strongest">Важный</strong></td>
 								<td><a href="#">Ignatyy</a></td>
 								<td>Незначительная</td>
 								<td>7 июля 2008 22:37</td>
 							</tr>
-							<tr>
+							<tr class="new">
 							    <td><input name="del3" type="checkbox" /></td>
 								<td>23</td>
 								<td>Переполнение стека при рекурсии (<a href="#">ред</a>)</td>
+								<td>Новая</td>
 								<td>Обычный</td>
 								<td><a href="#">EntityFX</a></td>
 								<td>Незначительная</td>
 								<td>7 июля 2008 22:37</td>
 							</tr>
-							<tr>
+							<tr class="closed">
 							    <td><input name="del3" type="checkbox" /></td>
 								<td>42</td>
 								<td>Падение сервера в датацентре (<a href="#">ред</a>)</td>
+								<td>Закрытая</td>
 								<td><strong class="strongest">Важный</strong></td>
 								<td><a href="#">Ignatyy</a></td>
 								<td>Незначительная</td>

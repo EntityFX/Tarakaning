@@ -4,7 +4,7 @@
 * @package MySQL
 * @author Solopiy Artem
 * @version 0.9 Beta
-* @copyright Developers Team (Solopiy Artem, Jusupziyanov Timur)
+* @copyright Idel Media Group: Developers Team (Solopiy Artem, Jusupziyanov Timur)
 */
    
 	require_once "engine/system/AEnum.php";

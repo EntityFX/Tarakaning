@@ -20,7 +20,7 @@ require_once SOURCE_PATH."engine/system/db/DBConnector.php";
 	* @author Solopiy Artem 
 	*/
 
-	class ModuleLoader extends DBConnector
+	class ModuleLoader
 	{
 		/**
 		* Константа содержит по-умолчанию путь к модулям
@@ -47,6 +47,9 @@ require_once SOURCE_PATH."engine/system/db/DBConnector.php";
 		* @var Integer
 		*/
 		private $_moduleID=null;
+	
+		private $_sql;
+		
 		
 		/**
 		* Конструктор
@@ -57,7 +60,8 @@ require_once SOURCE_PATH."engine/system/db/DBConnector.php";
 		*/
 		public function __construct($type,&$data=NULL)
 		{
-            parent::__construct();
+            $dbConnection=DBConnector::getInstance();
+			$this->_sql=$dbConnection->getDB();
             $this->loadModule($type,$data);
 		}
 		

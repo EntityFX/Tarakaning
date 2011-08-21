@@ -38,7 +38,7 @@ require_once "ISingleton.php";
  * @package kernel
  * @author Solopiy Artem
  */
-class FrontController extends DBConnector implements ISingleton
+class FrontController implements ISingleton
 {
 	private $url;
 
@@ -67,8 +67,10 @@ class FrontController extends DBConnector implements ISingleton
 	private $_out;
 
 	private $_arr;
+	
+	private $_sql;
 
-	static private $_encoding="win-1251";
+	static private $_encoding="windows-1251";
 
 	static private $_instance=null;
 
@@ -77,7 +79,8 @@ class FrontController extends DBConnector implements ISingleton
 		*/
 	protected function __construct()
 	{
-		parent::__construct();
+		$dbConnection=DBConnector::getInstance();
+		$this->_sql=$dbConnection->getDB();
 		$this->url=substr($_SERVER['REQUEST_URI'],1);
 		$this->_urlArray[]="/";
 		$this->_urlArray=array_merge($this->_urlArray,explode("/",$this->url));

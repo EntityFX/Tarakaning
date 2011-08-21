@@ -9,6 +9,8 @@
 
     require_once "engine/config/databaseConsts.php";
     
+    require_once "engine/kernel/ISingleton.php";    
+    
     require_once "mysql/MySQL.php";
     
     
@@ -16,7 +18,7 @@
     * Создаёт класс и соединяет с БД
     * @abstract
     */
-    abstract class DBConnector
+    class DBConnector implements ISingleton
     {
 
         /**
@@ -25,6 +27,8 @@
         * @var MySQL
         */
         protected $_sql;
+        
+        static private $_instance; 
         
         /**
         * Конструктор инициализирует объект $_sql
@@ -80,6 +84,20 @@
             {
                 $this->_sql->clearOrder();
             }
+        }
+        
+        public static function &getInstance()
+        {
+        	if (self::$_instance==null)
+        	{
+        		self::$_instance=new DBConnector();
+        	}	
+        	return self::$_instance;
+        }
+        
+        public function getDB()
+        {
+        	return $this->_sql;
         }
     }
 ?>

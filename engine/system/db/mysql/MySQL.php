@@ -4,7 +4,7 @@
 * @package MySQL
 * @author Solopiy Artem
 * @version 1.0 Beta
-* @copyright Developers Team (Solopiy Artem, Jusupziyanov Timur)
+* @copyright Idel Media Group: Developers Team (Solopiy Artem, Jusupziyanov Timur)
 */
 
 	/**
@@ -337,6 +337,20 @@
 			$query=$this->InsertIntoTemplate($table_name,$values,$fields);
 			return $this->queryExecute($query);   
 		}
+		
+		/**
+		 * 
+		 * Обновление данных в таблице
+		 * @param unknown_type $table_name
+		 * @param unknown_type $values
+		 * @param unknown_type $fields
+		 */
+		public function update($table_name, $where, &$newFieldValues)
+		{
+			$query=$this->updateTemplate($table_name, $where, $newFieldValues);
+			return $this->queryExecute($query);  	
+		}
+		
 		/**
 		* Удалить таблицу
 		* 
