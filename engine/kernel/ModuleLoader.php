@@ -8,7 +8,7 @@
 */
 
 
-require_once 'PageController.php'; 
+require_once 'ModuleController.php'; 
 
 require_once 'classLoader.php';   
 
@@ -114,7 +114,7 @@ require_once SOURCE_PATH."engine/system/db/DBConnector.php";
         {
             $this->_sql->SelAllWhere("Modules","moduleId=".$this->_moduleID);
             $dat=$this->_sql->getTable();
-            return array("name" => $dat[0]["name"],"descr" => $dat[0]["descr"],"moduleID" => $dat[0]["moduleId"]);  
+            return array("name" => $dat[0]["name"],"descr" => $dat[0]["descr"],"moduleID" => $dat[0]["moduleId"],"type" =>$dat[0]["path"]);  
         }
 		
 		/**

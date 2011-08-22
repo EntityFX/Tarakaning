@@ -18,7 +18,8 @@ class URLEditor extends DBConnector
 		$moduleID=(int)$moduleID;
 		$title=htmlspecialchars($title);
 		$titleTag=htmlspecialchars($titleTag);
-		$nodeLink=urlencode($nodeLink);
+		$nodeLink=$nodeLink;
+		$this->checkURL($nodeLink);
 		if (!$this->checkIfExist($parentID))
 		{
 			throw new URLException($nodeLink,"Parent with id=".$parentID." is not exsist");
@@ -115,26 +116,29 @@ class URLEditor extends DBConnector
 		}
 		if ($this->_urlInfo["pid"]!=0)
 		{
-			if (preg_match("/^[a-zA-Z0-9_-]+$/", $link)==0)
-			{
-				throw new URLException($link,"Url must contain only latin, number, _ and - charakters. Min length is 1 character.");
+			$this->checkURL($link);
+			try {
+				$this->_sql->update("URL", "id=$id", new ArrayObject(array(
+					"link" => $link,
+					"title" => htmlspecialchars($title)
+				)));
 			}
-			$this->_sql->update("URL", "id=$id", new ArrayObject(array(
-				"link" => urlencode($link),
-				"title" => htmlspecialchars($title)
-			)));	
+			catch (Exception $ex)
+			{
+				throw new URLException($link, "This url is already exsist");
+			}		
 		}
 		else
 		{
 			$this->_sql->update("URL", "id=$id", new ArrayObject(array(
 				"title" => htmlspecialchars($title)
-			)));			
+			)));	
 		}		
 	}
 
 	protected function checkIfExist($urlId)
 	{
-		$arr=$this->getByID($urlId);
+		$arr=self::getByID($urlId);
 		if ($arr==null)
 		{
 			return false;
@@ -159,5 +163,13 @@ class URLEditor extends DBConnector
 		$this->_sql->selAllWhere("URL", "pid=0 AND link='/'");
 		$arr=$this->_sql->getTable();
 		return $arr[0];
+	}
+	
+	private function checkURL($link)
+	{
+		if (preg_match("/^[a-zA-Z0-9_-]+$/", $link)==0)
+		{
+			throw new URLException($link,"Url must contain only latin, number, _ and - charakters. Min length is 1 character.");
+		}		
 	}
 }

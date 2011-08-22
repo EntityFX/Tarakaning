@@ -29,5 +29,5 @@
     * Èìÿ ÁÄ
     * 
     */
-    define("DB_NAME","Tarakaning");
+    define("DB_NAME","Accent");
 ?>

@@ -69,9 +69,19 @@ class FrontController implements ISingleton
 	private $_arr;
 	
 	private $_sql;
-
+	
+	/**
+	 * 
+	 * Кодировка по-умолчанию
+	 * @var string
+	 */
 	static private $_encoding="windows-1251";
-
+	
+	/**
+	 * 
+	 * Объект себя
+	 * @var FrontController
+	 */
 	static private $_instance=null;
 
 	/**
@@ -133,16 +143,18 @@ class FrontController implements ISingleton
 		try
 		{
 			$this->urlScaner();
+			$moduleType=(int)$this->_arr["module"];
 		}
 		catch(Exception $ex)
 		{
 			if ($ex->getCode()==404)
 			{
-				$moduleType=0;
+				$this->_sql->selAllWhere("Modules", "path='Error'");
+				$errArr=$this->_sql->getTable();
+				$moduleType=(int)$errArr[0]["moduleId"];
 			}
 		}
 		header("Content-type: text/html; charset=\"".self::$_encoding."\"");
-		$moduleType=(int)$this->_arr["module"];
 		$data=$this->makeGet();
 		$module=new ModuleLoader($moduleType,$data);
 		$this->_out=$module->getOutput();
@@ -239,10 +251,16 @@ class FrontController implements ISingleton
 		}
 		$this->_useParameters=$flag;
 	}
-
+	
+	/**
+	 * 
+	 * Устанавливает глобальную кодировку
+	 * @param string $encoding Кодировка
+	 */
 	public static function setGlobalEncoding($encoding)
 	{
 		self::$_encoding=$encoding;
 	}
+	
 }
 ?>
