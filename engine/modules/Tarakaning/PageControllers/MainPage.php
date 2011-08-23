@@ -1,5 +1,5 @@
 <?php
-class DoLogin extends SinglePage
+class MainPage extends SinglePage
 {
 	protected function onInit()
 	{
