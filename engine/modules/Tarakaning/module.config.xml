@@ -5,9 +5,6 @@
 			<MainPage type="SINGLE"> <!-- add bug page class -->
 				<url>/</url>
 			</MainPage>
-			<DoLogin type="SINGLE"> <!-- add bug page class -->
-				<url>/login/do/</url>
-			</DoLogin>
 			<BugRedirectPage type="SINGLE"> <!-- allias -->
 				<url>/bug/</url> <!-- to /my/bugs/ -->
 			</BugRedirectPage>
@@ -20,20 +17,10 @@
 			<ProfileEditNewpassPage type="SINGLE"> <!-- bugs assigned to user page class -->
 				<url>/profile/edit/newpass/</url>
 			</ProfileEditNewpassPage>
-			<LogoutPage type="SINGLE"> <!-- add bug page class -->
-				<url>/logout/</url>
-			</LogoutPage>
 			<MyProjectsDelete type="SINGLE"> <!-- user's projects page class -->
 				<url>/my/project/delete/</url>
 			</MyProjectsDelete>
 		<!-- Html output pages -->
-		<!-- Auth pages -->
-			<LoginPage type="HTML"> <!-- add bug page class -->
-				<url>/login/</url>
-			</LoginPage>
-			<RegistrationPage type="HTML"> <!-- add bug page class -->
-				<url>/registration/</url>
-			</RegistrationPage>
 		<!-- Bug pages -->
 			<BugAddPage type="HTML"> <!-- add bug page class -->
 				<url>/bug/add/</url>

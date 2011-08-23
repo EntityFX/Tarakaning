@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages>
+	<PageClasses>
+		<!-- Single pages -->
+			<MainPage type="SINGLE"> <!-- add bug page class -->
+				<url>/</url>
+			</MainPage>
+			<DoLogin type="SINGLE"> <!-- add bug page class -->
+				<url>/login/do/</url>
+			</DoLogin>
+			<LogoutPage type="SINGLE"> <!-- add bug page class -->
+				<url>/logout/</url>
+			</LogoutPage>
+			<LoginPage type="HTML"> <!-- add bug page class -->
+				<url>/login/</url>
+			</LoginPage>
+			<RegistrationPage type="HTML"> <!-- add bug page class -->
+				<url>/registration/</url>
+			</RegistrationPage>
+	</PageClasses>
+</pages>
