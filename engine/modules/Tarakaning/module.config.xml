@@ -2,9 +2,9 @@
 <pages>
 	<PageClasses>
 		<!-- Single pages -->
-			<Main type="SINGLE"> <!-- add bug page class -->
+			<MainPage type="SINGLE"> <!-- add bug page class -->
 				<url>/</url>
-			</Main>
+			</MainPage>
 			<DoLogin type="SINGLE"> <!-- add bug page class -->
 				<url>/login/do/</url>
 			</DoLogin>
