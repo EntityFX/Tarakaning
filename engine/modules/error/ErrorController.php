@@ -1,1 +1,0 @@
-<?require_once "ErrorPage.php";class ErrorController extends PageController implements IPageController{	public function initializePages()	{		$page=new ErrorPage($this,"errorTemplate.tpl");	}}?>
