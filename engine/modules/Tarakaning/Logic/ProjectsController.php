@@ -1,6 +1,4 @@
 <?php 
-require_once 'engine/libs/mysql/DBConnector.php';
-
 	/**
 	 * Класс управления проектами.
 	 * @author timur 27.01.2011
@@ -180,6 +178,13 @@ require_once 'engine/libs/mysql/DBConnector.php';
 			$res = $this->_sql->query("SELECT * FROM `Projects` LIMIT $startIndex, $maxCount");
 			$ret = $this->_sql->GetRows($res);
 			return $ret;
+		}
+		
+		public function getMyProjectByUser($userId)
+		{
+			$userId=(int)$userId;
+			$this->_sql->selAllWhere("totalprojectsinfo", "OwnerId=$userId");
+			return $this->_sql->getTable();
 		}
 		
 		/**

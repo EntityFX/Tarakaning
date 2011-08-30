@@ -12,7 +12,7 @@ require_once 'engine/kernel/Error.php';
        
         const XML_CONFIG_NAME='module.config.xml';
     	
-    	final public function __construct(&$initData)
+    	final function __construct(&$initData)
         {
             parent::__construct($initData);
             $this->initializePages();

@@ -8,6 +8,9 @@
 			<DoLogin type="SINGLE"> <!-- add bug page class -->
 				<url>/login/do/</url>
 			</DoLogin>
+			<DoRegistration type="SINGLE"> <!-- add bug page class -->
+				<url>/registration/do/</url>
+			</DoRegistration>
 			<LogoutPage type="SINGLE"> <!-- add bug page class -->
 				<url>/logout/</url>
 			</LogoutPage>

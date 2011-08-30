@@ -7,6 +7,11 @@
 	abstract class SinglePage extends URLBase
 	{
 		
+		/**
+		 * 
+		 * Module controller
+		 * @var ModuleController
+		 */
 		protected $_controller;
 		
 		/**
