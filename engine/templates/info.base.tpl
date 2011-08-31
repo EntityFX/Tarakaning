@@ -40,7 +40,7 @@
 {block name=menu}
 <div id="main_menu">
 	<ul>
-		<li id="cur"><a href="my_reports_with_checkboxes.html">Мои отчёты</a></li>
+		<li id="cur"><a href="/my/bugs/">Мои отчёты</a></li>
 		<li><a href="reports_with_checkboxes.html">Отчёты проекта</a></li>
 
 		<li><a href="projects.html">Мои проекты</a></li>
