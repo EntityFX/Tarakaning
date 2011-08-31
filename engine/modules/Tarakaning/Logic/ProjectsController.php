@@ -19,6 +19,11 @@
 		
 		*/
 		
+		public function __construct()
+		{
+			parent::__construct();
+		}
+		
 		/**
 		 * Добавление нового проекта. Создано 27.01.2011.
 		 * @param $userId - id пользователя, создавшего проект.
@@ -180,7 +185,7 @@
 			return $ret;
 		}
 		
-		public function getMyProjectByUser($userId)
+		public function getProjectsByUser($userId)
 		{
 			$userId=(int)$userId;
 			$this->_sql->selAllWhere("totalprojectsinfo", "OwnerId=$userId");
