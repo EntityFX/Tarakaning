@@ -7,8 +7,11 @@
 			<li><a href="#all_projects"><span>Все проекты</span></a></li>			
 		</ul>
 		<div id="my_project">
+			{if $GOOD eq TRUE}
+				<strong class="ok" id="good">Проект успешно создан</strong>
+			{/if}
 			<div class="groupier">
-				<a href="new_project.html">Создать новый проект</a>
+				<a href="/my/project/new/">Создать новый проект</a>
 				<ul>
 					<li><a href="#">&lt;&lt;</a></li>
 					<li><a href="#">&lt;</a></li>
@@ -35,22 +38,24 @@
 						  <th><a href="#">Заголовок</a></th>
 						  <th colspan="5"><a href="#">Отчётов</a></th>
 						  <th><a href="#">Заявки</a></th>
-						  <th><a href="#">Дата</a></th>
+						  <th><a href="#">Пользователей</a></th>
+						  <th><a href="#">Дата создания</a></th>
 						</tr>
 					</thead> 
 					<tbody>
-				{foreach from=$MY_PROJECTS item=element} {* Выводит мои проекты*}
-						<tr class="odd">
+				{foreach name=myProjects from=$MY_PROJECTS item=element} {* Выводит мои проекты*}
+						<tr class="{if $smarty.foreach.myProjects.index % 2 == 0}odd{else}even{/if}">
 							<td><input name="delId" type="checkbox" /></td>
 							<td><a href="my_project_properties.html">{$element.Name}</a><br />
 							</td>
 							<td>{$element.Description}</td>
-							<td class="new">{$element.New}</td><td class="confirmed">{$element.Confirmed}</td><td class="assigned">{$element.Assigned}</td><td class="solved">{$element.Solved}</td><td class="closed">{$element.Closed}</td>
-			
-							<td><strong class="strongest">2</strong></td>
+							<td class="new">{$element.NEW}</td><td class="confirmed">{$element.IDENTIFIED}</td><td class="assigned">{$element.ASSESSED}</td><td class="solved">{$element.RESOLVED}</td><td class="closed">{$element.CLOSED}</td>
+							<td><strong {if $element.CountRequests neq 0}class="strongest"{/if}>{$element.CountRequests}</strong></td>
+							<td>{$element.CountUsers}</td>
 							<td>{$element.CreateDate}</td>
 						</tr>
 				{/foreach}
+					</tbody>
 			  	</table>
 				<div class="groupier">
 					<input value="Удалить" name="delBtn" type="button" />
@@ -65,18 +70,19 @@
 				<ul>
 					<li><a href="#">&lt;&lt;</a></li>
 					<li><a href="#">&lt;</a></li>
-					<li><a href="#">6</a></li>
 
+					<li><a href="#">6</a></li>
 					<li><span style="font-weight: bold; color: #a88; border-color: #a80; background: #d5d597 !important;">7</span></li>
 					<li><a href="#">8</a></li>
 					<li><a href="#">9</a></li>
 					<li><a href="#">10</a></li>
 					<li><a href="#">&gt;</a></li>
+
 					<li><a href="#">&gt;&gt;</a></li>
 				</ul>
-
 			</div>
-			  <table class="projects_table">
+			{if $MY_PROJECTS neq NULL}
+			 <table class="projects_table">
 				<thead> 
 					<tr>
 						<th><a href="#">Проект</a></th>
@@ -89,55 +95,23 @@
 					</tr>
 				</thead> 
 				<tbody>
-				  <tr class="odd">
-					<td>ООО Волосатый</td>
-					<td>Парикмахерыы</td>
-
-					<td><a href="#">Yeldy</a></td>
-					<td class="new">23</td><td class="confirmed">36</td><td class="assigned">9</td><td class="solved">11</td><td class="closed">2</td>
-					<td><strong class="strongest">2</strong></td>
-					<td>6 февраля 2007 12:56</td>
-				  </tr>
-
-				  <tr class="even">
-					<td>ОАО Пингви</td>
-					<td>ставим линукс</td>
-					<td><a href="#">Trisha</a></td>
-					<td class="new">13</td><td class="confirmed">678</td><td class="assigned">98</td><td class="solved">1</td><td class="closed">27</td>
-
-					<td><strong class="strongest">1</strong></td>
-					<td>7 октября 2011 07:48</td>
-				  </tr>
-				  <tr class="odd">
-					<td>ООО ЭнтитиЭфИкс</td>
-					<td>SQL-Lover</td>
-					<td><a href="#">EntityFX</a></td>
-
-					<td class="new">36</td><td class="confirmed">32</td><td class="assigned">19</td><td class="solved">28</td><td class="closed">46</td>
-					<td><strong class="strongest">6</strong></td>
-					<td>23 февраля 1989 11:34</td>
-				  </tr>
-				  <tr class="even">
-
-					<td>ООО Тараканинг</td>
-					<td>крекер. баг-крекер</td>
-					<td><a href="#">EntityFX</a></td>
-					<td class="new">223</td><td class="confirmed">316</td><td class="assigned">90</td><td class="solved">101</td><td class="closed">72</td>
-					<td><strong>0</strong><br />
-
-					</td>
-					<td>7 июля 2008 22:37</td>
-				  </tr>
-				  <tr class="odd">
-					<td><a href="my_project_properties.html">ООО ТС </a></td>
-					<td>Выбор себя</td>
+				{foreach name=notMyProjects from=$PROJECTS_WITHOUT_ME item=element} {* Выводит мои проекты*}
+				  <tr class="{if $smarty.foreach.myProjects.index % 2 == 0}odd{else}even{/if}">
+					<td><a href="my_project_properties.html">{$element.Name}</a></td>
+					<td>{$element.Description}</td>
 					<td><a href="#">Sudo777</a></td>
-
-					<td class="new">53</td><td class="confirmed">146</td><td class="assigned">34</td><td class="solved">45</td><td class="closed">11</td>
-					<td><strong class="strongest">7</strong></td>
-					<td>7 июля 2008 22:37</td>
+					<td class="new">{$element.NEW}</td><td class="confirmed">{$element.IDENTIFIED}</td><td class="assigned">{$element.ASSESSED}</td><td class="solved">{$element.RESOLVED}</td><td class="closed">{$element.CLOSED}</td>
+					<td><strong {if $element.CountRequests neq 0}class="strongest"{/if}>{$element.CountRequests}</strong></td>
+					<td>{$element.CreateDate}</td>
 				  </tr>
+				{/foreach}
+				</tbody>
+			</table>
+			{else}
+				<span>Проектов нет</span>
+			{/if}
+			</div>
 		</div>
 	</div>
-</div>
+
 {/block}

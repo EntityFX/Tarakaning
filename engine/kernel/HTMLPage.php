@@ -7,6 +7,10 @@
 	abstract class HTMLPage extends SinglePage
 	{
 		
+		/**
+		 *	
+		 * @var SmartyExst	
+		 */
 		protected $_smarty;
 				
 		protected $_templatePath="";

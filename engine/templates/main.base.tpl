@@ -17,6 +17,7 @@
 	{block name=info}{/block}
 </div>
 	{block name=menu}{/block}
-	{block name=body}{/block}
+	{block name=body}
+	{/block}
 </body>
 </html>

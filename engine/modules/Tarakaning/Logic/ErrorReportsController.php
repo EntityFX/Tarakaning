@@ -35,10 +35,6 @@
                 {
                     $this->_projectOwnerID=$concreteUser->defaultProjectID;
                 }
-                else
-                {
-                    throw new Exception("У пользователя не задан проект по-умолчанию. Задайте конкретный проект");
-                }
             }
             else
             {
@@ -79,13 +75,16 @@
         
         public function addReport(ErrorPriorityENUM $priority, ErrorStatusENUM $errorStatus, ErrorTypeEnum $type, $title="", $description="", $steps="")
         {
-            $this->_sql->debugging=true;
             $title=htmlspecialchars($title);
+            if ($title=="")
+            {
+            	throw new Exception("Заголовок не должен быть пустым");
+            }
             $description=htmlspecialchars($description);
             $steps=htmlspecialchars($steps);
             if ($priority->check())
             {
-                $priorityValue=$priority->getValue();    
+                $priorityValue=(string)$priority->getValue();    
             }
             else
             {
@@ -275,7 +274,7 @@
             }
         }
         
-        public function getReportsByUser($userID=NULL,$projectID=NULL)
+        public function getReports($userID=NULL,$projectID=NULL)
         {
             $res=NULL;
             if ($userID==NULL)
@@ -301,6 +300,11 @@
             }
             $this->_sql->selAllWhere("ErrorReport","UserID=$userID AND ProjectID=$projectID");
             $res=$this->_sql->getTable();
+            foreach($res as $index => $report)
+            {
+            	$this->normalizeBugReport(&$report);
+            	$res[$index]=$report;
+            }
             return $res;
         }
         
@@ -324,6 +328,15 @@
             return $this->_sql->getTable();
         }
         
+        public function getReport($reportID)
+        {
+        	return 
+        	$report=$this->getReportByID($reportID);
+        	if ($report!=null){
+        		
+        	}
+        }
+        
         private function getReportByID($reportID)
         {
             $this->_sql->selAllWhere("ErrorReport","ID=$reportID");
@@ -336,6 +349,55 @@
             $id=(int)$id;
             $pC=new ProjectsController();
             return ($this->_errorOwnerID==$this->getReportOwner($reportID) || $this->_errorOwnerID==$pC->isOwner($this->_errorOwnerID,$this->_projectOwnerID));               
+        }
+        
+        /**
+         * 
+         * Нормализует информацию отчёта об ошибке
+         */
+        private function normalizeBugReport(&$reportData)
+        {
+        	switch ($reportData["PriorityLevel"])
+        	{
+        		case ErrorPriorityENUM::MINIMAL:
+        			$reportData["PriorityLevel"]="Низкий"; break;
+        		case ErrorPriorityENUM::NORMAL:
+        			$reportData["PriorityLevel"]="Обычный"; break;
+         		case ErrorPriorityENUM::HIGH:
+        			$reportData["PriorityLevel"]="Важный"; break;
+        	}
+        	switch ($reportData["ErrorType"])
+        	{
+        		case ErrorTypeENUM::BLOCK: 
+        			$reportData["ErrorType"]="Блокирующая"; break;
+        		case ErrorTypeENUM::COSMETIC: 
+        			$reportData["ErrorType"]="Косметическая"; break;
+        		case ErrorTypeENUM::CRASH:
+        			$reportData["ErrorType"]="Крах"; break;
+        		case ErrorTypeENUM::ERROR_HANDLE: 
+        			$reportData["ErrorType"]="Исключение"; break;
+        		case ErrorTypeENUM::FUNCTIONAL:
+        			$reportData["ErrorType"]="Функциональня"; break;
+        		case ErrorTypeENUM::MAJOR: 
+        			$reportData["ErrorType"]="Значительная"; break;
+        		case ErrorTypeENUM::MINOR: 
+        			$reportData["ErrorType"]="Неначительная"; break;
+        		case ErrorTypeENUM::SETUP: 
+        			$reportData["ErrorType"]="Ошибка инсталляции"; break;
+        	}
+        	switch ($reportData["Status"])
+        	{
+        		case ErrorStatusENUM::IS_NEW:
+        			$reportData["StatusN"]="Новый"; break;
+        		case ErrorStatusENUM::IDENTIFIED:
+        			$reportData["StatusN"]="Идентифицирован"; break;
+        		case ErrorStatusENUM::ASSESSED:
+        			$reportData["StatusN"]="Оценён"; break;
+        		case ErrorStatusENUM::RESOLVED:
+        			$reportData["StatusN"]="Решён"; break;
+        		case ErrorStatusENUM::CLOSED:
+        			$reportData["StatusN"]="Закрыт"; break;
+        	}
         }
     }
 ?>

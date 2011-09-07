@@ -311,7 +311,8 @@
 			$args = func_get_args();
 			$fields_arr=array_slice($args,2);
 			$fields=$this->MakeFieldString($fields_arr);            
-			return $this->queryExecute("SELECT $fields FROM `$tableName` WHERE $where".$this->getPostfix());   
+			$query_res=$this->queryExecute("SELECT $fields FROM `$tableName` WHERE $where".$this->getPostfix());
+			$this->rows=&$this->getRows($query_res);   
 		}
 		/**
 		* Создать таблицу

@@ -4,9 +4,14 @@
     final class ErrorStatusENUM extends AEnum
     {
         const IS_NEW        = "NEW";
-        const ASSIGNED      = "ASSIGNED";
-        const CONFIRMED     = "CONFIRMED";
-        const SOLVED        = "SOLVED";
+        const IDENTIFIED      = "IDENTIFIED";
+        const ASSESSED     = "ASSESSED";
+        const RESOLVED        = "RESOLVED";
         const CLOSED        = "CLOSED";
+        
+        public function __construct($value=self::IS_NEW)
+        {
+            parent::__construct($value);
+        }
     }
 ?>

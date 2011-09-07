@@ -41,11 +41,28 @@
 			$projectName = mysql_escape_string($projectName);
 			$description = mysql_escape_string($description);
 			$userID = (int)$userID;
-			if ($this->isExistThisProjectName($description)) throw new Exception("Проект с таким именем уже существует.", 103); ;
-			$r = $this->_sql->query("INSERT INTO `Projects` ( `ProjectID` , `Name` , `Description` , `OwnerID`, `CreateDate`)
-			VALUES ('', '$projectName', '$description', '$userID', '". date("c")."');");
-
-			return $r;
+			if ($this->isExistThisProjectName($projectName))
+			{
+				throw new Exception(sprintf("Проект с именем %s уже существует.",$projectName), 103); ;
+			}
+			else
+			{
+				$this->_sql->insert(
+					"Projects", 
+					new ArrayObject(array(
+						$projectName,
+						$description,
+						$userID,
+						date("c")
+					)),
+					new ArrayObject(array(
+						'Name',
+						'Description',
+						'OwnerID',
+						'CreateDate'
+					))
+				);
+			}
 		}
 		
 		/**
@@ -185,10 +202,24 @@
 			return $ret;
 		}
 		
-		public function getProjectsByUser($userId)
+		public function getUserProjectsInfo($userId)
 		{
 			$userId=(int)$userId;
-			$this->_sql->selAllWhere("totalprojectsinfo", "OwnerId=$userId");
+			$resource=$this->_sql->selAllWhere("projectanderrorsview", "OwnerID=$userId");
+			return $this->_sql->getTable();
+		}
+		
+		public function getMemberProjects($userId)
+		{
+			$userId=(int)$userId;
+			$resource=$this->_sql->selAllWhere("projectsinfowithoutmeview", "UserID=$userId");
+			return $this->_sql->getTable();
+		}
+		
+		public function getUserProjects($userId)
+		{
+			$userId=(int)$userId;
+			$this->_sql->selFieldsWhere("Projects", "OwnerId=$userId",'ProjectID','Name');
 			return $this->_sql->getTable();
 		}
 		

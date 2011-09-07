@@ -1,4 +1,5 @@
 {extends file="main.base.tpl"}
+
 {block name=script}
 		<script type="text/javascript">
 		/* <![CDATA[ */
@@ -43,7 +44,7 @@
 		<li id="cur"><a href="/my/bugs/">Мои отчёты</a></li>
 		<li><a href="reports_with_checkboxes.html">Отчёты проекта</a></li>
 
-		<li><a href="projects.html">Мои проекты</a></li>
+		<li><a href="/my/projects/">Мои проекты</a></li>
 		<li><a href="subscribes.html">Мои заявки</a></li>
 		<li><a href="find.html">Поиск</a></li>
 		<li><a href="user_info.html">Профиль</a></li>

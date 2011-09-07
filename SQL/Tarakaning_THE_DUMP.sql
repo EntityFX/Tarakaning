@@ -1,6 +1,6 @@
-﻿-- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 5.0.40.1
+﻿-- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 5.0.48.1
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 31.08.2011 21:28:05
+-- Дата скрипта: 07.09.2011 22:11:23
 -- Версия сервера: 5.0.45-community-nt
 -- Версия клиента: 4.1
 
@@ -52,7 +52,7 @@ CREATE TABLE ErrorReport (
   UserID INT(11) UNSIGNED NOT NULL,
   ProjectID INT(11) NOT NULL,
   PriorityLevel ENUM('0','1','2') NOT NULL,
-  Status ENUM('NEW','ASSIGNED','CONFIRMED','SOLVED','CLOSED') NOT NULL,
+  Status ENUM('NEW','ASSESSED','IDENTIFIED','RESOLVED','CLOSED') NOT NULL,
   `Time` TIMESTAMP NULL DEFAULT '0000-00-00 00:00:00',
   Title VARCHAR(150) NOT NULL,
   ErrorType ENUM('Crash','Cosmetic','Error Handling','Functional','Minor','Major','Setup','Block') NOT NULL,
@@ -62,13 +62,11 @@ CREATE TABLE ErrorReport (
   INDEX FK_ErrorReport_Projects_ProjectID (ProjectID),
   INDEX FK_ErrorReport_Users_UserID (UserID),
   CONSTRAINT FK_ErrorReport_Projects_ProjectID FOREIGN KEY (ProjectID)
-    REFERENCES projects(ProjectID) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT FK_ErrorReport_Users_UserID FOREIGN KEY (UserID)
-    REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
+    REFERENCES projects(ProjectID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 14
-AVG_ROW_LENGTH = 1365
+AUTO_INCREMENT = 32
+AVG_ROW_LENGTH = 630
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -124,8 +122,8 @@ CREATE TABLE Projects (
     REFERENCES users(UserID) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 15
-AVG_ROW_LENGTH = 1170
+AUTO_INCREMENT = 23
+AVG_ROW_LENGTH = 780
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -192,8 +190,8 @@ CREATE TABLE SubscribesRequest (
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 7
-AVG_ROW_LENGTH = 5461
+AUTO_INCREMENT = 13
+AVG_ROW_LENGTH = 2340
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -231,8 +229,8 @@ CREATE TABLE URL (
   INDEX IX_URL_pid (pid)
 )
 ENGINE = MYISAM
-AUTO_INCREMENT = 63
-AVG_ROW_LENGTH = 42
+AUTO_INCREMENT = 70
+AVG_ROW_LENGTH = 40
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci
 COMMENT = 'Таблица URL адресов и соответствующих модулей';
@@ -257,8 +255,8 @@ CREATE TABLE Users (
   UNIQUE INDEX NickName (NickName)
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 14
-AVG_ROW_LENGTH = 1820
+AUTO_INCREMENT = 15
+AVG_ROW_LENGTH = 1638
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -287,19 +285,73 @@ COLLATE cp1251_general_ci;
 DELIMITER $$
 
 --
--- Описание для процедуры getMyProjectsInfo
+-- Описание для процедуры GetMyProjectsInfo
 --
-DROP PROCEDURE IF EXISTS getMyProjectsInfo$$
+DROP PROCEDURE IF EXISTS GetMyProjectsInfo$$
 CREATE DEFINER = 'root'@'localhost'
-PROCEDURE getMyProjectsInfo(IN userID INT, IN orderField VARCHAR(255))
+PROCEDURE GetMyProjectsInfo(IN ProjectID INT)
 BEGIN
-    SELECT totalprojectsinfo.*,Count(SubscribesRequest.ProjectID) as 'Requests' FROM 
-        totalprojectsinfo 
-        left JOIN SubscribesRequest
-        on totalprojectsinfo.ProjectID=SubscribesRequest.ProjectID
-    WHERE OwnerID=userID
-        GROUP BY SubscribesRequest.ProjectID
-    order by orderField;
+SELECT PAC.*,
+        count((
+         CASE
+         WHEN (`E`.`Status` = _cp1251 'NEW') THEN
+           _utf8 'NEW'
+         ELSE
+           NULL
+         END)) AS `NEW`
+       , count((
+         CASE
+         WHEN (`E`.`Status` = _cp1251 'IDENTIFIED') THEN
+           _utf8 'IDENTIFIED'
+         ELSE
+           NULL
+         END)) AS `IDENTIFIED`
+       , count((
+         CASE
+         WHEN (`E`.`Status` = _cp1251 'ASSESSED') THEN
+           _utf8 'ASSESSED'
+         ELSE
+           NULL
+         END)) AS `ASSESSED`
+       , count((
+         CASE
+         WHEN (`E`.`Status` = _cp1251 'RESOLVED') THEN
+           _utf8 'RESOLVED'
+         ELSE
+           NULL
+         END)) AS `RESOLVED`
+       , count((
+         CASE
+         WHEN (`E`.`Status` = _cp1251 'CLOSED') THEN
+           _utf8 'CLOSED'
+         ELSE
+           NULL
+         END)) AS `CLOSED`
+  FROM
+    (SELECT 
+        PA.*,
+        COUNT(S.ProjectID) AS CountRequests 
+      FROM
+        (SELECT 
+          P.ProjectID,
+          P.Name as ProjectName,
+          U.NickName,
+          P.OwnerID,
+          P.CreateDate,
+          Count(UP.ProjectID) AS CountUsers
+        FROM Projects P
+        LEFT JOIN UsersInProjects UP
+            ON P.ProjectID=UP.ProjectID
+        LEFT JOIN Users U 
+            ON P.OwnerID=U.UserID
+        WHERE P.OwnerID=ProjectID
+        GROUP BY P.ProjectID) as PA
+      LEFT JOIN SubscribesRequest as S
+      ON PA.ProjectID=S.ProjectID
+      GROUP BY PA.ProjectID) AS PAC
+  LEFT JOIN ErrorReport E
+  ON PAC.ProjectID=E.ProjectID
+  GROUP BY PAC.ProjectID;
 END
 $$
 
@@ -353,27 +405,108 @@ BEGIN
 END
 $$
 
+--
+-- Описание для процедуры GetProjectsInfo
+--
+DROP PROCEDURE IF EXISTS GetProjectsInfo$$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE GetProjectsInfo()
+BEGIN
+SELECT PAC.*,
+      count((
+       CASE
+       WHEN (`E`.`Status` = _cp1251 'NEW') THEN
+         _utf8 'NEW'
+       ELSE
+         NULL
+       END)) AS `NEW`
+     , count((
+       CASE
+       WHEN (`E`.`Status` = _cp1251 'IDENTIFIED') THEN
+         _utf8 'IDENTIFIED'
+       ELSE
+         NULL
+       END)) AS `IDENTIFIED`
+     , count((
+       CASE
+       WHEN (`E`.`Status` = _cp1251 'ASSESSED') THEN
+         _utf8 'ASSESSED'
+       ELSE
+         NULL
+       END)) AS `ASSESSED`
+     , count((
+       CASE
+       WHEN (`E`.`Status` = _cp1251 'RESOLVED') THEN
+         _utf8 'RESOLVED'
+       ELSE
+         NULL
+       END)) AS `RESOLVED`
+     , count((
+       CASE
+       WHEN (`E`.`Status` = _cp1251 'CLOSED') THEN
+         _utf8 'CLOSED'
+       ELSE
+         NULL
+       END)) AS `CLOSED`
+FROM
+  (SELECT 
+      PA.*,
+      COUNT(S.ProjectID) AS CountRequests 
+    FROM
+      (SELECT 
+        P.ProjectID,
+        P.Name as ProjectName,
+        U.NickName,
+        P.OwnerID,
+        P.CreateDate,
+        Count(UP.ProjectID) AS CountUsers
+      FROM Projects P
+      LEFT JOIN UsersInProjects UP
+          ON P.ProjectID=UP.ProjectID
+      LEFT JOIN Users U 
+          ON P.OwnerID=U.UserID
+      GROUP BY P.ProjectID) as PA
+    LEFT JOIN SubscribesRequest as S
+    ON PA.ProjectID=S.ProjectID
+    GROUP BY PA.ProjectID) AS PAC
+LEFT JOIN ErrorReport E
+ON PAC.ProjectID=E.ProjectID
+GROUP BY PAC.ProjectID;
+
+END
+$$
+
 DELIMITER ;
 
 --
--- Описание для представления projectusersinfo
+-- Описание для представления projectanderrorsview
 --
-DROP VIEW IF EXISTS projectusersinfo CASCADE;
+DROP VIEW IF EXISTS projectanderrorsview CASCADE;
 CREATE OR REPLACE 
 	DEFINER = 'root'@'localhost'
-VIEW projectusersinfo
+VIEW projectanderrorsview
 AS
-	select `usersinprojects`.`ProjectID` AS `ProjectID`,`usersinprojects`.`UserID` AS `UserID`,`users`.`NickName` AS `NickName`,count(`errorreport`.`UserID`) AS `CountReports`,count(`reportcomment`.`UserID`) AS `CountComments`,count((case when (`errorreport`.`Status` = _cp1251'NEW') then _utf8'NEW' else NULL end)) AS `New`,count((case when (`errorreport`.`Status` = _cp1251'CONFIRMED') then _utf8'CONFIRMED' else NULL end)) AS `Confirmed`,count((case when (`errorreport`.`Status` = _cp1251'ASSIGNED') then _utf8'ASSIGNED' else NULL end)) AS `Assigned`,count((case when (`errorreport`.`Status` = _cp1251'SOLVED') then _utf8'SOLVED' else NULL end)) AS `Solved`,count((case when (`errorreport`.`Status` = _cp1251'CLOSED') then _utf8'CLOSED' else NULL end)) AS `Closed` from (((`usersinprojects` left join `errorreport` on(((`usersinprojects`.`UserID` = `errorreport`.`UserID`) and (`usersinprojects`.`ProjectID` = `errorreport`.`ProjectID`)))) left join `users` on((`usersinprojects`.`UserID` = `users`.`UserID`))) left join `reportcomment` on((`reportcomment`.`ReportID` = `errorreport`.`ID`))) group by `errorreport`.`UserID`,`users`.`UserID`,`reportcomment`.`UserID`,`usersinprojects`.`RecordID`;
+	select `p`.`ProjectID` AS `ProjectID`,`p`.`Name` AS `Name`,`p`.`Description` AS `Description`,`p`.`OwnerID` AS `OwnerID`,`p`.`NickName` AS `NickName`,`p`.`CreateDate` AS `CreateDate`,`p`.`CountRequests` AS `CountRequests`,`p`.`CountUsers` AS `CountUsers`,count((case when (`E`.`Status` = _cp1251'NEW') then _utf8'NEW' else NULL end)) AS `NEW`,count((case when (`E`.`Status` = _cp1251'IDENTIFIED') then _utf8'IDENTIFIED' else NULL end)) AS `IDENTIFIED`,count((case when (`E`.`Status` = _cp1251'ASSESSED') then _utf8'ASSESSED' else NULL end)) AS `ASSESSED`,count((case when (`E`.`Status` = _cp1251'RESOLVED') then _utf8'RESOLVED' else NULL end)) AS `RESOLVED`,count((case when (`E`.`Status` = _cp1251'CLOSED') then _utf8'CLOSED' else NULL end)) AS `CLOSED` from (`projectsinfoview` `P` left join `errorreport` `E` on((`E`.`ProjectID` = `p`.`ProjectID`))) group by `p`.`ProjectID`;
 
 --
--- Описание для представления totalprojectsinfo
+-- Описание для представления projectsinfoview
 --
-DROP VIEW IF EXISTS totalprojectsinfo CASCADE;
+DROP VIEW IF EXISTS projectsinfoview CASCADE;
 CREATE OR REPLACE 
 	DEFINER = 'root'@'localhost'
-VIEW totalprojectsinfo
+VIEW projectsinfoview
 AS
-	select `projects`.`ProjectID` AS `ProjectID`,`projects`.`Name` AS `Name`,`projects`.`OwnerID` AS `OwnerID`,`users`.`NickName` AS `NickName`,left(`projects`.`Description`,25) AS `Description`,count((case when (`errorreport`.`Status` = _cp1251'NEW') then _utf8'NEW' else NULL end)) AS `New`,count((case when (`errorreport`.`Status` = _cp1251'CONFIRMED') then _utf8'CONFIRMED' else NULL end)) AS `Confirmed`,count((case when (`errorreport`.`Status` = _cp1251'ASSIGNED') then _utf8'ASSIGNED' else NULL end)) AS `Assigned`,count((case when (`errorreport`.`Status` = _cp1251'SOLVED') then _utf8'SOLVED' else NULL end)) AS `Solved`,count((case when (`errorreport`.`Status` = _cp1251'CLOSED') then _utf8'CLOSED' else NULL end)) AS `Closed`,`projects`.`CreateDate` AS `CreateDate` from ((`projects` left join `errorreport` on((`errorreport`.`ProjectID` = `projects`.`ProjectID`))) left join `users` on((`users`.`UserID` = `projects`.`OwnerID`))) group by `projects`.`ProjectID`;
+	select `P`.`ProjectID` AS `ProjectID`,`P`.`Name` AS `Name`,left(`P`.`Description`,25) AS `Description`,`P`.`OwnerID` AS `OwnerID`,`U`.`NickName` AS `NickName`,`P`.`CreateDate` AS `CreateDate`,count(`S`.`ProjectID`) AS `CountRequests`,count(`UP`.`ProjectID`) AS `CountUsers` from (((`projects` `P` left join `subscribesrequest` `S` on((`S`.`ProjectID` = `P`.`ProjectID`))) left join `users` `U` on((`P`.`OwnerID` = `U`.`UserID`))) left join `usersinprojects` `UP` on((`UP`.`ProjectID` = `P`.`ProjectID`))) group by `P`.`ProjectID`;
+
+--
+-- Описание для представления projectsinfowithoutmeview
+--
+DROP VIEW IF EXISTS projectsinfowithoutmeview CASCADE;
+CREATE OR REPLACE 
+	DEFINER = 'root'@'localhost'
+VIEW projectsinfowithoutmeview
+AS
+	select `p`.`ProjectID` AS `ProjectID`,`p`.`Name` AS `Name`,`p`.`Description` AS `Description`,`p`.`OwnerID` AS `OwnerID`,`p`.`NickName` AS `NickName`,`p`.`CreateDate` AS `CreateDate`,`p`.`CountRequests` AS `CountRequests`,`p`.`CountUsers` AS `CountUsers`,`p`.`NEW` AS `NEW`,`p`.`IDENTIFIED` AS `IDENTIFIED`,`p`.`ASSESSED` AS `ASSESSED`,`p`.`RESOLVED` AS `RESOLVED`,`p`.`CLOSED` AS `CLOSED`,`U`.`UserID` AS `UserID` from (`usersinprojects` `U` join `projectanderrorsview` `P` on((`p`.`ProjectID` = `U`.`ProjectID`)));
 
 -- 
 -- Вывод данных для таблицы ErorrReportHistory
@@ -385,17 +518,31 @@ AS
 --
 INSERT INTO ErrorReport VALUES 
   (2, 3, 2, '1', 'CLOSED', '2011-02-06 18:05:52', 'Возник BSOD', 'Crash', 'При попытке вызвать экран, вышла критическая ошибка', ''),
-  (3, 3, 3, '1', 'CONFIRMED', '2011-02-17 19:57:46', '', 'Major', 'dsvfdgfdgdfg', 'sdfasdfadsf'),
-  (4, 3, 1, '1', 'SOLVED', '2011-02-17 19:58:23', 'dfdsfd', 'Error Handling', 'dsfsdf', 'dsfasdfasdfsdf'),
-  (5, 3, 2, '2', 'SOLVED', '2011-02-17 20:12:23', 'sdfsd', 'Functional', 'sdfsadfasdfsdaf', 'asdfasdfasdfdsfasdfasdfasdf'),
-  (6, 3, 7, '1', 'CONFIRMED', '2011-02-24 23:19:28', 'Взрыв', 'Crash', '', ''),
+  (3, 3, 3, '1', 'NEW', '2011-02-17 19:57:46', '', 'Major', 'dsvfdgfdgdfg', 'sdfasdfadsf'),
+  (4, 3, 1, '1', 'ASSESSED', '2011-02-17 19:58:23', 'dfdsfd', 'Error Handling', 'dsfsdf', 'dsfasdfasdfsdf'),
+  (5, 3, 2, '2', 'IDENTIFIED', '2011-02-17 20:12:23', 'sdfsd', 'Functional', 'sdfsadfasdfsdaf', 'asdfasdfasdfdsfasdfasdfasdf'),
+  (6, 13, 1, '1', 'NEW', '2011-02-24 23:19:28', 'Взрыв', 'Crash', '', ''),
   (7, 3, 7, '2', 'NEW', '2011-02-24 23:20:08', 'Уничтожение', 'Error Handling', '', ''),
-  (8, 3, 3, '0', 'SOLVED', '2011-02-24 23:20:24', 'Закрытие', 'Error Handling', '', ''),
-  (9, 1, 3, '2', 'ASSIGNED', '2011-02-26 23:31:53', '', 'Crash', '', ''),
-  (10, 1, 2, '1', 'CONFIRMED', '2011-02-26 23:40:22', '', 'Crash', '', ''),
+  (8, 3, 3, '0', 'IDENTIFIED', '2011-02-24 23:20:24', 'Закрытие', 'Error Handling', '', ''),
+  (9, 1, 3, '2', 'RESOLVED', '2011-02-26 23:31:53', '', 'Crash', '', ''),
+  (10, 1, 2, '1', 'CLOSED', '2011-02-26 23:40:22', '', 'Crash', '', ''),
   (11, 3, 6, '1', 'NEW', '2011-02-27 03:32:03', 'fsdfsdf', 'Crash', '', ''),
-  (12, 1, 6, '2', 'ASSIGNED', '2011-02-27 03:34:34', 'sdfdsf', 'Crash', '', ''),
-  (13, 3, 11, '0', 'CONFIRMED', '2011-02-28 00:41:17', 'Искривление зеркала', 'Crash', '', '');
+  (12, 1, 6, '2', 'ASSESSED', '2011-02-27 03:34:34', 'sdfdsf', 'Crash', '', ''),
+  (13, 3, 11, '0', 'NEW', '2011-02-28 00:41:17', 'Искривление зеркала', 'Crash', '', ''),
+  (14, 13, 1, '2', 'RESOLVED', '2011-09-02 01:08:44', 'OK', 'Error Handling', '', ''),
+  (15, 13, 1, '2', 'NEW', '2011-09-04 14:14:54', '', 'Major', '', ''),
+  (16, 13, 1, '2', 'NEW', '2011-09-04 14:26:32', '', 'Major', '', ''),
+  (17, 13, 1, '2', 'NEW', '2011-09-04 14:27:02', '', 'Major', '', ''),
+  (18, 13, 1, '2', 'NEW', '2011-09-04 14:44:24', 'Заголовок', 'Block', '', ''),
+  (19, 13, 1, '2', 'ASSESSED', '2011-09-04 14:51:07', 'Заголовок', 'Block', '', ''),
+  (20, 13, 1, '2', 'NEW', '2011-09-04 14:53:52', 'Заголовок', 'Block', '', ''),
+  (21, 13, 1, '2', 'IDENTIFIED', '2011-09-04 14:54:44', 'Заголовок', 'Block', '', ''),
+  (22, 13, 1, '2', 'NEW', '2011-09-04 15:31:15', '', 'Major', '', ''),
+  (23, 13, 1, '2', 'NEW', '2011-09-04 15:31:23', '', 'Major', '', ''),
+  (28, 13, 1, '2', 'NEW', '2011-09-04 16:22:50', 'аипавпрерпа', 'Major', '', ''),
+  (29, 13, 1, '1', 'NEW', '2011-09-04 16:51:31', 'иапипаи', 'Major', '', ''),
+  (30, 13, 1, '0', 'NEW', '2011-09-04 16:51:43', 'апрвапр', 'Major', '', ''),
+  (31, 13, 21, '1', 'NEW', '2011-09-04 16:52:49', 'апрвапрвапрвапрвпарвапр', 'Major', '', '');
 
 -- 
 -- Вывод данных для таблицы MainMenu
@@ -420,18 +567,25 @@ INSERT INTO Modules VALUES
 INSERT INTO Projects VALUES 
   (1, 'Quki', 'вот наш один из долгостроев))', 13, '0000-00-00 00:00:00'),
   (2, 'Tarakaning', 'Баг-треккер на начальной стадии', 13, '0000-00-00 00:00:00'),
-  (3, 'Fuck', NULL, NULL, '0000-00-00 00:00:00'),
-  (4, 'Siyfat', 'dfhdfgh', NULL, '0000-00-00 00:00:00'),
+  (3, 'Fuck', NULL, 10, '0000-00-00 00:00:00'),
+  (4, 'Siyfat', 'dfhdfgh', 11, '0000-00-00 00:00:00'),
   (5, 'Spektr-kzn', 'dfhdfgh', NULL, '0000-00-00 00:00:00'),
   (6, 'IMG', 'dfhdfgh', NULL, '0000-00-00 00:00:00'),
   (7, 'VSOOO', 'dfhdfgh', 3, '0000-00-00 00:00:00'),
-  (8, 'Test', 'dfhdfgh', NULL, '0000-00-00 00:00:00'),
+  (8, 'Test', 'dfhdfgh', 8, '0000-00-00 00:00:00'),
   (9, 'Lustres', 'dfhdfgh', NULL, '0000-00-00 00:00:00'),
   (10, 'Basa16', 'fghfghfdgdhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhdrfh5ryrey56uy56g65nb76n76 u 67bthntyhnu657nu76un67un67nu67nun67un6un67un67un67un', NULL, '0000-00-00 00:00:00'),
   (11, 'Nocker', 'fghfghfdgdhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhdrfh5ryrey56uy56g65nb76n76 u 67bthntyhnu657nu76un67un67nu67nun67un6un67un67un67un', 13, '0000-00-00 00:00:00'),
-  (12, 'bfgn', 'ndfnfgn', NULL, '0000-00-00 00:00:00'),
+  (12, 'bfgn', 'ndfnfgn', 9, '0000-00-00 00:00:00'),
   (13, 'bfgnfghh', 'ndfnfgn', NULL, '0000-00-00 00:00:00'),
-  (14, 'bfgnfghhfbfghgfh', 'ndfnfgnfghdfgh', NULL, '0000-00-00 00:00:00');
+  (14, 'bfgnfghhfbfghgfh', 'ndfnfgnfghdfgh', NULL, '0000-00-00 00:00:00'),
+  (16, 'Beaty Wave', 'Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Beaty Wave of Bea', 13, '2011-09-01 00:15:51'),
+  (17, 'Beaty Wave1', '', 13, '2011-09-01 00:40:33'),
+  (18, 'nbgnhgnh', '', 13, '2011-09-01 00:45:46'),
+  (19, 'qwe', '', 13, '2011-09-01 01:23:15'),
+  (20, 'qwe1', '', 13, '2011-09-01 01:27:20'),
+  (21, 'Huawei IDEOS X5 U8800', 'Android 2.2.1\\r\\n800 Mhz\\r\\n512 RAM\\r\\n5 MPx camera\\r\\nTFT 800*480 display', 13, '2011-09-02 01:06:13'),
+  (22, 'Scuccko', '', 1, '2011-09-03 14:58:40');
 
 -- 
 -- Вывод данных для таблицы ReportComment
@@ -450,7 +604,11 @@ INSERT INTO ReportComment VALUES
 INSERT INTO SubscribesRequest VALUES 
   (1, 6, 1),
   (6, 1, 7),
-  (5, 7, 7);
+  (5, 7, 7),
+  (12, 8, 7),
+  (8, 9, 7),
+  (10, 7, 21),
+  (9, 10, 21);
 
 -- 
 -- Вывод данных для таблицы TextModule
@@ -470,7 +628,13 @@ INSERT INTO URL VALUES
   (59, 'do', '', '', 6, 0, 56, 0),
   (60, 'do', '', '', 6, 0, 58, 0),
   (61, 'my', '', '', 11, 0, 1, 0),
-  (62, 'projects', '', '', 11, 0, 61, 0);
+  (62, 'projects', '', '', 11, 0, 61, 0),
+  (64, 'project', '', '', 11, 0, 61, 0),
+  (65, 'new', '', '', 11, 0, 64, 0),
+  (63, 'bugs', '', '', 11, 0, 61, 0),
+  (67, 'bug', '', '', 11, 0, 1, 0),
+  (68, 'show', '', '', 11, 0, 67, 1),
+  (69, 'add', '', '', 11, 0, 67, 0);
 
 -- 
 -- Вывод данных для таблицы Users
@@ -484,21 +648,22 @@ INSERT INTO Users VALUES
   (9, 'Ivan', '', '', '', 'fc5dd6fdd66051e8a732b5ea5f532993', 0, 0, '', NULL, NULL),
   (10, 'Misha', '', '', '', 'fc5dd6fdd66051e8a732b5ea5f532993', 0, 0, '', NULL, NULL),
   (11, 'edf', '', '', '', 'baee68b86198d8fe688d0c7fb695e8d8', 0, 0, '', NULL, NULL),
-  (13, 'Artem', 'Artem', 'Solopiy', 'Valer''evich', '408edad392248bc60f0e7ddaed995fe5', 0, 1, '', NULL, NULL);
+  (13, 'Artem', 'Artem', 'Solopiy', 'Valer''evich', '408edad392248bc60f0e7ddaed995fe5', 0, 1, '', NULL, NULL),
+  (14, 'Kolya', '', '', '', 'fc5dd6fdd66051e8a732b5ea5f532993', 0, 1, '', NULL, NULL);
 
 -- 
 -- Вывод данных для таблицы UsersInProjects
 --
 INSERT INTO UsersInProjects VALUES 
-  (2, 1, 1),
   (4, 3, 1),
   (12, 6, 1),
   (6, 1, 3),
   (1, 2, 3),
   (10, 3, 3),
-  (7, 5, 3),
   (8, 6, 3),
-  (11, 3, 6);
+  (2, 1, 6),
+  (11, 3, 13),
+  (7, 5, 13);
 
 -- 
 -- Включение внешних ключей
