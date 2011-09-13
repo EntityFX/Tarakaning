@@ -18,12 +18,11 @@
 						</select>
 					</dd>
 					<dt><label for="title">Укажите заголовок</label></dt>
-					<dd><input type="text" id="title" name="title" /></dd>
+					<dd><input type="text" id="title" name="title" value="{$DATA.title}" /></dd>
 					<dt><label for="error_type">Тип ошибки</label></dt>
 					<dd>									
 						<select id="error_type" name="error_type">
-
-							<option value="Critical">Критическая</option>
+							<option value="Crash">Крах</option>
 							<option value="Cosmetic">Косметическая</option>
 							<option value="Exception">Исключение</option>
 							<option value="Functional">Функциональная</option>
@@ -42,10 +41,9 @@
 						</select>
 					</dd>
 					<dt><label for="description">Описание</label></dt>
-					<dd><textarea id="description" rows="7" cols="20" ></textarea></dd>
+					<dd><textarea id="description" name="description" rows="7" cols="20" >{$DATA.description}</textarea></dd>
 					<dt><label for="steps">Действия, которые привели к ошибке</label></dt>
-
-					<dd><textarea id="steps" rows="10" cols="20" ></textarea></dd>
+					<dd><textarea id="steps" name="steps" rows="10" cols="20" >{$DATA.steps}</textarea></dd>
 					<dt>&nbsp;</dt>
 					<dd class="subm"><input type="submit" name="add_report" value="Создать отчёт" /></dd>						
 				</dl>

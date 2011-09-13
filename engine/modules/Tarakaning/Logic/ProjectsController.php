@@ -94,6 +94,10 @@
 			{
 				$projectNewName = htmlspecialchars($projectNewName);
 				$projectNewName = mysql_escape_string($projectNewName);
+				if ($projectNewName=='')
+				{
+					throw new Exception("Имя проекта не должно быть пустым");
+				}
 				if ($this->isOwner($userID, $projectID))  
 				{
 					return $this->_sql->query("UPDATE `Projects` SET `Name` = '$projectNewName'
@@ -200,6 +204,14 @@
 			$res = $this->_sql->query("SELECT * FROM `Projects` LIMIT $startIndex, $maxCount");
 			$ret = $this->_sql->GetRows($res);
 			return $ret;
+		}
+		
+		public function getProjectById($projectID)
+		{
+			$projectID=(int)$projectID;
+			$this->_sql->selAllWhere("ProjectsWithUserName","ProjectID=$projectID");
+			$data=$this->_sql->getTable();
+			return $data[0];
 		}
 		
 		public function getUserProjectsInfo($userId)

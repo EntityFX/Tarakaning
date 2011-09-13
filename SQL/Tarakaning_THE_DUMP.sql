@@ -1,6 +1,6 @@
 ﻿-- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 5.0.48.1
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 07.09.2011 22:11:23
+-- Дата скрипта: 13.09.2011 10:14:29
 -- Версия сервера: 5.0.45-community-nt
 -- Версия клиента: 4.1
 
@@ -65,8 +65,8 @@ CREATE TABLE ErrorReport (
     REFERENCES projects(ProjectID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 32
-AVG_ROW_LENGTH = 630
+AUTO_INCREMENT = 37
+AVG_ROW_LENGTH = 528
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -122,8 +122,8 @@ CREATE TABLE Projects (
     REFERENCES users(UserID) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 23
-AVG_ROW_LENGTH = 780
+AUTO_INCREMENT = 24
+AVG_ROW_LENGTH = 744
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -229,8 +229,8 @@ CREATE TABLE URL (
   INDEX IX_URL_pid (pid)
 )
 ENGINE = MYISAM
-AUTO_INCREMENT = 70
-AVG_ROW_LENGTH = 40
+AUTO_INCREMENT = 72
+AVG_ROW_LENGTH = 43
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci
 COMMENT = 'Таблица URL адресов и соответствующих модулей';
@@ -479,6 +479,16 @@ $$
 DELIMITER ;
 
 --
+-- Описание для представления errorreportsinfo
+--
+DROP VIEW IF EXISTS errorreportsinfo CASCADE;
+CREATE OR REPLACE 
+	DEFINER = 'root'@'localhost'
+VIEW errorreportsinfo
+AS
+	select `E`.`ID` AS `ID`,`E`.`UserID` AS `UserID`,`E`.`ProjectID` AS `ProjectID`,`E`.`PriorityLevel` AS `PriorityLevel`,`E`.`Status` AS `Status`,`E`.`Time` AS `Time`,`E`.`Title` AS `Title`,`E`.`ErrorType` AS `ErrorType`,`E`.`Description` AS `Description`,`E`.`StepsText` AS `StepsText`,`P`.`Name` AS `ProjectName`,`U`.`NickName` AS `NickName` from ((`errorreport` `E` join `projects` `P` on((`E`.`ProjectID` = `P`.`ProjectID`))) left join `users` `U` on((`E`.`UserID` = `U`.`UserID`)));
+
+--
 -- Описание для представления projectanderrorsview
 --
 DROP VIEW IF EXISTS projectanderrorsview CASCADE;
@@ -507,6 +517,16 @@ CREATE OR REPLACE
 VIEW projectsinfowithoutmeview
 AS
 	select `p`.`ProjectID` AS `ProjectID`,`p`.`Name` AS `Name`,`p`.`Description` AS `Description`,`p`.`OwnerID` AS `OwnerID`,`p`.`NickName` AS `NickName`,`p`.`CreateDate` AS `CreateDate`,`p`.`CountRequests` AS `CountRequests`,`p`.`CountUsers` AS `CountUsers`,`p`.`NEW` AS `NEW`,`p`.`IDENTIFIED` AS `IDENTIFIED`,`p`.`ASSESSED` AS `ASSESSED`,`p`.`RESOLVED` AS `RESOLVED`,`p`.`CLOSED` AS `CLOSED`,`U`.`UserID` AS `UserID` from (`usersinprojects` `U` join `projectanderrorsview` `P` on((`p`.`ProjectID` = `U`.`ProjectID`)));
+
+--
+-- Описание для представления projectswithusername
+--
+DROP VIEW IF EXISTS projectswithusername CASCADE;
+CREATE OR REPLACE 
+	DEFINER = 'root'@'localhost'
+VIEW projectswithusername
+AS
+	select `P`.`ProjectID` AS `ProjectID`,`P`.`Name` AS `Name`,`P`.`Description` AS `Description`,`P`.`OwnerID` AS `OwnerID`,`P`.`CreateDate` AS `CreateDate`,`U`.`NickName` AS `NickName` from (`projects` `P` left join `users` `U` on((`P`.`OwnerID` = `U`.`UserID`)));
 
 -- 
 -- Вывод данных для таблицы ErorrReportHistory
@@ -542,7 +562,12 @@ INSERT INTO ErrorReport VALUES
   (28, 13, 1, '2', 'NEW', '2011-09-04 16:22:50', 'аипавпрерпа', 'Major', '', ''),
   (29, 13, 1, '1', 'NEW', '2011-09-04 16:51:31', 'иапипаи', 'Major', '', ''),
   (30, 13, 1, '0', 'NEW', '2011-09-04 16:51:43', 'апрвапр', 'Major', '', ''),
-  (31, 13, 21, '1', 'NEW', '2011-09-04 16:52:49', 'апрвапрвапрвапрвпарвапр', 'Major', '', '');
+  (31, 13, 21, '1', 'NEW', '2011-09-04 16:52:49', 'апрвапрвапрвапрвпарвапр', 'Major', '', ''),
+  (32, 1, 22, '1', 'NEW', '2011-09-11 13:39:05', 'Herlo', 'Major', '', ''),
+  (33, 1, 22, '1', 'NEW', '2011-09-11 14:14:32', 'Spin De Physics', 'Major', '', ''),
+  (34, 1, 22, '1', 'NEW', '2011-09-11 14:34:06', 'Zagolovok', 'Major', 'ккпкупук', 'пкупвапвапывап'),
+  (35, 1, 22, '1', 'NEW', '2011-09-11 14:42:12', 'fgfhfghdfghdfghdfgh', 'Crash', 'dgfdgdfg', 'dsghfdghfghdfgh'),
+  (36, 1, 23, '0', 'NEW', '2011-09-11 14:43:11', 'Заголовок', 'Block', 'Пиздееец', 'Пиздееец');
 
 -- 
 -- Вывод данных для таблицы MainMenu
@@ -585,7 +610,8 @@ INSERT INTO Projects VALUES
   (19, 'qwe', '', 13, '2011-09-01 01:23:15'),
   (20, 'qwe1', '', 13, '2011-09-01 01:27:20'),
   (21, 'Huawei IDEOS X5 U8800', 'Android 2.2.1\\r\\n800 Mhz\\r\\n512 RAM\\r\\n5 MPx camera\\r\\nTFT 800*480 display', 13, '2011-09-02 01:06:13'),
-  (22, 'Scuccko', '', 1, '2011-09-03 14:58:40');
+  (22, 'Scuccko345345', '', 1, '2011-09-03 14:58:40'),
+  (23, '', 'Ignat\\\\\\''evich', 1, '2011-09-11 14:09:52');
 
 -- 
 -- Вывод данных для таблицы ReportComment
@@ -622,6 +648,7 @@ INSERT INTO TextModule VALUES
 --
 INSERT INTO URL VALUES 
   (1, '/', '', '', 11, 0, 0, 0),
+  (71, 'edit', '', '', 11, 0, 64, 0),
   (56, 'login', 'Аутентификация', 'Аутентификация', 6, 0, 1, 0),
   (57, 'logout', '', '', 6, 0, 1, 0),
   (58, 'registration', '', '', 6, 0, 1, 0),
@@ -634,13 +661,14 @@ INSERT INTO URL VALUES
   (63, 'bugs', '', '', 11, 0, 61, 0),
   (67, 'bug', '', '', 11, 0, 1, 0),
   (68, 'show', '', '', 11, 0, 67, 1),
-  (69, 'add', '', '', 11, 0, 67, 0);
+  (69, 'add', '', '', 11, 0, 67, 0),
+  (70, 'show', 'Инфорация о проекте', 'Инфорация о проекте', 11, 0, 64, 1);
 
 -- 
 -- Вывод данных для таблицы Users
 --
 INSERT INTO Users VALUES 
-  (1, 'EntityFX', 'Артём', 'Солопий', 'Валерьевич', '408edad392248bc60f0e7ddaed995fe5', 0, 1, 'tym_@mail.ru', NULL, 2),
+  (1, 'EntityFX', 'Артём', 'Солопий', 'Валерьевич', '408edad392248bc60f0e7ddaed995fe5', 0, 1, 'tym_@mail.ru', NULL, NULL),
   (3, 'Vasiliy', 'Артём', 'Солопий', 'Валерьевич', 'f188f8028be984727e58c6aed3cbe2d3', 0, 1, 'tym_@mail.ru', NULL, 7),
   (6, 'Oliya', NULL, NULL, NULL, '', 0, 0, NULL, NULL, NULL),
   (7, 'Marat', 'Марат', 'Ахметов', 'Альбертович', '408edad392248bc60f0e7ddaed995fe5', 0, 1, NULL, NULL, NULL),

@@ -9,7 +9,6 @@
 				<li><a href="#history"><span>История</span></a></li>
 				<li><a href="#attachments"><span>Файлы</span></a></li>
 			</ul>
-
 			<div id="description">
 				<table id="report">
 					<col width="250" valign="top" />
@@ -17,23 +16,15 @@
 						<tr><td><strong>№</strong></td><td><strong>{$BUG.ID}</strong></td></tr>
 						<tr><td><strong>Заголовок отчёта</strong></td><td><strong>{$BUG.Title}</strong></td></tr>
 						<tr><td><b>Статус</b></td><td class="new">Новая (<a href="#">ред</a>)</td></tr>
-						<tr><td><b>Владелец</b></td><td><a href="#">Sudo777</a></td></tr>
-						<tr><td><b>Приоритет</b></td><td>Важный</td></tr>
-						<tr><td><b>Проект</b></td><td>QUKI</td></tr>
-						<tr><td><b>Тип ошибки</b></td><td>Критическая</td></tr>
-						<tr><td><b>Дата создания</b></td><td>6 февраля 2007 г., 15:47</td></tr>
-
-						<tr><td><b>Описание</b></td><td>Fatal error: Uncaught exception 'Exception' with message 'Взрыв дверцы' in X:\home\tarakaning.ru\www\engine\classes\ConcreteMicrowaveOven.php:34 Stack trace: #0 X:\home\tarakaning.ru\www\index.php(16): ConcreteMicrowaveOven->__construct() #1 thrown in X:\home\tarakaning.ru\www\engine\classes\ConcreteMicrowaveOven.php on line 34</td></tr>
+						<tr><td><b>Владелец</b></td><td><a href="#">{$BUG.NickName}</a></td></tr>
+						<tr><td><b>Приоритет</b></td><td>{$BUG.PriorityLevel}</td></tr>
+						<tr><td><b>Проект</b></td><td>{$BUG.ProjectName}</td></tr>
+						<tr><td><b>Тип ошибки</b></td><td>{$BUG.ErrorType}</td></tr>
+						<tr><td><b>Дата создания</b></td><td>{$BUG.Time}</td></tr>
+						<tr><td><b>Описание</b></td><td>{$BUG.Description}</td></tr>
 						<tr>
 							<td><b>Действия, которые привели к ошибке</b></td><td>
-							Пытался перейти по ссылке по адресу <b>http://www.unknown.ru/users/567</b>
-							<ul>
-								<li>Открыл микроволновку</li>
-
-								<li>Взвёл таймер готовки</li>
-								<li>Запустил микроволновку</li>
-								<li>Произошло короткое замыкание :(</li>
-							</ul>
+							{$BUG.StepsText}
 							</td>
 						</tr>
 					</tbody>

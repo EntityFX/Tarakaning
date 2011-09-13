@@ -300,10 +300,13 @@
             }
             $this->_sql->selAllWhere("ErrorReport","UserID=$userID AND ProjectID=$projectID");
             $res=$this->_sql->getTable();
-            foreach($res as $index => $report)
+            if ($res!=null)
             {
-            	$this->normalizeBugReport(&$report);
-            	$res[$index]=$report;
+	            foreach($res as $index => $report)
+	            {
+	            	$this->normalizeBugReport(&$report);
+	            	$res[$index]=$report;
+	            }
             }
             return $res;
         }
@@ -339,8 +342,10 @@
         
         private function getReportByID($reportID)
         {
-            $this->_sql->selAllWhere("ErrorReport","ID=$reportID");
+            $reportID=(int)$reportID;
+        	$this->_sql->selAllWhere("ErrorReportsInfo","ID=$reportID");
             $arr=$this->_sql->getTable();
+            $this->normalizeBugReport($arr[0]);
             return $arr[0];
         }
         

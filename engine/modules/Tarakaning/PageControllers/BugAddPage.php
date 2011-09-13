@@ -59,6 +59,7 @@ require_once 'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
 					"ERROR",
 					$exception->getMessage()
 				);
+				$this->_smarty->assign("DATA",$addBugError["postData"]);
 			}
 			$this->_smarty->assign("PROJECTS_LIST",$this->_projectsList);
 		}

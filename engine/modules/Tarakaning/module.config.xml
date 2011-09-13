@@ -39,7 +39,7 @@
 				<url>/my/projects/</url>
 			</MyProjectsPage>
 			<MyProjectsDetailPage type="HTML"> <!-- user's projects detail page class -->
-				<url>/my/details/</url>
+				<url>/my/project/show/</url>
 			</MyProjectsDetailPage>
 			<MyNewProjectPage type="HTML"> <!-- user's projects detail page class -->
 				<url>/my/project/new/</url>

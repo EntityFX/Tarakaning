@@ -31,7 +31,6 @@ class BugPage extends InfoBasePage
 	protected function doAssign()
 	{
 		parent::doAssign();
-		var_dump($this->_bugData);
 		$this->_smarty->assign("BUG",$this->_bugData);
 	}
 }

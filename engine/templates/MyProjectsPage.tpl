@@ -46,7 +46,7 @@
 				{foreach name=myProjects from=$MY_PROJECTS item=element} {* Выводит мои проекты*}
 						<tr class="{if $smarty.foreach.myProjects.index % 2 == 0}odd{else}even{/if}">
 							<td><input name="delId" type="checkbox" /></td>
-							<td><a href="my_project_properties.html">{$element.Name}</a><br />
+							<td><a href="/my/project/show/{$element.ProjectID}/">{$element.Name}</a><br />
 							</td>
 							<td>{$element.Description}</td>
 							<td class="new">{$element.NEW}</td><td class="confirmed">{$element.IDENTIFIED}</td><td class="assigned">{$element.ASSESSED}</td><td class="solved">{$element.RESOLVED}</td><td class="closed">{$element.CLOSED}</td>
