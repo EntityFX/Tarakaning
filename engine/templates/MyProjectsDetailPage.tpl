@@ -14,7 +14,7 @@
 				<dt>Автор</dt> 
 				<dd><a href="/#">{$Project.NickName}</a></dd>				
 				<dt>Описание</dt> 
-				<dd>{$Project.Description}</dd> 
+				<dd>{$Project.Description}&nbsp;</dd> 
 			</dl> 
 			<form action="/my/project/edit/" method="post">
 				<div>
@@ -36,7 +36,8 @@
 				  <li><a href="#">&gt;</a></li> 
 				  <li><a href="#">&gt;&gt;</a></li> 
 				</ul> 
-			</div> 
+			</div>
+			{if $PROJECT_USERS neq NULL}
 			<form action="#" class="reports_form"> 
 				<table class="projects_table"> 
 					<col width="23" /> 
@@ -49,50 +50,22 @@
 					</tr> 
 					</thead> 
 					<tbody> 
-						<tr class="odd"> 
-						<td><input name="delId" type="checkbox" /></td> 
-						<td><strong><a href="#">Sudo777</a></strong> 
-						</td> 
-						<td>456</td> 
-						<td><a href="#">213</a></td> 
-						<td class="new">223</td><td class="confirmed">316</td><td class="assigned">90</td><td class="solved">101</td><td class="closed">72</td> 
+					{foreach name=projectUsers from=$PROJECT_USERS item=element} {* Выводит мои проекты*}
+						<tr class="{if $smarty.foreach.projectUsers.index % 2 == 0}odd{else}even{/if}"> 
+							<td><input name="delId" type="checkbox" /></td> 
+							<td><strong><a href="#">{$element.NickName}</a></strong></td> 
+							<td>{$element.CountErrors}</td> 
+							<td><a href="#">213</a></td> 
+							<td class="new">{$element.NEW}</td><td class="confirmed">{$element.IDENTIFIED}</td><td class="assigned">{$element.ASSESSED}</td><td class="solved">{$element.RESOLVED}</td><td class="closed">{$element.CLOSED}</td>
 						</tr> 
-						<tr class="even"> 
-						<td><input name="delId" type="checkbox" /></td> 
-						<td><a href="#">EntityFX</a></td> 
-						<td>123</td> 
-						<td><a href="#">213</a></td> 
-						<td class="new">223</td><td class="confirmed">316</td><td class="assigned">90</td><td class="solved">101</td><td class="closed">72</td> 
-						</tr> 
-						<tr class="odd"> 
-						<td><input name="delId" type="checkbox" /></td> 
-						<td><a href="#">Flood</a></td> 
-						<td>789<br /> 
-						</td> 
-						<td><a href="#">213</a></td> 
-						<td class="new">223</td><td class="confirmed">316</td><td class="assigned">90</td><td class="solved">101</td><td class="closed">72</td> 
-						</tr> 
-						<tr class="even"> 
-						<td><input name="delId" type="checkbox" /></td> 
-						<td><a href="#">EntityFX</a></td> 
-						<td>123<br /> 
-						</td> 
-						<td><a href="#">213</a></td> 
-						<td class="new">223</td><td class="confirmed">316</td><td class="assigned">90</td><td class="solved">101</td><td class="closed">72</td> 
-						</tr> 
-						<tr class="odd"> 
-						<td><input name="delId" type="checkbox" /></td> 
-						<td><a href="#">Ignatyy</a></td> 
-						<td>123</td> 
-						<td><a href="#">213</a></td> 
-						<td class="new">223</td><td class="confirmed">316</td><td class="assigned">90</td><td class="solved">101</td><td class="closed">72</td> 
-						</tr> 
+					{/foreach}
 					</tbody> 
 				</table> 
 				<div class="groupier"> 
 					<input value="Удалить выделенных подписчиков" name="delBtn" type="button" /> 
 				</div> 
 			</form> 
+			{/if} 
 		</div> 
 		<div id="requests"> 
 			<form action="#" class="reports_form"> 

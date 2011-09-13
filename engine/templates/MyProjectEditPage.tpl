@@ -3,15 +3,14 @@
 <div id="content_body"> 
 	<form action="" method="post"> 
 		<div class="add_form"> 
-			<div id="hdr">Редактирование проекта</div> 
-			{if $GOOD eq TRUE}
-				<strong class="ok" id="good">Проект успешно создан</strong>
-			{/if}
-			{if $ERROR neq ""}<strong class="error" id="error">{$ERROR}</strong>
-			{/if}
-			<a href="my_project_properties.html"> 
-					Просмотреть проект			
-			</a> 
+			<div id="hdr">Редактирование проекта</div>
+			<div> 
+				{if $GOOD eq TRUE}
+					<strong class="ok" id="good">Изменения сохранены</strong>
+				{/if}
+				{if $ERROR neq ""}<strong class="error" id="error">{$ERROR}</strong>
+				{/if}
+			</div>
 			<dl> 
 				<dt><label for="project_name">Имя проекта</label></dt> 
 				<dd><input type="text" name="project_name" id="project_name" value="{$PROJECT_DATA.Name}" /></dd> 

@@ -86,56 +86,29 @@
 		 * добавление в таблицу истории проекта (-) <br />
 		 * и обновление в таблице проектов (+) <br />
 		 */
-		public function setProjectName($userID, $projectNewName, $projectID)
+		public function setProjectName($projectID,$userID, $projectNewName, $newDescription)
 		{
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;
 			if ($this->isProjectExists($projectID))
 			{
 				$projectNewName = htmlspecialchars($projectNewName);
-				$projectNewName = mysql_escape_string($projectNewName);
+				$newDescription = htmlspecialchars($newDescription);
 				if ($projectNewName=='')
 				{
 					throw new Exception("Имя проекта не должно быть пустым");
 				}
 				if ($this->isOwner($userID, $projectID))  
 				{
-					return $this->_sql->query("UPDATE `Projects` SET `Name` = '$projectNewName'
-					WHERE `ProjectID` = '$projectID' AND `OwnerID` = '$userID';");
-				}
-				else 
-				{
-					throw new Exception("Не Вы являетесь Создателем проекта.",102);  
-				}
-			}
-			else 
-			{
-				throw new Exception("Проект не существует.",101);
-			}
-		}
-		
-		/**
-		 * Обновление описания проекта. Обновить описание может только создатель проекта. Создано 28.01.2011.
-		 * @param int $userID - id пользователя, создавшего проект.
-		 * @param int $projectID - id проекта, подлежащего изменению названия.
-		 * @param string $newDescription - новое описание проекта.
-		 *  
-		 * @todo при изменении описания проекта происходить должно: <br /> 
-		 * добавление в таблицу истории проекта (-) <br />
-		 * и обновление в таблице проектов (+) <br />
-		 */
-		public function setProjectDescription($userID, $projectID, $newDescription) 
-		{
-			$newDescription = htmlspecialchars($newDescription);
-			$newDescription = mysql_escape_string($newDescription);
-			$userID = (int)$userID;
-			$projectID = (int)$projectID;
-			if ($this->isProjectExists($projectID))
-			{
-				if ($this->isOwner($userID, $projectID)) 
-				{
-					return $this->_sql->query("UPDATE `Projects` SET `Description` = '$newDescription'
-					WHERE `ProjectID` = '$projectID' AND `OwnerID` = '$userID'"); 
+					
+					$this->_sql->update(
+						'Projects', 
+						"ProjectID = $projectID AND OwnerID = $userID",
+					 	new ArrayObject(array(
+					 		'Name' => $projectNewName,
+					 		'Description' => $newDescription
+					 	))
+					);
 				}
 				else 
 				{
@@ -225,6 +198,13 @@
 		{
 			$userId=(int)$userId;
 			$resource=$this->_sql->selAllWhere("projectsinfowithoutmeview", "UserID=$userId");
+			return $this->_sql->getTable();
+		}
+		
+		public function getProjectUsersInfo($projectID)
+		{
+			$projectID=(int)$projectID;
+			$this->_sql->selAllWhere('projectusersinfo', "ProjectID=$projectID");
 			return $this->_sql->getTable();
 		}
 		

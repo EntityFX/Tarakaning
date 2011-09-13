@@ -18,7 +18,7 @@ require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
 				{
 					try
 					{
-						$projectsOperation->setProjectName($this->_userInfo["UserID"], $postData['project_name'], $postData['project_id']);	
+						$projectsOperation->setProjectName($postData['project_id'],$this->_userInfo["UserID"], $postData['project_name'], $postData['description']);
 					}
 					catch (Exception $exception)
 					{
@@ -31,6 +31,8 @@ require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
 					if ($exception==null)
 					{
 						$this->_controller->error->addError("editProjectError",true);
+						$this->_projectData['Name']=$postData['project_name'];
+						$this->_projectData['Description']=$postData['description'];
 					}
 				}
 				else 

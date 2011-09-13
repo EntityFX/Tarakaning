@@ -199,7 +199,7 @@ require_once 'MySQLException.php';
         		{
         			if (is_string($val))
         			{
-        				$fld="`$key`"."='".mysql_escape_string($val)."'";			
+        				$fld="`$key`"."='".$val."'";			
         			}
         			else if (is_bool($val))
         			{
