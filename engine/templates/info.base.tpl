@@ -47,7 +47,7 @@
 		<li><a href="/my/projects/">Мои проекты</a></li>
 		<li><a href="subscribes.html">Мои заявки</a></li>
 		<li><a href="find.html">Поиск</a></li>
-		<li><a href="user_info.html">Профиль</a></li>
+		<li><a href="/profile/show/">Профиль</a></li>
 	</ul>
 </div>
 {/block}
