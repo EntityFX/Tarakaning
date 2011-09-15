@@ -247,11 +247,20 @@
             return (Boolean)$countGroups;   
         }
         
-        public function getReportsByProject($projectID=NULL)
+        public function getReportsByProject($projectID)
         {
             $this->checkProject($projectID);
-            $this->_sql->selAllWhere("ErrorReport","ProjectID=$projectID");
-            return $this->_sql->getTable();    
+            $this->_sql->selAllWhere("ErrorReportsInfo","ProjectID=$projectID");
+            $res=$this->_sql->getTable();
+            if ($res!=null)
+            {
+	            foreach($res as $index => $report)
+	            {
+	            	$this->normalizeBugReport(&$report);
+	            	$res[$index]=$report;
+	            }
+            }
+            return $res;  
         }
         
         private function checkProject(&$projectID)

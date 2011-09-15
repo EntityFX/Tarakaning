@@ -15,8 +15,11 @@ class MyBugsPage extends InfoBasePage
 		$userData=$this->_controller->auth->getName();
 		$concreteUser=new ConcreteUser();
 		$this->_projectsList=$projectsController->getUserProjects($userData["UserID"]);
-		$bugsOperation=new ErrorReportsController($userData["DefaultProjectID"] == null ? $this->_projectsList[0]['ProjectID'] : $userData["DefaultProjectID"]);
-		$this->_bugsData=$bugsOperation->getReports();
+		if ($this->_projectsList!=null)
+		{
+			$bugsOperation=new ErrorReportsController($userData["DefaultProjectID"] == null ? $this->_projectsList[0]['ProjectID'] : $userData["DefaultProjectID"]);
+			$this->_bugsData=$bugsOperation->getReports();
+		}
 	}
 	
 	protected function doAssign()

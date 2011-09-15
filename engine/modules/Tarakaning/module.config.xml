@@ -14,9 +14,6 @@
 			<MyRedirectPage type="SINGLE"> <!-- allias -->
 				<url>/my/</url> <!-- to /my/projects/ -->
 			</MyRedirectPage>
-			<ProfileEditNewpassPage type="SINGLE"> <!-- bugs assigned to user page class -->
-				<url>/profile/edit/newpass/</url>
-			</ProfileEditNewpassPage>
 			<MyProjectsDelete type="SINGLE"> <!-- user's projects page class -->
 				<url>/my/project/delete/</url>
 			</MyProjectsDelete>
@@ -49,19 +46,8 @@
 			</MyProjectEditPage>
 		<!-- Project bugs -->
 			<ProjectBugsPage type="HTML"> <!-- bugs assigned to user page class -->
-				<url>/project/</url>
+				<url>/my/project/bugs/</url>
 			</ProjectBugsPage>
-		<!-- Projects -->
-			<ProjectDetailPage type="HTML"> <!-- bugs assigned to user page class -->
-				<url>/details/</url>
-			</ProjectDetailPage>
-		<!-- Profile -->
-			<ProfilePage type="HTML"> <!-- bugs assigned to user page class -->
-				<url>/profile/</url>
-			</ProfilePage>
-			<MyProfileEditPage type="HTML"> <!-- bugs assigned to user page class -->
-				<url>/profile/edit/</url>
-			</MyProfileEditPage>
 		<!-- Search -->
 			<SearchPage type="HTML"> <!-- bugs assigned to user page class -->
 				<url>/search/</url>

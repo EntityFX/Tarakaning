@@ -81,7 +81,7 @@
 					<li><a href="#">&gt;&gt;</a></li>
 				</ul>
 			</div>
-			{if $MY_PROJECTS neq NULL}
+			{if $PROJECTS_WITHOUT_ME neq NULL}
 			 <table class="projects_table">
 				<thead> 
 					<tr>
@@ -96,8 +96,8 @@
 				</thead> 
 				<tbody>
 				{foreach name=notMyProjects from=$PROJECTS_WITHOUT_ME item=element} {* Выводит мои проекты*}
-				  <tr class="{if $smarty.foreach.myProjects.index % 2 == 0}odd{else}even{/if}">
-					<td><a href="my_project_properties.html">{$element.Name}</a></td>
+				  <tr class="{if $smarty.foreach.notMyProjects.index % 2 == 0}odd{else}even{/if}">
+					<td><a href="/my/project/show/{$element.ProjectID}/">{$element.Name}</a></td>
 					<td>{$element.Description}</td>
 					<td><a href="#">Sudo777</a></td>
 					<td class="new">{$element.NEW}</td><td class="confirmed">{$element.IDENTIFIED}</td><td class="assigned">{$element.ASSESSED}</td><td class="solved">{$element.RESOLVED}</td><td class="closed">{$element.CLOSED}</td>

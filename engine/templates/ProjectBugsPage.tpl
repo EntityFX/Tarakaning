@@ -1,11 +1,9 @@
 {extends file="info.base.tpl"}
-
 {block name=body}
 		{* define the function *}
 		{function name=bug_type}
 		    {if $value eq NEW}new{else if $value eq IDENTIFIED}confirmed{else if $value eq ASSESSED}assigned{else if $value eq RESOLVED}solved{else if $value eq CLOSED}closed{/if}
 		{/function}
-
 <div id="content_body">
 	{if $PROJECTS_LIST neq NULL}
 		<div class="groupier">
@@ -47,15 +45,15 @@
 					<table class="report_table">
 						<thead>
 							<tr>
-								<th><input name="del_all" type="button" value="" title="" style="width:18px; padding: 0px; height: 18px;" /></th>
+								<th><input name="del_all" type="checkbox" title=""/></th>
 								<th><a href="#" class="sort">№ &uarr;</a></th>
 								<th><a href="#">Статус</a></th>
 								<th><a href="#">Заголовок</a></th>
-								<th><a href="#">Назначена</a></th>
 								<th><a href="#">Приоритет</a></th>
+								<th><a href="#">Владелец</a></th>
+								<th><a href="#">Назначено</a></th>
 								<th><a href="#">Тип</a></th>
 								<th><a href="#">Дата</a></th>
-
 							</tr>
 						</thead>
 						<tbody>
@@ -65,8 +63,9 @@
 								<td><a href="/bug/show/{$element.ID}/" class="sort">{$element.ID}</a></td>
 								<td>{$element.StatusN}</td>
 								<td>{$element.Title}</td>
-								<td><a href="#">Ignatty</a></td>
 								<td>{$element.PriorityLevel}</td>
+								<td><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a></td>
+								<td><a href="/profile/show/{$element.AssignedTo}/">{$element.AssignedNickName}</a></td>
 								<td>{$element.ErrorType}</td>
 								<td>{$element.Time}</td>
 							</tr>
@@ -86,4 +85,3 @@
 	{/if}
 </div>
 {/block}
-

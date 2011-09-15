@@ -42,8 +42,7 @@
 <div id="main_menu">
 	<ul>
 		<li id="cur"><a href="/my/bugs/">Мои отчёты</a></li>
-		<li><a href="reports_with_checkboxes.html">Отчёты проекта</a></li>
-
+		<li><a href="/my/project/bugs/">Отчёты проекта</a></li>
 		<li><a href="/my/projects/">Мои проекты</a></li>
 		<li><a href="subscribes.html">Мои заявки</a></li>
 		<li><a href="find.html">Поиск</a></li>
