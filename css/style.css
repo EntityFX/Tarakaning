@@ -414,3 +414,13 @@ dd.subm {
     margin: 5px 20px;
 }
 /* конец моего кода.*/
+
+/* <Timur date = '17.09.2011'>: код для вывода результатов операции (ошибка,удачно) */
+.operationResultBox { 
+	width:600px; 
+	padding:10px; 
+	border-radius:8px; 
+	background-color: #eee;
+	margin: 10px 0;
+}
+/* </Timur date = '17.09.2011'> */

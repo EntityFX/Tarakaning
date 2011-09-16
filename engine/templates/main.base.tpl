@@ -6,6 +6,7 @@
 		<link href="/themes/custom-theme/jquery-ui-1.8.9.custom.css" rel="stylesheet" type="text/css"/>
 		<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="/js/jquery-ui-1.8.5.custom.min.js"></script>
+		<script type="text/javascript" src="/js/operationResult.js"></script>
 		{block name=script}{/block}
 		<link rel="stylesheet" type="text/css" href="/css/style.css" />
 	</head>

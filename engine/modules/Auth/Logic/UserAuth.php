@@ -69,14 +69,14 @@ class UserAuth extends DBConnector
 
 	public function changePassword($oldPassword,$newPassword)
 	{
-		$uC=new UsersController();
+		$uC=new UsersOperation();
 		$newPassHash=$uC->changePassword($_SESSION[self::$authTableName]["UserID"], $oldPassword, $newPassword);
 		$_SESSION[self::$authTableName]["PasswordHash"]=$newPassHash;
 	}
 
 	public function changeData($name,$surname,$secondName,$email)
 	{
-		$uC=new UsersController();
+		$uC=new UsersOperation();
 		$uC->changeData($_SESSION[self::$authTableName]["UserID"], $name, $surname, $secondName, $email);
 		$this->refreshData();
 	}
