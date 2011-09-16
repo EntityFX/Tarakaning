@@ -65,7 +65,7 @@
 								<td><a href="/bug/show/{$element.ID}/" class="sort">{$element.ID}</a></td>
 								<td>{$element.StatusN}</td>
 								<td>{$element.Title}</td>
-								<td><a href="#">Ignatty</a></td>
+								<td>{if $element.AssignedTo neq null}<a href="/profile/show/{$element.AssignedTo}/">{$element.AssignedNickName}</a>{/if}</td>
 								<td>{$element.PriorityLevel}</td>
 								<td>{$element.ErrorType}</td>
 								<td>{$element.Time}</td>
