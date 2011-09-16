@@ -307,7 +307,7 @@
             {
                 $projectID=$this->_projectOwnerID;    
             }
-            $this->_sql->selAllWhere("ErrorReport","UserID=$userID AND ProjectID=$projectID");
+            $this->_sql->selAllWhere("errorreportsinfo","UserID=$userID AND ProjectID=$projectID");
             $res=$this->_sql->getTable();
             if ($res!=null)
             {

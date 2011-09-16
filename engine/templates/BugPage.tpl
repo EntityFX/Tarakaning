@@ -1,7 +1,11 @@
 {extends file="info.base.tpl"}
 {block name=body}
+		{* define the function *}
+		{function name=bug_type}
+		    {if $value eq NEW}new{else if $value eq IDENTIFIED}confirmed{else if $value eq ASSESSED}assigned{else if $value eq RESOLVED}solved{else if $value eq CLOSED}closed{/if}
+		{/function}
+		
 	<div id="content_body">
-
 		<div id="tabs">
 			<ul>
 				<li><a href="#description"><span>Описание</span></a></li>
@@ -15,10 +19,11 @@
 					<tbody>
 						<tr><td><strong>№</strong></td><td><strong>{$BUG.ID}</strong></td></tr>
 						<tr><td><strong>Заголовок отчёта</strong></td><td><strong>{$BUG.Title}</strong></td></tr>
-						<tr><td><b>Статус</b></td><td class="new">Новая (<a href="#">ред</a>)</td></tr>
+						<tr><td><b>Статус</b></td><td class="{bug_type value=$BUG.Status}">{$BUG.StatusN} (<a href="#">ред</a>)</td></tr>
 						<tr><td><b>Владелец</b></td><td><a href="#">{$BUG.NickName}</a></td></tr>
 						<tr><td><b>Приоритет</b></td><td>{$BUG.PriorityLevel}</td></tr>
 						<tr><td><b>Проект</b></td><td>{$BUG.ProjectName}</td></tr>
+						<tr><td><b>Назначено</b></td><td>{if $BUG.AssignedTo neq null}<a href="/profile/show/{$element.AssignedTo}/">{$BUG.AssignedNickName}</a>{/if}</td></tr>
 						<tr><td><b>Тип ошибки</b></td><td>{$BUG.ErrorType}</td></tr>
 						<tr><td><b>Дата создания</b></td><td>{$BUG.Time}</td></tr>
 						<tr><td><b>Описание</b></td><td>{$BUG.Description}</td></tr>

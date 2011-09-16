@@ -40,6 +40,12 @@
 							<option value="2">Важный</option>
 						</select>
 					</dd>
+					<dt><label for="asigned_to">Назначено</label></dt>
+					<dd>									
+						<select id="asigned_to" name="asigned_to">
+							<option value="0"></option>
+						</select>
+					</dd>
 					<dt><label for="description">Описание</label></dt>
 					<dd><textarea id="description" name="description" rows="7" cols="20" >{$DATA.description}</textarea></dd>
 					<dt><label for="steps">Действия, которые привели к ошибке</label></dt>
