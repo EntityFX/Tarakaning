@@ -37,6 +37,9 @@
 				</table>
 			</div>
 			<div id="comments">
+				{if $ERROR neq ""}
+					<strong class="error" id="error">{$ERROR}</strong>
+				{/if}
 				<div class="groupier">
 					<strong>Комментарии</strong>
 					<ul>
@@ -53,23 +56,26 @@
 						<li><a href="#">&gt;&gt;</a></li>
 					</ul>
 				</div>
+			{if $COMMENTS neq NULL}
 				<table class="comments">
 					<thead>
 						<tr><th>Пользователь</th><th>Комментарий</th><th class="date">Дата</th></tr>
 					</thead>
-
 					<tbody>
-						<tr class="odd"><td><a href="#">EntityFX</a></td><td class="left">А нах ты микроволновку с открытой дверцей включил. Ебанёт током, мало не покажется. Делать надо защиту, чтоб не включали с открытой дверцей. А то лошков много.</td><td>6 февраля 2007 15:47</td></tr>
-						<tr class="even"><td><a href="#">Sudo777</a> (<a href="#">X</a>)</td><td class="left">А кто знал, вот сам в шоке. Будем делать. Что предложить в данном плане можешь?</td><td>6 февраля 2007 17:34</td></tr>
-						<tr class="odd"><td><a href="#">BrainUnlocker</a> (<a href="#">X</a>)</td><td class="left">Я могу предложить сделать лочку при условии, что дверь открыта</td><td>6 февраля 2007 18:03</td></tr>
-
-						<tr class="even"><td><a href="#">Sudo777</a> (<a href="#">X</a>)</td><td class="left">Предлагаю использовать библиотеку MicrovaweKeeper2000. На форуме прочитал, что крутая либа, причём позволяет не только лочить дверку, но ещё проверка переполнения буфера памяти микроволновки, автоотключение при несанкционированном открытии дверцы и много другого.</td><td>6 февраля 2007 19:00</td></tr>
-						<tr class="odd"><td><a href="#">EntityFX</a> (<a href="#">X</a>)</td><td class="left">Зашибатенько ты нашёл либу, сча назначу тебе исправление бага</td><td>6 февраля 2007 19:01</td></tr>
-
+				{foreach name=bugComments from=$COMMENTS item=element} {* Комментарии отчёта *}
+					<tr class="{if $smarty.foreach.bugComments.index % 2 == 0}odd{else}even{/if}">
+						<td><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a> {if $element.UserID eq $USER_ID}(<a href="" class="strongest">X</a>){/if}</td>
+						<td class="left">{$element.Comment}</td>
+						<td>{$element.Time}</td>
+					</tr>
+				{/foreach}
 					</tbody>
 				</table>
+			{else}
+				<strong>Комментариев нет</strong>
+			{/if}
 				<div>
-					<form action="#">
+					<form action="#comments" method="post">
 						<div>
 							<dl>
 								<dd style="padding-right:4px">
@@ -77,7 +83,7 @@
 
 								</dd>
 								<dd class="subm">
-									<input type="submit" value="Оставить комментарий"/>
+									<input type="submit" name="sendComment" value="Оставить комментарий"/>
 								</dd>
 							</dl>
 						</div>

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'engine/classes/ProjectsController.php';	
+require_once 'ProjectsController.php';	
 	/**
 	 * Класс подтверждения/отклонения на подписку.
 	 * @author timur 28.01.2011
