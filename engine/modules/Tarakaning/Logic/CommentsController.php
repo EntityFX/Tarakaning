@@ -8,6 +8,11 @@ require_once 'RequestsController.php';
 	 */
 	class CommentsController extends DBConnector
 		{
+			public function __construct($projectID=NULL,$ownerID=NULL)
+       		{
+            	parent::__construct();
+       		}
+			
 			/* ErorrReportHistory, ReportComment 
 			 * 1) прокомментировать ошибку 
 			 * 2) удаление комментария
@@ -46,7 +51,7 @@ require_once 'RequestsController.php';
 				{	
 					$r = new RequestsController();
 					$userID = (int)$userID;
-					if ($r->isSubscribed($userID, $projectID)) 
+					if ($r->isSubscribed($userID, $projectID) || $p->isOwner($userID, $projectID)) 
 					{
 						;//здесь происходить должна основная работа
 						
@@ -162,18 +167,12 @@ require_once 'RequestsController.php';
 				if($p->isProjectExists($projectID))
 				{
 					$r = new RequestsController();
-					if ($r->isSubscribed($userID, $projectID))  
+					if ($r->isSubscribed($userID, $projectID) || $p->isOwner($userID, $projectID))  
 					{
-						if ($this->isCommentExist($commentID))
-						{
-							$res = $this->_sql->query("SELECT * FROM `ReportComment` WHERE `ReportID` = '$reportID' LIMIT $startIndex, $maxCount");
-							$ret = $this->_sql->GetRows($res);
-							return $ret;
-						}
-						else 
-						{
-							throw new Exception("Комментария не существует.", 1001);
-						}
+						$this->_sql->setLimit($startIndex, $maxCount);
+						$this->_sql->selAllWhere("commentsdetail", "ReportID = $reportID");
+						$this->_sql->clearLimit();
+						return $this->_sql->getTable();
 					}
 					else 
 					{
@@ -192,9 +191,7 @@ require_once 'RequestsController.php';
 			 */
 			public function isCommentExist($commentID)
 			{
-				$res = $this->_sql->query("SELECT * FROM `ReportComment` WHERE `ID`='$commentID'");
-				$ret = $this->_sql->fetchArr($res);
-				return $ret == NULL ? FALSE : TRUE;
+				return $this->_sql->countQuery("ReportComment","ID=$commentID")==0 ? false : true;
 			}
 			
 			/**
