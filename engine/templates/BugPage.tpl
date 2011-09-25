@@ -42,24 +42,16 @@
 				{/if}
 				<div class="groupier">
 					<strong>Комментарии</strong>
-					<ul>
-						<li><a href="#">&lt;&lt;</a></li>
-						<li><a href="#">&lt;</a></li>
-
-						<li><a href="#">6</a></li>
-						<li><span style="font-weight: bold; color: #a88; border-color: #a80; background: #d5d597 !important;">7</span></li>
-						<li><a href="#">8</a></li>
-						<li><a href="#">9</a></li>
-						<li><a href="#">10</a></li>
-						<li><a href="#">&gt;</a></li>
-
-						<li><a href="#">&gt;&gt;</a></li>
-					</ul>
+					{$COMMENTS_PAGINATOR}
 				</div>
 			{if $COMMENTS neq NULL}
 				<table class="comments">
 					<thead>
-						<tr><th>Пользователь</th><th>Комментарий</th><th class="date">Дата</th></tr>
+						<tr>
+							<th><a href="{$COMMENTS_ORDER.NickName.url}#comments">Пользователь</a></th>
+							<th><a href="{$COMMENTS_ORDER.Comment.url}#comments">Комментарий</a></th>
+							<th class="date"><a href="{$COMMENTS_ORDER.Time.url}#comments">Дата</a></th>
+						</tr>
 					</thead>
 					<tbody>
 				{foreach name=bugComments from=$COMMENTS item=element} {* Комментарии отчёта *}

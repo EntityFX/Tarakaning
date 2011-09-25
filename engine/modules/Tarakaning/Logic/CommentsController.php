@@ -1,6 +1,7 @@
 <?php
 require_once 'ProjectsController.php';	
-require_once 'ProjectCommentsENUM.php';
+require_once 'ItemCommentsENUM.php';
+require_once 'RequestsController.php';
 	/**
 	 * Класс управления комментариями к ошибкам.
 	 * @author timur 29.01.2011
@@ -156,7 +157,7 @@ require_once 'ProjectCommentsENUM.php';
 			 * @param unknown_type $reportID
 			 * @param unknown_type $userID
 			 */
-			public function getReportComments($projectID, $reportID, ProjectCommentsENUM $orderField, MySQLOrderEnum $direction,$page=1,$size=15) 
+			public function getReportComments($projectID, $reportID, $userID, ItemCommentsENUM $fieldEnum, MySQLOrderENUM $direction,$page=1,$size=15) 
 			{
 				$userID = (int)$userID;
 				$projectID = (int)$projectID;
@@ -169,9 +170,11 @@ require_once 'ProjectCommentsENUM.php';
 					$r = new RequestsController();
 					if ($r->isSubscribed($userID, $projectID) || $p->isOwner($userID, $projectID))  
 					{
-						$this->_sql->setLimit($startIndex, $maxCount);
+						$this->_sql->setLimit($page, $size);
+						$this->_sql->setOrder($fieldEnum, $direction);
 						$this->_sql->selAllWhere("commentsdetail", "ReportID = $reportID");
 						$this->_sql->clearLimit();
+						$this->_sql->clearOrder();
 						return $this->_sql->getTable();
 					}
 					else 
@@ -185,14 +188,10 @@ require_once 'ProjectCommentsENUM.php';
 				}
 			}
 			
-			public function getReportCommentsCount($projectID, $reportID, $userID, $startIndex = 0, $maxCount = 20)
+			public function getReportCommentsCount($reportID)
 			{
-				$userID = (int)$userID;
-				$projectID = (int)$projectID;
 				$reportID = (int)$reportID;
-				$startIndex = (int)$startIndex;
-				$maxCount = (int)$maxCount;
-				$this->_sql->countQuery("commentsdetail", "ReportID = $reportID");
+				return $this->_sql->countQuery("commentsdetail", "ReportID = $reportID");
 			}
 			
 			/**

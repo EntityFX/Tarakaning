@@ -15,7 +15,7 @@ class BugPage extends InfoBasePage
 	
 	private $_userData;
 	
-	private $_myProjectsInfoPaginator;
+	private $_commentsPaginator;
 	
 	private $_orderer;
 	
@@ -66,19 +66,22 @@ class BugPage extends InfoBasePage
 		}
 		try
 		{
-			$this->_myProjectsInfoPaginator=new TarakaningULListPager(
+			$this->_commentsPaginator=new TarakaningULListPager(
 				$reportCommentsOperation->getReportCommentsCount(				
-					$this->_bugData['ProjectID'], 
-					$this->_bugData['ID'], 
-					$this->_bugData['UserID']
+					$this->_bugData['ID']
 				)
 			);
-			$this->_orderer=new Orderer(new ProjectCommentsENUM());
+			$this->_orderer=new Orderer(new ItemCommentsENUM());
 			$this->_orderData=$this->_orderer->getNewUrls();
+			$this->_commentsPaginator->setIDTag('comments');
 			$this->_commentsData=$reportCommentsOperation->getReportComments(
 				$this->_bugData['ProjectID'], 
 				$this->_bugData['ID'], 
-				$this->_bugData['UserID']
+				$this->_bugData['UserID'],
+				new ItemCommentsENUM($this->_orderer->getOrderField()),
+				new MySQLOrderENUM($this->_orderer->getOrder()),
+				$this->_commentsPaginator->getOffset(),
+				$this->_commentsPaginator->getSize()
 			);
 		}
 		catch (Exception $exception)
@@ -91,6 +94,8 @@ class BugPage extends InfoBasePage
 		parent::doAssign();
 		$this->_smarty->assign("BUG",$this->_bugData);
 		$this->_smarty->assign("COMMENTS",$this->_commentsData);
+		$this->_smarty->assign("COMMENTS_ORDER",$this->_orderData);
+		$this->_smarty->assign("COMMENTS_PAGINATOR",$this->_commentsPaginator->getHTML());
 		$this->_smarty->assign("USER_ID",$this->_userData["UserID"]);
 		$addCommentError=$this->_controller->error->getErrorByName("addCommentError");
 		if ($addCommentError!=null)
