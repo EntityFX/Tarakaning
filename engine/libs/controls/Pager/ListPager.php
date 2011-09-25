@@ -11,7 +11,7 @@
         
         protected $_selectedClass=""; 
         
-        private $_count;
+        protected $_count;
         
         private $_currentModSize;
         
@@ -43,6 +43,11 @@
                 $this->_currentModSize=$this->_current % $this->_size; 
                 $this->_correction=(($this->_currentModSize != 0) ? 0 : -$this->_size);
             }
+        }
+        
+        public function getSize()
+        {
+        	return $this->_size;
         }
         
         protected function getFirst()
@@ -105,6 +110,11 @@
         public function getCurrent()
         {
             return (int)$this->_current;
+        }
+        
+        public function getOffset()
+        {
+        	return ($this->_current-1)*$this->_size;
         }
         
     }

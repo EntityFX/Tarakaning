@@ -1,4 +1,6 @@
 <?php 
+
+	require_once 'engine/modules/Tarakaning/Logic/ProjectFieldsUsersInfoENUM.php';
 	/**
 	 * Класс управления проектами.
 	 * @author timur 27.01.2011
@@ -187,18 +189,34 @@
 			return $data[0];
 		}
 		
-		public function getUserProjectsInfo($userId)
+		public function getUserProjectsInfo($userId,$page=1,$size=10)
 		{
 			$userId=(int)$userId;
+			$this->_sql->setLimit($page, $size);
 			$resource=$this->_sql->selAllWhere("projectanderrorsview", "OwnerID=$userId");
+			$this->_sql->clearLimit();
 			return $this->_sql->getTable();
 		}
 		
-		public function getMemberProjects($userId)
+		public function countUserProjectsInfo($userId)
 		{
 			$userId=(int)$userId;
+			return $this->_sql->countQuery("projectanderrorsview", "OwnerID=$userId");
+		}
+		
+		public function getMemberProjects($userId,$page=1,$size=10)
+		{
+			$userId=(int)$userId;
+			$this->_sql->setLimit($page, $size);
 			$resource=$this->_sql->selAllWhere("projectsinfowithoutmeview", "UserID=$userId");
+			$this->_sql->clearLimit();
 			return $this->_sql->getTable();
+		}
+		
+		public function countMemberProjects($userId)
+		{
+			$userId=(int)$userId;
+			return $this->_sql->countQuery("projectsinfowithoutmeview", "UserID=$userId");
 		}
 		
 		public function getProjectUsersInfo($projectID)
@@ -206,6 +224,22 @@
 			$projectID=(int)$projectID;
 			$this->_sql->selAllWhere('projectusersinfo', "ProjectID=$projectID");
 			return $this->_sql->getTable();
+		}
+		
+		public function getProjectUsersInfoCount($projectID)
+		{
+			$projectID=(int)$projectID;
+			return $this->_sql->countQuery('projectusersinfo', "ProjectID=$projectID");
+		}
+		
+		public function getProjectsUsersInfoPagOrd($projectID, ProjectFieldsUsersInfoENUM $orderField, MySQLOrderEnum $direction,$page=1,$size=15)
+		{
+			$this->_sql->setLimit($from, $size);
+			$this->_sql->setOrder($orderField, $direction);
+			$res=$this->getProjectUsersInfo($projectID);
+			$this->_sql->clearLimit();
+			$this->_sql->clearOrder();
+			return $res;
 		}
 		
 		public function getUserProjects($userId)

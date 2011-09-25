@@ -19,6 +19,7 @@ require_once 'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
 					try 
 					{	
 						$bugsOperation->addReport(
+							new ItemDBKindENUM($postData['item_type']),
 							new ErrorPriorityENUM($postData['priority']),
 							new ErrorStatusENUM(),
 							new ErrorTypeEnum($postData['error_type']),

@@ -468,54 +468,63 @@
 			return $this->db_name;
 		}
 		
+		/**
+		 * 
+		 * Вызывает хранимую процедуру
+		 * @param string $name Имя хранимой процедуры
+		 * @param array|mixed $paramsArray Параметры
+		 */
+		public function call($name, ArrayObject &$paramsArray) 
+	    {
+	    	if (is_null($paramsArray)) 
+	        {
+	        	$params="";
+	        }
+	        else 
+	        {
+	        	$length=$paramsArray->count();
+	        	$current=0;
+	        	while ($current<$length-1)
+	        	{
+	        		if (is_string($paramsArray[$current]))
+	        		{
+	        			$val='\''.$paramsArray[$current].'\'';
+	        		}
+	        		else if (is_bool(is_string($paramsArray[$current])))
+	        		{
+	        			$val=(int)$paramsArray[$current];
+	        		}
+	        		else 
+	        		{
+	        			$val=$paramsArray[$current];
+	        		}
+	        		$params.=$val.', ';
+	        		$current++;
+	        	}
+        	    if (is_string($paramsArray[$current]))
+        		{
+        			$val='\''.$paramsArray[$current].'\'';
+        		}
+        		else if (is_bool(is_string($paramsArray[$current])))
+        		{
+        			$val=(int)$paramsArray[$current];
+        		}
+        		else 
+        		{
+        			$val=$paramsArray[$current];
+        		}
+	        	$params.=$val;
+	        }
+	        $query_res=$this->queryExecute("CALL $name($params)");
+	    }
+	    
+		public function getLastID() 
+		{
+			$this->queryExecute("SELECT last_insert_id() AS id");
+			$arr = &$this->getRows($query_res);
+			return (int)$arr[0]['id'];
+		}
+		
 	} 
 	
-	/**TEST*
-	$field[]=new MySQLField("id",MySQLField::INT,true,true,true);
-	$f=new MySQLField("flag",MySQLField::VARCHAR,true,false);
-	$f->max_length=50;
-	$field[]=&$f;
-	$field[]=new MySQLField("time",MySQLField::DATETIME); 
-	$field[]=new MySQLField("image",MySQLField::BLOB);
-	$field[]=new MySQLField("flo",MySQLField::FLOAT);
-	$sql=new MySQL("localhost","root","");
-	$sql->SelectDB("idelmedia");
-	//$val=array("0","'hello'","NOW()","''","3.14");
-	$val=array("0","'hello'","89");
-	$fld=array("id","flag","flo");
-	//echo $sql->InsertIntoTemplate("s",$val,$fld);
-	//$sql->CreateTable("s",$field);
-	$sql->Insert("s",$val,$fld);
-	//$sql->DropTable("s");
-	//$sql->SelAllWhere("users","`login`='1'");
-	//var_dump($sql->getTable());
-	$tables=$sql->getTableList();
-	for($tbls_c=0;$tbls_c<count($tables);++$tbls_c)
-	{
-		echo "<table border=\"1\"><thead>"; 
-		echo "<caption>".$tables[$tbls_c][0]."</caption>";
-		echo "<tr>";
-		$field_arr=$sql->getFieldList($tables[$tbls_c][0]);
-		foreach($field_arr as $field_obj)
-		{
-			if ($field_obj->primary_key)
-			echo  "<th><i>".$field_obj->name."</i></th>";
-			else echo  "<th>".$field_obj->name."</th>"; 
-		}
-		echo "</tr>";
-		echo "</thead><tbody>";
-		$sql->SelAll($tables[$tbls_c][0]);
-		$list=&$sql->getList();
-		for($i=0;$i<$list->Count();++$i)
-		{
-			$l=$list->getElement($i);
-			echo "<tr>";
-			for($j=0;$j<count($l);++$j)
-			{
-				echo "<td>".htmlspecialchars($l[$j])."</td>";    
-			}
-			echo "</tr>";
-		}
-		echo "</tbody></table>";
-	}*/
 ?>

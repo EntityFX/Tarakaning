@@ -10,7 +10,13 @@
         
         private $_getRef; 
         
-        public function __construct($count,$get="page")
+        protected $_ulClass="";
+        
+        protected $_cStyle="";
+        
+        protected $_idTag="";
+        
+        public function __construct($count,$get="page",$size=5)
         {
             if (isset($_GET[$get]))
             {
@@ -22,6 +28,12 @@
                 $_GET[$get]=$getVal;   
             }
             $this->_getRef=$get;
+            $this->_size=(int)$size;
+            $count=$size>0?(int)ceil($count / $this->_size):0;
+            if ($count==0)
+            {
+            	return;
+            }
             try
             {
                 parent::__construct($count,$getVal);
@@ -34,8 +46,13 @@
         
         public function getHTML()
         {
-            $ulClass=$this->_ulClass != "" ? " class=\"$this->_ulClass\"" : "";
-            $str.="<ul$ulClass>\r\n";
+            if ($this->_count<=1)
+            {
+            	return "";
+            }
+        	$this->_ulClass=$this->_class;
+        	$ulClass=$this->_ulClass != "" ? " class=\"$this->_ulClass\"" : "";
+        	$str.="<ul$ulClass>\r\n";
             $fL=$this->getFirst();
             if ($fL!=null)
             {
@@ -53,7 +70,10 @@
             {
                 if ($pageNum==$this->_current)
                 {
-                    $tagOpen="<$this->_selectedLiTag".($this->_selectedClass!="" ? " class=\"".$this->_selectedClass."\"" : "").">";
+                    $tagOpen="<$this->_selectedLiTag".
+                    ($this->_selectedClass!="" ? " class=\"".$this->_selectedClass."\"" : "").
+                    ($this->_cStyle!="" ? " style=\"".$this->_cStyle."\"" : "").
+                    ">";
                     $tagClose="</$this->_selectedLiTag>";
                     $str.="\t<li>$tagOpen$pageNum$tagClose</li>\r\n"; 
                 }
@@ -88,6 +108,16 @@
             $this->_selectedLiTag=$tagName;  
         }
         
+        public function setCurrentStyle($value)
+        {
+        	$this->_cStyle=$value;
+        }
+        
+        public function setIDTag($value)
+        {
+        	$this->_idTag=$value;
+        }
+        
         protected function getLinkParamsString($val)
         {
             if ($_GET!=null)
@@ -109,6 +139,7 @@
                         $str.=$getParamKey."=".$getParamVal; 
                     }
                 }
+            	$str.=$this->_idTag !="" ? "#". $this->_idTag : "";
                 return "?$str";
             }
 

@@ -31,7 +31,7 @@
 				<dd><input type="text" name="name" id="name" value="{$DATA.name}"/></dd>
 				<dt><label for="surname">Фамилия</label></dt>
 				<dd><input type="text" name="surname" id="surname" value="{$DATA.surname}"/></dd>
-				<dt><label for="secondName">Отчетсво</label></dt>
+				<dt><label for="secondName">Отчество</label></dt>
 				<dd><input type="text" name="secondName" id="secondName" value="{$DATA.secondName}"/></dd>
 				<dt><label for="eMail">E-mail</label></dt>
 				<dd><input type="text" name="eMail" id="eMail" value="{$DATA.eMail}"/></dd>				

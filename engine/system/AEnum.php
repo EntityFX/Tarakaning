@@ -33,5 +33,11 @@
         {
             return $this->__value;
         }
+        
+        public function getArray()
+        {
+        	$reflector=new ReflectionClass($this);
+        	return $reflector->getConstants();
+        }
     }
 ?>

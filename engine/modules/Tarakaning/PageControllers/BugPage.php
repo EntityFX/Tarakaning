@@ -2,6 +2,8 @@
 require_once 'InfoBasePage.php';
 require_once 'engine/modules/Tarakaning/Logic/CommentsController.php';
 require_once 'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
+require_once 'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
+require_once 'engine/libs/controls/Orderer/Orderer.php';
 
 class BugPage extends InfoBasePage 
 {
@@ -12,6 +14,12 @@ class BugPage extends InfoBasePage
 	private $_commentData;
 	
 	private $_userData;
+	
+	private $_myProjectsInfoPaginator;
+	
+	private $_orderer;
+	
+	private $_orderData;
 	
 	protected function onInit()
 	{
@@ -58,6 +66,15 @@ class BugPage extends InfoBasePage
 		}
 		try
 		{
+			$this->_myProjectsInfoPaginator=new TarakaningULListPager(
+				$reportCommentsOperation->getReportCommentsCount(				
+					$this->_bugData['ProjectID'], 
+					$this->_bugData['ID'], 
+					$this->_bugData['UserID']
+				)
+			);
+			$this->_orderer=new Orderer(new ProjectCommentsENUM());
+			$this->_orderData=$this->_orderer->getNewUrls();
 			$this->_commentsData=$reportCommentsOperation->getReportComments(
 				$this->_bugData['ProjectID'], 
 				$this->_bugData['ID'], 

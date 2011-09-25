@@ -1,5 +1,5 @@
 <?php
-
+require_once 'IFileExist.php';
 class AFileStream implements IFileExist
 {
 	protected $_current;

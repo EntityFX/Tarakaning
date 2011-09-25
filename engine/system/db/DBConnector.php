@@ -37,6 +37,7 @@
         protected function __construct()
         {
             $this->_sql=MySQL::getInstance(DB_SERVER,DB_USER,DB_PASSWORD);
+            MySQL::$globalDebugging=true;
             $this->_sql->selectDB(DB_NAME);
         }
         

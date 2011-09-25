@@ -17,6 +17,10 @@
     
     require_once 'ErrorFieldsENUM.php';
     
+    require_once 'ItemKindENUM.php';
+    
+    require_once 'ItemDBKindENUM.php';
+    
     class ErrorReportsController extends DBConnector
     {
         private $_errorOwnerID;
@@ -73,7 +77,7 @@
             }
         }
         
-        public function addReport(ErrorPriorityENUM $priority, ErrorStatusENUM $errorStatus, ErrorTypeEnum $type, $title="", $description="", $steps="")
+        public function addReport(ItemDBKindENUM $kind, ErrorPriorityENUM $priority, ErrorStatusENUM $errorStatus, ErrorTypeEnum $type, $title="", $description="", $steps="")
         {
             $title=htmlspecialchars($title);
             if ($title=="")
@@ -82,6 +86,14 @@
             }
             $description=htmlspecialchars($description);
             $steps=htmlspecialchars($steps);
+            if ($kind->check())
+            {
+            	$kindValue=(string)$kind->getValue();  
+            }
+            else
+            {
+            	throw  new Exception("Неверный тип ошибки");
+            }
             if ($priority->check())
             {
                 $priorityValue=(string)$priority->getValue();    
@@ -106,28 +118,19 @@
             {
                 throw new Exception("Неверный формат ошибки");
             }
-            $this->_sql->insert("ErrorReport",
-                new ArrayObject(array(
+            $this->_sql->call(
+            	'AddItem', 
+            	new ArrayObject(array(
                     $this->_errorOwnerID,
                     $this->_projectOwnerID,
                     $priorityValue,
                     $errorStatusValue,
                     date("Y-m-d H:i:s"),
                     $title,
-                    $typeValue,
+                    $kindValue,
                     $description,
-                    $steps    
-                )),
-                new ArrayObject(array(
-                    "UserID",
-                    "ProjectID",
-                    "PriorityLevel",
-                    "Status",
-                    "Time",
-                    "Title",
-                    "ErrorType",
-                    "Description",
-                    "StepsText"
+                    $typeValue,
+                    $steps  
                 ))
             );
         }   
@@ -247,9 +250,10 @@
             return (Boolean)$countGroups;   
         }
         
-        public function getReportsByProject($projectID)
+        public function getReportsByProject($projectID,$from,$size)
         {
-            $this->checkProject($projectID);
+            $this->checkProject($projectID);  
+            $this->useLimit($from,$size);
             $this->_sql->selAllWhere("ErrorReportsInfo","ProjectID=$projectID");
             $res=$this->_sql->getTable();
             if ($res!=null)
@@ -261,6 +265,12 @@
 	            }
             }
             return $res;  
+        }
+        
+        public function countReportsByProject($projectID)
+        {
+            $this->checkProject($projectID);
+            return $this->_sql->countQuery("ErrorReportsInfo","ProjectID=$projectID");
         }
         
         private function checkProject(&$projectID)
@@ -283,9 +293,17 @@
             }
         }
         
-        public function getReports($userID=NULL,$projectID=NULL)
+        public function countReports(ItemKindENUM $kind)
+        {
+        	$userID=$this->_errorOwnerID;
+        	$projectID=$this->_projectOwnerID;
+        	return $this->_sql->countQuery("errorreportsinfo","UserID=$userID AND ProjectID=$projectID");
+        }
+        
+        public function getReports(ItemKindENUM $kind,$page=1,$size=15,$userID=NULL,$projectID=NULL)
         {
             $res=NULL;
+            
             if ($userID==NULL)
             {
                 $userID=$this->_errorOwnerID;
@@ -307,7 +325,10 @@
             {
                 $projectID=$this->_projectOwnerID;    
             }
+            $itemKind=$kind->getValue();
+            $this->_sql->setLimit($page, $size);
             $this->_sql->selAllWhere("errorreportsinfo","UserID=$userID AND ProjectID=$projectID");
+            $this->_sql->clearLimit();
             $res=$this->_sql->getTable();
             if ($res!=null)
             {
@@ -320,18 +341,17 @@
             return $res;
         }
         
-        public function getMyOrdered(ErrorFieldsENUM $field, MySQLOrderEnum $direction, $from, $size)
+        public function getMyOrdered(ItemKindENUM $kind,ErrorFieldsENUM $field, MySQLOrderEnum $direction,$page=1,$size=15,$userID=NULL,$projectID=NULL)
         {
-            $this->useLimit($from,$size);
             $this->useOrder($field,$direction);   
-            return $this->getReportsByUser();
+            return $this->getReports($kind,$page,$size,$userID=NULL,$projectID=NULL);
         }
         
-        public function getProjectOrdered(ErrorFieldsENUM $field, MySQLOrderEnum $direction,$from,$size)
+        public function getProjectOrdered($projectID,ErrorFieldsENUM $field, MySQLOrderEnum $direction,$from,$size)
         {
-            $this->useLimit($from,$size);
             $this->useOrder($field,$direction);
-            return $this->getReportsByProject();
+            $res=$this->getReportsByProject($projectID,$from,$size);
+            return $res;
         }
         
         public function getAllReports()
