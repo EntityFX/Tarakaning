@@ -1,4 +1,5 @@
 <?php
+require_once "AFileStream.php";
 class TextFile extends AFileStream 
 {
 	public function __construct($filePath) 

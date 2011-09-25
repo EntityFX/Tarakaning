@@ -19,6 +19,13 @@
 					</dd>
 					<dt><label for="title">Укажите заголовок</label></dt>
 					<dd><input type="text" id="title" name="title" value="{$DATA.title}" /></dd>
+					<dt><label for="item_type">Вид</label></dt>
+					<dd>									
+						<select id="item_type" name="item_type" style="font-weight: bold;">
+							<option value="Task">Задача</option>
+							<option value="Defect">Дефект</option>
+						</select>
+					</dd>
 					<dt><label for="error_type">Тип ошибки</label></dt>
 					<dd>									
 						<select id="error_type" name="error_type">

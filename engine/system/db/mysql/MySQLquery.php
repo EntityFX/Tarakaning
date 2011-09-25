@@ -8,7 +8,7 @@
 */
 
 require_once "engine/config/databaseConsts.php";
-
+require_once "engine/system/fs/TextFile.php";
 require_once 'MySQLException.php';
 
     /**
@@ -25,6 +25,15 @@ require_once 'MySQLException.php';
         * @var mixed
         */
         public static $globalDebugging;
+        
+        /**
+         * 
+         * Путь отладки
+         * @var string
+         */
+        private static $_debugPath="engine/log/sql_debug.log";
+        
+        private $_queryCounter=1;
         
         /**
         * Режим отладки. Если true, то выводит на экран запрос
@@ -76,6 +85,10 @@ require_once 'MySQLException.php';
          */
         protected $_internalQuery;
         
+        private $_debugFile;
+        
+        private $_startMikrotime;
+        
         /**
         * Конструктор
         * 
@@ -100,6 +113,18 @@ require_once 'MySQLException.php';
             $this->_password=$password;
             return true; 
         }
+        
+    	public function __destruct()
+		{
+        	if ($this->_debugFile!=null)
+        	{
+        		list($end, $sec) = explode(" ", microtime(true));
+        		$this->_debugFile->writeLine("END SQL DEBUG ".date("Y-m-d H:i:s.B")." (end time: ".$end."  µs )");
+        		$this->_debugFile->writeNewLine();
+        		$this->_debugFile->close();
+        	}
+		}
+		
         /**
         * Получить список строк
         * 
@@ -274,7 +299,8 @@ require_once 'MySQLException.php';
             $this->_internalQuery=$string;     
             if ($this->debugging || self::$globalDebugging)
             {
-                echo $string."\n\r";
+                $this->debugToFile($string);
+                $this->_queryCounter++;
             }
             $resource=mysql_query($string);
             if ($resource==false)
@@ -283,6 +309,19 @@ require_once 'MySQLException.php';
             }
             $this->_internalResource=$resource;
             return $resource;
+        }
+        
+        private function debugToFile($queryString)
+        {
+        	if ($this->_debugFile==null)
+        	{
+        		$this->_debugFile=new TextFile(self::$_debugPath);
+        		$this->_debugFile->open("a+");
+        		list($this->_startMikrotime, $sec) = explode(" ", microtime(true));
+        		$this->_debugFile->writeLine("START SQL DEBUG ".date("Y-m-d H:i:s.B")." (start time: ".$this->_startMikrotime." µs )");
+        	}
+        	list($newMikrotime,$sec)=explode(" ", microtime(true));
+        	$this->_debugFile->writeLine("# ".$this->_queryCounter." (".$newMikrotime." : ".$this->_startMikrotime.")   ".$queryString);
         }
         
         /**

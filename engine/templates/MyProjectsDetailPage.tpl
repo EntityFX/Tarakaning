@@ -25,17 +25,7 @@
 		</div> 
 		<div id="users"> 
 			<div class="groupier"> 
-				<ul> 
-				  <li><a href="#">&lt;&lt;</a></li> 
-				  <li><a href="#">&lt;</a></li> 
-				  <li><a href="#">6</a></li> 
-				  <li><span style="font-weight: bold; color: #a88; border-color: #a80; background: #d5d597 !important;">7</span></li> 
-				  <li><a href="#">8</a></li> 
-				  <li><a href="#">9</a></li> 
-				  <li><a href="#">10</a></li> 
-				  <li><a href="#">&gt;</a></li> 
-				  <li><a href="#">&gt;&gt;</a></li> 
-				</ul> 
+				{$MY_PROJECT_DETAIL_PAGINATOR}
 			</div>
 			{if $PROJECT_USERS neq NULL}
 			<form action="#" class="reports_form"> 
@@ -43,8 +33,8 @@
 					<col width="23" /> 
 					<thead> <tr> 
 						<th><input name="del" type="checkbox" /></th> 
-						<th><a href="#">Пользователь</a></th> 
-						<th><a href="#">Количество отчетов</a></th> 
+						<th><a href="{$MY_PROJECT_ORDERER.NickName.url}#users">Пользователь</a></th> 
+						<th><a href="{$MY_PROJECT_ORDERER.CountErrors.url}#users">Количество отчетов</a></th> 
 						<th><a href="#">Количество комментариев</a></th> 
 						<th colspan="5"><a href="#">Назначенных заданий</a></th> 
 					</tr> 
@@ -53,7 +43,7 @@
 					{foreach name=projectUsers from=$PROJECT_USERS item=element} {* Выводит мои проекты*}
 						<tr class="{if $smarty.foreach.projectUsers.index % 2 == 0}odd{else}even{/if}"> 
 							<td><input name="delId" type="checkbox" /></td> 
-							<td>{if $smarty.foreach.projectUsers.first}<strong><a href="#">{$element.NickName}</a></strong>&nbsp;<sup style="font-size: 10px; color: red;">(владелец)</sup>{else}<a href="#">{$element.NickName}</a>{/if}</td> 
+							<td>{if $element.Owner eq 1}<strong><a href="#">{$element.NickName}</a></strong>&nbsp;<sup style="font-size: 10px; color: red;">(владелец)</sup>{else}<a href="#">{$element.NickName}</a>{/if}</td> 
 							<td>{$element.CountErrors}</td> 
 							<td><a href="#">213</a></td> 
 							<td class="new">{$element.NEW}</td><td class="confirmed">{$element.IDENTIFIED}</td><td class="assigned">{$element.ASSESSED}</td><td class="solved">{$element.RESOLVED}</td><td class="closed">{$element.CLOSED}</td>

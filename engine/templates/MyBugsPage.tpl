@@ -9,7 +9,6 @@
 <div id="content_body">
 	{if $PROJECTS_LIST neq NULL}
 		<div class="groupier">
-			
 			<form action="#" id="selectProjectForm">
 				<div>
 				<label for="project_id">Проект</label>
@@ -20,23 +19,18 @@
 					{/foreach}
 					{/if}
 				</select>
+				<label for="item_kind">Показать </label> 
+				<select id="item_kind" name="item_kind">
+					<option value="*">Дефекты и задачи</option>
+					<option value="1">Дефекты</option>
+					<option value="2">Задачи</option>
+				</select>
 				</div>
 			</form>
 			<form action="/bug/add/" method="post"><div>
-				<input type="submit" value="Добавить отчёт" title="Добавить новый отчёт об ошибке" name="add"/>
+				<input type="submit" value="Добавить дефект" title="Добавить" name="add_defect"/>
 			</div></form>
-			<ul>
-				<li><a href="#">&lt;&lt;</a></li>
-				<li><a href="#">&lt;</a></li>
-				<li><a href="#">6</a></li>
-
-				<li><span style="font-weight: bold; color: #a88; border-color: #a80; background: #d5d597 !important;">7</span></li>
-				<li><a href="#">8</a></li>
-				<li><a href="#">9</a></li>
-				<li><a href="#">10</a></li>
-				<li><a href="#">&gt;</a></li>
-				<li><a href="#">&gt;&gt;</a></li>						
-			</ul>
+			{$MY_BUGS_PAGINATOR}
 		</div>
 
 	
@@ -48,13 +42,13 @@
 						<thead>
 							<tr>
 								<th><input name="del_all" type="button" value="" title="" style="width:18px; padding: 0px; height: 18px;" /></th>
-								<th><a href="#" class="sort">№ &uarr;</a></th>
-								<th><a href="#">Статус</a></th>
-								<th><a href="#">Заголовок</a></th>
-								<th><a href="#">Назначена</a></th>
-								<th><a href="#">Приоритет</a></th>
-								<th><a href="#">Тип</a></th>
-								<th><a href="#">Дата</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.ID.url}" class="sort">№ &uarr;</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.Status.url}">Статус</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.Title.url}">Заголовок</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.AssignedNickName.url}">Назначена</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.PriorityLevel.url}">Приоритет</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.ErrorType.url}">Тип</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.Time.url}">Дата</a></th>
 
 							</tr>
 						</thead>

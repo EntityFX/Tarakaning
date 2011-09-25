@@ -1,6 +1,6 @@
 <?php
 require_once 'ProjectsController.php';	
-require_once 'RequestsController.php';
+require_once 'ProjectCommentsENUM.php';
 	/**
 	 * Класс управления комментариями к ошибкам.
 	 * @author timur 29.01.2011
@@ -156,7 +156,7 @@ require_once 'RequestsController.php';
 			 * @param unknown_type $reportID
 			 * @param unknown_type $userID
 			 */
-			public function getReportComments($projectID, $reportID, $userID, $startIndex = 0, $maxCount = 20) 
+			public function getReportComments($projectID, $reportID, ProjectCommentsENUM $orderField, MySQLOrderEnum $direction,$page=1,$size=15) 
 			{
 				$userID = (int)$userID;
 				$projectID = (int)$projectID;
@@ -183,6 +183,16 @@ require_once 'RequestsController.php';
 				{
 					throw new Exception("Проект не существует.",101);
 				}
+			}
+			
+			public function getReportCommentsCount($projectID, $reportID, $userID, $startIndex = 0, $maxCount = 20)
+			{
+				$userID = (int)$userID;
+				$projectID = (int)$projectID;
+				$reportID = (int)$reportID;
+				$startIndex = (int)$startIndex;
+				$maxCount = (int)$maxCount;
+				$this->_sql->countQuery("commentsdetail", "ReportID = $reportID");
 			}
 			
 			/**

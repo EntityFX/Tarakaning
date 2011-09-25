@@ -23,18 +23,7 @@
 			<form action="/bug/add/" method="post"><div>
 				<input type="submit" value="Добавить отчёт" title="Добавить новый отчёт об ошибке" name="add"/>
 			</div></form>
-			<ul>
-				<li><a href="#">&lt;&lt;</a></li>
-				<li><a href="#">&lt;</a></li>
-				<li><a href="#">6</a></li>
-
-				<li><span style="font-weight: bold; color: #a88; border-color: #a80; background: #d5d597 !important;">7</span></li>
-				<li><a href="#">8</a></li>
-				<li><a href="#">9</a></li>
-				<li><a href="#">10</a></li>
-				<li><a href="#">&gt;</a></li>
-				<li><a href="#">&gt;&gt;</a></li>						
-			</ul>
+			{$PROJECT_BUGS_PAGINATOR}
 		</div>
 
 	
