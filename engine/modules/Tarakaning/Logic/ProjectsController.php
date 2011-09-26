@@ -1,6 +1,8 @@
 <?php 
 
 	require_once 'engine/modules/Tarakaning/Logic/ProjectFieldsUsersInfoENUM.php';
+	require_once 'engine/modules/Tarakaning/Logic/MyProjectsFieldsENUM.php';
+	
 	/**
 	 * Класс управления проектами.
 	 * @author timur 27.01.2011
@@ -189,12 +191,14 @@
 			return $data[0];
 		}
 		
-		public function getUserProjectsInfo($userId,$page=1,$size=10)
+		public function getUserProjectsInfo($userId,MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction,$page=1,$size=10)
 		{
 			$userId=(int)$userId;
 			$this->_sql->setLimit($page, $size);
+			$this->_sql->setOrder($orderField, $direction);
 			$resource=$this->_sql->selAllWhere("projectanderrorsview", "OwnerID=$userId");
 			$this->_sql->clearLimit();
+			$this->_sql->clearOrder();
 			return $this->_sql->getTable();
 		}
 		
@@ -204,12 +208,14 @@
 			return $this->_sql->countQuery("projectanderrorsview", "OwnerID=$userId");
 		}
 		
-		public function getMemberProjects($userId,$page=1,$size=10)
+		public function getMemberProjects($userId,MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction,$page=1,$size=10)
 		{
 			$userId=(int)$userId;
 			$this->_sql->setLimit($page, $size);
+			$this->_sql->setOrder($orderField, $direction);
 			$resource=$this->_sql->selAllWhere("projectsinfowithoutmeview", "UserID=$userId");
 			$this->_sql->clearLimit();
+			$this->_sql->clearOrder();
 			return $this->_sql->getTable();
 		}
 		

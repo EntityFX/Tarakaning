@@ -3,7 +3,7 @@ require_once 'engine/libs/controls/Pager/ULListPager.php';
 
 	class TarakaningULListPager extends ULListPager
 	{
-		const SIZE=5;
+		const SIZE=10;
 		
 		public function __construct($count,$get="page")
 		{
