@@ -2,6 +2,7 @@
 require_once 'InfoBasePage.php';
 require_once 'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
 require_once 'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
+require_once 'engine/libs/controls/Orderer/Orderer.php';
 
 class ProjectBugsPage extends InfoBasePage 
 {
@@ -10,6 +11,8 @@ class ProjectBugsPage extends InfoBasePage
 	private $_projectsList;
 	
 	private $_projectBugsPaginator;
+	
+	private $_projectBugsOrderer;
 	
 	protected function onInit()
 	{
@@ -23,10 +26,11 @@ class ProjectBugsPage extends InfoBasePage
 			$defaultProject=$userData["DefaultProjectID"] == null ? $this->_projectsList[0]['ProjectID'] : $userData["DefaultProjectID"];
 			$bugsOperation=new ErrorReportsController();
 			$this->_projectBugsPaginator=new TarakaningULListPager($bugsOperation->countReportsByProject($defaultProject));
+			$this->_projectBugsOrderer=new Orderer(new ErrorFieldsENUM());
 			$this->_bugsData=$bugsOperation->getProjectOrdered(
 				$defaultProject,
-				new ErrorFieldsENUM(ErrorFieldsENUM::NICK_NAME),
-				new MySQLOrderEnum(MySQLOrderENUM::DESC),
+				new ErrorFieldsENUM($this->_projectBugsOrderer->getOrderField()),
+				$this->_projectBugsOrderer->getMySQLOrderDirection(),
 				$this->_projectBugsPaginator->getOffset(),
 				$this->_projectBugsPaginator->getSize()
 			);
@@ -40,6 +44,7 @@ class ProjectBugsPage extends InfoBasePage
 		$this->_smarty->assign("PROJECTS_LIST",$this->_projectsList);
 		$this->_smarty->assign("MY_BUGS",$this->_bugsData);
 		$this->_smarty->assign("PROJECT_BUGS_PAGINATOR",$this->_projectBugsPaginator->getHTML());
+		$this->_smarty->assign("MY_BUGS_ORDERER",$this->_projectBugsOrderer->getNewUrls());
 	}
 }
 ?>
