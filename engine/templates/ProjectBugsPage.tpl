@@ -39,9 +39,9 @@
 								<th><a href="{$MY_BUGS_ORDERER.Status.url}" {if $MY_BUGS_ORDERER.Status.order eq true}class="sort"{/if}>Статус</a></th>
 								<th><a href="{$MY_BUGS_ORDERER.Title.url}" {if $MY_BUGS_ORDERER.Title.order eq true}class="sort"{/if}>Заголовок</a></th>
 								<th><a href="{$MY_BUGS_ORDERER.PriorityLevel.url}" {if $MY_BUGS_ORDERER.PriorityLevel.order eq true}class="sort"{/if}>Приоритет</a></th>
-								<th><a href="{$MY_BUGS_ORDERER.NICK_NAME.url}" {if $MY_BUGS_ORDERER.NICK_NAME.order eq true}class="sort"{/if}>Владелец</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.NickName.url}" {if $MY_BUGS_ORDERER.NickName.order eq true}class="sort"{/if}>Владелец</a></th>
 								<th><a href="{$MY_BUGS_ORDERER.AssignedNickName.url}" {if $MY_BUGS_ORDERER.AssignedNickName.order eq true}class="sort"{/if}>Назначено</a></th>
-								<th><a href="{$MY_BUGS_ORDERER.ErrorType.url}" {if $MY_BUGS_ORDERER.ErrorType.order eq true}class="sort"{/if}>Type</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.ErrorType.url}" {if $MY_BUGS_ORDERER.ErrorType.order eq true}class="sort"{/if}>Тип</a></th>
 								<th><a href="{$MY_BUGS_ORDERER.Time.url}" {if $MY_BUGS_ORDERER.Time.order eq true}class="sort"{/if}>Дата</a></th>
 							</tr>
 						</thead>

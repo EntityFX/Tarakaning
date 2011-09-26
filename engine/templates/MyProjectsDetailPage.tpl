@@ -33,8 +33,8 @@
 					<col width="23" /> 
 					<thead> <tr> 
 						<th><input name="del" type="checkbox" /></th> 
-						<th><a href="{$MY_PROJECT_ORDERER.NickName.url}#users">Пользователь</a></th> 
-						<th><a href="{$MY_PROJECT_ORDERER.CountErrors.url}#users">Количество отчетов</a></th> 
+						<th><a href="{$MY_PROJECT_ORDERER.NickName.url}#users" {if $MY_PROJECT_ORDERER.NickName.order eq true}class="sort"{/if}>Пользователь</a></th> 
+						<th><a href="{$MY_PROJECT_ORDERER.CountErrors.url}#users" {if $MY_PROJECT_ORDERER.CountErrors.order eq true}class="sort"{/if}>Количество отчетов</a></th> 
 						<th><a href="#">Количество комментариев</a></th> 
 						<th colspan="5"><a href="#">Назначенных заданий</a></th> 
 					</tr> 
