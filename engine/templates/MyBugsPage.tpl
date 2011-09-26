@@ -42,13 +42,13 @@
 						<thead>
 							<tr>
 								<th><input name="del_all" type="button" value="" title="" style="width:18px; padding: 0px; height: 18px;" /></th>
-								<th><a href="{$MY_BUGS_ORDERER.ID.url}" class="sort">№ &uarr;</a></th>
-								<th><a href="{$MY_BUGS_ORDERER.Status.url}">Статус</a></th>
-								<th><a href="{$MY_BUGS_ORDERER.Title.url}">Заголовок</a></th>
-								<th><a href="{$MY_BUGS_ORDERER.AssignedNickName.url}">Назначена</a></th>
-								<th><a href="{$MY_BUGS_ORDERER.PriorityLevel.url}">Приоритет</a></th>
-								<th><a href="{$MY_BUGS_ORDERER.ErrorType.url}">Тип</a></th>
-								<th><a href="{$MY_BUGS_ORDERER.Time.url}">Дата</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.ID.url}" {if $MY_BUGS_ORDERER.ID.order eq true}class="sort"{/if}>№ &uarr;</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.Status.url}" {if $MY_BUGS_ORDERER.Status.order eq true}class="sort"{/if}>Статус</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.Title.url}" {if $MY_BUGS_ORDERER.Title.order eq true}class="sort"{/if}>Заголовок</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.AssignedNickName.url}" {if $MY_BUGS_ORDERER.AssignedNickName.order eq true}class="sort"{/if}>Назначена</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.PriorityLevel.url}" {if $MY_BUGS_ORDERER.PriorityLevel.order eq true}class="sort"{/if}>Приоритет</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.ErrorType.url}" {if $MY_BUGS_ORDERER.ErrorType.order eq true}class="sort"{/if}>Тип</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.Time.url}" {if $MY_BUGS_ORDERER.Time.order eq true}class="sort"{/if}>Дата</a></th>
 
 							</tr>
 						</thead>

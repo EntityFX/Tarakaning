@@ -35,14 +35,14 @@
 						<thead>
 							<tr>
 								<th><input name="del_all" type="checkbox" title=""/></th>
-								<th><a href="#" class="sort">№ &uarr;</a></th>
-								<th><a href="#">Статус</a></th>
-								<th><a href="#">Заголовок</a></th>
-								<th><a href="#">Приоритет</a></th>
-								<th><a href="#">Владелец</a></th>
-								<th><a href="#">Назначено</a></th>
-								<th><a href="#">Тип</a></th>
-								<th><a href="#">Дата</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.ID.url}" {if $MY_BUGS_ORDERER.ID.order eq true}class="sort"{/if}>№</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.Status.url}" {if $MY_BUGS_ORDERER.Status.order eq true}class="sort"{/if}>Статус</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.Title.url}" {if $MY_BUGS_ORDERER.Title.order eq true}class="sort"{/if}>Заголовок</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.PriorityLevel.url}" {if $MY_BUGS_ORDERER.PriorityLevel.order eq true}class="sort"{/if}>Приоритет</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.NICK_NAME.url}" {if $MY_BUGS_ORDERER.NICK_NAME.order eq true}class="sort"{/if}>Владелец</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.AssignedNickName.url}" {if $MY_BUGS_ORDERER.AssignedNickName.order eq true}class="sort"{/if}>Назначено</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.ErrorType.url}" {if $MY_BUGS_ORDERER.ErrorType.order eq true}class="sort"{/if}>Type</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.Time.url}" {if $MY_BUGS_ORDERER.Time.order eq true}class="sort"{/if}>Дата</a></th>
 							</tr>
 						</thead>
 						<tbody>

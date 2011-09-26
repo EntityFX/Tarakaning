@@ -52,12 +52,19 @@
 			}
 		}
 		
+		public function getMySQLOrderDirection()
+		{
+			return new MySQLOrderENUM($this->getOrder());
+		}
+		
 		public function getNewUrls()
 		{
 			foreach($this->_supportedFields as $value)
 			{
+				$order=false;
 				if ($this->_orderName==$value)
 				{
+					$order=true;
 					$dir=$this->_direction=='asc'?'desc':'asc';
 				}
 				else 
@@ -66,7 +73,8 @@
 				}
 				$arr[$value]=array(
 					'url' => $this->getLinkParamsString($value.';'.$dir),
-					'direction' => $dir
+					'direction' => $dir,
+					'order' => $order
 				);
 			}
 			return $arr;
