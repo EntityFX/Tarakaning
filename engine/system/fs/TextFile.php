@@ -49,6 +49,7 @@ class TextFile extends AFileStream
 	 */
 	public function writeNewLine()
 	{
+		var_dump($this->_current);
 		$ret = fwrite($this->_fileHandle,"\n");
 		return $ret;
 	}

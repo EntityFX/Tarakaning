@@ -114,7 +114,7 @@
         
         public function getOffset()
         {
-        	return ($this->_current-1)*$this->_size;
+        	return $this->_current==0?0:($this->_current-1)*$this->_size;
         }
         
     }
