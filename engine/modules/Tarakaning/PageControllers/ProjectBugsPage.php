@@ -25,15 +25,19 @@ class ProjectBugsPage extends InfoBasePage
 		{
 			$defaultProject=$userData["DefaultProjectID"] == null ? $this->_projectsList[0]['ProjectID'] : $userData["DefaultProjectID"];
 			$bugsOperation=new ErrorReportsController();
-			$this->_projectBugsPaginator=new TarakaningULListPager($bugsOperation->countReportsByProject($defaultProject));
-			$this->_projectBugsOrderer=new Orderer(new ErrorFieldsENUM());
-			$this->_bugsData=$bugsOperation->getProjectOrdered(
-				$defaultProject,
-				new ErrorFieldsENUM($this->_projectBugsOrderer->getOrderField()),
-				$this->_projectBugsOrderer->getMySQLOrderDirection(),
-				$this->_projectBugsPaginator->getOffset(),
-				$this->_projectBugsPaginator->getSize()
-			);
+			$count=$bugsOperation->countReportsByProject($defaultProject);
+			if ($count!=null)
+			{
+				$this->_projectBugsPaginator=new TarakaningULListPager($count);
+				$this->_projectBugsOrderer=new Orderer(new ErrorFieldsENUM());
+				$this->_bugsData=$bugsOperation->getProjectOrdered(
+					$defaultProject,
+					new ErrorFieldsENUM($this->_projectBugsOrderer->getOrderField()),
+					$this->_projectBugsOrderer->getMySQLOrderDirection(),
+					$this->_projectBugsPaginator->getOffset(),
+					$this->_projectBugsPaginator->getSize()
+				);
+			}
 
 		}
 	}
@@ -43,8 +47,8 @@ class ProjectBugsPage extends InfoBasePage
 		parent::doAssign();
 		$this->_smarty->assign("PROJECTS_LIST",$this->_projectsList);
 		$this->_smarty->assign("MY_BUGS",$this->_bugsData);
-		$this->_smarty->assign("PROJECT_BUGS_PAGINATOR",$this->_projectBugsPaginator->getHTML());
-		$this->_smarty->assign("MY_BUGS_ORDERER",$this->_projectBugsOrderer->getNewUrls());
+		$this->_smarty->assign("PROJECT_BUGS_PAGINATOR",$this->_projectBugsPaginator!=null?$this->_projectBugsPaginator->getHTML():null);
+		$this->_smarty->assign("MY_BUGS_ORDERER",$this->_projectBugsOrderer!=null?$this->_projectBugsOrderer->getNewUrls():null);
 	}
 }
 ?>
