@@ -41,7 +41,7 @@ require_once 'engine/libs/controls/Orderer/Orderer.php';
 			$this->_memberProjectsPaginator=new TarakaningULListPager($projectsController->countMemberProjects($userData["UserID"]),'memberPage');
 			$this->_memberProjectsPaginator->setIDTag('all_projects');
 			$this->_memberProjectsOrderer=new Orderer(new MyProjectsFieldsENUM());
-			
+
 			$this->_projectsData=$projectsController->getUserProjectsInfo(
 				$userData["UserID"],
 				new MyProjectsFieldsENUM($this->_myProjectsOrderer->getOrderField()),

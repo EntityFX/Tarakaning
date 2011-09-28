@@ -34,7 +34,15 @@ class AFileStream implements IFileExist
 	 */
 	public function open($rwa = "r+")
 	{
-		return $this->_fileHandle = fopen($this->_current, $rwa);
+		$this->_fileHandle = fopen($this->_current, $rwa);
+		if ($this->_fileHandle!==false)
+		{
+			return $this->_fileHandle;
+		}
+		else
+		{
+			throw new Exception("Can't open file '".$filePath."'");
+		}
 	}
 	
 	/**
