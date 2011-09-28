@@ -30,10 +30,6 @@
             $this->_getRef=$get;
             $this->_size=(int)$size;
             $count=$size>0?(int)ceil($count / $this->_size):0;
-            if ($count==0)
-            {
-            	return;
-            }
             try
             {
                 parent::__construct($count,$getVal);
