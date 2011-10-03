@@ -1,7 +1,29 @@
 {extends file="info.base.tpl"}
+{block name=script}
+<script type="text/javascript">
+/* <![CDATA[ */
+	$(function(){
+		$("#tabs").tabs();
+		$("input:button, input:submit, button, .groupier a, .groupier li span, #exit").button();
+
+		if ($("#item_type").val()=="Task") $(".for_defect").hide();
+		$("#item_type").change(function(){
+			switch ($(this).val())
+			{
+				case "Task":
+					$(".for_defect").hide();
+					break;
+				case "Defect":
+					$(".for_defect").show();
+					break;
+			}
+		});
+	});
+/* ]]>*/
+</script>
+{/block}
 {block name=body}
 	<div id="content_body">
-
 		<form action="" method="post">
 			<div class="add_form">
 				<div id="hdr">Добавление отчёта об ошибке</div>
@@ -26,8 +48,8 @@
 							<option value="Defect">Дефект</option>
 						</select>
 					</dd>
-					<dt><label for="error_type">Тип ошибки</label></dt>
-					<dd>									
+					<dt class="for_defect"><label for="error_type">Тип ошибки</label></dt>
+					<dd class="for_defect">									
 						<select id="error_type" name="error_type">
 							<option value="Crash">Крах</option>
 							<option value="Cosmetic">Косметическая</option>
@@ -55,8 +77,8 @@
 					</dd>
 					<dt><label for="description">Описание</label></dt>
 					<dd><textarea id="description" name="description" rows="7" cols="20" >{$DATA.description}</textarea></dd>
-					<dt><label for="steps">Действия, которые привели к ошибке</label></dt>
-					<dd><textarea id="steps" name="steps" rows="10" cols="20" >{$DATA.steps}</textarea></dd>
+					<dt class="for_defect"><label for="steps">Действия, которые привели к ошибке</label></dt>
+					<dd class="for_defect"><textarea id="steps" name="steps" rows="10" cols="20" >{$DATA.steps}</textarea></dd>
 					<dt>&nbsp;</dt>
 					<dd class="subm"><input type="submit" name="add_report" value="Создать отчёт" /></dd>						
 				</dl>

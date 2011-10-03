@@ -44,14 +44,14 @@
             {
                 if ($projectsController->isProjectExists((int)$projectID))
                 {
-                    $sub=new SubscribesController();
+                	$sub=new SubscribesController();
                     if ($ownerID==NULL)
                     {
                         $this->_errorOwnerID=$concreteUser->id;
                     }
                     else
                     {
-                        $usrController=new UsersController();
+                    	$usrController=new UsersController();
                         if ($usrController->checkIfExsist((int)$ownerID))
                         {
                             $this->_errorOwnerID=(int)$ownerID;        
@@ -297,7 +297,12 @@
         {
         	$userID=$this->_errorOwnerID;
         	$projectID=$this->_projectOwnerID;
-        	return $this->_sql->countQuery("errorreportsinfo","UserID=$userID AND ProjectID=$projectID");
+            $itemKind=$kind->getValue();
+            if ($itemKind<>ItemKindENUM::ALL)
+            {
+            	$kindExpression="AND Kind='$itemKind'";
+            }
+        	return $this->_sql->countQuery("errorreportsinfo","UserID=$userID AND ProjectID=$projectID $kindExpression");
         }
         
         public function getReports(ItemKindENUM $kind,$page=1,$size=15,$userID=NULL,$projectID=NULL)
@@ -326,8 +331,12 @@
                 $projectID=$this->_projectOwnerID;    
             }
             $itemKind=$kind->getValue();
+            if ($itemKind<>ItemKindENUM::ALL)
+            {
+            	$kindExpression="AND Kind='$itemKind'";
+            }
             $this->_sql->setLimit($page, $size);
-            $this->_sql->selAllWhere("errorreportsinfo","UserID=$userID AND ProjectID=$projectID");
+            $this->_sql->selAllWhere("errorreportsinfo","UserID=$userID AND ProjectID=$projectID $kindExpression");
             $this->_sql->clearLimit();
             $res=$this->_sql->getTable();
             if ($res!=null)
@@ -399,6 +408,13 @@
         			$reportData["PriorityLevel"]="Обычный"; break;
          		case ErrorPriorityENUM::HIGH:
         			$reportData["PriorityLevel"]="Важный"; break;
+        	}
+        	switch ($reportData["Kind"])
+        	{
+        		case ItemKindENUM::DEFECT:
+        			$reportData["KindN"]="Дефект"; break;
+        		case ItemKindENUM::TASK:
+        			$reportData["KindN"]="Задача"; break;
         	}
         	switch ($reportData["ErrorType"])
         	{

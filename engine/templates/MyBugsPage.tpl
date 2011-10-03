@@ -1,29 +1,37 @@
 {extends file="info.base.tpl"}
+{block name=script}
+<script type="text/javascript">
+/* <![CDATA[ */
+	$(function(){
+		$("#tabs").tabs();
+		$("input:button, input:submit, button, .groupier a, .groupier li span, #exit").button();
 
+		$("#item_kind, #project_id").change(function(){
+			$("#selectProjectForm").submit();
+		});
+	});
+/* ]]>*/
+</script>
+{/block}
 {block name=body}
 		{* define the function *}
 		{function name=bug_type}
 		    {if $value eq NEW}new{else if $value eq IDENTIFIED}confirmed{else if $value eq ASSESSED}assigned{else if $value eq RESOLVED}solved{else if $value eq CLOSED}closed{/if}
 		{/function}
-
 <div id="content_body">
-	{if $PROJECTS_LIST neq NULL}
+	{if $PROJECTS.PROJECTS_LIST neq NULL}
 		<div class="groupier">
-			<form action="#" id="selectProjectForm">
+			<form action="#" id="selectProjectForm" method="get">
 				<div>
 				<label for="project_id">Проект</label>
 				<select id="project_id" name="project_id">
-					{if $PROJECTS_LIST neq NULL}
-					{foreach from=$PROJECTS_LIST item=element} {* Выводит все проекты мои и не только*}
-					<option value="{$element.ProjectID}">{$element.Name}</option>
-					{/foreach}
-					{/if}
+				{if $PROJECTS.PROJECTS_LIST neq NULL}
+					{html_options options=$PROJECTS.PROJECTS_LIST selected=$PROJECTS.selected}
+				{/if}
 				</select>
 				<label for="item_kind">Показать </label> 
 				<select id="item_kind" name="item_kind">
-					<option value="*">Дефекты и задачи</option>
-					<option value="1">Дефекты</option>
-					<option value="2">Задачи</option>
+					{html_options values=$ITEM_KIND.values output=$ITEM_KIND.text selected=$ITEM_KIND.selected}
 				</select>
 				</div>
 			</form>
@@ -42,14 +50,13 @@
 						<thead>
 							<tr>
 								<th><input name="del_all" type="button" value="" title="" style="width:18px; padding: 0px; height: 18px;" /></th>
-								<th><a href="{$MY_BUGS_ORDERER.ID.url}" {if $MY_BUGS_ORDERER.ID.order eq true}class="sort"{/if}>№ &uarr;</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.ID.url}" {if $MY_BUGS_ORDERER.ID.order eq true}class="sort"{/if}>№</a></th>
+								<th><a href="{$MY_BUGS_ORDERER.Kind.url}" {if $MY_BUGS_ORDERER.Kind.order eq true}class="sort"{/if}>Тип</a></th>
 								<th><a href="{$MY_BUGS_ORDERER.Status.url}" {if $MY_BUGS_ORDERER.Status.order eq true}class="sort"{/if}>Статус</a></th>
 								<th><a href="{$MY_BUGS_ORDERER.Title.url}" {if $MY_BUGS_ORDERER.Title.order eq true}class="sort"{/if}>Заголовок</a></th>
 								<th><a href="{$MY_BUGS_ORDERER.AssignedNickName.url}" {if $MY_BUGS_ORDERER.AssignedNickName.order eq true}class="sort"{/if}>Назначена</a></th>
 								<th><a href="{$MY_BUGS_ORDERER.PriorityLevel.url}" {if $MY_BUGS_ORDERER.PriorityLevel.order eq true}class="sort"{/if}>Приоритет</a></th>
-								<th><a href="{$MY_BUGS_ORDERER.ErrorType.url}" {if $MY_BUGS_ORDERER.ErrorType.order eq true}class="sort"{/if}>Тип</a></th>
 								<th><a href="{$MY_BUGS_ORDERER.Time.url}" {if $MY_BUGS_ORDERER.Time.order eq true}class="sort"{/if}>Дата</a></th>
-
 							</tr>
 						</thead>
 						<tbody>
@@ -57,11 +64,11 @@
 							<tr class="{bug_type value=$element.Status}">
 							    <td><input name="del1" type="checkbox" /></td>
 								<td><a href="/bug/show/{$element.ID}/" class="sort">{$element.ID}</a></td>
+								<td>{$element.KindN}</td>
 								<td>{$element.StatusN}</td>
 								<td>{$element.Title}</td>
 								<td>{if $element.AssignedTo neq null}<a href="/profile/show/{$element.AssignedTo}/">{$element.AssignedNickName}</a>{/if}</td>
 								<td>{$element.PriorityLevel}</td>
-								<td>{$element.ErrorType}</td>
 								<td>{$element.Time}</td>
 							</tr>
 						{/foreach}
@@ -72,7 +79,7 @@
 					</div>
 				</form>
 				{else}
-					<strong>Багов нет</strong>
+					<strong>Элементов нет</strong>
 				{/if}
 			</div>
 	{else}
