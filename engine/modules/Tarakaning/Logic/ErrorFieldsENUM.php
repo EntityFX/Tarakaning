@@ -5,6 +5,7 @@
     {
         const ID         = "ID";
         const OWNER      = "UserID";
+        const KIND       = "Kind";
         const NICK_NAME  = "NickName";
         const ASSIGNED_NICK_NAME  = "AssignedNickName";
         const STATUS     = "Status";

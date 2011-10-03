@@ -26,6 +26,10 @@
             {
                 $this->_current=$current; 
             }
+            else if ($count==0)
+            {
+            	 $this->_current=1;
+            }
             else
             {
                 throw new Exception("CurrentPage Out Of Range");

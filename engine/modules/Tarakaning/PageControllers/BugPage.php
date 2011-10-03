@@ -64,29 +64,23 @@ class BugPage extends InfoBasePage
 				}
 			}
 		}
-		try
-		{
-			$this->_commentsPaginator=new TarakaningULListPager(
-				$reportCommentsOperation->getReportCommentsCount(				
-					$this->_bugData['ID']
-				)
-			);
-			$this->_orderer=new Orderer(new ItemCommentsENUM());
-			$this->_orderData=$this->_orderer->getNewUrls();
-			$this->_commentsPaginator->setIDTag('comments');
-			$this->_commentsData=$reportCommentsOperation->getReportComments(
-				$this->_bugData['ProjectID'], 
-				$this->_bugData['ID'], 
-				$this->_bugData['UserID'],
-				new ItemCommentsENUM($this->_orderer->getOrderField()),
-				new MySQLOrderENUM($this->_orderer->getOrder()),
-				$this->_commentsPaginator->getOffset(),
-				$this->_commentsPaginator->getSize()
-			);
-		}
-		catch (Exception $exception)
-		{
-		}
+		$this->_commentsPaginator=new TarakaningULListPager(
+		$reportCommentsOperation->getReportCommentsCount(				
+			$this->_bugData['ID']
+		)
+		);
+		$this->_orderer=new Orderer(new ItemCommentsENUM());
+		$this->_orderData=$this->_orderer->getNewUrls();
+		$this->_commentsPaginator->setIDTag('comments');
+		$this->_commentsData=$reportCommentsOperation->getReportComments(
+			$this->_bugData['ProjectID'], 
+			$this->_bugData['ID'], 
+			$this->_bugData['UserID'],
+			new ItemCommentsENUM($this->_orderer->getOrderField()),
+			new MySQLOrderENUM($this->_orderer->getOrder()),
+			$this->_commentsPaginator->getOffset(),
+			$this->_commentsPaginator->getSize()
+		);
 	}
 	
 	protected function doAssign()

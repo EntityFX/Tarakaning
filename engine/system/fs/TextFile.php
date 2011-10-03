@@ -12,7 +12,7 @@ class TextFile extends AFileStream
 	 */
 	public function readLine() 
 	{
-		$ret = fgets($this->_fileHandle);
+		$ret = @fgets($this->_fileHandle);
 		return $ret;
 	}
 	
@@ -22,7 +22,7 @@ class TextFile extends AFileStream
 	 */
 	public function writeLine($value)
 	{
-		$ret = fwrite($this->_fileHandle,$value."\n");
+		$ret = @fwrite($this->_fileHandle,$value."\n");
 		return $ret;
 	}
 
@@ -31,7 +31,7 @@ class TextFile extends AFileStream
 	 */
 	public function readChar() 
 	{
-		$ret = fgetc($this->_fileHandle);
+		$ret = @fgetc($this->_fileHandle);
 		return $ret;
 	}
 	/**
@@ -40,7 +40,7 @@ class TextFile extends AFileStream
 	 */
 	public function writeChar($value)
 	{
-		$ret = fwrite($this->_fileHandle,$value,1);
+		$ret = @fwrite($this->_fileHandle,$value,1);
 		return $ret;
 	}
 	
@@ -49,7 +49,7 @@ class TextFile extends AFileStream
 	 */
 	public function writeNewLine()
 	{
-		$ret = fwrite($this->_fileHandle,"\n");
+		$ret = @fwrite($this->_fileHandle,"\n");
 		return $ret;
 	}
 	
@@ -60,7 +60,7 @@ class TextFile extends AFileStream
 	{
 		while(!feof($this->_fileHandle))
 		{
-			$str .= fgets($this->_fileHandle);
+			$str .= @fgets($this->_fileHandle);
 		}
 		return $str;
 	}

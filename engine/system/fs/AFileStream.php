@@ -51,7 +51,7 @@ class AFileStream implements IFileExist
 	public function close()
 	{
 		$this->_position = 0;
-		return fclose($this->_fileHandle);
+		return @fclose($this->_fileHandle);
 	}
 	
 	/**
