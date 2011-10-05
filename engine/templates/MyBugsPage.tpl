@@ -1,17 +1,24 @@
 {extends file="info.base.tpl"}
 {block name=script}
+{literal}
+		<script type="text/javascript" src="/js/j.checkboxes.js"></script>
 <script type="text/javascript">
 /* <![CDATA[ */
 	$(function(){
 		$("#tabs").tabs();
 		$("input:button, input:submit, button, .groupier a, .groupier li span, #exit").button();
-
+		$('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
 		$("#item_kind, #project_id").change(function(){
 			$("#selectProjectForm").submit();
+		});
+
+		$('#del').click(function(){
+			return confirm('Вы действительно желаете удалить выделенные элементы?');
 		});
 	});
 /* ]]>*/
 </script>
+{/literal}
 {/block}
 {block name=body}
 		{* define the function *}
@@ -75,7 +82,7 @@
 						</tbody>
 					</table>
 					<div class="groupier">
-						<input type="submit" value="Удалить выделенные" title="Удалить выделенные" name="del" />
+						<input type="submit" value="Удалить выделенные" title="Удалить выделенные" name="del" id="del" />
 					</div>
 				</form>
 				{else}

@@ -9,8 +9,8 @@
 	{
 		var settings=$.extend({
 			element: null, //Internal element for edit
-			onText: "o", //Default text for select
-			offText: "v", //Default text for deselect
+			onText: "+", //Default text for select
+			offText: "-", //Default text for deselect
 			titleOn: "Select all", //Default title for select
 			titleOff: "Deselect all", //Default title for deselect
 			defaultSelection: false //Default selection for all elements
