@@ -22,12 +22,23 @@
 		</script>
 {/block}
 {block name=info}
+<script type="text/javascript">
+		/* <![CDATA[ */
+			$(document).ready(function() {
+				$("#submit_item").click(function(){
+					location.replace("/bug/show/"+$("#item").val()+"/");
+					alert("/bug/show/"+$("#item").val()+"/");
+					return false;
+				});
+			});
+		/* ]]>*/
+</script>
 <div id="goTask">
 	<form action="#">
 		<div>
-			<label>¹ </label><input type="text" maxlength="10" name="bug" />
+			<label>¹ </label><input type="text" maxlength="10" name="item" id="item" />
 
-			<input type="submit" value="OK" />
+			<input type="submit" value="OK" id="submit_item" />
 		</div>
 	</form>
 </div>
