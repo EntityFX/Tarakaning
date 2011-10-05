@@ -20,7 +20,15 @@
 						<tr><td><strong>№</strong></td><td><strong>{$BUG.ID}</strong></td></tr>
 						<tr><td><strong>Тип</strong></td><td><strong>{$BUG.KindN}</strong></td></tr>
 						<tr><td><strong>Заголовок отчёта</strong></td><td><strong>{$BUG.Title}</strong></td></tr>
-						<tr><td><b>Статус</b></td><td class="{bug_type value=$BUG.Status}">{$BUG.StatusN} (<a href="#">ред</a>)</td></tr>
+						{*<tr><td><b>Статус</b></td><td class="{bug_type value=$BUG.Status}">{$BUG.StatusN} (<a href="#">ред</a>)</td></tr>*}
+						<tr>
+							<td><b>Статус</b></td>
+							<td class="{bug_type value=$BUG.Status}">
+								<select>
+									{html_options options=$STATUSES.values selected=$STATUSES.selected}
+								</select>
+							</td>
+						</tr>
 						<tr><td><b>Владелец</b></td><td><a href="#">{$BUG.NickName}</a></td></tr>
 						<tr><td><b>Приоритет</b></td><td>{$BUG.PriorityLevel}</td></tr>
 						<tr><td><b>Проект</b></td><td>{$BUG.ProjectName}</td></tr>

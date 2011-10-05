@@ -18,7 +18,7 @@ require_once 'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
 					$bugsOperation=new ErrorReportsController($userData["DefaultProjectID"] == null ? $postData['project_id'] : $userData["DefaultProjectID"]);
 					try 
 					{	
-						$bugsOperation->addReport(
+						$newItemID=$bugsOperation->addReport(
 							new ItemDBKindENUM($postData['item_type']),
 							new ErrorPriorityENUM($postData['priority']),
 							new ErrorStatusENUM(),
@@ -41,12 +41,15 @@ require_once 'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
 						$this->_controller->error->addError("addBugOK",true);
 						$this->navigate("/my/bugs/");
 					}
+					$this->navigate("/bug/show/$newItemID/");
 				}
 			}
 			$userData=$this->_controller->auth->getName();
 			$concreteUser=new ConcreteUser();
 			$projectsController=new ProjectsController();
 			$this->_projectsList=$projectsController->getUserProjects($userData["UserID"]);
+			
+			$projectUsers=$projectsController->getProjectUsers(48);
 		}
 		
 		protected function doAssign()

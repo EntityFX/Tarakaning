@@ -6,33 +6,23 @@
 			$(document).ready(function() {
 				$("#tabs").tabs();
 				$("input:button, input:submit, button, .groupier a, .groupier li span, #exit").button();	
-				$('.reports_form').checkboxes({
-					onText: "*",
-					offText: "",
-					titleOn: "Отметить все",
-					titleOff: "Убрать всё"
-				});
 				
 				$("#project_id").change(function(){
 					var form=$("#selectProjectForm");
 					form[0].submit();
 				});
+
+				$("#submit_item").click(function(){
+					location.replace("/bug/show/"+$("#item").val()+"/");
+					return false;
+				});
+
+				{block name=jQuery_script}{/block}
 			});
 		/* ]]>*/
 		</script>
 {/block}
 {block name=info}
-<script type="text/javascript">
-		/* <![CDATA[ */
-			$(document).ready(function() {
-				$("#submit_item").click(function(){
-					location.replace("/bug/show/"+$("#item").val()+"/");
-					alert("/bug/show/"+$("#item").val()+"/");
-					return false;
-				});
-			});
-		/* ]]>*/
-</script>
 <div id="goTask">
 	<form action="#">
 		<div>

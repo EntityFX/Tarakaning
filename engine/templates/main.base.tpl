@@ -7,6 +7,7 @@
 		<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 		<script type="text/javascript" src="/js/jquery-ui-1.8.5.custom.min.js"></script>
 		<script type="text/javascript" src="/js/operationResult.js"></script>
+		<script type="text/javascript" src="/js/j.checkboxes.js"></script>
 		{block name=script}{/block}
 		<link rel="stylesheet" type="text/css" href="/css/style.css" />
 	</head>
