@@ -45,28 +45,21 @@
 			$projectName = mysql_escape_string($projectName);
 			$description = mysql_escape_string($description);
 			$userID = (int)$userID;
-			if ($this->isExistThisProjectName($projectName))
-			{
-				throw new Exception(sprintf("Проект с именем %s уже существует.",$projectName), 103); ;
-			}
-			else
-			{
-				$this->_sql->insert(
-					"Projects", 
-					new ArrayObject(array(
-						$projectName,
-						$description,
-						$userID,
-						date("c")
-					)),
-					new ArrayObject(array(
-						'Name',
-						'Description',
-						'OwnerID',
-						'CreateDate'
-					))
-				);
-			}
+			$this->_sql->insert(
+				"Projects", 
+				new ArrayObject(array(
+					$projectName,
+					$description,
+					$userID,
+					date("c")
+				)),
+				new ArrayObject(array(
+					'Name',
+					'Description',
+					'OwnerID',
+					'CreateDate'
+				))
+			);
 		}
 		
 		/**
@@ -251,7 +244,19 @@
 		public function getUserProjects($userId)
 		{
 			$userId=(int)$userId;
-			$this->_sql->selFieldsWhere("Projects", "OwnerId=$userId",'ProjectID','Name');
+			$this->_sql->selFieldsWhere("alluserprojects", "UserId=$userId",'ProjectID','Name');
+			return $this->_sql->getTable();
+		}
+		
+		public function  getProjectUsers($projectID)
+		{
+			$projectID=(int)$projectID;
+			$this->_sql->setOrder(
+				new ProjectFieldsUsersInfoENUM(ProjectFieldsUsersInfoENUM::NICK_NAME),
+				new MySQLOrderENUM(MySQLOrderENUM::ASC)
+			);
+			$this->_sql->selFieldsWhere("alluserprojects", "ProjectID=$projectID",'UserID','NickName');
+			$this->_sql->clearOrder();
 			return $this->_sql->getTable();
 		}
 		

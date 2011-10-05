@@ -31,6 +31,7 @@ class MyBugsPage extends InfoBasePage
 		$concreteUser=new ConcreteUser();
 		
 		$kind=$this->request->getParam("item_kind",ItemKindENUM::ALL);
+		$this->_itemKindENUM=new ItemKindENUM($kind);
 		
 		$this->_projectsList=$projectsController->getUserProjects($userData["UserID"]);
 		if ($this->_projectsList!=null)
@@ -39,8 +40,8 @@ class MyBugsPage extends InfoBasePage
 			$this->_currentProjectID=$userData["DefaultProjectID"] == null ? $this->_currentProjectID : $userData["DefaultProjectID"];
 						
 			$bugsOperation=new ErrorReportsController($this->_currentProjectID);
-			$this->_itemKindENUM=new ItemKindENUM($kind);
-			$this->_myBugsPaginator=new TarakaningULListPager($bugsOperation->countReports($this->_itemKindENUM));
+			$count=$bugsOperation->countReports($this->_itemKindENUM);
+			$this->_myBugsPaginator=new TarakaningULListPager($count);
 			$orderer=new Orderer(new ErrorFieldsENUM());
 			$this->_orderData=$orderer->getNewUrls();
 			$this->_bugsData=$bugsOperation->getMyOrdered(
@@ -66,7 +67,7 @@ class MyBugsPage extends InfoBasePage
 			"selected" => $this->_currentProjectID
 		));
 		$this->_smarty->assign("MY_BUGS",$this->_bugsData);
-		$this->_smarty->assign("MY_BUGS_PAGINATOR",$this->_myBugsPaginator->getHTML());
+		$this->_smarty->assign("MY_BUGS_PAGINATOR",$this->_myBugsPaginator!=null?$this->_myBugsPaginator->getHTML():null);
 		$this->_smarty->assign("MY_BUGS_ORDERER",$this->_orderData);
 	}
 	

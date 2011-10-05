@@ -90,6 +90,14 @@ class BugPage extends InfoBasePage
 		$this->_smarty->assign("COMMENTS",$this->_commentsData);
 		$this->_smarty->assign("COMMENTS_ORDER",$this->_orderData);
 		$this->_smarty->assign("COMMENTS_PAGINATOR",$this->_commentsPaginator->getHTML());
+		$itemStatuses=new ErrorStatusENUM($this->_bugData['Status']);
+		$this->_smarty->assign(
+			"STATUSES",
+			array(
+				'values' => $itemStatuses->getArray(),
+				'selected' => $itemStatuses->getValue()
+			)
+		);
 		$this->_smarty->assign("USER_ID",$this->_userData["UserID"]);
 		$addCommentError=$this->_controller->error->getErrorByName("addCommentError");
 		if ($addCommentError!=null)

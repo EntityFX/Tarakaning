@@ -1,23 +1,15 @@
 {extends file="info.base.tpl"}
-{block name=script}
-{literal}
-		<script type="text/javascript" src="/js/j.checkboxes.js"></script>
-<script type="text/javascript">
-/* <![CDATA[ */
-	$(function(){
-		$("#tabs").tabs();
-		$("input:button, input:submit, button, .groupier a, .groupier li span, #exit").button();
-		$('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
-		$("#item_kind, #project_id").change(function(){
-			$("#selectProjectForm").submit();
-		});
 
+{block name=jQuery_script}
+{literal}
+		$('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
 		$('#del').click(function(){
 			return confirm('Вы действительно желаете удалить выделенные элементы?');
 		});
-	});
-/* ]]>*/
-</script>
+		
+		$("#item_kind, #project_id").change(function(){
+			$("#selectProjectForm").submit();
+		});
 {/literal}
 {/block}
 {block name=body}
@@ -56,7 +48,7 @@
 					<table class="report_table">
 						<thead>
 							<tr>
-								<th><input name="del_all" type="button" value="" title="" style="width:18px; padding: 0px; height: 18px;" /></th>
+								<th><input name="del_all" type="checkbox" title="" /></th>
 								<th><a href="{$MY_BUGS_ORDERER.ID.url}" {if $MY_BUGS_ORDERER.ID.order eq true}class="sort"{/if}>№</a></th>
 								<th><a href="{$MY_BUGS_ORDERER.Kind.url}" {if $MY_BUGS_ORDERER.Kind.order eq true}class="sort"{/if}>Тип</a></th>
 								<th><a href="{$MY_BUGS_ORDERER.Status.url}" {if $MY_BUGS_ORDERER.Status.order eq true}class="sort"{/if}>Статус</a></th>

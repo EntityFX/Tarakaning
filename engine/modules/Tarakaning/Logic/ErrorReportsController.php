@@ -133,6 +133,7 @@
                     $steps  
                 ))
             );
+            return $this->_sql->getLastID();
         }   
         
         public function deleteReport($reportID) 
@@ -250,11 +251,16 @@
             return (Boolean)$countGroups;   
         }
         
-        public function getReportsByProject($projectID,$from,$size)
+        public function getReportsByProject($projectID,ItemKindENUM $kind,$from,$size)
         {
             $this->checkProject($projectID);  
             $this->useLimit($from,$size);
-            $this->_sql->selAllWhere("ErrorReportsInfo","ProjectID=$projectID");
+            $itemKind=$kind->getValue();
+            if ($itemKind<>ItemKindENUM::ALL)
+            {
+            	$kindExpression="AND Kind='$itemKind'";
+            }
+            $this->_sql->selAllWhere("ErrorReportsInfo","ProjectID=$projectID $kindExpression");
             $res=$this->_sql->getTable();
             if ($res!=null)
             {
@@ -267,10 +273,15 @@
             return $res;  
         }
         
-        public function countReportsByProject($projectID)
+        public function countReportsByProject($projectID,ItemKindENUM $kind)
         {
             $this->checkProject($projectID);
-            return $this->_sql->countQuery("ErrorReportsInfo","ProjectID=$projectID");
+            $itemKind=$kind->getValue();
+            if ($itemKind<>ItemKindENUM::ALL)
+            {
+            	$kindExpression="AND Kind='$itemKind'";
+            }
+            return $this->_sql->countQuery("ErrorReportsInfo","ProjectID=$projectID $kindExpression");
         }
         
         private function checkProject(&$projectID)
@@ -356,10 +367,10 @@
             return $this->getReports($kind,$page,$size,$userID=NULL,$projectID=NULL);
         }
         
-        public function getProjectOrdered($projectID,ErrorFieldsENUM $field, MySQLOrderEnum $direction,$from,$size)
+        public function getProjectOrdered($projectID,ItemKindENUM $kind,ErrorFieldsENUM $field, MySQLOrderEnum $direction,$from,$size)
         {
             $this->useOrder($field,$direction);
-            $res=$this->getReportsByProject($projectID,$from,$size);
+            $res=$this->getReportsByProject($projectID,$kind,$from,$size);
             return $res;
         }
         
