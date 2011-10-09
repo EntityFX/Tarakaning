@@ -32,7 +32,10 @@ class ProjectBugsPage extends InfoBasePage
 		if ($this->_projectsList!=null)
 		{
 			$this->_currentProjectID=$this->request->getParam("project_id",$this->_projectsList[0]["ProjectID"]);
-			$this->_currentProjectID=$userData["DefaultProjectID"] == null ? $this->_currentProjectID : $userData["DefaultProjectID"];
+			if ($this->request->getParam("project_id",null)==null)
+			{
+				$this->_currentProjectID=$userData["DefaultProjectID"] == null ? $this->_currentProjectID : $userData["DefaultProjectID"];
+			}
 			
 			$bugsOperation=new ErrorReportsController();
 			$count=$bugsOperation->countReportsByProject($this->_currentProjectID,$this->_itemKindENUM);

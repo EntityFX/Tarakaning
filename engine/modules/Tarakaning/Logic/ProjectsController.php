@@ -248,6 +248,11 @@
 			return $this->_sql->getTable();
 		}
 		
+		/**
+		 * 
+		 * Получить всех участников проекта (и владельца).
+		 * @param int $projectID
+		 */
 		public function  getProjectUsers($projectID)
 		{
 			$projectID=(int)$projectID;

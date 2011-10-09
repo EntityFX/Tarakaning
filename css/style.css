@@ -371,17 +371,24 @@ dd.subm {
 	}
 	
 		#goTask {
-			background: #F1F1F1;
 			position: absolute;
 			bottom: 5px;
 			right: 5px;
+		}
+		
+		#goTask div.panel {
+			float: left;
+			background: #F1F1F1;
 			padding: 5px;
+			margin-left: 3px;
 			border: 2px solid #DEDEDE;
 			border-radius: 5px;
 			-moz-border-radius: 5px;
 		}
 		
-		#goTask input[type="text"]
+
+		
+		#goTask div input[type="text"]
 		{
 			width:85px;
 			height: 20px;

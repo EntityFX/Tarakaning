@@ -19,6 +19,7 @@ require_once 'engine/kernel/HTMLPage.php';
 				$this->_userInfo['Name'].' '.
 	  			$this->_userInfo['SecondName']
   			);
+  			$this->_smarty->assign("MAIN_MENU",$this->_controller->menu);
 		}
 	}
 ?>

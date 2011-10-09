@@ -1,6 +1,6 @@
 {extends file="info.base.tpl"}
 
-{block name=jQuery_script}
+{block name=script}
 {literal}
 		$('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
 		$('#del').click(function(){
@@ -55,7 +55,7 @@
 								<th><a href="{$MY_BUGS_ORDERER.Title.url}" {if $MY_BUGS_ORDERER.Title.order eq true}class="sort"{/if}>Заголовок</a></th>
 								<th><a href="{$MY_BUGS_ORDERER.AssignedNickName.url}" {if $MY_BUGS_ORDERER.AssignedNickName.order eq true}class="sort"{/if}>Назначена</a></th>
 								<th><a href="{$MY_BUGS_ORDERER.PriorityLevel.url}" {if $MY_BUGS_ORDERER.PriorityLevel.order eq true}class="sort"{/if}>Приоритет</a></th>
-								<th><a href="{$MY_BUGS_ORDERER.Time.url}" {if $MY_BUGS_ORDERER.Time.order eq true}class="sort"{/if}>Дата</a></th>
+								<th style="width: 180px;"><a href="{$MY_BUGS_ORDERER.Time.url}" {if $MY_BUGS_ORDERER.Time.order eq true}class="sort"{/if}>Дата</a></th>
 							</tr>
 						</thead>
 						<tbody>

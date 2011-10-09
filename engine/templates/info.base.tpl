@@ -5,32 +5,34 @@
 		/* <![CDATA[ */
 			$(document).ready(function() {
 				$("#tabs").tabs();
-				$("input:button, input:submit, button, .groupier a, .groupier li span, #exit").button();	
+				$("input:button, input:submit, button, .groupier a, .groupier li span, #exit, #goTask div.panel a").button();	
 				
-				$("#project_id").change(function(){
-					var form=$("#selectProjectForm");
-					form[0].submit();
-				});
+
 
 				$("#submit_item").click(function(){
 					location.replace("/bug/show/"+$("#item").val()+"/");
 					return false;
 				});
 
-				{block name=jQuery_script}{/block}
+				{$smarty.block.child}
 			});
 		/* ]]>*/
 		</script>
 {/block}
 {block name=info}
-<div id="goTask">
-	<form action="#">
-		<div>
-			<label>№ </label><input type="text" maxlength="10" name="item" id="item" />
 
-			<input type="submit" value="OK" id="submit_item" />
-		</div>
-	</form>
+<div id="goTask">
+	<div class="panel">
+		<form action="#">
+			<div>
+				<a href="/bug/add/" alt="+" title="Добавить новую задачу">З</a>
+				<a href="/my/project/new/" alt="+" title="Добавить новый проект">П</a>
+				<label>№ </label>
+				<input type="text" maxlength="10" name="item" id="item" />
+				<input type="submit" value="OK" id="submit_item" />
+			</div>
+		</form>
+	</div>
 </div>
 <div id="account_panel">
 	<strong>{$LOGIN}</strong><br/>
@@ -42,12 +44,15 @@
 {block name=menu}
 <div id="main_menu">
 	<ul>
-		<li id="cur"><a href="/my/bugs/">Мои отчёты</a></li>
-		<li><a href="/my/project/bugs/">Отчёты проекта</a></li>
-		<li><a href="/my/projects/">Мои проекты</a></li>
-		<li><a href="subscribes.html">Мои заявки</a></li>
-		<li><a href="find.html">Поиск</a></li>
-		<li><a href="/profile/show/">Профиль</a></li>
+		{foreach name=bugComments from=$MAIN_MENU item=element} {* Комментарии отчёта *}
+			<li {if $element.cur eq true}id="cur"{/if}>
+				{if $element.cur eq true}
+				{$element.title}
+				{else}
+				<a href="{$element.url}">{$element.title}</a>
+				{/if}
+			</li>
+		{/foreach}
 	</ul>
 </div>
 {/block}
