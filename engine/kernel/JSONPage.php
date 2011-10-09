@@ -7,7 +7,7 @@
 	abstract class JSONPage extends SinglePage
 	{
 		
-		protected $_jsonOutput;
+		private $_jsonOutput;
 		
 		/**
 		 * 
@@ -24,7 +24,6 @@
 		{
 			if (!$this->response->isRedirect())
 			{
-				$this->doAssign();
 				$this->response->sendHeaders();
 				echo Zend_Json::encode($this->utf8Encode($this->_jsonOutput),true);
 			}
@@ -32,6 +31,11 @@
 			{
 				$this->response->sendHeaders();
 			}
+		}
+		
+		protected function setJSONOutput($object)
+		{
+			$this->_jsonOutput=$object;
 		}
 		
 		private function utf8Encode($res)
@@ -63,6 +67,4 @@
 				return $res;
 			}
 		}
-		
-		abstract protected function doAssign();
 	}

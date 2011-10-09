@@ -25,7 +25,8 @@ require_once 'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
 							new ErrorTypeEnum($postData['error_type']),
 							$postData['title'],
 							$postData['description'],
-							$postData['steps']
+							$postData['steps'],
+							$postData['assigned_to']
 						);
 					}
 					catch (Exception $exception)
@@ -48,8 +49,6 @@ require_once 'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
 			$concreteUser=new ConcreteUser();
 			$projectsController=new ProjectsController();
 			$this->_projectsList=$projectsController->getUserProjects($userData["UserID"]);
-			
-			$projectUsers=$projectsController->getProjectUsers(48);
 		}
 		
 		protected function doAssign()

@@ -77,15 +77,13 @@
             }
         }
         
-        public function addReport(ItemDBKindENUM $kind, ErrorPriorityENUM $priority, ErrorStatusENUM $errorStatus, ErrorTypeEnum $type, $title="", $description="", $steps="")
+        public function addReport(ItemDBKindENUM $kind, ErrorPriorityENUM $priority, ErrorStatusENUM $errorStatus, ErrorTypeEnum $type, $title, $description="", $steps="", $assignedTo=null)
         {
             $title=htmlspecialchars($title);
             if ($title=="")
             {
             	throw new Exception("Заголовок не должен быть пустым");
             }
-            $description=htmlspecialchars($description);
-            $steps=htmlspecialchars($steps);
             if ($kind->check())
             {
             	$kindValue=(string)$kind->getValue();  
@@ -118,11 +116,15 @@
             {
                 throw new Exception("Неверный формат ошибки");
             }
+            $description=nl2br(htmlspecialchars($description));
+            $steps=nl2br(htmlspecialchars($steps));
+            $assignedTo=$assignedTo==' '?null:(int)$assignedTo;
             $this->_sql->call(
             	'AddItem', 
             	new ArrayObject(array(
                     $this->_errorOwnerID,
                     $this->_projectOwnerID,
+                    $assignedTo,
                     $priorityValue,
                     $errorStatusValue,
                     date("Y-m-d H:i:s"),
@@ -130,7 +132,7 @@
                     $kindValue,
                     $description,
                     $typeValue,
-                    $steps  
+                    $steps
                 ))
             );
             return $this->_sql->getLastID();
@@ -142,84 +144,62 @@
             $this->_sql->delete("ErrorReport","ID=$id");    
         }
         
-        public function editReport($reportID,ErrorStatusENUM $errorStatus, $userID)
+        /**
+         * 
+         * Редактировать статус задачи
+         * @param $reportID int ID отчёта
+         * @param $errorStatusErrorStatusENUM Новый статус
+         * @param $userID int Текущий юзер
+         */
+        public function editReport($reportID,ErrorStatusENUM $newStatus, $userID)
         {
-            if ($errorStatus->check())
+            if ($newStatus->check())
             {
-                $errorStatusValue=$errorStatus->getValue();    
+                $newStatusValue=$newStatus->getValue();    
             }
             else
             {
                 throw new Exception("Неверный статус ошибки");
-            } 
-            if ($this->checkIsExsist($reportID))
-            {
-                if ($this->checkIsProjectError($reportID))
-                {
-                    $report=$this->getReportByID($reportID);
-                    if ($report["Status"]!=$errorStatusValue)
-                    {
-                        $reportID=(int)$reportID;
-                        switch ($report["Status"])
-                        {
-                            case ErrorStatusENUM::CLOSED:
-                                $pC=new ProjectsController();
-                                if ($pC->isOwner($this->_errorOwnerID,$this->_projectOwnerID))
-                                {
-                                    $this->doEdit($reportID,$errorStatusValue,$userID);  
-                                }
-                                else
-                                {
-                                    throw new Exception("Отчёт со статусом CLOSED может редактировать владелец проекта");
-                                }
-                                break;
-                            case ErrorStatusENUM::ASSIGNED:
-                                $repAss=new ReportsAssigment($reportID);
-                                $repAsigmentRecord=$repAss->getByReportID($reportID);
-                                if ($this->chekProjectOwnerOrReportOwner($reportID) || $repAsigmentRecord["UserID"]==$this->_errorOwnerID)
-                                {
-                                    $this->doEdit($reportID,$errorStatusValue,$userID);    
-                                } 
-                                else
-                                {
-                                    throw new Exception("Отчёт со статусом ASSIGNED могут редактировать владелец проекта и создатель отчёта, а также тот, кому был назначен отчёт");
-                                }
-                                break;
-                            default:
-                                if ($this->chekProjectOwnerOrReportOwner($reportID))
-                                {
-                                    $this->doEdit($reportID,$errorStatusValue,$userID);
-                                }
-                                else
-                                {
-                                    throw new Exception("Отчёт со статусом $report[Status] могут редактировать владелец проекта и создатель отчёта");
-                                }                           
-                        }                        
-                    }
-                }
-                else
-                {
-                    throw new Exception("Редактируемый отчёт не принадлежит текущему проекту");
-                }
             }
-            else
-            {
-                throw new Exception("Отчёт об ошибке не существует");
-            }      
-        }
-        
-        private function doEdit($reportID,$errorStatusValue,$userID)
-        {
-            $repAss=new ReportsAssigment($reportID);
-            if ($errorStatusValue==ErrorStatusENUM::ASSIGNED)
-            {
-                $repAss->addAssigment($userID);
-            }
-            else
-            {
-                $repAss->deleteAssigment($userID);
-            }   
-            $this->_sql->query("UPDATE ErrorReport SET Status='$errorStatusValue' WHERE ID=$reportID");
+			$report=$this->getReportByID($reportID);
+			if ($report!=null)
+			{
+				$currentStatusValue=$report["Status"];
+				if ($currentStatusValue==$newStatusValue) return false;
+                $statusesArray=$newStatus->getNumberedKeys();
+                $currentValueKey=array_search($currentStatusValue,$statusesArray);
+                $newValueKey=array_search($newStatusValue, $statusesArray);
+				if ($this->canEditReport($reportID) && ($newValueKey-$currentValueKey)<=1)
+                {
+                	$editFlag=false;
+                	if ($currentStatusValue!=ErrorStatusENUM::CLOSED)
+                	{
+                		if ($currentStatusValue==ErrorStatusENUM::RESOLVED)
+                		{
+                			$editFlag=$this->canClose($reportID);
+                		}
+                		else 
+                		{
+                			$editFlag=true;
+                		}
+                	}
+                	else if ($userID==$report["UserID"])
+                	{
+                		$editFlag=true;
+                	}
+                	if ($editFlag)
+                	{
+                		$this->_sql->update(
+                			"ErrorReport", 
+                			"ID=$reportID", 
+                			new ArrayObject(array(
+                				"Status" => $newStatusValue
+                			))
+                		);
+                		return true;
+                	}
+                }
+			}
         }
         
         /**
@@ -239,7 +219,7 @@
         {
             $reportID=(int)$reportID;
             $this->_sql->selFieldsWhere("ErrorReport","ID=$reportID","ProjectID");
-            $projectID=$this->_sql->GetRows();
+            $projectID=$this->_sql->getTable();          
             $projectID=$projectID[0]["ProjectID"];
             return $projectID==$this->_projectOwnerID;
         }
@@ -403,6 +383,20 @@
             $id=(int)$id;
             $pC=new ProjectsController();
             return ($this->_errorOwnerID==$this->getReportOwner($reportID) || $this->_errorOwnerID==$pC->isOwner($this->_errorOwnerID,$this->_projectOwnerID));               
+        }
+        
+        public function canEditReport($reportID)
+        {
+        	$user=$this->_errorOwnerID;
+        	$isOwnerORAssigned=$this->_sql->countQuery("ErrorReport","ID=$reportID AND (UserID=$user OR AssignedTo=$user)");
+        	$pC=new ProjectsController();
+            return ($isOwnerORAssigned !=0) || $this->_errorOwnerID==$pC->isOwner($this->_errorOwnerID,$this->_projectOwnerID);
+        }
+        
+        public function canClose($reportID)
+        {
+        	$pC=new ProjectsController();
+        	return $this->_errorOwnerID==$this->getReportOwner($reportID) || $this->_errorOwnerID==$pC->isOwner($this->_errorOwnerID,$this->_projectOwnerID);
         }
         
         /**

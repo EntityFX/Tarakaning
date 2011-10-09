@@ -28,6 +28,9 @@
 			<BugEditPage type="HTML"> <!-- edit bug page class -->
 				<url>/bug/edit/</url>
 			</BugEditPage>
+			<ItemsJSON type="JSON">
+				<url>/bug/ajax/</url>
+			</ItemsJSON>
 		<!-- Bug detail pages -->
 			<MyBugsPage type="HTML"> <!-- bugs assigned to user page class -->
 				<url>/my/bugs/</url>

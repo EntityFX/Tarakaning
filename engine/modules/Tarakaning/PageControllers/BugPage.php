@@ -21,6 +21,10 @@ class BugPage extends InfoBasePage
 	
 	private $_orderData;
 	
+	private $_canEditReport=false;
+	
+	private $_canCloseReport;
+	
 	protected function onInit()
 	{
 		parent::onInit();
@@ -28,6 +32,8 @@ class BugPage extends InfoBasePage
 		$this->_userData=$this->_controller->auth->getName();
 		$projectsController=new ProjectsController();
 		$this->_projectsList=$projectsController->getUserProjects($this->_userData["UserID"]);
+		
+		
 		$bugsOperation=new ErrorReportsController(
 			$this->_userData["DefaultProjectID"] == null ? $this->_projectsList[0]['ProjectID'] : $this->_userData["DefaultProjectID"],
 			$this->_userData["UserID"]
@@ -35,6 +41,15 @@ class BugPage extends InfoBasePage
 		if (isset($this->_parameters[0]))
 		{
 			$this->_bugData=$bugsOperation->getReport($this->_parameters[0]);
+			$this->_canCloseReport=$bugsOperation->canClose($this->_parameters[0]);
+			if (!$this->_canCloseReport && $this->_bugData["Status"]==ErrorStatusENUM::CLOSED)
+			{
+				$this->_canEditReport=false;
+			}
+			else 
+			{
+				$this->_canEditReport=$bugsOperation->canEditReport($this->_parameters[0]);
+			}
 		}
 		else 
 		{
@@ -43,24 +58,37 @@ class BugPage extends InfoBasePage
 		if ($this->request->isPost() )
 		{
 			$postData=$this->request->getParams();
-			if ($postData['sentComment']!=null && $this->_bugData!=null);
+			if ($this->_bugData!=null);
 			{
-				try
+				if ($postData['sendComment']!=null)
 				{
-					$reportCommentsOperation->setReportComment(
-						$this->_bugData['ProjectID'], 
-						$this->_userData["UserID"], 
-						$this->_bugData['ID'], 
-						$postData['comment']
-					);
+					try
+					{
+						$reportCommentsOperation->setReportComment(
+							$this->_bugData['ProjectID'], 
+							$this->_userData["UserID"], 
+							$this->_bugData['ID'], 
+							$postData['comment']
+						);
+					}
+					catch (Exception $exception)
+					{
+						$error = array(
+							"error" => $exception,
+							"postData" => $postData
+						);
+						$this->_controller->error->addError("addCommentError",$error);
+					}
 				}
-				catch (Exception $exception)
+				else if ($postData['cnange_state']!=null)
 				{
-					$error = array(
-						"error" => $exception,
-						"postData" => $postData
+					$stateEnum=new ErrorStatusENUM($postData['state']);
+					$editResult=$bugsOperation->editReport(
+						$this->_bugData['ID'], 
+						$stateEnum, 
+						$this->_userData["UserID"]
 					);
-					$this->_controller->error->addError("addCommentError",$error);
+					if ($editResult) $this->_bugData["Status"]=$stateEnum->getValue();
 				}
 			}
 		}
@@ -90,11 +118,12 @@ class BugPage extends InfoBasePage
 		$this->_smarty->assign("COMMENTS",$this->_commentsData);
 		$this->_smarty->assign("COMMENTS_ORDER",$this->_orderData);
 		$this->_smarty->assign("COMMENTS_PAGINATOR",$this->_commentsPaginator->getHTML());
+		$this->_smarty->assign("CAN_EDIT_REPORT",$this->_canEditReport);
 		$itemStatuses=new ErrorStatusENUM($this->_bugData['Status']);
 		$this->_smarty->assign(
 			"STATUSES",
 			array(
-				'values' => $itemStatuses->getArray(),
+				'values' => $itemStatuses->getStates($itemStatuses,$this->_canCloseReport),
 				'selected' => $itemStatuses->getValue()
 			)
 		);

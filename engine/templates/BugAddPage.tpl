@@ -1,11 +1,6 @@
 {extends file="info.base.tpl"}
 {block name=script}
-<script type="text/javascript">
-/* <![CDATA[ */
-	$(function(){
-		$("#tabs").tabs();
-		$("input:button, input:submit, button, .groupier a, .groupier li span, #exit").button();
-
+	{literal}
 		if ($("#item_type").val()=="Task") $(".for_defect").hide();
 		$("#item_type").change(function(){
 			switch ($(this).val())
@@ -18,9 +13,31 @@
 					break;
 			}
 		});
-	});
-/* ]]>*/
-</script>
+		
+		function updateProjectUsers(projectID)
+		{
+			$.getJSON(
+				"/bug/ajax/",
+				{project_id: projectID},
+				function(dataResult)
+				{
+					var usersList='<option value=" ">-</option>';
+
+					$.each(dataResult, function(key,val){
+						usersList+='<option value="' + val.UserID + '">' + val.NickName + '</option>';
+					});
+					
+					$("#assigned_to").empty().append(usersList);
+				}
+			);
+		}
+		
+		updateProjectUsers($("#project_id").val());
+		$("#project_id").change(function(){
+			var projectID=$(this).val();
+			updateProjectUsers(projectID);
+		});
+	{/literal}
 {/block}
 {block name=body}
 	<div id="content_body">
@@ -69,10 +86,10 @@
 							<option value="2">Важный</option>
 						</select>
 					</dd>
-					<dt><label for="asigned_to">Назначено</label></dt>
+					<dt><label for="assigned_to">Назначено</label></dt>
 					<dd>									
-						<select id="asigned_to" name="asigned_to">
-							<option value="0"></option>
+						<select id="assigned_to" name="assigned_to">
+							<option value="">-</option>
 						</select>
 					</dd>
 					<dt><label for="description">Описание</label></dt>
