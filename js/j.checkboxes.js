@@ -17,7 +17,7 @@
 		},param||{});
 		if (settings.element==null)
 		{
-			var selectButton=this.find('input:first').val((settings.defaultSelection)?settings.offText:settings.onText)
+			var selectButton=this.find('input:checkbox:first').val((settings.defaultSelection)?settings.offText:settings.onText)
 				.attr("title",(settings.defaultSelection)?settings.titleOff:settings.titleOn);
 		}
 		else

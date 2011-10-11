@@ -69,9 +69,9 @@
 				<table class="comments">
 					<thead>
 						<tr>
-							<th><a href="{$COMMENTS_ORDER.NickName.url}#comments">Пользователь</a></th>
-							<th><a href="{$COMMENTS_ORDER.Comment.url}#comments">Комментарий</a></th>
-							<th class="date"><a href="{$COMMENTS_ORDER.Time.url}#comments">Дата</a></th>
+							<th><a href="{$COMMENTS_ORDER.NickName.url}#comments" {if $COMMENTS_ORDER.NickName.order eq true}class="sort"{/if}>Пользователь</a></th>
+							<th><a href="{$COMMENTS_ORDER.Comment.url}#comments" {if $COMMENTS_ORDER.Comment.order eq true}class="sort"{/if}>Комментарий</a></th>
+							<th class="date"><a href="{$COMMENTS_ORDER.Time.url}#comments" {if $COMMENTS_ORDER.Time.order eq true}class="sort"{/if}>Дата</a></th>
 						</tr>
 					</thead>
 					<tbody>
