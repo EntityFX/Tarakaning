@@ -39,6 +39,14 @@ class ProjectBugsPage extends InfoBasePage
 				$this->_currentProjectID=$userData["DefaultProjectID"] == null ? $this->_currentProjectID : $userData["DefaultProjectID"];
 			}
 			
+			if ($this->request->isPost())
+			{
+				if ($this->request->getPost("del",null)!=null)
+				{
+					$this->deleteSelectedItems();
+				}
+			}
+			
 			$bugsOperation=new ErrorReportsController();
 			$count=$bugsOperation->countReportsByProject($this->_currentProjectID,$this->_itemKindENUM);
 			if ($count!=null)
@@ -54,15 +62,6 @@ class ProjectBugsPage extends InfoBasePage
 					$this->_projectBugsPaginator->getSize()
 				);
 			}
-			if ($this->_bugsData!=null)
-			{
-				foreach($this->_bugsData as $value)
-				{
-					
-					$concatStr.=$value['ID'].';';
-				}
-			}
-			var_dump($concatStr);
 		}
 	}
 	
@@ -83,6 +82,19 @@ class ProjectBugsPage extends InfoBasePage
 		$this->_smarty->assign("MY_BUGS_ORDERER",$this->_projectBugsOrderer!=null?$this->_projectBugsOrderer->getNewUrls():null);
 		$this->_smarty->assign("PROJECT_OWNER",$this->_projectsController->getOwnerID($this->_currentProjectID));
 		$this->_smarty->assign("USER_ID",(int)$this->_userInfo["UserID"]);
+	}
+	
+	private function deleteSelectedItems()
+	{
+		$checkboxes=$this->request->getPost("del_i");
+		if ($checkboxes!=null)
+		{
+			foreach($checkboxes as $key => $value)
+			{
+				$arrCheckBoxes[]=$key;
+			}
+		}
+		var_dump($arrCheckBoxes);
 	}
 	
 	private function normalizeProjectsList(&$projectList)
