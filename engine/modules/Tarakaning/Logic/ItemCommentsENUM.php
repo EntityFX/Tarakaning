@@ -7,7 +7,7 @@
         const TIME       = "Time";
         const COMMENT    = "Comment";
         
-        public function __construct($value=self::NICK_NAME)
+        public function __construct($value=self::TIME)
         {
             parent::__construct($value);
         }

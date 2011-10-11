@@ -18,17 +18,19 @@ class ProjectBugsPage extends InfoBasePage
 	
 	private $_currentProjectID;
 	
+	private $_projectController;
+	
 	protected function onInit()
 	{
 		parent::onInit();
-		$projectsController=new ProjectsController();
+		$this->_projectsController=new ProjectsController();
 		$userData=$this->_controller->auth->getName();
 		$concreteUser=new ConcreteUser();
 		
 		$kind=$this->request->getParam("item_kind",ItemKindENUM::ALL);
 		$this->_itemKindENUM=new ItemKindENUM($kind);
 		
-		$this->_projectsList=$projectsController->getUserProjects($userData["UserID"]);
+		$this->_projectsList=$this->_projectsController->getUserProjects($userData["UserID"]);
 		if ($this->_projectsList!=null)
 		{
 			$this->_currentProjectID=$this->request->getParam("project_id",$this->_projectsList[0]["ProjectID"]);
@@ -52,7 +54,15 @@ class ProjectBugsPage extends InfoBasePage
 					$this->_projectBugsPaginator->getSize()
 				);
 			}
-
+			if ($this->_bugsData!=null)
+			{
+				foreach($this->_bugsData as $value)
+				{
+					
+					$concatStr.=$value['ID'].';';
+				}
+			}
+			var_dump($concatStr);
 		}
 	}
 	
@@ -71,6 +81,8 @@ class ProjectBugsPage extends InfoBasePage
 		$this->_smarty->assign("MY_BUGS",$this->_bugsData);
 		$this->_smarty->assign("PROJECT_BUGS_PAGINATOR",$this->_projectBugsPaginator!=null?$this->_projectBugsPaginator->getHTML():null);
 		$this->_smarty->assign("MY_BUGS_ORDERER",$this->_projectBugsOrderer!=null?$this->_projectBugsOrderer->getNewUrls():null);
+		$this->_smarty->assign("PROJECT_OWNER",$this->_projectsController->getOwnerID($this->_currentProjectID));
+		$this->_smarty->assign("USER_ID",(int)$this->_userInfo["UserID"]);
 	}
 	
 	private function normalizeProjectsList(&$projectList)

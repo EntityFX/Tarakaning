@@ -43,7 +43,7 @@
 	
 			<div>
 				{if $MY_BUGS neq NULL}
-				<form action="#" class="reports_form">
+				<form action="/bug/delete/" class="reports_form">
 					<!--<a class="z" href="#">Выбрать всё</a>-->
 					<table class="report_table">
 						<thead>
@@ -61,7 +61,7 @@
 						<tbody>
 						{foreach name=myBugs from=$MY_BUGS item=element} {* Выводит мои проекты*}
 							<tr class="{bug_type value=$element.Status}">
-							    <td><input name="del1" type="checkbox" /></td>
+							    <td><input name="del[{$element.ID}]" type="checkbox" /></td>
 								<td><a href="/bug/show/{$element.ID}/" class="sort">{$element.ID}</a></td>
 								<td>{$element.KindN}</td>
 								<td>{$element.StatusN}</td>

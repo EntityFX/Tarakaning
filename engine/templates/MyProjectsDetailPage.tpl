@@ -12,7 +12,7 @@
 				<dt>Название</dt> 
 				<dd>{$Project.Name}</dd> 
 				<dt>Автор</dt> 
-				<dd><a href="/#">{$Project.NickName}</a></dd>				
+				<dd><a href="/profile/show/{$Project.OwnerID}/">{$Project.NickName}</a></dd>				
 				<dt>Описание</dt> 
 				<dd>{$Project.Description}&nbsp;</dd> 
 			</dl> 
@@ -43,7 +43,7 @@
 					{foreach name=projectUsers from=$PROJECT_USERS item=element} {* Выводит мои проекты*}
 						<tr class="{if $smarty.foreach.projectUsers.index % 2 == 0}odd{else}even{/if}"> 
 							<td><input name="delId" type="checkbox" /></td> 
-							<td>{if $element.Owner eq 1}<strong><a href="#">{$element.NickName}</a></strong>&nbsp;<sup style="font-size: 10px; color: red;">(владелец)</sup>{else}<a href="#">{$element.NickName}</a>{/if}</td> 
+							<td>{if $element.Owner eq 1}<strong><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a></strong>&nbsp;<sup style="font-size: 10px; color: red;">(владелец)</sup>{else}<a href="/profile/show/{$element.UserID}/">{$element.NickName}</a>{/if}</td> 
 							<td>{$element.CountErrors}</td> 
 							<td><a href="#">213</a></td> 
 							<td class="new">{$element.NEW}</td><td class="confirmed">{$element.IDENTIFIED}</td><td class="assigned">{$element.ASSESSED}</td><td class="solved">{$element.RESOLVED}</td><td class="closed">{$element.CLOSED}</td>

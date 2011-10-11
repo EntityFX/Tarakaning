@@ -144,6 +144,11 @@
             $this->_sql->delete("ErrorReport","ID=$id");    
         }
         
+        public function deleteReportsFromList($keysList,$userID=null)
+        {
+        	$userID=$userID==null?$this->_errorOwnerID:(int)$userID;
+        }
+        
         /**
          * 
          * Редактировать статус задачи
