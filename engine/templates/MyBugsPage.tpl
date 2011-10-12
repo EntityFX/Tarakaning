@@ -1,49 +1,7 @@
-{extends file="info.base.tpl"}
-
-{block name=script}
-{literal}
-		$('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
-		$('#del').click(function(){
-			return confirm('Вы действительно желаете удалить выделенные элементы?');
-		});
-		
-		$("#item_kind, #project_id").change(function(){
-			$("#selectProjectForm").submit();
-		});
-{/literal}
-{/block}
-{block name=body}
-		{* define the function *}
-		{function name=bug_type}
-		    {if $value eq NEW}new{else if $value eq IDENTIFIED}confirmed{else if $value eq ASSESSED}assigned{else if $value eq RESOLVED}solved{else if $value eq CLOSED}closed{/if}
-		{/function}
-<div id="content_body">
-	{if $PROJECTS.PROJECTS_LIST neq NULL}
-		<div class="groupier">
-			<form action="#" id="selectProjectForm" method="get">
-				<div>
-				<label for="project_id">Проект</label>
-				<select id="project_id" name="project_id">
-				{if $PROJECTS.PROJECTS_LIST neq NULL}
-					{html_options options=$PROJECTS.PROJECTS_LIST selected=$PROJECTS.selected}
-				{/if}
-				</select>
-				<label for="item_kind">Показать </label> 
-				<select id="item_kind" name="item_kind">
-					{html_options values=$ITEM_KIND.values output=$ITEM_KIND.text selected=$ITEM_KIND.selected}
-				</select>
-				</div>
-			</form>
-			<form action="/bug/add/" method="post"><div>
-				<input type="submit" value="Добавить дефект" title="Добавить" name="add_defect"/>
-			</div></form>
-			{$MY_BUGS_PAGINATOR}
-		</div>
-
-	
-			<div>
+{extends file="BugsBasePage.tpl"}
+{block name=bugs_block}
 				{if $MY_BUGS neq NULL}
-				<form action="/bug/delete/" class="reports_form">
+				<form action="#" class="reports_form" method="post">
 					<!--<a class="z" href="#">Выбрать всё</a>-->
 					<table class="report_table">
 						<thead>
@@ -61,7 +19,7 @@
 						<tbody>
 						{foreach name=myBugs from=$MY_BUGS item=element} {* Выводит мои проекты*}
 							<tr class="{bug_type value=$element.Status}">
-							    <td><input name="del[{$element.ID}]" type="checkbox" /></td>
+							    <td><input name="del_i[{$element.ID}]" type="checkbox" /></td>
 								<td><a href="/bug/show/{$element.ID}/" class="sort">{$element.ID}</a></td>
 								<td>{$element.KindN}</td>
 								<td>{$element.StatusN}</td>
@@ -80,10 +38,5 @@
 				{else}
 					<strong>Элементов нет</strong>
 				{/if}
-			</div>
-	{else}
-		<strong>У вас нет проектов. Создайте или подпишитесь на проект.</strong>
-	{/if}
-</div>
 {/block}
 
