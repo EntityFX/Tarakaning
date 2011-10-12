@@ -144,9 +144,21 @@
             $this->_sql->delete("ErrorReport","ID=$id");    
         }
         
-        public function deleteReportsFromList($keysList,$userID=null)
+        public function deleteReportsFromList($keysList,$userID=null,$projectID=null)
         {
         	$userID=$userID==null?$this->_errorOwnerID:(int)$userID;
+        	$projectID=$projectID==null?$this->_projectOwnerID:(int)$projectID;
+        	if ($keysList!='')
+        	{
+        		$this->_sql->call(
+        			'DeleteItemsFromList', 
+        			new ArrayObject(array(
+        				$userID,
+        				$projectID,
+        				$keysList
+        			))
+        		);
+        	}
         }
         
         /**

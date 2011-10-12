@@ -43,7 +43,8 @@
 					}
 					else 
 					{
-						throw new Exception("Неверный путь к TPL: ".$this->_smarty->template_dir."/$this->_templatePath ");					
+						var_dump($this->_smarty->template_dir[0].'/'.$this->_templatePath);
+						throw new Exception("Неверный путь к TPL: ".$this->_smarty->template_dir[0]."/$this->_templatePath ");					
 					}	
 				}
 			}

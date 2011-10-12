@@ -37,9 +37,9 @@
     	public function __construct()
         {
             parent::__construct(); 
-        	$this->template_dir=SmartyConsts::TEMPLATES_DIR;
-            $this->cache_dir=SmartyConsts::CACHE_DIR;
-            $this->compile_dir=SmartyConsts::COMPILE_DIR;  
+            $this->setTemplateDir(SmartyConsts::TEMPLATES_DIR);
+            $this->setCacheDir(SmartyConsts::CACHE_DIR);
+            $this->setCompileDir(SmartyConsts::COMPILE_DIR); 
         }
         
         public function fetch($template, $cache_id = null, $compile_id = null, $parent = null, $display = false)
