@@ -1,6 +1,6 @@
 ﻿-- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 5.0.48.1
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 12.10.2011 1:22:22
+-- Дата скрипта: 13.10.2011 2:51:12
 -- Версия сервера: 5.0.45-community-nt
 -- Версия клиента: 4.1
 
@@ -32,7 +32,7 @@ CREATE TABLE DefectItem (
     REFERENCES errorreport(ID) ON DELETE CASCADE ON UPDATE CASCADE
 )
 ENGINE = INNODB
-AVG_ROW_LENGTH = 409
+AVG_ROW_LENGTH = 455
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -84,8 +84,8 @@ CREATE TABLE ErrorReport (
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 121
-AVG_ROW_LENGTH = 273
+AUTO_INCREMENT = 130
+AVG_ROW_LENGTH = 287
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -749,7 +749,17 @@ CREATE OR REPLACE
 	DEFINER = 'root'@'localhost'
 VIEW projectusersinfo
 AS
-	select `P`.`OwnerID` AS `UserID`,`P`.`ProjectID` AS `ProjectID`,`U`.`NickName` AS `NickName`,count((case when (`E`.`Status` = _cp1251'NEW') then _utf8'NEW' else NULL end)) AS `NEW`,count((case when (`E`.`Status` = _cp1251'IDENTIFIED') then _utf8'IDENTIFIED' else NULL end)) AS `IDENTIFIED`,count((case when (`E`.`Status` = _cp1251'ASSESSED') then _utf8'ASSESSED' else NULL end)) AS `ASSESSED`,count((case when (`E`.`Status` = _cp1251'RESOLVED') then _utf8'RESOLVED' else NULL end)) AS `RESOLVED`,count((case when (`E`.`Status` = _cp1251'CLOSED') then _utf8'CLOSED' else NULL end)) AS `CLOSED`,count(`E`.`ID`) AS `CountErrors`,1 AS `Owner` from ((`projects` `P` left join `users` `U` on((`P`.`OwnerID` = `U`.`UserID`))) left join `errorreport` `E` on(((`P`.`ProjectID` = `E`.`ProjectID`) and (`U`.`UserID` = `E`.`UserID`)))) group by `P`.`ProjectID`,`E`.`UserID` union select `UP`.`UserID` AS `UserID`,`UP`.`ProjectID` AS `ProjectID`,`U`.`NickName` AS `NickName`,count((case when (`E`.`Status` = _cp1251'NEW') then _utf8'NEW' else NULL end)) AS `NEW`,count((case when (`E`.`Status` = _cp1251'IDENTIFIED') then _utf8'IDENTIFIED' else NULL end)) AS `IDENTIFIED`,count((case when (`E`.`Status` = _cp1251'ASSESSED') then _utf8'ASSESSED' else NULL end)) AS `ASSESSED`,count((case when (`E`.`Status` = _cp1251'RESOLVED') then _utf8'RESOLVED' else NULL end)) AS `RESOLVED`,count((case when (`E`.`Status` = _cp1251'CLOSED') then _utf8'CLOSED' else NULL end)) AS `CLOSED`,count(`E`.`ID`) AS `CountErrors`,0 AS `Owner` from ((`usersinprojects` `UP` left join `users` `U` on((`UP`.`UserID` = `U`.`UserID`))) left join `errorreport` `E` on(((`UP`.`ProjectID` = `E`.`ProjectID`) and (`UP`.`UserID` = `E`.`UserID`)))) group by `UP`.`ProjectID`,`UP`.`UserID`;
+	select `P`.`OwnerID` AS `UserID`,`P`.`ProjectID` AS `ProjectID`,`U`.`NickName` AS `NickName`,count((case when (`E`.`Status` = _cp1251'NEW') then _utf8'NEW' else NULL end)) AS `NEW`,count((case when (`E`.`Status` = _cp1251'IDENTIFIED') then _utf8'IDENTIFIED' else NULL end)) AS `IDENTIFIED`,count((case when (`E`.`Status` = _cp1251'ASSESSED') then _utf8'ASSESSED' else NULL end)) AS `ASSESSED`,count((case when (`E`.`Status` = _cp1251'RESOLVED') then _utf8'RESOLVED' else NULL end)) AS `RESOLVED`,count((case when (`E`.`Status` = _cp1251'CLOSED') then _utf8'CLOSED' else NULL end)) AS `CLOSED`,count(`E`.`ID`) AS `CountErrors`,1 AS `Owner` from ((`projects` `P` left join `users` `U` on((`P`.`OwnerID` = `U`.`UserID`))) left join `errorreport` `E` on(((`P`.`ProjectID` = `E`.`ProjectID`) and (`P`.`OwnerID` = `E`.`AssignedTo`)))) group by `P`.`ProjectID`,`P`.`OwnerID`,`U`.`UserID`,`E`.`AssignedTo` union select `UP`.`UserID` AS `UserID`,`UP`.`ProjectID` AS `ProjectID`,`U`.`NickName` AS `NickName`,count((case when (`E`.`Status` = _cp1251'NEW') then _utf8'NEW' else NULL end)) AS `NEW`,count((case when (`E`.`Status` = _cp1251'IDENTIFIED') then _utf8'IDENTIFIED' else NULL end)) AS `IDENTIFIED`,count((case when (`E`.`Status` = _cp1251'ASSESSED') then _utf8'ASSESSED' else NULL end)) AS `ASSESSED`,count((case when (`E`.`Status` = _cp1251'RESOLVED') then _utf8'RESOLVED' else NULL end)) AS `RESOLVED`,count((case when (`E`.`Status` = _cp1251'CLOSED') then _utf8'CLOSED' else NULL end)) AS `CLOSED`,count(`E`.`ID`) AS `CountErrors`,0 AS `Owner` from ((`usersinprojects` `UP` left join `users` `U` on((`UP`.`UserID` = `U`.`UserID`))) left join `errorreport` `E` on(((`UP`.`ProjectID` = `E`.`ProjectID`) and (`UP`.`UserID` = `E`.`AssignedTo`)))) group by `UP`.`ProjectID`,`UP`.`UserID`;
+
+--
+-- Описание для представления projectusersinfofull
+--
+DROP VIEW IF EXISTS projectusersinfofull CASCADE;
+CREATE OR REPLACE 
+	DEFINER = 'root'@'localhost'
+VIEW projectusersinfofull
+AS
+	select `p`.`UserID` AS `UserID`,`p`.`ProjectID` AS `ProjectID`,`p`.`NickName` AS `NickName`,`p`.`NEW` AS `NEW`,`p`.`IDENTIFIED` AS `IDENTIFIED`,`p`.`ASSESSED` AS `ASSESSED`,`p`.`RESOLVED` AS `RESOLVED`,`p`.`CLOSED` AS `CLOSED`,`p`.`CountErrors` AS `CountErrors`,`p`.`Owner` AS `Owner`,count(`E`.`ID`) AS `CountCreated` from (`projectusersinfo` `P` left join `errorreport` `E` on(((`p`.`ProjectID` = `E`.`ProjectID`) and (`p`.`UserID` = `E`.`UserID`)))) group by `p`.`ProjectID`,`p`.`UserID`;
 
 -- 
 -- Вывод данных для таблицы DefectItem
@@ -762,7 +772,6 @@ INSERT INTO DefectItem VALUES
   (6, 'Crash', ''),
   (7, 'Error Handling', ''),
   (8, 'Error Handling', ''),
-  (9, 'Crash', ''),
   (10, 'Crash', ''),
   (11, 'Crash', ''),
   (12, 'Crash', ''),
@@ -781,8 +790,6 @@ INSERT INTO DefectItem VALUES
   (29, 'Major', ''),
   (30, 'Major', ''),
   (31, 'Major', ''),
-  (36, 'Block', 'Пиздееец'),
-  (41, 'Major', ''),
   (42, 'Major', ''),
   (43, 'Crash', 'dfghdfh'),
   (76, 'Cosmetic', '1. Перешёл на страницу комментариев айтема\r\n2. Нажал на заголовок сорируемого поля\r\n3. Сортировка выполнилась, но поле не выделилось'),
@@ -793,7 +800,6 @@ INSERT INTO DefectItem VALUES
   (91, 'Minor', '1. Переходим на страницу &quot;Мои отчёты&quot;<br />\r\n2. Выбираем в выпадающем списке &quot;Проекты&quot; нужный проект<br />\r\n3. Должно обновится на выбранный проект, но обновляется на тот, который по-умолчанию'),
   (106, 'Major', '1. Перешёл на страницу &quot;Профиль&quot;<br />\r\n2. Нажал кнопку &quot;Редактировать профиль&quot;<br />\r\n3. Выбрал вкладку &quot;Смена пароля&quot;<br />\r\n4. Ничего не заполнял<br />\r\n5. Нажал сохранить. Система показала успешное сохранение, но произошла потеря данных (см. Описание)'),
   (107, 'Minor', '1. Перешёл на страницу проекта.<br />\r\n2. Открыл вкладку &quot;Участники&quot;<br />\r\n3. Навёл на ссылку пользователя и нажал на неё - не перенаправляет на страницу профиля пользователя.'),
-  (118, 'Major', 'e1'),
   (120, 'Major', 'e3');
 
 -- 
@@ -812,7 +818,6 @@ INSERT INTO ErrorReport VALUES
   (6, 3, 1, 'Defect', '1', 'NEW', '2011-02-24 23:19:28', 'Взрыв', '', NULL),
   (7, 3, 7, 'Defect', '2', 'NEW', '2011-02-24 23:20:08', 'Уничтожение', '', NULL),
   (8, 10, 3, 'Defect', '0', 'IDENTIFIED', '2011-02-24 23:20:24', 'Закрытие', '', NULL),
-  (9, 1, 3, 'Defect', '2', 'RESOLVED', '2011-02-26 23:31:53', '', '', NULL),
   (10, 1, 2, 'Defect', '1', 'CLOSED', '2011-02-26 23:40:22', '', '', NULL),
   (11, 3, 6, 'Defect', '1', 'NEW', '2011-02-27 03:32:03', 'fsdfsdf', '', NULL),
   (12, 3, 6, 'Defect', '2', 'ASSESSED', '2011-02-27 03:34:34', 'sdfdsf', '', NULL),
@@ -831,14 +836,12 @@ INSERT INTO ErrorReport VALUES
   (29, 13, 1, 'Defect', '1', 'NEW', '2011-09-04 16:51:31', 'иапипаи', '', NULL),
   (30, 13, 1, 'Defect', '0', 'NEW', '2011-09-04 16:51:43', 'апрвапр', '', NULL),
   (31, 13, 21, 'Defect', '1', 'NEW', '2011-09-04 16:52:49', 'апрвапрвапрвапрвпарвапр', '', NULL),
-  (36, 1, 23, 'Defect', '0', 'NEW', '2011-09-11 14:43:11', 'Заголовок', 'Пиздееец', NULL),
-  (41, 1, 23, 'Defect', '1', 'NEW', '2011-09-14 01:28:38', 'апыавпв', '', NULL),
   (42, 15, 24, 'Defect', '1', 'NEW', '2011-09-14 23:35:28', 'Aga', '', 1),
   (43, 1, 23, 'Defect', '2', 'NEW', '2011-09-15 00:41:45', 'fghfghfghghf', 'tgrhgfh', NULL),
   (70, 15, 47, 'Task', '1', 'NEW', '2011-10-03 22:35:06', 'сделать $100000000', 'делать самому', NULL),
   (71, 18, 48, 'Task', '0', 'RESOLVED', '2011-10-06 00:55:55', 'Реализовать выделение текущего раздела меню', 'В настоящий момент меня всегда выделяется на разделе &quot;Мои отчёты&quot;. Нужно, чтобы выделялся на текущем.', 1),
   (72, 1, 48, 'Task', '2', 'RESOLVED', '2011-10-06 02:24:18', 'Реализовать возможность нзначения айтема на пользователя текущего проекта', 'Должно работать поле, которое при выборе проекта обновляется и содержит список всех участников проекта, включая владельца. Логин создающего данный айтем должно находиться на первом месте, также если пустое значение, то айтем не будет назначен кому-либо.', 1),
-  (73, 1, 48, 'Task', '1', 'ASSESSED', '2011-10-06 02:29:50', 'Удаление всех выделенных айтемов из грида в Моих отчётах', '1. Переходим на страницу Мои отчёты.\r\n2. Пользователь должен удалять все выделенные айтемы в гриде, нажав чекбокс в вернем углу грида. При нажатии &quot;Удалить выделенные&quot; должно быть показано диалоговое окно подтверждения. \r\n3. Если нажато [Да] - у', 1),
+  (73, 1, 48, 'Task', '1', 'RESOLVED', '2011-10-06 02:29:50', 'Удаление всех выделенных айтемов из грида в Моих отчётах', '1. Переходим на страницу Мои отчёты.\r\n2. Пользователь должен удалять все выделенные айтемы в гриде, нажав чекбокс в вернем углу грида. При нажатии &quot;Удалить выделенные&quot; должно быть показано диалоговое окно подтверждения. \r\n3. Если нажато [Да] - у', 1),
   (76, 1, 48, 'Defect', '0', 'RESOLVED', '2011-10-06 02:52:31', 'В комментариях у грида не подсвечивается текущее поле, по которому сортируем', 'Поле грида, по которому сортируем, должно выделяться в красный цвет.', 1),
   (77, 18, 48, 'Defect', '2', 'RESOLVED', '2011-10-06 03:01:38', 'Если отсутствует скомпилированный шаблон для страниц &quot;Мои отчёты&quot; и &quot;Отчёты проекта&quot;, происходит исключение в Apache', 'Краш отчёт:\r\n\r\nСигнатура проблемы:\r\n  Имя события проблемы:\tAPPCRASH\r\n  Имя приложения:\thttpd.exe\r\n  Версия приложения:\t2.2.4.0\r\n  Отметка времени приложения:\t45a476e3\r\n  Имя модуля с ошибкой:\tphp5ts.dll\r\n  Версия модуля с ошибкой:\t5.2.4.4\r\n  Отметка врем', 1),
   (78, 18, 48, 'Defect', '1', 'NEW', '2011-10-06 03:05:15', 'При создании айтема урезается текст в полях &quot;Описание&quot; и &quot;Действия, которые привели к ошибке&quot;', 'Текст после создания айтема урезается, что неверно. Нужно увеличить до 1024 символов поля &quot;Описание&quot; и &quot;Действия, которые привели к ошибке&quot;.\r\n\r\nНадо пофиксить.', 1),
@@ -862,9 +865,9 @@ INSERT INTO ErrorReport VALUES
   (106, 1, 48, 'Defect', '2', 'NEW', '2011-10-10 01:34:01', 'Смена пароля неправильно реализована', 'При смене пароля, даже если не введён старый пароль, изменения сохраняются.<br />\r\nТакже Имя, Фамилия, Отчество, Время входа становятся пустыми.', 18),
   (107, 1, 48, 'Defect', '1', 'RESOLVED', '2011-10-10 23:00:41', 'Ссылки на участников проекта не работают', 'Ссылки на участников проекта не работают.', 1),
   (108, 1, 48, 'Task', '1', 'NEW', '2011-10-10 23:02:45', 'Реализовать&quot;количество комментариев&quot;', 'Необходимо отображать количество комментариев, оставленные пользователем для каждого участника', 1),
-  (118, 1, 22, 'Defect', '1', 'NEW', '2011-10-12 00:27:31', 'e1', 'e1', 8),
-  (119, 1, 22, 'Task', '1', 'NEW', '2011-10-12 00:27:43', 'e2t', 'e2t', 15),
-  (120, 1, 22, 'Defect', '1', 'NEW', '2011-10-12 00:27:58', 'e3', 'e3', 8);
+  (120, 1, 22, 'Defect', '1', 'NEW', '2011-10-12 00:27:58', 'e3', 'e3', 8),
+  (128, 1, 48, 'Task', '2', 'IDENTIFIED', '2011-10-12 23:17:39', 'Произвести рефакторинг классов MyBugsPage ProjectBugsPage', 'В данных класса большое количество повторяющихся методов - вынести в базовый класс', 1),
+  (129, 1, 48, 'Task', '2', 'NEW', '2011-10-12 23:23:39', 'Реализовать удаление проектов', '1. При удалении проекта должны удаляться:<br />\r\n   1. 1. Все его подписчики<br />\r\n   1. 2. Все его айтемы<br />\r\n   1. 3. Все связанные элементы', 1);
 
 -- 
 -- Вывод данных для таблицы MainMenu

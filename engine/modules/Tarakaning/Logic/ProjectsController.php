@@ -221,14 +221,14 @@
 		public function getProjectUsersInfo($projectID)
 		{
 			$projectID=(int)$projectID;
-			$this->_sql->selAllWhere('projectusersinfo', "ProjectID=$projectID");
+			$this->_sql->selAllWhere('projectusersinfofull', "ProjectID=$projectID");
 			return $this->_sql->getTable();
 		}
 		
 		public function getProjectUsersInfoCount($projectID)
 		{
 			$projectID=(int)$projectID;
-			return $this->_sql->countQuery('projectusersinfo', "ProjectID=$projectID");
+			return $this->_sql->countQuery('projectusersinfofull', "ProjectID=$projectID");
 		}
 		
 		public function getProjectsUsersInfoPagOrd($projectID, ProjectFieldsUsersInfoENUM $orderField, MySQLOrderEnum $direction,$page=1,$size=15)
