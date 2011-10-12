@@ -34,9 +34,9 @@
 					<thead> <tr> 
 						<th><input name="del" type="checkbox" /></th> 
 						<th><a href="{$MY_PROJECT_ORDERER.NickName.url}#users" {if $MY_PROJECT_ORDERER.NickName.order eq true}class="sort"{/if}>Пользователь</a></th> 
-						<th><a href="{$MY_PROJECT_ORDERER.CountErrors.url}#users" {if $MY_PROJECT_ORDERER.CountErrors.order eq true}class="sort"{/if}>Количество отчетов</a></th> 
+						<th><a href="{$MY_PROJECT_ORDERER.CountCreated.url}#users" {if $MY_PROJECT_ORDERER.CountCreated.order eq true}class="sort"{/if}>Создано</a></th> 
 						<th><a href="#">Количество комментариев</a></th> 
-						<th colspan="5"><a href="#">Назначенных заданий</a></th> 
+						<th colspan="5"><a href="{$MY_PROJECT_ORDERER.CountErrors.url}#users" {if $MY_PROJECT_ORDERER.CountErrors.order eq true}class="sort"{/if}>Назначенные</a></th> 
 					</tr> 
 					</thead> 
 					<tbody> 
@@ -44,7 +44,7 @@
 						<tr class="{if $smarty.foreach.projectUsers.index % 2 == 0}odd{else}even{/if}"> 
 							<td><input name="delId" type="checkbox" /></td> 
 							<td>{if $element.Owner eq 1}<strong><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a></strong>&nbsp;<sup style="font-size: 10px; color: red;">(владелец)</sup>{else}<a href="/profile/show/{$element.UserID}/">{$element.NickName}</a>{/if}</td> 
-							<td>{$element.CountErrors}</td> 
+							<td>{$element.CountCreated}</td> 
 							<td><a href="#">213</a></td> 
 							<td class="new">{$element.NEW}</td><td class="confirmed">{$element.IDENTIFIED}</td><td class="assigned">{$element.ASSESSED}</td><td class="solved">{$element.RESOLVED}</td><td class="closed">{$element.CLOSED}</td>
 						</tr> 
