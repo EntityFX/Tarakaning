@@ -16,7 +16,7 @@
         
         protected $_idTag="";
         
-        public function __construct($count,$get="page",$size=5)
+        public function __construct($count,$get="page",$size=5,$paginatorSize=5)
         {
             if (isset($_GET[$get]))
             {
@@ -32,11 +32,11 @@
             $count=$size>0?(int)ceil($count / $this->_size):0;
             try
             {
-                parent::__construct($count,$getVal);
+                parent::__construct($count,$getVal,$size,$paginatorSize);
             }
             catch(Exception $e)
             {
-                parent::__construct($count,1);
+                parent::__construct($count,1,$size,$paginatorSize);
             }
         }
         

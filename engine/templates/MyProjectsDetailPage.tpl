@@ -45,7 +45,7 @@
 							<td><input name="delId" type="checkbox" /></td> 
 							<td>{if $element.Owner eq 1}<strong><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a></strong>&nbsp;<sup style="font-size: 10px; color: red;">(владелец)</sup>{else}<a href="/profile/show/{$element.UserID}/">{$element.NickName}</a>{/if}</td> 
 							<td>{$element.CountCreated}</td> 
-							<td><a href="#">213</a></td> 
+							<td>{$element.CountComments}</td> 
 							<td class="new">{$element.NEW}</td><td class="confirmed">{$element.IDENTIFIED}</td><td class="assigned">{$element.ASSESSED}</td><td class="solved">{$element.RESOLVED}</td><td class="closed">{$element.CLOSED}</td>
 						</tr> 
 					{/foreach}

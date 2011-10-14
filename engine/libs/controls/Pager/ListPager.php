@@ -19,7 +19,9 @@
         
         private $_correction;
         
-        public function __construct($count,$current=1)
+        private $_paginatorSize;
+        
+        public function __construct($count,$current=1,$size=20,$paginatorSize=5)
         {
             $this->_count=$count;
             if ($current<=$count && $current>0)
@@ -34,18 +36,24 @@
             {
                 throw new Exception("CurrentPage Out Of Range");
             } 
-            $this->setSize($this->_size);
+            $this->setSize($paginatorSize);
+            $this->_size=$size;
         } 
         
-        public function setSize($size)  
+        public function setpaginatorSize($size)
         {
-            $size=(int)$size;
-            if ($size>0)
+        	$this->_size=$size;
+        }
+        
+        public function setSize($paginatorSize)  
+        {
+            $paginatorSize=(int)$paginatorSize;
+            if ($paginatorSize>0)
             {
-                $this->_size=$size;
-                $this->_countModSize=$this->_count % $this->_size;
-                $this->_currentModSize=$this->_current % $this->_size; 
-                $this->_correction=(($this->_currentModSize != 0) ? 0 : -$this->_size);
+                $this->_paginatorSize=$paginatorSize;
+                $this->_countModSize=$this->_count % $this->_paginatorSize;
+                $this->_currentModSize=$this->_current % $this->_paginatorSize; 
+                $this->_correction=(($this->_currentModSize != 0) ? 0 : -$this->_paginatorSize);
             }
         }
         
@@ -56,12 +64,12 @@
         
         protected function getFirst()
         {
-            return $this->_current > $this->_size ? 1 : null;    
+            return $this->_current > $this->_paginatorSize ? 1 : null;    
         }
         
         protected function getLast()
-        {
-            return $this->_current <= $this->_count - (($this->_countModSize==0)? $this->_size : $this->_countModSize ) ? $this->_count : null;    
+        {  
+        	return $this->_current <= $this->_count - (($this->_countModSize==0)? $this->_paginatorSize : $this->_countModSize ) ? $this->_count : null;    
         }
         
         protected function getPrevious()
@@ -80,7 +88,7 @@
         {
             if ($this->getLast()!=null)
             {
-                return $this->_size + $this->_current - $this->_currentModSize + $this->_correction+1;
+            	return $this->_paginatorSize + $this->_current - $this->_currentModSize + $this->_correction+1;
             }
             else
             {
@@ -88,10 +96,15 @@
             }            
         }
         
+        public function getpaginatorSize()
+        {
+        	return $this->_paginatorSize;
+        }
+        
         protected function getPages()
         {
             $from=$this->_current - $this->_currentModSize + $this->_correction+1;
-            $to=$this->_size + $this->_current - $this->_currentModSize + $this->_correction;
+            $to=$this->_paginatorSize + $this->_current - $this->_currentModSize + $this->_correction;
             for($it=$from;$it<=$to && $it<=$this->_count;$it++)    
             {
                 $res[]=$it;
