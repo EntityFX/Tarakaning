@@ -1,6 +1,6 @@
-﻿-- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 5.0.48.1
+﻿-- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 5.0.50.1
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 13.10.2011 2:51:12
+-- Дата скрипта: 14.10.2011 11:09:46
 -- Версия сервера: 5.0.45-community-nt
 -- Версия клиента: 4.1
 
@@ -32,7 +32,7 @@ CREATE TABLE DefectItem (
     REFERENCES errorreport(ID) ON DELETE CASCADE ON UPDATE CASCADE
 )
 ENGINE = INNODB
-AVG_ROW_LENGTH = 455
+AVG_ROW_LENGTH = 468
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -84,8 +84,8 @@ CREATE TABLE ErrorReport (
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 130
-AVG_ROW_LENGTH = 287
+AUTO_INCREMENT = 8689
+AVG_ROW_LENGTH = 273
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -165,7 +165,7 @@ CREATE TABLE ReportComment (
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 70
+AUTO_INCREMENT = 11849
 AVG_ROW_LENGTH = 862
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
@@ -409,266 +409,6 @@ BEGIN
 END
 $$
 
---
--- Описание для процедуры GetMyProjectsInfo
---
-DROP PROCEDURE IF EXISTS GetMyProjectsInfo$$
-CREATE DEFINER = 'root'@'localhost'
-PROCEDURE GetMyProjectsInfo(IN ProjectID INT)
-BEGIN
-    SELECT PAC.*
-         , count((
-           CASE
-           WHEN (`E`.`Status` = _cp1251 'NEW') THEN
-               _utf8 'NEW'
-           ELSE
-               NULL
-           END)) AS `NEW`
-         , count((
-           CASE
-           WHEN (`E`.`Status` = _cp1251 'IDENTIFIED') THEN
-               _utf8 'IDENTIFIED'
-           ELSE
-               NULL
-           END)) AS `IDENTIFIED`
-         , count((
-           CASE
-           WHEN (`E`.`Status` = _cp1251 'ASSESSED') THEN
-               _utf8 'ASSESSED'
-           ELSE
-               NULL
-           END)) AS `ASSESSED`
-         , count((
-           CASE
-           WHEN (`E`.`Status` = _cp1251 'RESOLVED') THEN
-               _utf8 'RESOLVED'
-           ELSE
-               NULL
-           END)) AS `RESOLVED`
-         , count((
-           CASE
-           WHEN (`E`.`Status` = _cp1251 'CLOSED') THEN
-               _utf8 'CLOSED'
-           ELSE
-               NULL
-           END)) AS `CLOSED`
-    FROM
-        (SELECT PA.*
-              , count(S.ProjectID) AS CountRequests
-         FROM
-             (SELECT P.ProjectID
-                   , P.Name AS ProjectName
-                   , U.NickName
-                   , P.OwnerID
-                   , P.CreateDate
-                   , count(UP.ProjectID) AS CountUsers
-              FROM
-                  Projects P
-              LEFT JOIN UsersInProjects UP
-              ON P.ProjectID = UP.ProjectID
-              LEFT JOIN Users U
-              ON P.OwnerID = U.UserID
-              WHERE
-                  P.OwnerID = ProjectID
-              GROUP BY
-                  P.ProjectID) AS PA
-         LEFT JOIN SubscribesRequest AS S
-         ON PA.ProjectID = S.ProjectID
-         GROUP BY
-             PA.ProjectID) AS PAC
-    LEFT JOIN ErrorReport E
-    ON PAC.ProjectID = E.ProjectID
-    GROUP BY
-        PAC.ProjectID;
-END
-$$
-
---
--- Описание для процедуры getProjectReportsInfo
---
-DROP PROCEDURE IF EXISTS getProjectReportsInfo$$
-CREATE DEFINER = 'root'@'localhost'
-PROCEDURE getProjectReportsInfo(IN usrID INT)
-BEGIN
-    (SELECT Projects.ProjectID
-          , Projects.`Name`
-          , OwnerID
-          , left(Projects.Description, 25) AS 'Description'
-          , count((
-            CASE
-            WHEN (`errorreport`.`Status` = _cp1251 'NEW') THEN
-                _utf8 'NEW'
-            ELSE
-                NULL
-            END)) AS `New`
-          , count((
-            CASE
-            WHEN (`errorreport`.`Status` = _cp1251 'CONFIRMED') THEN
-                _utf8 'CONFIRMED'
-            ELSE
-                NULL
-            END)) AS `Confirmed`
-          , count((
-            CASE
-            WHEN (`errorreport`.`Status` = _cp1251 'ASSIGNED') THEN
-                _utf8 'ASSIGNED'
-            ELSE
-                NULL
-            END)) AS `Assigned`
-          , count((
-            CASE
-            WHEN (`errorreport`.`Status` = _cp1251 'SOLVED') THEN
-                _utf8 'SOLVED'
-            ELSE
-                NULL
-            END)) AS `Solved`
-          , count((
-            CASE
-            WHEN (`errorreport`.`Status` = _cp1251 'CLOSED') THEN
-                _utf8 'CLOSED'
-            ELSE
-                NULL
-            END)) AS `Closed`
-          , Projects.CreateDate
-     FROM
-         Projects
-     LEFT JOIN `errorreport`
-     ON `errorreport`.`ProjectID` = `projects`.`ProjectID`
-     WHERE
-         Projects.OwnerID = usrID
-     GROUP BY
-         `projects`.`ProjectID`)
-
-    UNION
-
-    (SELECT Projects.ProjectID
-          , Projects.`Name`
-          , OwnerID
-          , left(Projects.Description, 25) AS 'Description'
-          , count((
-            CASE
-            WHEN (`errorreport`.`Status` = _cp1251 'NEW') THEN
-                _utf8 'NEW'
-            ELSE
-                NULL
-            END)) AS `New`
-          , count((
-            CASE
-            WHEN (`errorreport`.`Status` = _cp1251 'CONFIRMED') THEN
-                _utf8 'CONFIRMED'
-            ELSE
-                NULL
-            END)) AS `Confirmed`
-          , count((
-            CASE
-            WHEN (`errorreport`.`Status` = _cp1251 'ASSIGNED') THEN
-                _utf8 'ASSIGNED'
-            ELSE
-                NULL
-            END)) AS `Assigned`
-          , count((
-            CASE
-            WHEN (`errorreport`.`Status` = _cp1251 'SOLVED') THEN
-                _utf8 'SOLVED'
-            ELSE
-                NULL
-            END)) AS `Solved`
-          , count((
-            CASE
-            WHEN (`errorreport`.`Status` = _cp1251 'CLOSED') THEN
-                _utf8 'CLOSED'
-            ELSE
-                NULL
-            END)) AS `Closed`
-          , Projects.CreateDate
-     FROM
-         Projects
-     LEFT JOIN `errorreport`
-     ON `errorreport`.`ProjectID` = `projects`.`ProjectID`
-     WHERE
-         Projects.ProjectID IN (SELECT ProjectID
-                                FROM
-                                    UsersInProjects
-                                WHERE
-                                    UserID = usrID)
-     GROUP BY
-         `projects`.`ProjectID`);
-END
-$$
-
---
--- Описание для процедуры GetProjectsInfo
---
-DROP PROCEDURE IF EXISTS GetProjectsInfo$$
-CREATE DEFINER = 'root'@'localhost'
-PROCEDURE GetProjectsInfo()
-BEGIN
-    SELECT PAC.*
-         , count((
-           CASE
-           WHEN (`E`.`Status` = _cp1251 'NEW') THEN
-               _utf8 'NEW'
-           ELSE
-               NULL
-           END)) AS `NEW`
-         , count((
-           CASE
-           WHEN (`E`.`Status` = _cp1251 'IDENTIFIED') THEN
-               _utf8 'IDENTIFIED'
-           ELSE
-               NULL
-           END)) AS `IDENTIFIED`
-         , count((
-           CASE
-           WHEN (`E`.`Status` = _cp1251 'ASSESSED') THEN
-               _utf8 'ASSESSED'
-           ELSE
-               NULL
-           END)) AS `ASSESSED`
-         , count((
-           CASE
-           WHEN (`E`.`Status` = _cp1251 'RESOLVED') THEN
-               _utf8 'RESOLVED'
-           ELSE
-               NULL
-           END)) AS `RESOLVED`
-         , count((
-           CASE
-           WHEN (`E`.`Status` = _cp1251 'CLOSED') THEN
-               _utf8 'CLOSED'
-           ELSE
-               NULL
-           END)) AS `CLOSED`
-    FROM
-        (SELECT PA.*
-              , count(S.ProjectID) AS CountRequests
-         FROM
-             (SELECT P.ProjectID
-                   , P.Name AS ProjectName
-                   , U.NickName
-                   , P.OwnerID
-                   , P.CreateDate
-                   , count(UP.ProjectID) AS CountUsers
-              FROM
-                  Projects P
-              LEFT JOIN UsersInProjects UP
-              ON P.ProjectID = UP.ProjectID
-              LEFT JOIN Users U
-              ON P.OwnerID = U.UserID
-              GROUP BY
-                  P.ProjectID) AS PA
-         LEFT JOIN SubscribesRequest AS S
-         ON PA.ProjectID = S.ProjectID
-         GROUP BY
-             PA.ProjectID) AS PAC
-    LEFT JOIN ErrorReport E
-    ON PAC.ProjectID = E.ProjectID
-    GROUP BY
-        PAC.ProjectID;
-
-END
-$$
-
 DELIMITER ;
 
 --
@@ -692,6 +432,16 @@ AS
 	select `R`.`ID` AS `ID`,`R`.`ReportID` AS `ReportID`,`R`.`UserID` AS `UserID`,`R`.`Time` AS `Time`,`R`.`Comment` AS `Comment`,`U`.`NickName` AS `NickName` from (`reportcomment` `R` left join `users` `U` on((`R`.`UserID` = `U`.`UserID`)));
 
 --
+-- Описание для представления errorcommentscount
+--
+DROP VIEW IF EXISTS errorcommentscount CASCADE;
+CREATE OR REPLACE 
+	DEFINER = 'root'@'localhost'
+VIEW errorcommentscount
+AS
+	select `RC`.`UserID` AS `UserID`,`RC`.`ReportID` AS `ReportID`,`E`.`ProjectID` AS `ProjectID`,count(`RC`.`ID`) AS `ItemUserComment` from (`reportcomment` `RC` join `errorreport` `E` on((`RC`.`ReportID` = `E`.`ID`))) group by `RC`.`ReportID`,`RC`.`UserID`;
+
+--
 -- Описание для представления errorreportsinfo
 --
 DROP VIEW IF EXISTS errorreportsinfo CASCADE;
@@ -710,6 +460,16 @@ CREATE OR REPLACE
 VIEW projectanderrorsview
 AS
 	select `p`.`ProjectID` AS `ProjectID`,`p`.`Name` AS `Name`,`p`.`Description` AS `Description`,`p`.`OwnerID` AS `OwnerID`,`p`.`NickName` AS `NickName`,`p`.`CreateDate` AS `CreateDate`,0 AS `CountRequests`,`p`.`CountUsers` AS `CountUsers`,count((case when (`E`.`Status` = _cp1251'NEW') then _utf8'NEW' else NULL end)) AS `NEW`,count((case when (`E`.`Status` = _cp1251'IDENTIFIED') then _utf8'IDENTIFIED' else NULL end)) AS `IDENTIFIED`,count((case when (`E`.`Status` = _cp1251'ASSESSED') then _utf8'ASSESSED' else NULL end)) AS `ASSESSED`,count((case when (`E`.`Status` = _cp1251'RESOLVED') then _utf8'RESOLVED' else NULL end)) AS `RESOLVED`,count((case when (`E`.`Status` = _cp1251'CLOSED') then _utf8'CLOSED' else NULL end)) AS `CLOSED` from (`projectsinfoview` `P` left join `errorreport` `E` on((`E`.`ProjectID` = `p`.`ProjectID`))) group by `p`.`ProjectID`;
+
+--
+-- Описание для представления projectcomentscount
+--
+DROP VIEW IF EXISTS projectcomentscount CASCADE;
+CREATE OR REPLACE 
+	DEFINER = 'root'@'localhost'
+VIEW projectcomentscount
+AS
+	select `up`.`ProjectID` AS `ProjectID`,`up`.`UserID` AS `UserID`,ifnull(sum(`ec`.`ItemUserComment`),0) AS `CountComments` from (`alluserprojects` `UP` left join `errorcommentscount` `EC` on(((`up`.`ProjectID` = `ec`.`ProjectID`) and (`up`.`UserID` = `ec`.`UserID`)))) group by `up`.`UserID`,`up`.`ProjectID`;
 
 --
 -- Описание для представления projectsinfoview
@@ -759,7 +519,7 @@ CREATE OR REPLACE
 	DEFINER = 'root'@'localhost'
 VIEW projectusersinfofull
 AS
-	select `p`.`UserID` AS `UserID`,`p`.`ProjectID` AS `ProjectID`,`p`.`NickName` AS `NickName`,`p`.`NEW` AS `NEW`,`p`.`IDENTIFIED` AS `IDENTIFIED`,`p`.`ASSESSED` AS `ASSESSED`,`p`.`RESOLVED` AS `RESOLVED`,`p`.`CLOSED` AS `CLOSED`,`p`.`CountErrors` AS `CountErrors`,`p`.`Owner` AS `Owner`,count(`E`.`ID`) AS `CountCreated` from (`projectusersinfo` `P` left join `errorreport` `E` on(((`p`.`ProjectID` = `E`.`ProjectID`) and (`p`.`UserID` = `E`.`UserID`)))) group by `p`.`ProjectID`,`p`.`UserID`;
+	select `p`.`UserID` AS `UserID`,`p`.`ProjectID` AS `ProjectID`,`p`.`NickName` AS `NickName`,`p`.`NEW` AS `NEW`,`p`.`IDENTIFIED` AS `IDENTIFIED`,`p`.`ASSESSED` AS `ASSESSED`,`p`.`RESOLVED` AS `RESOLVED`,`p`.`CLOSED` AS `CLOSED`,`p`.`CountErrors` AS `CountErrors`,`p`.`Owner` AS `Owner`,count(`E`.`ID`) AS `CountCreated`,`pc`.`CountComments` AS `CountComments` from ((`projectusersinfo` `P` left join `errorreport` `E` on(((`p`.`ProjectID` = `E`.`ProjectID`) and (`p`.`UserID` = `E`.`UserID`)))) join `projectcomentscount` `PC` on(((`p`.`ProjectID` = `pc`.`ProjectID`) and (`p`.`UserID` = `pc`.`UserID`)))) group by `p`.`ProjectID`,`p`.`UserID`;
 
 -- 
 -- Вывод данных для таблицы DefectItem
@@ -799,8 +559,7 @@ INSERT INTO DefectItem VALUES
   (87, 'Major', 'Меню всегда активна на Мои Отчёты - это неправильно'),
   (91, 'Minor', '1. Переходим на страницу &quot;Мои отчёты&quot;<br />\r\n2. Выбираем в выпадающем списке &quot;Проекты&quot; нужный проект<br />\r\n3. Должно обновится на выбранный проект, но обновляется на тот, который по-умолчанию'),
   (106, 'Major', '1. Перешёл на страницу &quot;Профиль&quot;<br />\r\n2. Нажал кнопку &quot;Редактировать профиль&quot;<br />\r\n3. Выбрал вкладку &quot;Смена пароля&quot;<br />\r\n4. Ничего не заполнял<br />\r\n5. Нажал сохранить. Система показала успешное сохранение, но произошла потеря данных (см. Описание)'),
-  (107, 'Minor', '1. Перешёл на страницу проекта.<br />\r\n2. Открыл вкладку &quot;Участники&quot;<br />\r\n3. Навёл на ссылку пользователя и нажал на неё - не перенаправляет на страницу профиля пользователя.'),
-  (120, 'Major', 'e3');
+  (107, 'Minor', '1. Перешёл на страницу проекта.<br />\r\n2. Открыл вкладку &quot;Участники&quot;<br />\r\n3. Навёл на ссылку пользователя и нажал на неё - не перенаправляет на страницу профиля пользователя.');
 
 -- 
 -- Вывод данных для таблицы ErorrReportHistory
@@ -864,10 +623,13 @@ INSERT INTO ErrorReport VALUES
   (103, 15, 47, 'Task', '1', 'NEW', '2011-10-10 00:24:25', 'апрпарпарпар', 'рпопроапроапро', 15),
   (106, 1, 48, 'Defect', '2', 'NEW', '2011-10-10 01:34:01', 'Смена пароля неправильно реализована', 'При смене пароля, даже если не введён старый пароль, изменения сохраняются.<br />\r\nТакже Имя, Фамилия, Отчество, Время входа становятся пустыми.', 18),
   (107, 1, 48, 'Defect', '1', 'RESOLVED', '2011-10-10 23:00:41', 'Ссылки на участников проекта не работают', 'Ссылки на участников проекта не работают.', 1),
-  (108, 1, 48, 'Task', '1', 'NEW', '2011-10-10 23:02:45', 'Реализовать&quot;количество комментариев&quot;', 'Необходимо отображать количество комментариев, оставленные пользователем для каждого участника', 1),
-  (120, 1, 22, 'Defect', '1', 'NEW', '2011-10-12 00:27:58', 'e3', 'e3', 8),
-  (128, 1, 48, 'Task', '2', 'IDENTIFIED', '2011-10-12 23:17:39', 'Произвести рефакторинг классов MyBugsPage ProjectBugsPage', 'В данных класса большое количество повторяющихся методов - вынести в базовый класс', 1),
-  (129, 1, 48, 'Task', '2', 'NEW', '2011-10-12 23:23:39', 'Реализовать удаление проектов', '1. При удалении проекта должны удаляться:<br />\r\n   1. 1. Все его подписчики<br />\r\n   1. 2. Все его айтемы<br />\r\n   1. 3. Все связанные элементы', 1);
+  (108, 1, 48, 'Task', '1', 'RESOLVED', '2011-10-10 23:02:45', 'Реализовать&quot;количество комментариев&quot;', 'Необходимо отображать количество комментариев, оставленные пользователем для каждого участника', 1),
+  (128, 1, 48, 'Task', '2', 'RESOLVED', '2011-10-12 23:17:39', 'Произвести рефакторинг классов MyBugsPage ProjectBugsPage', 'В данных класса большое количество повторяющихся методов - вынести в базовый класс', 1),
+  (129, 1, 48, 'Task', '2', 'NEW', '2011-10-12 23:23:39', 'Реализовать удаление проектов', '1. При удалении проекта должны удаляться:<br />\r\n   1. 1. Все его подписчики<br />\r\n   1. 2. Все его айтемы<br />\r\n   1. 3. Все связанные элементы', 1),
+  (136, 1, 22, 'Task', '1', 'NEW', '2011-10-14 01:17:11', '1', 'bgfgfghg', 0),
+  (1137, 1, 22, 'Task', '1', 'NEW', '2011-10-14 01:22:15', 'bnmvbnmbnm', 'bnmvbnmvbnmvbnm', 0),
+  (5138, 1, 25, 'Task', '1', 'NEW', '2011-10-14 02:38:24', '6757456765', '67657', 1),
+  (8688, 1, 48, 'Task', '2', 'NEW', '2011-10-14 02:46:52', 'Реализовать вывод назначенных айтемов отдельно', 'На данный момент отображаются только созданные пользователем айтемы. Также нужно реализовать айтемы, которые назначены пользователю.', 1);
 
 -- 
 -- Вывод данных для таблицы MainMenu

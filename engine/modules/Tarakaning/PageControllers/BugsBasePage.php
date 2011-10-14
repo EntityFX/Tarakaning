@@ -90,7 +90,7 @@ abstract class BugsBasePage extends InfoBasePage
 			"PROJECTS_LIST" => $this->normalizeProjectsList($this->_projectsList),
 			"selected" => $this->_currentProjectID
 		));
-		$this->_smarty->assign("MY_BUGS_PAGINATOR",$this->_paginator!=null?$this->_paginator->getHTML():null);
+		$this->_smarty->assign("PROJECT_BUGS_PAGINATOR",$this->_paginator!=null?$this->_paginator->getHTML():null);
 		$this->_smarty->assign("MY_BUGS_ORDERER",$this->_orderer!=null?$this->_orderer->getNewUrls():null);
 		$this->_smarty->assign("MY_BUGS",$this->_bugsData);
 	}

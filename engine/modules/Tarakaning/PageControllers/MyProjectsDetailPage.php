@@ -35,7 +35,6 @@ require_once 'engine/libs/controls/Orderer/Orderer.php';
 				$this->_myProjectsInfoPaginator->getOffset(),
 				$this->_myProjectsInfoPaginator->getSize()
 			);
-			var_dump($this->_projectUsers);
 			if ($this->_projectData==null)
 			{
 				$this->navigate('/my/projects/');

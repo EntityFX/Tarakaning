@@ -41,7 +41,7 @@ require_once 'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
 					{
 						$this->_controller->error->addError("addBugOK",true);
 						$this->navigate("/my/bugs/");
-					}
+					}	
 					$this->navigate("/bug/show/$newItemID/");
 				}
 			}
