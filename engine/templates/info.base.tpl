@@ -35,7 +35,8 @@
 	</div>
 </div>
 <div id="account_panel">
-	<strong>{$LOGIN}</strong><br/>
+	<strong>{$LOGIN}</strong>
+	<a href="/profile/edit/" title="Настройки профиля"><img src="/images/settings.png" alt="настройки" /></a><br/>
 	<span>{$FULLNAME}</span><br />
 	<span>Вошёл: <span style="color: #aaa">{$TIME}</span></span><br />
 	<a href="/logout/" id="exit" >Выход</a>

@@ -448,6 +448,10 @@
             $reportID=(int)$reportID;
         	$this->_sql->selAllWhere("ErrorReportsInfo","ID=$reportID");
             $arr=$this->_sql->getTable();
+            if ($arr==null)
+            {
+            	return null;
+            }
             $this->normalizeBugReport($arr[0]);
             return $arr[0];
         }

@@ -30,7 +30,7 @@ class BugPage extends InfoBasePage
 	protected function onInit()
 	{
 		parent::onInit();
-		$this->_commentsController=new CommentsController();
+
 		$this->_userData=$this->_controller->auth->getName();
 		$projectsController=new ProjectsController();
 		$this->_projectsList=$projectsController->getUserProjects($this->_userData["UserID"]);
@@ -53,10 +53,14 @@ class BugPage extends InfoBasePage
 				$this->_canEditReport=$bugsOperation->canEditReport($this->_parameters[0]);
 			}
 		}
-		else 
+		
+		if ($this->_bugData==null)
 		{
 			$this->navigate("/my/bugs/");
 		}
+		
+		$this->_commentsController=new CommentsController();
+		
 		if ($this->request->isPost() )
 		{
 			$postData=$this->request->getParams();
@@ -94,14 +98,6 @@ class BugPage extends InfoBasePage
 				}
 			}
 		}
-		$this->_commentsPaginator=new TarakaningULListPager(
-		$this->_commentsController->getReportCommentsCount(				
-			$this->_bugData['ID']
-		)
-		);
-		$this->_orderer=new Orderer(new ItemCommentsENUM());
-		$this->_orderData=$this->_orderer->getNewUrls();
-		$this->_commentsPaginator->setIDTag('comments');
 
 		if ($this->request->isPost())
 		{
@@ -110,41 +106,54 @@ class BugPage extends InfoBasePage
 				$this->deleteSelectedItems();
 			}
 		}
-		
-		$this->_commentsData=$this->_commentsController->getReportComments(
-			$this->_bugData['ProjectID'], 
-			$this->_bugData['ID'], 
-			$this->_bugData['UserID'],
-			new ItemCommentsENUM($this->_orderer->getOrderField()),
-			new MySQLOrderENUM($this->_orderer->getOrder()),
-			$this->_commentsPaginator->getOffset(),
-			$this->_commentsPaginator->getSize()
-		);
+		if ($this->_bugData!=null)
+		{
+			$this->_commentsPaginator=new TarakaningULListPager(
+				$this->_commentsController->getReportCommentsCount(				
+					$this->_bugData['ID']
+				)
+			);
+			$this->_orderer=new Orderer(new ItemCommentsENUM());
+			$this->_orderData=$this->_orderer->getNewUrls();
+			$this->_commentsPaginator->setIDTag('comments');
+			$this->_commentsData=$this->_commentsController->getReportComments(
+				$this->_bugData['ProjectID'], 
+				$this->_bugData['ID'], 
+				$this->_bugData['UserID'],
+				new ItemCommentsENUM($this->_orderer->getOrderField()),
+				new MySQLOrderENUM($this->_orderer->getOrder()),
+				$this->_commentsPaginator->getOffset(),
+				$this->_commentsPaginator->getSize()
+			);
+		}
 	}
 	
 	protected function doAssign()
 	{
 		parent::doAssign();
-		$this->_smarty->assign("BUG",$this->_bugData);
-		$this->_smarty->assign("COMMENTS",$this->_commentsData);
-		$this->_smarty->assign("COMMENTS_ORDER",$this->_orderData);
-		$this->_smarty->assign("COMMENTS_PAGINATOR",$this->_commentsPaginator->getHTML());
-		$this->_smarty->assign("CAN_EDIT_REPORT",$this->_canEditReport);
-		$itemStatuses=new ErrorStatusENUM($this->_bugData['Status']);
-		$this->_smarty->assign(
-			"STATUSES",
-			array(
-				'values' => $itemStatuses->getStates($itemStatuses,$this->_canCloseReport),
-				'selected' => $itemStatuses->getValue()
-			)
-		);
-		$this->_smarty->assign("USER_ID",$this->_userData["UserID"]);
-		$addCommentError=$this->_controller->error->getErrorByName("addCommentError");
-		if ($addCommentError!=null)
+		if ($this->_bugData!=null)
 		{
-			$exception=$addCommentError["error"];
-			$this->_smarty->assign("ERROR",$exception->getMessage());
-			$this->_smarty->assign("DATA",$addCommentError["postData"]);
+			$this->_smarty->assign("BUG",$this->_bugData);
+			$this->_smarty->assign("COMMENTS",$this->_commentsData);
+			$this->_smarty->assign("COMMENTS_ORDER",$this->_orderData);
+			$this->_smarty->assign("COMMENTS_PAGINATOR",$this->_commentsPaginator->getHTML());
+			$this->_smarty->assign("CAN_EDIT_REPORT",$this->_canEditReport);
+			$itemStatuses=new ErrorStatusENUM($this->_bugData['Status']);
+			$this->_smarty->assign(
+				"STATUSES",
+				array(
+					'values' => $itemStatuses->getStates($itemStatuses,$this->_canCloseReport),
+					'selected' => $itemStatuses->getValue()
+				)
+			);
+			$this->_smarty->assign("USER_ID",$this->_userData["UserID"]);
+			$addCommentError=$this->_controller->error->getErrorByName("addCommentError");
+			if ($addCommentError!=null)
+			{
+				$exception=$addCommentError["error"];
+				$this->_smarty->assign("ERROR",$exception->getMessage());
+				$this->_smarty->assign("DATA",$addCommentError["postData"]);
+			}
 		}
 	}
 	
