@@ -1,6 +1,7 @@
 <?php
 require_once 'InfoBasePage.php';
 require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
+require_once 'engine/modules/Tarakaning/Logic/ProjectsSearch.php';
 	class MyNewProjectPage extends InfoBasePage
 	{
 		private $projectOperation;
@@ -15,11 +16,15 @@ require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
 				$userData=$this->_controller->auth->getName();
 				try 
 				{
-					$projectsOperation->addProject(
+					$projectId = $projectsOperation->addProject(
 						$userData["UserID"],
 						$postData["project_name"], 
 						$postData["description"]
 					);
+					$indexer = new ProjectSearch();
+					$indexer->Add($projectId, 
+						array($postData["project_name"],
+							$postData["description"]));
 				}
 				catch (Exception $exception)
 				{
