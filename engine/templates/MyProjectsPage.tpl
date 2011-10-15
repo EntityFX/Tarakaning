@@ -1,4 +1,16 @@
 {extends file="info.base.tpl"}
+{block name=script}
+{literal}
+		$('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
+		$('#del').click(function(){
+			return confirm('Вы действительно желаете удалить проекты? Это приведёт к удалению всех задач, комментариев, а также подписчиков');
+		});
+		
+		$("#item_kind, #project_id").change(function(){
+			$("#selectProjectForm").submit();
+		});
+{/literal}
+{/block}
 {block name=body}
 <div id="content_body">
 	<div id="tabs">
@@ -15,13 +27,12 @@
 				{$MY_PROJECTS_PAGINATOR}
 			</div>
 			{if $MY_PROJECTS neq NULL}
-			<form action="#" class="reports_form">
+			<form action="#" class="reports_form" method="post">
 				<table class="projects_table">
 					<col width="23" />
 					<thead> 
 						<tr>
 						  <th><input name="del" type="checkbox" /></th>
-	
 						  <th><a href="{$MY_PROJECTS_ORDERER.Name.url}" {if $MY_PROJECTS_ORDERER.Name.order eq true}class="sort"{/if}>Проект</a></th>
 						  <th><a href="{$MY_PROJECTS_ORDERER.Description.url}" {if $MY_PROJECTS_ORDERER.Description.order eq true}class="sort"{/if}>Заголовок</a></th>
 						  <th colspan="5">Отчётов</th>
@@ -33,7 +44,7 @@
 					<tbody>
 				{foreach name=myProjects from=$MY_PROJECTS item=element} {* Выводит мои проекты*}
 						<tr class="{if $smarty.foreach.myProjects.index % 2 == 0}odd{else}even{/if}">
-							<td><input name="delId" type="checkbox" /></td>
+							<td><input name="del_i[{$element.ProjectID}]" type="checkbox" /></td>
 							<td><a href="/my/project/show/{$element.ProjectID}/">{$element.Name}</a><br />
 							</td>
 							<td>{$element.Description}</td>
@@ -46,7 +57,7 @@
 					</tbody>
 			  	</table>
 				<div class="groupier">
-					<input value="Удалить" name="delBtn" type="button" />
+					<input value="Удалить" name="del" id="del" type="submit" />
 				</div>
 			</form>
 			{else}

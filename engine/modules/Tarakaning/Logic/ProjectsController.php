@@ -163,6 +163,28 @@
 		}
 		
 		/**
+		 * 
+		 * Удаляет проекты заданного пользователя
+		 * @param int $userID Идентификатор пользователя
+		 * @param array $projectsList Список проектов на удаление (ключ - идентификатор)
+		 */
+		public function deleteProjectsFromList($userID,$projectsList)
+		{
+			$userID = (int)$userID;
+			if ($projectsList!=null)
+        	{
+        		$projectListSerialized=Serialize::SerializeForStoredProcedure($projectsList);
+        		$this->_sql->call(
+        			'DeleteProjects',
+        			new ArrayObject(array(
+        				$userID,
+        				$projectListSerialized
+        			))
+        		);
+        	}
+		}
+		
+		/**
 		 * Получение списка всех проектов. Создано 28.01.2011.
 		 * @param int $startIndex - индекс с которого нужно показывать результаты поиска.
 		 * @param int $maxCount - максимальное количество результатов поиска.

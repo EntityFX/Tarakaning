@@ -3,12 +3,15 @@ require_once 'InfoBasePage.php';
 require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
 require_once 'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
 require_once 'engine/libs/controls/Orderer/Orderer.php';
+require_once 'engine/system/addons/Serialize.php';
 
 	class MyProjectsPage extends InfoBasePage
 	{
 		private $_projectsData;
 		
 		private $_projectsWithoutMeData;
+		
+		private $_projectsController;
 		
 		/**
 		 * 
@@ -18,6 +21,8 @@ require_once 'engine/libs/controls/Orderer/Orderer.php';
 		private $_myProjectsPaginator;
 		
 		private $_myProjectsOrderer;
+		
+		private $_userData;
 		
 		/**
 		 * 
@@ -31,27 +36,35 @@ require_once 'engine/libs/controls/Orderer/Orderer.php';
 		protected function onInit()
 		{
 			parent::onInit();
-			$projectsController=new ProjectsController();
-			$userData=$this->_controller->auth->getName();
+			$this->_projectsController=new ProjectsController();
+			$this->_userData=$this->_controller->auth->getName();
 			
-			$this->_myProjectsPaginator=new TarakaningULListPager($projectsController->countUserProjectsInfo($userData["UserID"]),'myPage');
+			$this->_myProjectsPaginator=new TarakaningULListPager($this->_projectsController->countUserProjectsInfo($userData["UserID"]),'myPage');
 			$this->_myProjectsPaginator->setIDTag('my_project');
 			$this->_myProjectsOrderer=new Orderer(new MyProjectsFieldsENUM());
 			
-			$this->_memberProjectsPaginator=new TarakaningULListPager($projectsController->countMemberProjects($userData["UserID"]),'memberPage');
+			$this->_memberProjectsPaginator=new TarakaningULListPager($this->_projectsController->countMemberProjects($userData["UserID"]),'memberPage');
 			$this->_memberProjectsPaginator->setIDTag('all_projects');
 			$this->_memberProjectsOrderer=new Orderer(new MyProjectsFieldsENUM());
 
-			$this->_projectsData=$projectsController->getUserProjectsInfo(
-				$userData["UserID"],
+			if ($this->request->isPost())
+			{
+				if ($this->request->getPost("del",null)!=null)
+				{
+					$this->deleteSelectedItems();
+				}
+			}
+			
+			$this->_projectsData=$this->_projectsController->getUserProjectsInfo(
+				$this->_userData["UserID"],
 				new MyProjectsFieldsENUM($this->_myProjectsOrderer->getOrderField()),
 				$this->_myProjectsOrderer->getMySQLOrderDirection(),
 				$this->_myProjectsPaginator->getOffset(),
 				$this->_myProjectsPaginator->getSize()
 			);
 			
-			$this->_projectsWithoutMeData=$projectsController->getMemberProjects(
-				$userData["UserID"],
+			$this->_projectsWithoutMeData=$this->_projectsController->getMemberProjects(
+				$this->_userData["UserID"],
 				new MyProjectsFieldsENUM($this->_memberProjectsOrderer->getOrderField()),
 				$this->_memberProjectsOrderer->getMySQLOrderDirection(),
 				$this->_memberProjectsPaginator->getOffset(),
@@ -75,6 +88,15 @@ require_once 'engine/libs/controls/Orderer/Orderer.php';
 			{
 				$this->_smarty->assign("GOOD",true);
 			}
+		}
+		
+		protected function deleteSelectedItems()
+		{
+			$checkboxes=$this->request->getPost("del_i");
+			$this->_projectsController->deleteProjectsFromList(
+				$this->_userData["UserID"],
+				$checkboxes
+			);
 		}
 	}
 ?>

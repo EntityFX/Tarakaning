@@ -13,6 +13,8 @@ class BugPage extends InfoBasePage
 	
 	private $_commentData;
 	
+	private $_commentsController;
+	
 	private $_userData;
 	
 	private $_commentsPaginator;
@@ -28,7 +30,7 @@ class BugPage extends InfoBasePage
 	protected function onInit()
 	{
 		parent::onInit();
-		$reportCommentsOperation=new CommentsController();
+		$this->_commentsController=new CommentsController();
 		$this->_userData=$this->_controller->auth->getName();
 		$projectsController=new ProjectsController();
 		$this->_projectsList=$projectsController->getUserProjects($this->_userData["UserID"]);
@@ -64,7 +66,7 @@ class BugPage extends InfoBasePage
 				{
 					try
 					{
-						$reportCommentsOperation->setReportComment(
+						$this->_commentsController->setReportComment(
 							$this->_bugData['ProjectID'], 
 							$this->_userData["UserID"], 
 							$this->_bugData['ID'], 
@@ -93,14 +95,23 @@ class BugPage extends InfoBasePage
 			}
 		}
 		$this->_commentsPaginator=new TarakaningULListPager(
-		$reportCommentsOperation->getReportCommentsCount(				
+		$this->_commentsController->getReportCommentsCount(				
 			$this->_bugData['ID']
 		)
 		);
 		$this->_orderer=new Orderer(new ItemCommentsENUM());
 		$this->_orderData=$this->_orderer->getNewUrls();
 		$this->_commentsPaginator->setIDTag('comments');
-		$this->_commentsData=$reportCommentsOperation->getReportComments(
+
+		if ($this->request->isPost())
+		{
+			if ($this->request->getPost("del",null)!=null)
+			{
+				$this->deleteSelectedItems();
+			}
+		}
+		
+		$this->_commentsData=$this->_commentsController->getReportComments(
 			$this->_bugData['ProjectID'], 
 			$this->_bugData['ID'], 
 			$this->_bugData['UserID'],
@@ -135,6 +146,15 @@ class BugPage extends InfoBasePage
 			$this->_smarty->assign("ERROR",$exception->getMessage());
 			$this->_smarty->assign("DATA",$addCommentError["postData"]);
 		}
+	}
+	
+	protected function deleteSelectedItems()
+	{
+		$checkboxes=$this->request->getPost("del_i");
+		$this->_commentsController->deleteCommentsFromList(
+			$this->_userData["UserID"],
+			$checkboxes
+		);
 	}
 }
 ?>

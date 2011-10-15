@@ -1,4 +1,18 @@
 {extends file="info.base.tpl"}
+
+{block name=script}
+{literal}
+		$('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
+		$('#del').click(function(){
+			return confirm('Вы действительно желаете удалить выбранные комментарии?');
+		});
+		
+		$("#item_kind, #project_id").change(function(){
+			$("#selectProjectForm").submit();
+		});
+{/literal}
+{/block}
+
 {block name=body}
 		{* define the function *}
 		{function name=bug_type}
@@ -66,9 +80,12 @@
 					{$COMMENTS_PAGINATOR}
 				</div>
 			{if $COMMENTS neq NULL}
+			<form action="#" class="reports_form" method="post">
 				<table class="comments">
+					<col width="25" valign="top" />
 					<thead>
 						<tr>
+							<th><input name="del_all" type="checkbox" title="" /></th>
 							<th><a href="{$COMMENTS_ORDER.NickName.url}#comments" {if $COMMENTS_ORDER.NickName.order eq true}class="sort"{/if}>Пользователь</a></th>
 							<th><a href="{$COMMENTS_ORDER.Comment.url}#comments" {if $COMMENTS_ORDER.Comment.order eq true}class="sort"{/if}>Комментарий</a></th>
 							<th class="date"><a href="{$COMMENTS_ORDER.Time.url}#comments" {if $COMMENTS_ORDER.Time.order eq true}class="sort"{/if}>Дата</a></th>
@@ -77,13 +94,18 @@
 					<tbody>
 				{foreach name=bugComments from=$COMMENTS item=element} {* Комментарии отчёта *}
 					<tr class="{if $smarty.foreach.bugComments.index % 2 == 0}odd{else}even{/if}">
-						<td><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a> {if $element.UserID eq $USER_ID}(<a href="" class="strongest">X</a>){/if}</td>
+						<td><input name="del_i[{$element.ID}]" type="checkbox" {if $element.UserID neq $USER_ID}disabled="disabled"{/if}/></td>
+						<td><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a></td>
 						<td class="left">{$element.Comment}</td>
 						<td>{$element.Time}</td>
 					</tr>
 				{/foreach}
 					</tbody>
 				</table>
+				<div class="groupier">
+					<input type="submit" value="Удалить выделенные" title="Удалить выделенные" name="del" id="del" />
+				</div>
+			</form>
 			{else}
 				<strong>Комментариев нет</strong>
 			{/if}

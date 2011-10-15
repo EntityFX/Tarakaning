@@ -2,6 +2,8 @@
 require_once 'ProjectsController.php';	
 require_once 'ItemCommentsENUM.php';
 require_once 'RequestsController.php';
+require_once 'engine/system/addons/Serialize.php';
+
 	/**
 	 * Класс управления комментариями к ошибкам.
 	 * @author timur 29.01.2011
@@ -123,6 +125,28 @@ require_once 'RequestsController.php';
 			}
 			
 			/**
+			 * 
+			 * Удаляет проекты заданного пользователя
+			 * @param int $userID Идентификатор пользователя
+			 * @param array $projectsList Список проектов на удаление (ключ - идентификатор)
+			 */
+			public function deleteCommentsFromList($userID,$commentsList)
+			{
+				$userID = (int)$userID;
+				if ($commentsList!=null)
+	        	{
+	        		$commentsListSerialized=Serialize::SerializeForStoredProcedure($commentsList);
+	        		$this->_sql->call(
+	        			'DeleteCommentsFromList',
+	        			new ArrayObject(array(
+	        				$userID,
+	        				$commentsListSerialized
+	        			))
+	        		);
+	        	}
+			}
+			
+			/**
 			 * Получение списка комментариев к проекту.
 			 * @param unknown_type $projectID
 			 * @param unknown_type $userID
@@ -188,6 +212,11 @@ require_once 'RequestsController.php';
 				}
 			}
 			
+			/**
+			 * 
+			 * Возвращает число комментариев к данному айтему
+			 * @param int $reportID Идентификатор отчёта
+			 */
 			public function getReportCommentsCount($reportID)
 			{
 				$reportID = (int)$reportID;
