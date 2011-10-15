@@ -60,6 +60,7 @@
 					'CreateDate'
 				))
 			);
+			return $this->_sql->getLastID();
 		}
 		
 		/**
@@ -189,12 +190,10 @@
 		 * @param int $startIndex - индекс с которого нужно показывать результаты поиска.
 		 * @param int $maxCount - максимальное количество результатов поиска.
 		 */
-		public function getProjects($startIndex = 0, $maxCount = 20) 
+		public function getProjects() 
 		{
-			$startIndex = (int)$startIndex;
-			$maxCount = (int)$maxCount;
-			$res = $this->_sql->query("SELECT * FROM `Projects` LIMIT $startIndex, $maxCount");
-			$ret = $this->_sql->GetRows($res);
+			$this->_sql->selFields("Projects","ProjectID","Name","Description","OwnerID");
+			$ret = $this->_sql->getTable();
 			return $ret;
 		}
 		

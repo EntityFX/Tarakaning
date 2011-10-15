@@ -56,7 +56,7 @@
 				<url>/search/</url>
 			</SearchPage>
 			<SearchPageResults type="HTML"> <!-- bugs assigned to user page class -->
-				<url>/search/resuls/</url>
+				<url>/search/result/</url>
 			</SearchPageResults>
 	</PageClasses>
 </pages>
