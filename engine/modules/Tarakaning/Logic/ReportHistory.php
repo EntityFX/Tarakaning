@@ -38,19 +38,18 @@ require_once 'engine/classes/RequestsController.php';
 			$p = new ProjectsController();
 			if($p->isProjectExists($projectID))
 			{	
-				$r = new RequestsController();
-				$userID = (int)$userID;
-				if ($r->isSubscribed($userID, $projectID)) 
-				{
+				$this->_sql->insert(
+					"ErorrReportHistory", 
+					new ArrayObject(array(
+						"ErrorReportID" => $reportID,
+						"UserID" => $userID,
+						""
+					))
+				);
 					$q = "INSERT INTO `ErorrReportHistory` ( `ID` , `ErrorReportID` , `UserID` , `OldStatus` , `OldTime` , `Description` )
 					VALUES ('', '$reportID', '$userID', '$newStatus', NOW( ) , '$description');";
 					$this->_sql->query($q);
 					return TRUE;
-				}
-				else 
-				{
-					throw new Exception("Вы не являетесь участником проекта.", 602);
-				}
 			}
 			else 
 			{
