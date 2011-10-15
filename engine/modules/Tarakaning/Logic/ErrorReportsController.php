@@ -313,6 +313,18 @@
         	return $this->_sql->countQuery("errorreportsinfo","UserID=$userID AND ProjectID=$projectID $kindExpression");
         }
         
+        public function countAssignedReports(ItemKindENUM $kind)
+        {
+        	$userID=$this->_errorOwnerID;
+        	$projectID=$this->_projectOwnerID;
+            $itemKind=$kind->getValue();
+            if ($itemKind<>ItemKindENUM::ALL)
+            {
+            	$kindExpression="AND Kind='$itemKind'";
+            }
+        	return $this->_sql->countQuery("errorreportsinfo","AssignedTo=$userID AND ProjectID=$projectID $kindExpression");
+        }
+        
         public function getReports(ItemKindENUM $kind,$page=1,$size=15,$userID=NULL,$projectID=NULL)
         {
             $res=NULL;
@@ -331,7 +343,7 @@
                 }
                 else
                 {
-                    throw new Exception("Пользователь не существует. Нельзя несуществующему пользователю оставлять отчёт об ошибках");    
+                    throw new Exception("Пользователь не существует.");    
                 }
             }
             if ($projectID==NULL)
@@ -362,6 +374,51 @@
         {
             $this->useOrder($field,$direction);   
             return $this->getReports($kind,$page,$size,$userID=NULL,$projectID=NULL);
+        }
+        
+        public function getAssignedToMe(ItemKindENUM $kind,ErrorFieldsENUM $field, MySQLOrderEnum $direction,$page=1,$size=15,$userID=NULL,$projectID=NULL)
+        {
+        	$this->_sql->setOrder($field, $direction);
+        	$this->_sql->setLimit($page, $size);
+            if ($userID==NULL)
+            {
+                $userID=$this->_errorOwnerID;
+            }
+            else
+            {
+                $userID=(int)$userID;
+                $uc=new UsersController();
+                if ($uc->checkIfExsist($userID))
+                {
+                    $this->checkProject($projectID); 
+                }
+                else
+                {
+                    throw new Exception("Пользователь не существует.");    
+                }
+            }
+            if ($projectID==NULL)
+            {
+            	$projectID=$this->_projectOwnerID;    
+            }
+            $itemKind=$kind->getValue();
+            if ($itemKind<>ItemKindENUM::ALL)
+            {
+            	$kindExpression="AND Kind='$itemKind'";
+            }
+            $this->_sql->selAllWhere("errorreportsinfo","AssignedTo=$userID AND ProjectID=$projectID $kindExpression");
+        	$this->_sql->clearOrder();
+        	$this->_sql->clearLimit();
+            $res=$this->_sql->getTable();
+            if ($res!=null)
+            {
+	            foreach($res as $index => $report)
+	            {
+	            	$this->normalizeBugReport(&$report);
+	            	$res[$index]=$report;
+	            }
+            }
+            return $res;
         }
         
         public function getProjectOrdered($projectID,ItemKindENUM $kind,ErrorFieldsENUM $field, MySQLOrderEnum $direction,$from,$size)

@@ -3,9 +3,16 @@ require_once 'BugsBasePage.php';
 
 class MyBugsPage extends BugsBasePage 
 {	
-	protected $_paginator;
+	/**
+	 * 
+	 * Список айтемов, назначенных пользователю
+	 * @var array
+	 */
+	private $_assignedBugsData;
 	
-	protected $_orderer;
+	private $_paginatorForAssigned;
+	
+	private $_ordererForAssigned;
 	
 	protected function onInit()
 	{
@@ -15,6 +22,8 @@ class MyBugsPage extends BugsBasePage
 	protected function doAssign()
 	{
 		parent::doAssign();
+		$this->_smarty->assign("MY_ASSIGNED_BUGS_ORDERER",$this->_ordererForAssigned!=null?$this->_ordererForAssigned->getNewUrls():null);
+		$this->_smarty->assign("MY_ASSIGNED_BUGS",$this->_assignedBugsData);
 	}
 	
 	protected function initializeGeneralBugsData()
@@ -28,6 +37,17 @@ class MyBugsPage extends BugsBasePage
 			new MySQLOrderENUM($this->_orderer->getOrder()),
 			$this->_paginator->getOffset(),
 			$this->_paginator->getSize()
+		);
+
+		$assignedCount=$this->_bugsOperation->countAssignedReports($this->_itemKindENUM);
+		$this->_paginatorForAssigned=new TarakaningULListPager($assignedCount,"assignedPage");
+		$this->_ordererForAssigned=new Orderer(new ErrorFieldsENUM(),"assignedOrderBy");
+		$this->_assignedBugsData=$this->_bugsOperation->getAssignedToMe(
+			$this->_itemKindENUM,
+			new ErrorFieldsENUM($this->_ordererForAssigned->getOrderField()),
+			new MySQLOrderENUM($this->_ordererForAssigned->getOrder()),
+			$this->_paginatorForAssigned->getOffset(),
+			$this->_paginatorForAssigned->getSize()
 		);
 	}
 }
