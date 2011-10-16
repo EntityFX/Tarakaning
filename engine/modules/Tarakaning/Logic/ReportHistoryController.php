@@ -1,8 +1,7 @@
 <?php
-require_once 'engine/classes/ProjectsController.php';	
-require_once 'engine/classes/RequestsController.php';
+require_once 'ProjectsController.php';
 
-	class ReportHistory extends DBConnector
+	class ReportHistoryController extends DBConnector
 	{
 		/*
 		 *Класс управления историей ошибки - ReportHistory:
@@ -24,15 +23,18 @@ require_once 'engine/classes/RequestsController.php';
 		 * $description
 		 */
 		
+		public function __construct()
+		{
+			parent::__construct();
+		}
+		
 		/**
 		 * Добавление элемента в историю.
 		 * @param $userID
-		 * @param $projectID
 		 * @param $reportID
-		 * @param $newStatus
 		 * @param $description
 		 */
-		public function addHistory($userID,$projectID,$reportID, $newStatus, $description) 
+		public function addHistory($userID,$reportID,$description) 
 		{
 			$projectID = (int)$projectID;
 			$p = new ProjectsController();
@@ -43,13 +45,10 @@ require_once 'engine/classes/RequestsController.php';
 					new ArrayObject(array(
 						"ErrorReportID" => $reportID,
 						"UserID" => $userID,
-						""
+						"OldTime" => date("Y-m-d H:i:s"),
+						"Description" => $description
 					))
 				);
-					$q = "INSERT INTO `ErorrReportHistory` ( `ID` , `ErrorReportID` , `UserID` , `OldStatus` , `OldTime` , `Description` )
-					VALUES ('', '$reportID', '$userID', '$newStatus', NOW( ) , '$description');";
-					$this->_sql->query($q);
-					return TRUE;
 			}
 			else 
 			{

@@ -4,11 +4,15 @@ require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
 
 class ProjectSearch extends SearchFactory
 {
-	protected $_arIndexFields = array("ProjectID","Name","Description","OwnerID");
-	protected $_arTableIndexName = "project";
-	protected $_sIndexIdField = "pk";
+	public function __construct() 
+	{
+		parent::__construct();
+		$this->_arIndexFields = array("ProjectID","Name","Description","OwnerID");
+		$this->_arTableIndexName = "project";
+		$this->_sIndexIdField = "pk";
+	}
 	
-	public function Search($sSearch, $arFields = null) 
+	public function search($sSearch, $arFields = null) 
 	{
 		parent::Search($sSearch, $arFields);
 		$project = new ProjectsController();

@@ -1,6 +1,8 @@
 <?php
 require_once 'InfoBasePage.php';
 require_once 'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
+require_once 'engine/modules/Tarakaning/Logic/ItemsFacade.php';
+require_once 'engine/modules/Tarakaning/Logic/ReportHistoryController.php';
 
 	class BugAddPage extends InfoBasePage
 	{
@@ -18,7 +20,12 @@ require_once 'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
 					$bugsOperation=new ErrorReportsController($userData["DefaultProjectID"] == null ? $postData['project_id'] : $userData["DefaultProjectID"]);
 					try 
 					{	
-						$newItemID=$bugsOperation->addReport(
+						$itemsFacade=new ItemsFacade(
+							$bugsOperation, 
+							new ReportHistoryController(), 
+							$this->_controller->auth
+						);
+						$newItemID=$itemsFacade->addItem(
 							new ItemDBKindENUM($postData['item_type']),
 							new ErrorPriorityENUM($postData['priority']),
 							new ErrorStatusENUM(),
