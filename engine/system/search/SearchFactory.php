@@ -23,7 +23,7 @@ class SearchFactory
 		
 	}
 	
-	public function GetSearchIndex() 
+	public function getSearchIndex() 
 	{
 		setlocale(LC_ALL, 'ru_RU.utf-8'); 
 		Zend_Search_Lucene_Analysis_Analyzer::setDefault(
@@ -45,7 +45,7 @@ class SearchFactory
 	 * @param integer $iPk
 	 * @param array $arFields
 	 */
-	public function Add($arFields) 
+	public function add($arFields) 
 	{
 		$doc = new Zend_Search_Lucene_Document();
 		$iPk = intval($iPk);
@@ -67,7 +67,7 @@ class SearchFactory
 	 * @param string $sSearch
 	 * @param array $arFields
 	 */
-	public function Search($sSearch, $arFields = null) 
+	public function search($sSearch, $arFields = null) 
 	{
 		if ($arFields != null) 
 		{//поиск по выбранным полям
@@ -96,7 +96,7 @@ class SearchFactory
 	/**
 	 * Получить название папки/таблицы индекса
 	 */
-	public function GetTableIndexName()
+	public function getTableIndexName()
 	{
 		return $this->_arTableIndexName;
 	}
@@ -104,17 +104,17 @@ class SearchFactory
 	/**
 	 * Получить количество результатов поиска
 	 */
-	public function GetCountHits() 
+	public function getCountHits() 
 	{
 		return $this->_iHitsCount;
 	}
 	
-	public function Delete() 
+	public function delete() 
 	{
 		;
 	}
 	
-	public function ServiseAddAll($arData) 
+	public function serviseAddAll($arData) 
 	{
 		$i =0;
 		foreach ($arData as $key => $value) 

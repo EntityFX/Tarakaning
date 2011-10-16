@@ -8,9 +8,6 @@
 			<dl>
 			<dt>По названию:</dt>
 			<dd><input type="text" name="by_proj" value="{$AR_SEARCH_FIELD_by_proj}" /></dd>
-			
-			<dt>По автору:</dt>
-			<dd><input type="text" name="by_author" value="" /></dd>
 			<dd class="subm"><input type="submit" value="Найти" /></dd>
 			</dl>
 		</div>
