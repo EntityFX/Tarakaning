@@ -1,7 +1,7 @@
 ﻿-- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 5.0.50.1
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 14.10.2011 11:09:46
--- Версия сервера: 5.0.45-community-nt
+-- Дата скрипта: 17.10.2011 8:04:51
+-- Версия сервера: 5.1.40-community
 -- Версия клиента: 4.1
 
 -- 
@@ -32,7 +32,7 @@ CREATE TABLE DefectItem (
     REFERENCES errorreport(ID) ON DELETE CASCADE ON UPDATE CASCADE
 )
 ENGINE = INNODB
-AVG_ROW_LENGTH = 468
+AVG_ROW_LENGTH = 496
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -44,16 +44,13 @@ CREATE TABLE ErorrReportHistory (
   ID INT(11) NOT NULL AUTO_INCREMENT,
   ErrorReportID INT(11) NOT NULL,
   UserID INT(11) UNSIGNED NOT NULL,
-  OldStatus ENUM('NEW','ASSIGNED','CONFIRMED','SOLVED','CLOSED') NOT NULL,
   OldTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   Description TEXT DEFAULT NULL,
   PRIMARY KEY (ID),
   INDEX FK_ErorrReportHistory_ErrorReport_ID (ErrorReportID),
   INDEX FK_ErorrReportHistory_Users_UserID (UserID),
   CONSTRAINT FK_ErorrReportHistory_ErrorReport_ID FOREIGN KEY (ErrorReportID)
-    REFERENCES errorreport(ID) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT FK_ErorrReportHistory_Users_UserID FOREIGN KEY (UserID)
-    REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
+    REFERENCES errorreport(ID) ON DELETE CASCADE ON UPDATE CASCADE
 )
 ENGINE = INNODB
 AUTO_INCREMENT = 1
@@ -79,13 +76,13 @@ CREATE TABLE ErrorReport (
   INDEX FK_ErrorReport_Projects_ProjectID (ProjectID),
   INDEX FK_ErrorReport_Users_UserID (UserID),
   CONSTRAINT FK_ErrorReport_Projects_ProjectID FOREIGN KEY (ProjectID)
-    REFERENCES projects(ProjectID) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    REFERENCES projects(ProjectID) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FK_ErrorReport_Users_UserID FOREIGN KEY (UserID)
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 8689
-AVG_ROW_LENGTH = 273
+AUTO_INCREMENT = 8691
+AVG_ROW_LENGTH = 292
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -138,11 +135,11 @@ CREATE TABLE Projects (
   INDEX fk_Projects_Users1 (OwnerID),
   INDEX Name (Name),
   CONSTRAINT fk_Projects_Users1 FOREIGN KEY (OwnerID)
-    REFERENCES users(UserID) ON DELETE NO ACTION ON UPDATE NO ACTION
+    REFERENCES users(UserID) ON DELETE SET NULL ON UPDATE SET NULL
 )
 ENGINE = INNODB
 AUTO_INCREMENT = 50
-AVG_ROW_LENGTH = 341
+AVG_ROW_LENGTH = 630
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -165,8 +162,8 @@ CREATE TABLE ReportComment (
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 11849
-AVG_ROW_LENGTH = 862
+AUTO_INCREMENT = 73
+AVG_ROW_LENGTH = 819
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -183,7 +180,7 @@ CREATE TABLE ReportsUsersHandling (
   INDEX IX_ReportsUsersHandling_ReportID (ReportID),
   UNIQUE INDEX ReportID (ReportID),
   CONSTRAINT FK_ReportsUsersHandling_ErrorReport_ID FOREIGN KEY (ReportID)
-    REFERENCES errorreport(ID) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    REFERENCES errorreport(ID) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FK_ReportsUsersHandling_Users_UserID FOREIGN KEY (UserID)
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
@@ -205,7 +202,7 @@ CREATE TABLE SubscribesRequest (
   INDEX fk_SubscribesRequest_Users1 (UserID),
   UNIQUE INDEX UK_SubscribesRequest (ProjectID, UserID),
   CONSTRAINT fk_SubscribesRequest_Projects1 FOREIGN KEY (ProjectID)
-    REFERENCES projects(ProjectID) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    REFERENCES projects(ProjectID) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT fk_SubscribesRequest_Users1 FOREIGN KEY (UserID)
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
@@ -291,7 +288,7 @@ CREATE TABLE UsersInProjects (
   INDEX IX_UsersInProjects_ProjectID (ProjectID),
   UNIQUE INDEX UK_UsersInProjects (UserID, ProjectID),
   CONSTRAINT FK_UsersInProjects_Projects_ProjectID FOREIGN KEY (ProjectID)
-    REFERENCES projects(ProjectID) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    REFERENCES projects(ProjectID) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT FK_UsersInProjects_Users_UserID FOREIGN KEY (UserID)
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
@@ -342,6 +339,50 @@ BEGIN
         INSERT INTO DefectItem (ID,DefectType,StepsText) 
             VALUES (LAST_ID,DefectType,StepsText);
     END IF; 
+END
+$$
+
+--
+-- Описание для процедуры DeleteCommentsFromList
+--
+DROP PROCEDURE IF EXISTS DeleteCommentsFromList$$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE DeleteCommentsFromList(IN _UserID INT, IN ItemsList TEXT)
+BEGIN
+    DECLARE SymbolPosition INT;
+    DECLARE ItemString INT;
+    DECLARE ItemValue INT;
+
+    SET SymbolPosition=1;
+
+    CREATE TEMPORARY TABLE ItemsTable (
+        ItemID INT
+    );
+
+    -- Parsing incoming data
+    z1: WHILE SymbolPosition>0 DO
+        SELECT LOCATE(';',ItemsList,SymbolPosition) INTO SymbolPosition;
+        SELECT SUBSTRING(ItemsList,SymbolPosition+1,LOCATE(';',ItemsList,SymbolPosition+1)-SymbolPosition-1) INTO ItemString;
+        SELECT CAST(ItemString AS SIGNED ) INTO ItemValue;
+        INSERT INTO ItemsTable VALUES (ItemValue);
+        IF SymbolPosition=0 THEN 
+            LEAVE z1;
+        END IF;
+        SET SymbolPosition=SymbolPosition+1;
+    END WHILE;
+
+    CREATE TEMPORARY TABLE CommentsForDelete (
+        ItemID INT
+    );
+
+    INSERT INTO CommentsForDelete SELECT ID FROM 
+        ReportComment RC
+    INNER JOIN  ItemsTable I
+        ON RC.ID=I.ItemID
+    WHERE UserID=_UserID;
+
+    DELETE FROM ReportComment WHERE ID IN (SELECT ItemID FROM CommentsForDelete);
+
 END
 $$
 
@@ -405,6 +446,50 @@ BEGIN
     END IF;
 
     DELETE FROM ErrorReport WHERE ID IN (SELECT ItemID FROM ItemsForDelete);
+
+END
+$$
+
+--
+-- Описание для процедуры DeleteProjects
+--
+DROP PROCEDURE IF EXISTS DeleteProjects$$
+CREATE DEFINER = 'root'@'localhost'
+PROCEDURE DeleteProjects(IN _UserID INT, IN ItemsList TEXT)
+BEGIN
+    DECLARE SymbolPosition INT;
+    DECLARE ItemString INT;
+    DECLARE ItemValue INT;
+
+    SET SymbolPosition=1;
+
+    CREATE TEMPORARY TABLE ItemsTable (
+        ItemID INT
+    );
+
+    -- Parsing incoming data
+    z1: WHILE SymbolPosition>0 DO
+        SELECT LOCATE(';',ItemsList,SymbolPosition) INTO SymbolPosition;
+        SELECT SUBSTRING(ItemsList,SymbolPosition+1,LOCATE(';',ItemsList,SymbolPosition+1)-SymbolPosition-1) INTO ItemString;
+        SELECT CAST(ItemString AS SIGNED ) INTO ItemValue;
+        INSERT INTO ItemsTable VALUES (ItemValue);
+        IF SymbolPosition=0 THEN 
+            LEAVE z1;
+        END IF;
+        SET SymbolPosition=SymbolPosition+1;
+    END WHILE;
+
+    CREATE TEMPORARY TABLE ProjectsForDelete (
+        ItemID INT
+    );
+
+    INSERT INTO ProjectsForDelete SELECT ProjectID FROM 
+        Projects P
+    INNER JOIN  ItemsTable I
+        ON P.ProjectID=I.ItemID
+    WHERE P.OwnerID=_UserID;
+
+    DELETE FROM Projects WHERE ProjectID IN (SELECT ItemID FROM ProjectsForDelete);
 
 END
 $$
@@ -546,9 +631,6 @@ INSERT INTO DefectItem VALUES
   (21, 'Block', ''),
   (22, 'Major', ''),
   (23, 'Major', ''),
-  (28, 'Major', ''),
-  (29, 'Major', ''),
-  (30, 'Major', ''),
   (31, 'Major', ''),
   (42, 'Major', ''),
   (43, 'Crash', 'dfghdfh'),
@@ -559,7 +641,8 @@ INSERT INTO DefectItem VALUES
   (87, 'Major', 'Меню всегда активна на Мои Отчёты - это неправильно'),
   (91, 'Minor', '1. Переходим на страницу &quot;Мои отчёты&quot;<br />\r\n2. Выбираем в выпадающем списке &quot;Проекты&quot; нужный проект<br />\r\n3. Должно обновится на выбранный проект, но обновляется на тот, который по-умолчанию'),
   (106, 'Major', '1. Перешёл на страницу &quot;Профиль&quot;<br />\r\n2. Нажал кнопку &quot;Редактировать профиль&quot;<br />\r\n3. Выбрал вкладку &quot;Смена пароля&quot;<br />\r\n4. Ничего не заполнял<br />\r\n5. Нажал сохранить. Система показала успешное сохранение, но произошла потеря данных (см. Описание)'),
-  (107, 'Minor', '1. Перешёл на страницу проекта.<br />\r\n2. Открыл вкладку &quot;Участники&quot;<br />\r\n3. Навёл на ссылку пользователя и нажал на неё - не перенаправляет на страницу профиля пользователя.');
+  (107, 'Minor', '1. Перешёл на страницу проекта.<br />\r\n2. Открыл вкладку &quot;Участники&quot;<br />\r\n3. Навёл на ссылку пользователя и нажал на неё - не перенаправляет на страницу профиля пользователя.'),
+  (8689, 'Major', 'ghhjghj');
 
 -- 
 -- Вывод данных для таблицы ErorrReportHistory
@@ -591,9 +674,6 @@ INSERT INTO ErrorReport VALUES
   (21, 13, 1, 'Defect', '2', 'IDENTIFIED', '2011-09-04 14:54:44', 'Заголовок', '', NULL),
   (22, 13, 1, 'Defect', '2', 'NEW', '2011-09-04 15:31:15', '', '', NULL),
   (23, 13, 1, 'Defect', '2', 'NEW', '2011-09-04 15:31:23', '', '', NULL),
-  (28, 13, 1, 'Defect', '2', 'NEW', '2011-09-04 16:22:50', 'аипавпрерпа', '', NULL),
-  (29, 13, 1, 'Defect', '1', 'NEW', '2011-09-04 16:51:31', 'иапипаи', '', NULL),
-  (30, 13, 1, 'Defect', '0', 'NEW', '2011-09-04 16:51:43', 'апрвапр', '', NULL),
   (31, 13, 21, 'Defect', '1', 'NEW', '2011-09-04 16:52:49', 'апрвапрвапрвапрвпарвапр', '', NULL),
   (42, 15, 24, 'Defect', '1', 'NEW', '2011-09-14 23:35:28', 'Aga', '', 1),
   (43, 1, 23, 'Defect', '2', 'NEW', '2011-09-15 00:41:45', 'fghfghfghghf', 'tgrhgfh', NULL),
@@ -610,11 +690,9 @@ INSERT INTO ErrorReport VALUES
   (83, 1, 48, 'Task', '1', 'NEW', '2011-10-06 22:14:28', 'В настройках профиля добавить вкладку Дополнительные настройки', 'В данной вкладке добавить выпадающий список, который настраивает проект по-умолчанию. Для это есть специальный метод в классе ConcreteUser (бизнес-логика) ConcreteUser ::setDefaultProject($projectID), ConcreteUser::deleteDefaultProject().\r\n\r\nВ выпадающем ', 18),
   (84, 1, 48, 'Defect', '1', 'RESOLVED', '2011-10-06 22:29:37', 'Обрезается текст и заголовок при создании дефекта', 'При превышении размера в 256 символов - обрезается текст в описании и действиях, которые привели к ошибке. В хранимую процедуру AddItem стоит ограничение на входной текст.', 1),
   (85, 1, 48, 'Task', '0', 'RESOLVED', '2011-10-06 22:33:58', 'Добавить возможность замены переносов на &lt;br/&gt;', 'Текст линейно отображается, было бы неплохо добавлять реальне переносы строки.', 1),
-  (86, 1, 25, 'Task', '1', 'NEW', '2011-10-06 22:53:24', 'Рккк', 'Сигнатура проблемы:\r\n  Имя события проблемы:\tAPPCRASH\r\n  Имя приложения:\thttpd.exe\r\n  Версия приложения:\t2.2.4.0\r\n  Отметка времени приложения:\t45a476e3\r\n  Имя модуля с ошибкой:\tphp5ts.dll\r\n  Версия модуля с ошибкой:\t5.2.4.4\r\n  Отметка времени модуля с ошибкой:\t46d6a4a4\r\n  Код исключения:\tc0000005\r\n  Смещение исключения:\t00099dfd\r\n  Версия ОС:\t6.1.7600.2.0.0.256.48\r\n  Код языка:\t1049\r\n  Дополнительные сведения 1:\t0a9e\r\n  Дополнительные сведения 2:\t0a9e372d3b4ad19135b953a78882e789\r\n  Дополнительные сведения 3:\t0a9e\r\n  Дополнительные сведения 4:\t0a9e372d3b4ad19135b953a78882e789\r\n\r\nСигнатура проблемы:\r\n  Имя события проблемы:\tAPPCRASH\r\n  Имя приложения:\thttpd.exe\r\n  Версия приложения:\t2.2.4.0\r\n  Отметка времени приложения:\t45a476e3\r\n  Имя модуля с ошибкой:\tphp5ts.dll\r\n  Версия модуля с ошибкой:\t5.2.4.4\r\n  Отметка времени модуля с ошибкой:\t46d6a4a4\r\n  Код исключения:\tc0000005\r\n  Смещение исключения:\t00099dfd\r\n  Версия ОС:\t6.1.7600.2.0.0.256.48\r\n  Код языка:\t1049\r\n  Дополнительные сведения 1:\t0a9e\r\n  Дополнительные сведения 2:\t0a9e372d3b4ad19135b953a78882e789\r\n  Дополнительные сведения 3:\t0a9e\r\n  Дополнительные сведения 4:\t0a9e372d3b4ad19135b953a78882e789\r\n\r\nСигнатура проблемы:\r\n  Имя события проблемы:\tAPPCRASH\r\n  Имя приложения:\thttpd.exe\r\n  Версия приложения:\t2.2.4.0\r\n  Отметка времени приложения:\t45a476e3\r\n  Имя модуля с ошибкой:\tphp5ts.dll\r\n  Версия модуля с ошибкой:\t5.2.4.4\r\n  Отметка времени модуля с ошибкой:\t46d6a4a4\r\n  Код исключения:\tc0000005\r\n  Смещение исключения:\t00099dfd\r\n  Версия ОС:\t6.1.7600.2.0.0.256.48\r\n  Код языка:\t1049\r\n  Дополнительные сведения 1:\t0a9e\r\n  Дополнительные сведения 2:\t0a9e372d3b4ad19135b953a78882e789\r\n  Дополнительные сведения 3:\t0a9e\r\n  Дополнительные сведения 4:\t0a9e372d3b4ad19135b953a78882e789\r\n\r\nСигнатура проблемы:\r\n  Имя события проблемы:\tAPPCRASH\r\n  Имя приложения:\thttpd.exe\r\n  Версия приложения:\t2.2.4.0\r\n  Отметка времени приложения:\t45a476e3\r\n  Имя модуля с ошибкой:\tphp5ts.dll\r\n  Версия модуля с ошибкой:\t5.2.4.4\r\n  Отметка времени модуля с ошибкой:\t46d6a4a4\r\n  Код исключения:\tc0000005\r\n  Смещение исключения:\t00099dfd\r\n  Версия ОС:\t6.1.7600.2.0.0.256.48\r\n  Код языка:\t1049\r\n  Дополнительные сведения 1:\t0a9e\r\n  Дополнительные сведения 2:\t0a9e372d3b4ad19135b953a78882e789\r\n  Дополнительные сведения 3:\t0a9e\r\n  Дополнительные сведения 4:\t0a9e372d3b4ad19135b953a78882e789\r\n\r\nСигнатура проблемы:\r\n  Имя события проблемы:\tAPPCRASH\r\n  Имя приложения:\thttpd.exe\r\n  Версия приложения:\t2.2.4.0\r\n  Отметка времени приложения:\t45a476e3\r\n  Имя модуля с ошибкой:\tphp5ts.dll\r\n  Версия модуля с ошибкой:\t5.2.4.4\r\n  Отметка времени модуля с ошибкой:\t46d6a4a4\r\n  Код исключения:\tc0000005\r\n  Смещение исключения:\t00099dfd\r\n  Версия ОС:\t6.1.7600.2.0.0.256.48\r\n  Код языка:\t1049\r\n  Дополнительные сведения 1:\t0a9e\r\n  Дополнительные сведения 2:\t0a9e372d3b4ad19135b953a78882e789\r\n  Дополнительные сведения 3:\t0a9e\r\n  Дополнительные сведения 4:\t0a9e372d3b4ad19135b953a78882e789\r\n\r\nСигнатура проблемы:\r\n  Имя события проблемы:\tAPPCRASH\r\n  Имя приложения:\thttpd.exe\r\n  Версия приложения:\t2.2.4.0\r\n  Отметка времени приложения:\t45a476e3\r\n  Имя модуля с ошибкой:\tphp5ts.dll\r\n  Версия модуля с ошибкой:\t5.2.4.4\r\n  Отметка времени модуля с ошибкой:\t46d6a4a4\r\n  Код исключения:\tc0000005\r\n  Смещение исключения:\t00099dfd\r\n  Версия ОС:\t6.1.7600.2.0.0.256.48\r\n  Код языка:\t1049\r\n  Дополнительные сведения 1:\t0a9e\r\n  Дополнительные сведения 2:\t0a9e372d3b4ad19135b953a78882e789\r\n  Дополнительные сведения 3:\t0a9e\r\n  Дополнительные сведения 4:\t0a9e372d3b4ad19135b953a78882e789\r\n\r\nСигнатура проблемы:\r\n  Имя события проблемы:\tAPPCRASH\r\n  Имя приложения:\thttpd.exe\r\n  Версия приложения:\t2.2.4.0\r\n  Отметка времени приложения:\t45a476e3\r\n  Имя модуля с ошибкой:\tphp5ts.dll\r\n  Версия модуля с ошибкой:\t5.2.4.4\r\n  Отметка времени модуля с ошибкой:\t46d6a4a4\r\n  Код исключения:\tc0000005\r\n  Смещение исключения:\t00099dfd\r\n  Версия ОС:\t6.1.7600.2.0.0.256.48\r\n  Код языка:\t1049\r\n  Дополнительные сведения 1:\t0a9e\r\n  Дополнительные сведения 2:\t0a9e372d3b4ad19135b953a78882e789\r\n  Дополнительные сведения 3:\t0a9e\r\n  Дополнительные сведения 4:\t0a9e372d3b4ad19135b953a78882e789\r\n\r\nСигнатура проблемы:\r\n  Имя события проблемы:\tAPPCRASH\r\n  Имя приложения:\thttpd.exe\r\n  Версия приложения:\t2.2.4.0\r\n  Отметка времени приложения:\t45a476e3\r\n  Имя модуля с ошибкой:\tphp5ts.dll\r\n  Версия модуля с ошибкой:\t5.2.4.4\r\n  Отметка времени модуля с ошибкой:\t46d6a4a4\r\n  Код исключения:\tc0000005\r\n  Смещение исключения:\t00099dfd\r\n  Версия ОС:\t6.1.7600.2.0.0.256.48\r\n  Код языка:\t1049\r\n  Дополнительные сведения 1:\t0a9e\r\n  Дополнительные сведения 2:\t0a9e372d3b4ad19135b953a78882e789\r\n  Дополнительные сведения 3:\t0a9e\r\n  Дополнительные сведения 4:\t0a9e372d3b4ad19135b953a78882e789', NULL),
   (87, 1, 48, 'Defect', '1', 'CLOSED', '2011-10-09 04:09:33', 'Перевести меню на компонент', 'Текущая менюшка статическая и не меняет текущий номер', 1),
   (88, 18, 48, 'Task', '1', 'NEW', '2011-10-09 13:45:49', 'Сделать подсветку пунктов', 'При наведении курсора на пункты необходимо сделать подсветку (opacity либо мануальное проставление цвета)', 18),
   (91, 1, 48, 'Defect', '1', 'RESOLVED', '2011-10-09 14:16:06', 'Не могу менять Проекты в выпадающем списке в &quot;Мои Отчёты&quot; и &quot;Отчёты проекта&quot;', 'Если произошёл POST запрос, то ставим тот проект, который был выбран из списка', 1),
-  (92, 1, 33, 'Task', '1', 'NEW', '2011-10-10 00:00:09', 'парапр', 'Хренька)))', NULL),
   (97, 15, 47, 'Task', '1', 'NEW', '2011-10-10 00:13:47', 'ghdgjhdgfhj', 'ghjfgjfghjfghj', 0),
   (98, 15, 47, 'Task', '1', 'NEW', '2011-10-10 00:14:04', 'ghdgjhdgfhj', 'ghjfgjfghjfghj', 0),
   (99, 15, 47, 'Task', '1', 'NEW', '2011-10-10 00:15:56', 'fghfhgfh', 'ghfghfgj', 0),
@@ -625,11 +703,12 @@ INSERT INTO ErrorReport VALUES
   (107, 1, 48, 'Defect', '1', 'RESOLVED', '2011-10-10 23:00:41', 'Ссылки на участников проекта не работают', 'Ссылки на участников проекта не работают.', 1),
   (108, 1, 48, 'Task', '1', 'RESOLVED', '2011-10-10 23:02:45', 'Реализовать&quot;количество комментариев&quot;', 'Необходимо отображать количество комментариев, оставленные пользователем для каждого участника', 1),
   (128, 1, 48, 'Task', '2', 'RESOLVED', '2011-10-12 23:17:39', 'Произвести рефакторинг классов MyBugsPage ProjectBugsPage', 'В данных класса большое количество повторяющихся методов - вынести в базовый класс', 1),
-  (129, 1, 48, 'Task', '2', 'NEW', '2011-10-12 23:23:39', 'Реализовать удаление проектов', '1. При удалении проекта должны удаляться:<br />\r\n   1. 1. Все его подписчики<br />\r\n   1. 2. Все его айтемы<br />\r\n   1. 3. Все связанные элементы', 1),
+  (129, 1, 48, 'Task', '2', 'RESOLVED', '2011-10-12 23:23:39', 'Реализовать удаление проектов', '1. При удалении проекта должны удаляться:<br />\r\n   1. 1. Все его подписчики<br />\r\n   1. 2. Все его айтемы<br />\r\n   1. 3. Все связанные элементы', 1),
   (136, 1, 22, 'Task', '1', 'NEW', '2011-10-14 01:17:11', '1', 'bgfgfghg', 0),
   (1137, 1, 22, 'Task', '1', 'NEW', '2011-10-14 01:22:15', 'bnmvbnmbnm', 'bnmvbnmvbnmvbnm', 0),
-  (5138, 1, 25, 'Task', '1', 'NEW', '2011-10-14 02:38:24', '6757456765', '67657', 1),
-  (8688, 1, 48, 'Task', '2', 'NEW', '2011-10-14 02:46:52', 'Реализовать вывод назначенных айтемов отдельно', 'На данный момент отображаются только созданные пользователем айтемы. Также нужно реализовать айтемы, которые назначены пользователю.', 1);
+  (8688, 1, 48, 'Task', '2', 'NEW', '2011-10-14 02:46:52', 'Реализовать вывод назначенных айтемов отдельно', 'На данный момент отображаются только созданные пользователем айтемы. Также нужно реализовать айтемы, которые назначены пользователю.', 1),
+  (8689, 1, 22, 'Defect', '2', 'NEW', '2011-10-16 22:27:40', 'jhgjghj', 'fghjghj', 1),
+  (8690, 1, 23, 'Task', '1', 'IDENTIFIED', '2011-10-16 22:28:47', 'jhgjghj', 'fghjghj', 1);
 
 -- 
 -- Вывод данных для таблицы MainMenu
@@ -676,28 +755,6 @@ INSERT INTO Projects VALUES
   (22, 'Scuccko1', 'Экранирует специальные символы в unescaped_string, принимая во внимание кодировку соединения, таким образом, что результат можно безопасно использовать в SQL-запросе в функци mysql_query(). Если вставляются бинарные данные, то к ним так же необходимо прим', 1, '2011-09-03 14:58:40'),
   (23, 'Herlllou', 'Проект ниачём', 1, '2011-09-11 14:09:52'),
   (24, 'Gaphy Gaph', 'GuGaGaShenki', 15, '2011-09-14 23:34:44'),
-  (25, 'fghfh', 'fghfgh', 1, '2011-09-21 21:37:48'),
-  (26, 'fghdfh', 'dfghdfghdfgh', 1, '2011-09-21 21:37:54'),
-  (27, 'fthfdgh', 'fghdfhdfhfdghdrhgdfgh', 1, '2011-09-21 21:38:01'),
-  (28, 'dfghfdshfgh', 'rthetyhjtyjghhjfgjhgj', 1, '2011-09-21 21:38:08'),
-  (29, 'vgcchgjhgjghjg', 'ghhhgjfghjfghjhgjfhgj', 1, '2011-09-21 21:38:19'),
-  (30, 'gfhhgfdghjk', 'gfjgfjfgjghjgfhjfgj', 1, '2011-09-21 21:38:26'),
-  (31, 'cghjgchj', 'ghjfghjghjfghj', 1, '2011-09-21 21:38:32'),
-  (32, 'hgjghdjfghj', 'fhjjdfgdjfgjhgjgf', 1, '2011-09-21 21:38:39'),
-  (33, 'gfjhfggj', 'aaaaaaaaaa', 1, '2011-09-21 21:38:46'),
-  (34, 'aaaaaaaaaaaaaaaaaa', '', 1, '2011-09-21 21:38:51'),
-  (35, 'ssssssssssssss', '', 1, '2011-09-21 21:38:55'),
-  (36, 'dddddddddddddddddddddd', '', 1, '2011-09-21 21:39:00'),
-  (37, 'gggggggggggggggggg', '', 1, '2011-09-21 21:39:07'),
-  (38, 'jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj', '', 1, '2011-09-21 21:39:27'),
-  (39, 'dddddddddddddddddddddddddddddddd', '', 1, '2011-09-21 21:40:05'),
-  (40, 'gfhdfhf', '', 1, '2011-09-21 22:42:11'),
-  (41, 'dfhghdfgh', '', 1, '2011-09-21 22:42:15'),
-  (42, 'dfhdfghdgfh', '', 1, '2011-09-21 22:42:19'),
-  (43, 'dfhdfhgfh', '', 1, '2011-09-21 22:42:23'),
-  (44, 'fghjgjghj', '', 1, '2011-09-21 23:26:41'),
-  (45, '123', '', 1, '2011-09-21 23:26:58'),
-  (46, 'смиаи', 'апиапи', 1, '2011-09-22 21:06:49'),
   (47, 'проект', 'проекта описание\\r\\n', 15, '2011-10-03 22:33:35'),
   (48, 'Tarakaning', 'Баг-треккер, таскер', 1, '2011-10-05 23:45:25'),
   (49, 'Тестовый проект от имени Тимура', 'Да просто тестовый проект)))', 18, '2011-10-10 02:21:23');
@@ -724,7 +781,8 @@ INSERT INTO ReportComment VALUES
   (66, 77, 1, '2011-10-10 01:04:58', ' Короче, когда в смарти объявляешь вложенный {block}, то смарти падает. Почитал документацию, сделал правильно.'),
   (67, 82, 18, '2011-10-10 22:54:00', ' Пришло знание о работе индексатора Zend_Lucene\r\nначата работа над созданием класса поисковика-индексатора'),
   (68, 82, 1, '2011-10-10 22:55:59', 'Реализуй два класса: Factory и абстрактный класс для реализации, который принимает фабрику.'),
-  (69, 107, 1, '2011-10-10 23:22:44', ' Также заработала ссылка - владелец проекта.');
+  (69, 107, 1, '2011-10-10 23:22:44', ' Также заработала ссылка - владелец проекта.'),
+  (72, 8690, 1, '2011-10-16 22:45:02', ' fghbfghfghjhgj');
 
 -- 
 -- Вывод данных для таблицы ReportsUsersHandling
