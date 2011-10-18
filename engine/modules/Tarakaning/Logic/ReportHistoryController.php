@@ -36,24 +36,22 @@ require_once 'ProjectsController.php';
 		 */
 		public function addHistory($userID,$reportID,$description) 
 		{
-			$projectID = (int)$projectID;
-			$p = new ProjectsController();
-			if($p->isProjectExists($projectID))
-			{	
-				$this->_sql->insert(
-					"ErorrReportHistory", 
-					new ArrayObject(array(
-						"ErrorReportID" => $reportID,
-						"UserID" => $userID,
-						"OldTime" => date("Y-m-d H:i:s"),
-						"Description" => $description
-					))
-				);
-			}
-			else 
-			{
-				throw new Exception("Проект не существует.",101);
-			}
+			$reportID=(int)$reportID;
+			$this->_sql->insert(
+				"ErorrReportHistory", 
+				new ArrayObject(array(
+					$reportID,
+					$userID,
+					date("Y-m-d H:i:s"),
+					$description
+				)),
+				new ArrayObject(array(
+					"ErrorReportID",
+					"UserID",
+					"OldTime",
+					"Description"
+				))
+			);
 		}
 		
 		/**
@@ -128,6 +126,18 @@ require_once 'ProjectsController.php';
 			{
 				throw new Exception("Проект не существует.",101);
 			}
+		}
+		
+		public function getReportHistory($reportID, ListPager $paginator)
+		{
+			$reportID=(int)$reportID;
+			$offset=$paginator->getOffset();
+			$size=$paginator->getSize();
+			$this->_sql->setLimit($offset, $size);
+			$this->_sql->selFieldsWhere('ErorrReportHistory', "ErrorReportID=$reportID");
+			$res=$this->_sql->getTable();
+			$this->_sql->clearLimit();
+			return $res;
 		}
 		
 		public function getSomeOfHistory($userID, $projectID, $reportID, $count = 3) 

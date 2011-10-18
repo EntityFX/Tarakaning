@@ -51,6 +51,24 @@
         	return $res;
         }
         
+        public function getLocaleValue()
+        {
+            switch ($this->getValue())
+        	{
+        		case ErrorStatusENUM::IS_NEW:
+        			$res="Новый"; break;
+        		case ErrorStatusENUM::IDENTIFIED:
+        			$res="Идентифицирован"; break;
+        		case ErrorStatusENUM::ASSESSED:
+        			$res="Оценён"; break;
+        		case ErrorStatusENUM::RESOLVED:
+        			$res="Решён"; break;
+        		case ErrorStatusENUM::CLOSED:
+        			$res="Закрыт"; break;
+        	}
+        	return $res;
+        }
+        
         public function getNumberedKeys()
         {
         	$array=$this->getArray();

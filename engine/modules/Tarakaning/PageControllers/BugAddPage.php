@@ -18,13 +18,13 @@ require_once 'engine/modules/Tarakaning/Logic/ReportHistoryController.php';
 				{
 					$postData=$this->request->getParams();
 					$bugsOperation=new ErrorReportsController($userData["DefaultProjectID"] == null ? $postData['project_id'] : $userData["DefaultProjectID"]);
+					$itemsFacade=new ItemsFacade(
+						$bugsOperation, 
+						new ReportHistoryController(), 
+						$this->_controller->auth
+					);
 					try 
 					{	
-						$itemsFacade=new ItemsFacade(
-							$bugsOperation, 
-							new ReportHistoryController(), 
-							$this->_controller->auth
-						);
 						$newItemID=$itemsFacade->addItem(
 							new ItemDBKindENUM($postData['item_type']),
 							new ErrorPriorityENUM($postData['priority']),
