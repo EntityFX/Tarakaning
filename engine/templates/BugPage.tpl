@@ -129,46 +129,19 @@
 			<div id="history">
 				<div class="groupier">
 					<strong>История изменений</strong>
-					<ul>
-						<li><a href="#">&lt;&lt;</a></li>
-						<li><a href="#">&lt;</a></li>
-						<li><a href="#">6</a></li>
-						<li><span style="font-weight: bold; color: #a88; border-color: #a80; background: #d5d597 !important;">7</span></li>
-
-						<li><a href="#">8</a></li>
-						<li><a href="#">9</a></li>
-						<li><a href="#">10</a></li>
-						<li><a href="#">&gt;</a></li>
-						<li><a href="#">&gt;&gt;</a></li>
-					</ul>
 				</div>
-
+			{if $HISTORY neq NULL}
 				<table class="comments">
 					<thead>
 						<tr><th>Пользователь</th><th>Действие</th><th class="date">Дата</th></tr>
 					</thead>
 					<tbody>
-						<tr class="odd"><td><a href="#">BrainUnlocker</a></td><td class="left">Изменён статус с <strong>“Принятый к рассмотрению”</strong> на <strong>“Назначен (<a href="#">Sudo777</a>)”</strong></td><td>6 февраля 2007 20:26</td></tr>
-
-						<tr class="even"><td><a href="#">EntityFX</a></td><td class="left">Изменён статус с <strong>“Новый”</strong> на <strong>“Принятый к рассмотрению”</strong></td><td>6 февраля 2007 19:00</td></tr>
-						<tr class="odd"><td><a href="#">EntityFX</a> (<a href="#">X</a>)</td><td class="left">Создан отчёт об ошибке</td><td>5 февраля 2007 19:01</td></tr>
-
+						{foreach name=bugHistory from=$HISTORY item=element} {* Комментарии отчёта *}
+						<tr class="odd"><td><a href="#">{$element.UserID}</a></td><td class="left">{$element.Description}</td><td>{$element.OldTime}</td></tr>
+						{/foreach}
 					</tbody>
 				</table>
-				<div class="groupier">
-					<ul>
-						<li><a href="#">&lt;&lt;</a></li>
-						<li><a href="#">&lt;</a></li>
-						<li><a href="#">6</a></li>
-						<li><span style="font-weight: bold; color: #a88; border-color: #a80; background: #d5d597 !important;">7</span></li>
-
-						<li><a href="#">8</a></li>
-						<li><a href="#">9</a></li>
-						<li><a href="#">10</a></li>
-						<li><a href="#">&gt;</a></li>
-						<li><a href="#">&gt;&gt;</a></li>
-					</ul>
-				</div>
+			{/if}
 
 			</div>
 			<div id="attachments">

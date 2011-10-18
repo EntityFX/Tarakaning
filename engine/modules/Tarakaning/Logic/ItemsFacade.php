@@ -4,7 +4,7 @@ require_once 'ReportHistoryController.php';
 	class ItemsFacade
 	{
 		const ADD_ITEM="Задача добавлена";
-		const STATUS_CHANGE="Пользователь %s изменил статус с %s на %s";
+		const STATUS_CHANGE="Пользователь <strong>%s</strong> изменил статус с <strong>%s</strong> на <strong>%s</strong>";
 		
 		/**
 		 * 
@@ -27,31 +27,39 @@ require_once 'ReportHistoryController.php';
 		 */
 		private $_historyController;
 		
+		private $_userID;
+		
 		public function __construct(ErrorReportsController $itemsController, ReportHistoryController $historyController, UserAuth $user)
 		{
 			$this->_itemsController=$itemsController;
 			$this->_historyController=$historyController;
 			$this->_concreteUser=$user;
+			$userData=$this->_concreteUser->getName();
+			$this->_userID=(int)$userData["UserID"];
 		}
 		
 		public function addItem(ItemDBKindENUM $kind, ErrorPriorityENUM $priority, ErrorStatusENUM $errorStatus, ErrorTypeEnum $type, $title, $description="", $steps="", $assignedTo=null)
 		{
-			try
-			{
-				$itemID=(int)$this->_itemsController->addReport($kind, $priority, $errorStatus, $type, $title, $description, $steps, $assignedTo);
-			}
-			catch (Exception $ex)
-			{
-				throw $ex;
-			}
-			$userData=$this->_concreteUser->getName();
-			$userID=(int)$userData["UserID"];
-			$this->_historyController->addHistory($itemID, $this->_concreteUser->id, $this->getAddStatus());
+			$itemID=(int)$this->_itemsController->addReport($kind, $priority, $errorStatus, $type, $title, $description, $steps, $assignedTo);
+			$this->_historyController->addHistory($this->_userID,$itemID,self::ADD_ITEM);
 			return $itemID;
 		}
 		
-		private function getAddStatus()
+		public function editReport($reportID,ErrorStatusENUM $newStatus, $userID)
 		{
-			return self::ADD_ITEM;
+			$reportDataBefore=$this->_itemsController->getReport($reportID);
+			$errorEnumBefore=new ErrorStatusENUM($reportDataBefore["Status"]);
+			$res=$this->_itemsController->editReport($reportID, $newStatus, $userID);
+			$this->_historyController->addHistory(
+				$this->_userID, 
+				$reportID, 
+				sprintf(
+					self::STATUS_CHANGE,
+					$this->_userID,
+					$errorEnumBefore->getLocaleValue(),
+					$newStatus->getLocaleValue()
+				)
+			);
+			return $res;
 		}
 	}

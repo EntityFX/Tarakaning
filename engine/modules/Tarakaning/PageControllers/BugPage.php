@@ -4,6 +4,8 @@ require_once 'engine/modules/Tarakaning/Logic/CommentsController.php';
 require_once 'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
 require_once 'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
 require_once 'engine/libs/controls/Orderer/Orderer.php';
+require_once 'engine/modules/Tarakaning/Logic/ItemsFacade.php';
+require_once 'engine/modules/Tarakaning/Logic/ReportHistoryController.php';
 
 class BugPage extends InfoBasePage 
 {
@@ -26,6 +28,10 @@ class BugPage extends InfoBasePage
 	private $_canEditReport=false;
 	
 	private $_canCloseReport;
+	
+	private $_history;
+	
+	private $_historyData;
 	
 	protected function onInit()
 	{
@@ -58,7 +64,7 @@ class BugPage extends InfoBasePage
 		{
 			$this->navigate("/my/bugs/");
 		}
-		
+		$this->_history=new ReportHistoryController();
 		$this->_commentsController=new CommentsController();
 		
 		if ($this->request->isPost() )
@@ -89,7 +95,12 @@ class BugPage extends InfoBasePage
 				else if ($postData['cnange_state']!=null)
 				{
 					$stateEnum=new ErrorStatusENUM($postData['state']);
-					$editResult=$bugsOperation->editReport(
+					$itemsFacade=new ItemsFacade(
+						$bugsOperation, 
+						$this->_history, 
+						$this->_controller->auth
+					);
+					$editResult=$itemsFacade->editReport(
 						$this->_bugData['ID'], 
 						$stateEnum, 
 						$this->_userData["UserID"]
@@ -125,6 +136,7 @@ class BugPage extends InfoBasePage
 				$this->_commentsPaginator->getOffset(),
 				$this->_commentsPaginator->getSize()
 			);
+			$this->_historyData=$this->_history->getReportHistory($this->_bugData['ID'], new TarakaningULListPager(10));
 		}
 	}
 	
@@ -137,6 +149,9 @@ class BugPage extends InfoBasePage
 			$this->_smarty->assign("COMMENTS",$this->_commentsData);
 			$this->_smarty->assign("COMMENTS_ORDER",$this->_orderData);
 			$this->_smarty->assign("COMMENTS_PAGINATOR",$this->_commentsPaginator->getHTML());
+			
+			$this->_smarty->assign("HISTORY",$this->_historyData);
+			
 			$this->_smarty->assign("CAN_EDIT_REPORT",$this->_canEditReport);
 			$itemStatuses=new ErrorStatusENUM($this->_bugData['Status']);
 			$this->_smarty->assign(
