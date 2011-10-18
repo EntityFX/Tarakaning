@@ -29,13 +29,16 @@ require_once 'ReportHistoryController.php';
 		
 		private $_userID;
 		
-		public function __construct(ErrorReportsController $itemsController, ReportHistoryController $historyController, UserAuth $user)
+		private $_projectID;
+		
+		public function __construct(ErrorReportsController $itemsController, ReportHistoryController $historyController, UserAuth $user, $projectID)
 		{
 			$this->_itemsController=$itemsController;
 			$this->_historyController=$historyController;
 			$this->_concreteUser=$user;
 			$userData=$this->_concreteUser->getName();
 			$this->_userID=(int)$userData["UserID"];
+			$this->_projectID=(int)$projectID;
 		}
 		
 		public function addItem(ItemDBKindENUM $kind, ErrorPriorityENUM $priority, ErrorStatusENUM $errorStatus, ErrorTypeEnum $type, $title, $description="", $steps="", $assignedTo=null)
@@ -49,7 +52,7 @@ require_once 'ReportHistoryController.php';
 		{
 			$reportDataBefore=$this->_itemsController->getReport($reportID);
 			$errorEnumBefore=new ErrorStatusENUM($reportDataBefore["Status"]);
-			$res=$this->_itemsController->editReport($reportID, $newStatus, $userID);
+			$res=$this->_itemsController->editReport($reportID, $newStatus, $userID,$this->_projectID);
 			$this->_historyController->addHistory(
 				$this->_userID, 
 				$reportID, 
