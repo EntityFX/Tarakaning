@@ -28,48 +28,123 @@
 				<li><a href="#attachments"><span>Файлы</span></a></li>
 			</ul>
 			<div id="description">
-				<table id="report">
-					<col width="250" valign="top" />
-					<tbody>
-						<tr><td><strong>№</strong></td><td><strong>{$BUG.ID}</strong></td></tr>
-						<tr><td><strong>Тип</strong></td><td><strong>{$BUG.KindN}</strong></td></tr>
-						<tr><td><strong>Заголовок отчёта</strong></td><td><strong>{$BUG.Title}</strong></td></tr>
-						<tr>
-							<td><b>Статус</b></td>
-							<td class="{bug_type value=$BUG.Status}">
-								{if $CAN_EDIT_REPORT eq TRUE}
-									<form method="post" action="">
-										<div>
-											<select name="state">
-												{html_options options=$STATUSES.values selected=$STATUSES.selected}
-											</select>
-											<input type="submit" value="Сохранить" name="cnange_state" />
-										</div>
-									</form>
-								{else}
-									{$BUG.StatusN}
+				{if $CAN_EDIT_DATA eq TRUE}
+					<form action="" method="post">
+						<div class="add_form">
+							<div id="hdr">{$BUG.KindN} <strong>№ {$BUG.ID}</strong></div>
+							{if $ERROR neq ""}<strong class="error" id="error">{$ERROR}</strong>{/if}
+							<dl>
+								<dt>№</dt><dd>{$BUG.ID}</dd>
+								<dt><label for="title">Заголовок</label></dt><dd><input type="text" id="title" name="title" value="{$BUG.Title}" /></dd>
+								<dt>Проект</dt><dd>{$BUG.ProjectName}</dd>
+								<dt>Владелец</dt><dd><a href="/profile/show/{$BUG.UserID}/">{$BUG.NickName}</a></dd>
+								<dt>Дата создания</dt><dd>{$BUG.Time}</dd>
+								<dt>Тип</dt><dd>{$BUG.KindN}</dd>
+								<dt><label style="padding: 2px;">Статус</label></dt>
+								<dd>
+									<div class="{bug_type value=$BUG.Status}" style="padding: 2px;">
+									<select name="state">
+										{html_options options=$STATUSES.values selected=$STATUSES.selected}
+									</select>
+									</div>
+								</dd>
+								<dt>Приоритет</dt><dd>{$BUG.PriorityLevel}</dd>
+								<dt><label for="assigned_to">Назначено</label></dt>
+								<dd>									
+									<select id="assigned_to" name="assigned_to">
+										<option value="">-</option>
+										{html_options options=$USERS_ASSIGN_TO selected=$BUG.AssignedTo}
+									</select>
+								</dd>
+								{if $BUG.Kind eq Defect}
+								<dt class="for_defect"><label for="error_type">Вид ошибки</label></dt>
+								<dd class="for_defect">									
+									<select id="error_type" name="error_type">
+										<option value="Crash">Крах</option>
+										<option value="Cosmetic">Косметическая</option>
+										<option value="Exception">Исключение</option>
+										<option value="Functional">Функциональная</option>
+										<option value="Minor">Незначительная</option>
+										<option selected="selected" value="Major">Важная</option>
+										<option value="Install">Ошибка установки</option>
+										<option value="Block">Блокирующая</option>
+									</select>
+								</dd>
 								{/if}
-							</td>
-						</tr>
-						<tr><td><b>Владелец</b></td><td><a href="/profile/show/{$BUG.UserID}/">{$BUG.NickName}</a></td></tr>
-						<tr><td><b>Приоритет</b></td><td>{$BUG.PriorityLevel}</td></tr>
-						<tr><td><b>Проект</b></td><td>{$BUG.ProjectName}</td></tr>
-						<tr><td><b>Назначено</b></td><td>{if $BUG.AssignedTo neq null}<a href="/profile/show/{$BUG.AssignedTo}/">{$BUG.AssignedNickName}</a>{/if}</td></tr>
-						{if $BUG.Kind eq Defect}
-						<tr><td><b>Вид ошибки</b></td><td>{$BUG.ErrorType}</td></tr>
-						{/if}
-						<tr><td><b>Дата создания</b></td><td>{$BUG.Time}</td></tr>
-						<tr><td><b>Описание</b></td><td>{$BUG.Description}</td></tr>
-						{if $BUG.Kind eq Defect}
-						<tr>
-							<td><b>Действия, которые привели к ошибке</b></td><td>
-							{$BUG.StepsText}
-							</td>
-						</tr>
-						{/if}
-					</tbody>
-
-				</table>
+								<dt class="for_defect"><label for="descr">Описание</label></dt>
+								<dd class="for_defect"><textarea id="descr" name="descr" rows="10" cols="20" >{$BUG.Description}</textarea></dd>
+								{if $BUG.Kind eq Defect}
+								<dt class="for_defect"><label for="steps">Действия, которые привели к ошибке</label></dt>
+								<dd class="for_defect"><textarea id="steps" name="steps" rows="10" cols="20" >{$BUG.StepsText}</textarea></dd>
+								{/if}
+								<dt>&nbsp;</dt>
+								<dd class="subm"><input type="submit" name="cnange_state" value="Сохранить изменения" /></dd>						
+							</dl>
+						</div>
+					</form>
+				{else}
+					<form action="" method="post">	
+						<div class="add_form">
+							<div id="hdr">{$BUG.KindN} <strong>№ {$BUG.ID}</strong></div>
+							{if $ERROR neq ""}<strong class="error" id="error">{$ERROR}</strong>{/if}
+							<dl>
+								<dt>№</dt><dd>{$BUG.ID}</dd>
+								<dt><label for="title">Заголовок</label></dt><dd><input type="text" id="title" name="title" value="{$BUG.Title}" disabled="disabled" /></dd>
+								<dt>Проект</dt><dd>{$BUG.ProjectName}</dd>
+								<dt>Владелец</dt><dd><a href="/profile/show/{$BUG.UserID}/">{$BUG.NickName}</a></dd>
+								<dt>Дата создания</dt><dd>{$BUG.Time}</dd>
+								<dt>Тип</dt><dd>{$BUG.KindN}</dd>
+								<dt><label style="padding: 2px;">Статус</label></dt>
+								{if $CAN_EDIT_STATUS neq true}
+								<dd class="{bug_type value=$BUG.Status}">
+									<div class="{bug_type value=$BUG.Status}" style="padding: 2px;">
+									{$BUG.StatusN}
+									</div>
+								</dd>
+								{else}
+								<dd>
+									<div class="{bug_type value=$BUG.Status}" style="padding: 2px;">
+									<select name="state">
+										{html_options options=$STATUSES.values selected=$STATUSES.selected}
+									</select>
+									</div>
+								</dd>
+								{/if}
+								<dt>Приоритет</dt><dd>{$BUG.PriorityLevel}</dd>
+								<dt><label for="assigned_to">Назначено</label></dt>
+								<dd>									
+									<select id="assigned_to" name="assigned_to" disabled="disabled" >
+										<option value="">-</option>
+										{html_options options=$USERS_ASSIGN_TO selected=$BUG.AssignedTo}
+									</select>
+								</dd>
+								{if $BUG.Kind eq Defect}
+								<dt class="for_defect"><label for="error_type">Вид ошибки</label></dt>
+								<dd class="for_defect">									
+									<select id="error_type" name="error_type" disabled="disabled" >
+										<option value="Crash">Крах</option>
+										<option value="Cosmetic">Косметическая</option>
+										<option value="Exception">Исключение</option>
+										<option value="Functional">Функциональная</option>
+										<option value="Minor">Незначительная</option>
+										<option selected="selected" value="Major">Важная</option>
+										<option value="Install">Ошибка установки</option>
+										<option value="Block">Блокирующая</option>
+									</select>
+								</dd>
+								{/if}
+								<dt class="for_defect"><label for="descr">Описание</label></dt>
+								<dd class="for_defect"><textarea id="descr" name="descr" rows="10" cols="20" disabled="disabled" >{$BUG.Description}</textarea></dd>
+								{if $BUG.Kind eq Defect}
+								<dt class="for_defect"><label for="steps">Действия, которые привели к ошибке</label></dt>
+								<dd class="for_defect"><textarea id="steps" name="steps" rows="10" cols="20" disabled="disabled" >{$BUG.StepsText}</textarea></dd>
+								{/if}
+								<dt>&nbsp;</dt>
+								<dd class="subm"><input type="submit" name="cnange_state" value="Сохранить изменения" {if $CAN_EDIT_STATUS neq true}disabled="disabled"{/if} /></dd>						
+							</dl>
+						</div>
+					</form>
+				{/if}
 			</div>
 			<div id="comments">
 				{if $ERROR neq ""}

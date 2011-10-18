@@ -168,7 +168,7 @@
          * @param $errorStatusErrorStatusENUM Новый статус
          * @param $userID int Текущий юзер
          */
-        public function editReport($reportID,ErrorStatusENUM $newStatus, $userID)
+        public function editReport($reportID,ErrorStatusENUM $newStatus, $userID, $projectID)
         {
             if ($newStatus->check())
             {
@@ -186,14 +186,14 @@
                 $statusesArray=$newStatus->getNumberedKeys();
                 $currentValueKey=array_search($currentStatusValue,$statusesArray);
                 $newValueKey=array_search($newStatusValue, $statusesArray);
-				if ($this->canEditReport($reportID) && ($newValueKey-$currentValueKey)<=1)
+				if ($this->canEditStatus($reportID, $projectID) && ($newValueKey-$currentValueKey)<=1)
                 {
                 	$editFlag=false;
                 	if ($currentStatusValue!=ErrorStatusENUM::CLOSED)
                 	{
                 		if ($currentStatusValue==ErrorStatusENUM::RESOLVED)
                 		{
-                			$editFlag=$this->canClose($reportID);
+                			$editFlag=$newStatusValue!=ErrorStatusENUM::CLOSED?true:$this->canEditData($reportID, $projectID);
                 		}
                 		else 
                 		{
@@ -227,9 +227,10 @@
         */
         private function getReportOwner($reportID)
         {
-            $this->_sql->selFieldsWhere("ErrorReport","ID=$reportID","UserID");
-            $res=$this->_sql->GetRows();
-            return $res[0]["UserID"];
+            $reportID=(int)$reportID;
+        	$this->_sql->selFieldsWhere("ErrorReport","ID=$reportID","UserID");
+            $res=$this->_sql->getTable();
+            return (int)$res[0]["UserID"];
         }
         
         private function checkIsProjectError($reportID)
@@ -463,18 +464,20 @@
             return ($this->_errorOwnerID==$this->getReportOwner($reportID) || $this->_errorOwnerID==$pC->isOwner($this->_errorOwnerID,$this->_projectOwnerID));               
         }
         
-        public function canEditReport($reportID)
+        public function canEditStatus($reportID,$projectID)
         {
+        	$projectID=(int)$projectID;
         	$user=$this->_errorOwnerID;
         	$isOwnerORAssigned=$this->_sql->countQuery("ErrorReport","ID=$reportID AND (UserID=$user OR AssignedTo=$user)");
         	$pC=new ProjectsController();
-            return ($isOwnerORAssigned !=0) || $this->_errorOwnerID==$pC->isOwner($this->_errorOwnerID,$this->_projectOwnerID);
+            return ($isOwnerORAssigned !=0) || $this->_errorOwnerID==$pC->isOwner($user,$projectID);
         }
         
-        public function canClose($reportID)
+        public function canEditData($reportID,$projectID)
         {
+        	$projectID=(int)$projectID;
         	$pC=new ProjectsController();
-        	return $this->_errorOwnerID==$this->getReportOwner($reportID) || $this->_errorOwnerID==$pC->isOwner($this->_errorOwnerID,$this->_projectOwnerID);
+        	return $this->_errorOwnerID==$this->getReportOwner($reportID) || $this->_errorOwnerID==$pC->isOwner($this->_errorOwnerID,$projectID);
         }
         
         /**

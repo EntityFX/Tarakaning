@@ -25,13 +25,17 @@ class BugPage extends InfoBasePage
 	
 	private $_orderData;
 	
-	private $_canEditReport=false;
+	private $_canEditStatus=false;
 	
-	private $_canCloseReport;
+	private $_canEditData;
 	
 	private $_history;
 	
 	private $_historyData;
+	
+	private $_projectUsersList;
+	
+	private $_bugsOperation;
 	
 	protected function onInit()
 	{
@@ -40,23 +44,21 @@ class BugPage extends InfoBasePage
 		$this->_userData=$this->_controller->auth->getName();
 		$projectsController=new ProjectsController();
 		$this->_projectsList=$projectsController->getUserProjects($this->_userData["UserID"]);
-		
-		
-		$bugsOperation=new ErrorReportsController(
+		$this->_bugsOperation=new ErrorReportsController(
 			$this->_userData["DefaultProjectID"] == null ? $this->_projectsList[0]['ProjectID'] : $this->_userData["DefaultProjectID"],
 			$this->_userData["UserID"]
 		);
 		if (isset($this->_parameters[0]))
 		{
-			$this->_bugData=$bugsOperation->getReport($this->_parameters[0]);
-			$this->_canCloseReport=$bugsOperation->canClose($this->_parameters[0]);
-			if (!$this->_canCloseReport && $this->_bugData["Status"]==ErrorStatusENUM::CLOSED)
+			$this->_bugData=$this->_bugsOperation->getReport($this->_parameters[0]);
+			$this->_canEditData=$this->_bugsOperation->canEditData($this->_parameters[0],$this->_bugData['ProjectID']);
+			if (!$this->_canEditData && $this->_bugData["Status"]==ErrorStatusENUM::CLOSED)
 			{
-				$this->_canEditReport=false;
+				$this->_canEditStatus=false;
 			}
 			else 
 			{
-				$this->_canEditReport=$bugsOperation->canEditReport($this->_parameters[0]);
+				$this->_canEditStatus=$this->_bugsOperation->canEditStatus($this->_parameters[0],$this->_bugData['ProjectID']);
 			}
 		}
 		
@@ -92,21 +94,6 @@ class BugPage extends InfoBasePage
 						$this->_controller->error->addError("addCommentError",$error);
 					}
 				}
-				else if ($postData['cnange_state']!=null)
-				{
-					$stateEnum=new ErrorStatusENUM($postData['state']);
-					$itemsFacade=new ItemsFacade(
-						$bugsOperation, 
-						$this->_history, 
-						$this->_controller->auth
-					);
-					$editResult=$itemsFacade->editReport(
-						$this->_bugData['ID'], 
-						$stateEnum, 
-						$this->_userData["UserID"]
-					);
-					if ($editResult) $this->_bugData["Status"]=$stateEnum->getValue();
-				}
 			}
 		}
 
@@ -116,7 +103,12 @@ class BugPage extends InfoBasePage
 			{
 				$this->deleteSelectedItems();
 			}
+			else if ($this->request->getPost("cnange_state",null)!=null)
+			{
+				$this->editState();
+			}
 		}
+		
 		if ($this->_bugData!=null)
 		{
 			$this->_commentsPaginator=new TarakaningULListPager(
@@ -136,8 +128,23 @@ class BugPage extends InfoBasePage
 				$this->_commentsPaginator->getOffset(),
 				$this->_commentsPaginator->getSize()
 			);
+			
+			$usersList=$projectsController->getProjectUsers($this->_bugData['ProjectID']);
+			$this->_projectUsersList=$this->normalizeAssignUsersListForControl($usersList);
 			$this->_historyData=$this->_history->getReportHistory($this->_bugData['ID'], new TarakaningULListPager(10));
 		}
+	}
+	
+	private function normalizeAssignUsersListForControl(&$data)
+	{
+		if ($data!=null)
+		{
+			foreach ($data as $value)
+			{
+				$res[$value['UserID']]=$value['NickName'];
+			}
+		}
+		return $res;
 	}
 	
 	protected function doAssign()
@@ -146,18 +153,22 @@ class BugPage extends InfoBasePage
 		if ($this->_bugData!=null)
 		{
 			$this->_smarty->assign("BUG",$this->_bugData);
+			
+			$this->_smarty->assign("USERS_ASSIGN_TO",$this->_projectUsersList);
+			
 			$this->_smarty->assign("COMMENTS",$this->_commentsData);
 			$this->_smarty->assign("COMMENTS_ORDER",$this->_orderData);
 			$this->_smarty->assign("COMMENTS_PAGINATOR",$this->_commentsPaginator->getHTML());
 			
 			$this->_smarty->assign("HISTORY",$this->_historyData);
 			
-			$this->_smarty->assign("CAN_EDIT_REPORT",$this->_canEditReport);
+			$this->_smarty->assign("CAN_EDIT_DATA",$this->_canEditData);
+			$this->_smarty->assign("CAN_EDIT_STATUS",$this->_canEditStatus);
 			$itemStatuses=new ErrorStatusENUM($this->_bugData['Status']);
 			$this->_smarty->assign(
 				"STATUSES",
 				array(
-					'values' => $itemStatuses->getStates($itemStatuses,$this->_canCloseReport),
+					'values' => $itemStatuses->getStates($itemStatuses,$this->_canEditData),
 					'selected' => $itemStatuses->getValue()
 				)
 			);
@@ -179,6 +190,23 @@ class BugPage extends InfoBasePage
 			$this->_userData["UserID"],
 			$checkboxes
 		);
+	}
+	
+	private function editState()
+	{
+		$stateEnum=new ErrorStatusENUM($this->request->getPost('state'));
+		$itemsFacade=new ItemsFacade(
+			$this->_bugsOperation, 
+			$this->_history, 
+			$this->_controller->auth,
+			$this->_bugData['ProjectID']
+		);
+		$editResult=$itemsFacade->editReport(
+			$this->_bugData['ID'], 
+			$stateEnum, 
+			$this->_userData["UserID"]
+		);
+		if ($editResult) $this->_bugData["Status"]=$stateEnum->getValue();
 	}
 }
 ?>
