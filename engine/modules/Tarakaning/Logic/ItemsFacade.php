@@ -48,11 +48,22 @@ require_once 'ReportHistoryController.php';
 			return $itemID;
 		}
 		
-		public function editReport($reportID,ErrorStatusENUM $newStatus, $userID)
+		public function editReport($reportID,ErrorStatusENUM $newStatus, $newBugsData)
 		{
 			$reportDataBefore=$this->_itemsController->getReport($reportID);
 			$errorEnumBefore=new ErrorStatusENUM($reportDataBefore["Status"]);
-			$res=$this->_itemsController->editReport($reportID, $newStatus, $userID,$this->_projectID);
+			$res=$this->_itemsController->editReport(
+				$reportID, 
+				$this->_userID, 
+				$this->_projectID, 
+				$newBugsData["Title"],
+				$newStatus, 
+				new ErrorPriorityENUM($newBugsData["PriorityLevel"]),
+				new ErrorTypeENUM($newBugsData["DefectType"]),
+				$newBugsData["Description"],
+				$newBugsData["StepsText"],
+				$newBugsData["AssignedTo"]
+			);
 			$this->_historyController->addHistory(
 				$this->_userID, 
 				$reportID, 

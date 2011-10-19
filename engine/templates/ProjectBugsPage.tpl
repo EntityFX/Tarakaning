@@ -26,7 +26,7 @@
 								<td>{$element.KindN}</td>
 								<td>{$element.StatusN}</td>
 								<td>{$element.Title}</td>
-								<td>{$element.PriorityLevel}</td>
+								<td>{$element.PriorityLevelN}</td>
 								<td><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a></td>
 								<td><a href="/profile/show/{$element.AssignedTo}/">{$element.AssignedNickName}</a></td>
 								<td>{$element.Time}</td>

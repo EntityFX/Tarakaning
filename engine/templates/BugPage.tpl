@@ -48,7 +48,12 @@
 									</select>
 									</div>
 								</dd>
-								<dt>Приоритет</dt><dd>{$BUG.PriorityLevel}</dd>
+								<dt><label for="priority">Приоритет</label></dt>
+								<dd>
+									<select id="priority" name="priority">
+										{html_options options=$PRIORITY_LEVEL.values selected=$PRIORITY_LEVEL.selected}
+									</select>
+								</dd>
 								<dt><label for="assigned_to">Назначено</label></dt>
 								<dd>									
 									<select id="assigned_to" name="assigned_to">
@@ -60,14 +65,7 @@
 								<dt class="for_defect"><label for="error_type">Вид ошибки</label></dt>
 								<dd class="for_defect">									
 									<select id="error_type" name="error_type">
-										<option value="Crash">Крах</option>
-										<option value="Cosmetic">Косметическая</option>
-										<option value="Exception">Исключение</option>
-										<option value="Functional">Функциональная</option>
-										<option value="Minor">Незначительная</option>
-										<option selected="selected" value="Major">Важная</option>
-										<option value="Install">Ошибка установки</option>
-										<option value="Block">Блокирующая</option>
+										{html_options options=$DEFECT_TYPE.values selected=$DEFECT_TYPE.selected}
 									</select>
 								</dd>
 								{/if}
@@ -110,7 +108,7 @@
 									</div>
 								</dd>
 								{/if}
-								<dt>Приоритет</dt><dd>{$BUG.PriorityLevel}</dd>
+								<dt>Приоритет</dt><dd>{$BUG.PriorityLevelN}</dd>
 								<dt><label for="assigned_to">Назначено</label></dt>
 								<dd>									
 									<select id="assigned_to" name="assigned_to" disabled="disabled" >
@@ -122,14 +120,7 @@
 								<dt class="for_defect"><label for="error_type">Вид ошибки</label></dt>
 								<dd class="for_defect">									
 									<select id="error_type" name="error_type" disabled="disabled" >
-										<option value="Crash">Крах</option>
-										<option value="Cosmetic">Косметическая</option>
-										<option value="Exception">Исключение</option>
-										<option value="Functional">Функциональная</option>
-										<option value="Minor">Незначительная</option>
-										<option selected="selected" value="Major">Важная</option>
-										<option value="Install">Ошибка установки</option>
-										<option value="Block">Блокирующая</option>
+										{html_options options=$DEFECT_TYPE.values selected=$DEFECT_TYPE.selected}
 									</select>
 								</dd>
 								{/if}

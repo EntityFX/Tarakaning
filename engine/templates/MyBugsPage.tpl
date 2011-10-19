@@ -31,7 +31,7 @@
 							<td>{$element.StatusN}</td>
 							<td>{$element.Title}</td>
 							<td>{if $element.AssignedTo neq null}<a href="/profile/show/{$element.AssignedTo}/">{$element.AssignedNickName}</a>{/if}</td>
-							<td>{$element.PriorityLevel}</td>
+							<td>{$element.PriorityLevelN}</td>
 							<td>{$element.Time}</td>
 						</tr>
 					{/foreach}
@@ -71,7 +71,7 @@
 							<td>{$element.StatusN}</td>
 							<td>{$element.Title}</td>
 							<td>{if $element.AssignedTo neq null}<a href="/profile/show/{$element.AssignedTo}/">{$element.AssignedNickName}</a>{/if}</td>
-							<td>{$element.PriorityLevel}</td>
+							<td>{$element.PriorityLevelN}</td>
 							<td>{$element.Time}</td>
 						</tr>
 					{/foreach}

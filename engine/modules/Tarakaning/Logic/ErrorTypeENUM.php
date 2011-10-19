@@ -16,5 +16,19 @@
         {
             parent::__construct($value);
         }
+        
+        public function getNormalized()
+        {
+        	return array(
+        		self::CRASH => "Крах",
+        		self::COSMETIC => "Косметическая",
+        		self::ERROR_HANDLE => "Исключение",
+        		self::FUNCTIONAL => "Функциональня",
+        		self::MINOR => "Неначительная",
+        		self::MAJOR => "Значительная",
+        		self::SETUP => "Ошибка инсталляции",
+        		self::BLOCK => "Блокирующая"
+        	);
+        }
     }  
 ?>

@@ -48,7 +48,7 @@ class BugPage extends InfoBasePage
 			$this->_userData["DefaultProjectID"] == null ? $this->_projectsList[0]['ProjectID'] : $this->_userData["DefaultProjectID"],
 			$this->_userData["UserID"]
 		);
-		if (isset($this->_parameters[0]))
+		if (isset($this->_parameters[0]) && $this->_parameters[0]!=='')
 		{
 			$this->_bugData=$this->_bugsOperation->getReport($this->_parameters[0]);
 			$this->_canEditData=$this->_bugsOperation->canEditData($this->_parameters[0],$this->_bugData['ProjectID']);
@@ -172,6 +172,29 @@ class BugPage extends InfoBasePage
 					'selected' => $itemStatuses->getValue()
 				)
 			);
+			
+			if ($this->_bugData['ErrorType']!=null)
+			{
+				$defectType=new ErrorTypeENUM($this->_bugData['ErrorType']);
+
+				$this->_smarty->assign(
+					"DEFECT_TYPE",
+					array(
+						'values' => $defectType->getNormalized(),
+						'selected' => $defectType->getValue()
+					)
+				);
+			}
+			
+			$priority=new ErrorPriorityENUM($this->_bugData['PriorityLevel']);
+			$this->_smarty->assign(
+				"PRIORITY_LEVEL",
+				array(
+					'values' => $priority->getNormalized(),
+					'selected' => $priority->getValue()
+				)
+			);
+			
 			$this->_smarty->assign("USER_ID",$this->_userData["UserID"]);
 			$addCommentError=$this->_controller->error->getErrorByName("addCommentError");
 			if ($addCommentError!=null)
@@ -179,6 +202,13 @@ class BugPage extends InfoBasePage
 				$exception=$addCommentError["error"];
 				$this->_smarty->assign("ERROR",$exception->getMessage());
 				$this->_smarty->assign("DATA",$addCommentError["postData"]);
+			}
+			
+			$editItemError=$this->_controller->error->getErrorByName("editBugError");
+			if ($editItemError!=null)
+			{
+				$exception=$editItemError["error"];
+				$this->_smarty->assign("ERROR",$exception->getMessage());
 			}
 		}
 	}
@@ -194,19 +224,48 @@ class BugPage extends InfoBasePage
 	
 	private function editState()
 	{
-		$stateEnum=new ErrorStatusENUM($this->request->getPost('state'));
+		$postData=$this->request->getPost();
+		$stateEnum=new ErrorStatusENUM($postData['state']);
 		$itemsFacade=new ItemsFacade(
 			$this->_bugsOperation, 
 			$this->_history, 
 			$this->_controller->auth,
 			$this->_bugData['ProjectID']
 		);
-		$editResult=$itemsFacade->editReport(
-			$this->_bugData['ID'], 
-			$stateEnum, 
-			$this->_userData["UserID"]
-		);
-		if ($editResult) $this->_bugData["Status"]=$stateEnum->getValue();
+		try 
+		{
+			$editResult=$itemsFacade->editReport(
+				$this->_bugData['ID'], 
+				$stateEnum, 
+				array(
+					'Title' => $postData['title'],
+					'PriorityLevel' => $postData['priority'],
+					'DefectType' => $postData['error_type'],
+					'Description' => $postData['descr'],
+					'StepsText' => $postData['steps'],
+					'AssignedTo' => $postData['assigned_to'],
+				)
+			);
+		}
+		catch(Exception $exception)
+		{
+			$error = array(
+				"error" => $exception,
+				"postData" => $postData
+			);
+			$this->_controller->error->addError("editBugError",$error);
+		}
+		if ($editResult) 
+		{	
+			$this->_bugData["Status"]=$stateEnum->getValue();
+			$this->_bugData["Title"]=$postData['title'];
+			$this->_bugData["PriorityLevel"]=$postData['priority'];
+			$this->_bugData["DefectType"]=$postData['error_type'];
+			$this->_bugData["Description"]=$postData['descr'];
+			$this->_bugData["StepsText"]=$postData['steps'];
+			$this->_bugData["AssignedTo"]=$postData['assigned_to'];
+			$this->_controller->error->addError("editBugErrorOK",true);
+		}
 	}
 }
 ?>
