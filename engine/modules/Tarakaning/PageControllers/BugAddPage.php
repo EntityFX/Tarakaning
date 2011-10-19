@@ -17,11 +17,13 @@ require_once 'engine/modules/Tarakaning/Logic/ReportHistoryController.php';
 				if ($this->request->getParam("add_report")!=null)
 				{
 					$postData=$this->request->getParams();
-					$bugsOperation=new ErrorReportsController($userData["DefaultProjectID"] == null ? $postData['project_id'] : $userData["DefaultProjectID"]);
+					$projectID=$userData["DefaultProjectID"] == null ? $postData['project_id'] : $userData["DefaultProjectID"];
+					$bugsOperation=new ErrorReportsController($projectID);
 					$itemsFacade=new ItemsFacade(
 						$bugsOperation, 
 						new ReportHistoryController(), 
-						$this->_controller->auth
+						$this->_controller->auth,
+						$projectID
 					);
 					try 
 					{	
@@ -47,9 +49,9 @@ require_once 'engine/modules/Tarakaning/Logic/ReportHistoryController.php';
 					if ($exception==null)
 					{
 						$this->_controller->error->addError("addBugOK",true);
-						$this->navigate("/my/bugs/");
+						$this->navigate("/bug/show/$newItemID/");
 					}	
-					$this->navigate("/bug/show/$newItemID/");
+					
 				}
 			}
 			$userData=$this->_controller->auth->getName();

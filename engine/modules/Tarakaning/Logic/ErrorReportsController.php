@@ -168,9 +168,9 @@
          * @param $errorStatusErrorStatusENUM Новый статус
          * @param $userID int Текущий юзер
          */
-        public function editReport($reportID,ErrorStatusENUM $newStatus, $userID, $projectID)
-        {
-            if ($newStatus->check())
+        public function editReport($reportID, $userID, $projectID, $title, ErrorStatusENUM $newStatus,ErrorPriorityENUM $priority, ErrorTypeEnum $type, $description="", $steps="", $assignedTo=null)
+        {       	
+        	if ($newStatus->check())
             {
                 $newStatusValue=$newStatus->getValue();    
             }
@@ -182,37 +182,58 @@
 			if ($report!=null)
 			{
 				$currentStatusValue=$report["Status"];
-				if ($currentStatusValue==$newStatusValue) return false;
                 $statusesArray=$newStatus->getNumberedKeys();
                 $currentValueKey=array_search($currentStatusValue,$statusesArray);
                 $newValueKey=array_search($newStatusValue, $statusesArray);
 				if ($this->canEditStatus($reportID, $projectID) && ($newValueKey-$currentValueKey)<=1)
                 {
-                	$editFlag=false;
+                	$editStatusFlag=false;
+                	$canEditData=$this->canEditData($reportID, $projectID);
                 	if ($currentStatusValue!=ErrorStatusENUM::CLOSED)
                 	{
                 		if ($currentStatusValue==ErrorStatusENUM::RESOLVED)
                 		{
-                			$editFlag=$newStatusValue!=ErrorStatusENUM::CLOSED?true:$this->canEditData($reportID, $projectID);
+                			$editStatusFlag=$newStatusValue!=ErrorStatusENUM::CLOSED?true:$canEditData;
                 		}
                 		else 
                 		{
-                			$editFlag=true;
+                			$editStatusFlag=true;
                 		}
                 	}
                 	else if ($userID==$report["UserID"])
                 	{
-                		$editFlag=true;
+                		$editStatusFlag=true;
                 	}
-                	if ($editFlag)
+                	if ($editStatusFlag)
                 	{
-                		$this->_sql->update(
-                			"ErrorReport", 
-                			"ID=$reportID", 
-                			new ArrayObject(array(
-                				"Status" => $newStatusValue
-                			))
-                		);
+                		if (!$canEditData)
+                		{
+	                		if ($currentStatusValue==$newStatusValue) return false;
+                			$this->_sql->update(
+	                			"ErrorReport", 
+	                			"ID=$reportID", 
+	                			new ArrayObject(array(
+	                				"Status" => $newStatusValue
+	                			))
+	                		);
+                		}
+                		else 
+                		{
+                			if ($title=='') throw new Exception("Заголовок не должен быть пустым");
+                			$this->_sql->call(
+	                			"EditItem", 
+	                			new ArrayObject(array(
+	                				$reportID,
+	                				$title,
+	                				$priority->getValue(),
+	                				$newStatusValue,
+	                				(int)$assignedTo,
+	                				$description,
+	                				$type->getValue(),
+	                				$steps
+	                			))
+	                		);
+                		}
                 		return true;
                 	}
                 }
@@ -489,11 +510,11 @@
         	switch ($reportData["PriorityLevel"])
         	{
         		case ErrorPriorityENUM::MINIMAL:
-        			$reportData["PriorityLevel"]="Низкий"; break;
+        			$reportData["PriorityLevelN"]="Низкий"; break;
         		case ErrorPriorityENUM::NORMAL:
-        			$reportData["PriorityLevel"]="Обычный"; break;
+        			$reportData["PriorityLevelN"]="Обычный"; break;
          		case ErrorPriorityENUM::HIGH:
-        			$reportData["PriorityLevel"]="Важный"; break;
+        			$reportData["PriorityLevelN"]="Важный"; break;
         	}
         	switch ($reportData["Kind"])
         	{
@@ -505,21 +526,21 @@
         	switch ($reportData["ErrorType"])
         	{
         		case ErrorTypeENUM::BLOCK: 
-        			$reportData["ErrorType"]="Блокирующая"; break;
+        			$reportData["ErrorTypeN"]="Блокирующая"; break;
         		case ErrorTypeENUM::COSMETIC: 
-        			$reportData["ErrorType"]="Косметическая"; break;
+        			$reportData["ErrorTypeN"]="Косметическая"; break;
         		case ErrorTypeENUM::CRASH:
-        			$reportData["ErrorType"]="Крах"; break;
+        			$reportData["ErrorTypeN"]="Крах"; break;
         		case ErrorTypeENUM::ERROR_HANDLE: 
-        			$reportData["ErrorType"]="Исключение"; break;
+        			$reportData["ErrorTypeN"]="Исключение"; break;
         		case ErrorTypeENUM::FUNCTIONAL:
-        			$reportData["ErrorType"]="Функциональня"; break;
+        			$reportData["ErrorTypeN"]="Функциональня"; break;
         		case ErrorTypeENUM::MAJOR: 
-        			$reportData["ErrorType"]="Значительная"; break;
+        			$reportData["ErrorTypeN"]="Значительная"; break;
         		case ErrorTypeENUM::MINOR: 
-        			$reportData["ErrorType"]="Неначительная"; break;
+        			$reportData["ErrorTypeN"]="Неначительная"; break;
         		case ErrorTypeENUM::SETUP: 
-        			$reportData["ErrorType"]="Ошибка инсталляции"; break;
+        			$reportData["ErrorTypeN"]="Ошибка инсталляции"; break;
         	}
         	switch ($reportData["Status"])
         	{
