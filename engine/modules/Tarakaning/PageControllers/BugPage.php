@@ -173,7 +173,7 @@ class BugPage extends InfoBasePage
 				)
 			);
 			
-			if ($this->_bugData['ErrorType']!=null)
+			if ($this->_bugData['Kind']==ItemKindENUM::DEFECT)
 			{
 				$defectType=new ErrorTypeENUM($this->_bugData['ErrorType']);
 
