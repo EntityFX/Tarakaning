@@ -3,33 +3,62 @@
 set_include_path($_SERVER["DOCUMENT_ROOT"]."/engine/system/zend_search/");
 require_once 'Zend/Search/Lucene.php';
 
-class SearchFactory 
+abstract class SearchFactory 
 {
 	protected $_sIndexDirPath = "engine/indexes/";
 	protected $_index;
 	protected $_arIndexFields = array();
-	protected $_arTableIndexName = "";
+	protected $_arTableIndexName;
 	protected $_sIndexIdField = "pk";
 	protected $_iHitsCount;
 	protected $_arSearchResults = array();
 	
+	private static $_locale="ru_RU";
+	private static $_encoding="utf-8";
+	
+	/**
+	 * 
+	 * Задать локалию
+	 * @param string $locale Название локалии
+	 */
+	public static function setLocale($locale)
+	{
+		self::$_locale=$locale;
+	}
+	
+	/**
+	 * 
+	 * Задать кодировку
+	 * @param string $encoding Название кодировки
+	 */
+	public static function setEncoding($encoding)
+	{
+		self::$_encoding=$encoding;
+	}
+	
+	/**
+	 * 
+	 * Установить имя таблицы индекса
+	 * @param unknown_type $tableName
+	 */
+	public function setTableName($tableName)
+	{
+		$this->_arTableIndexName=$tableName;
+	}
 	
 	public function __construct() 
 	{
 		$this->_sIndexDirPath .= $this->_arTableIndexName;
 		$this->_index = $this->GetSearchIndex();
-		//$path="engine/modules/".$this->controller->_moduleType.'/'.ModuleController::XML_CONFIG_NAME;
-		//$xmlConfig=new Zend_Config_Xml($path,$node);
-		
 	}
 	
 	public function getSearchIndex() 
 	{
-		setlocale(LC_ALL, 'ru_RU.utf-8'); 
+		setlocale(LC_ALL, self::$_locale.'.'.self::$_encoding); 
 		Zend_Search_Lucene_Analysis_Analyzer::setDefault(
 		    new Zend_Search_Lucene_Analysis_Analyzer_Common_Utf8_CaseInsensitive()
 		);
-		Zend_Search_Lucene_Search_QueryParser::setDefaultEncoding('utf-8');
+		Zend_Search_Lucene_Search_QueryParser::setDefaultEncoding(self::$_encoding);
 		try 
 		{
 	    	return Zend_Search_Lucene::open($_SERVER['DOCUMENT_ROOT']."/".$this->_sIndexDirPath);
@@ -48,14 +77,14 @@ class SearchFactory
 	public function add($arFields) 
 	{
 		$doc = new Zend_Search_Lucene_Document();
-		$iPk = intval($iPk);
-		$doc->addField(Zend_Search_Lucene_Field::UnIndexed("pk", $arFields[$this->_arIndexFields[0]], 'utf-8'));
+		$iPk = (int)$iPk;
+		$doc->addField(Zend_Search_Lucene_Field::UnIndexed("pk", $arFields[$this->_arIndexFields[0]], self::$_encoding));
 		foreach ($this->_arIndexFields as $key => $fieldName)
 		{
 			if ($fieldName != $this->_arIndexFields[0])
 			{
 				//precho($fieldName);
-				$doc->addField(Zend_Search_Lucene_Field::unStored($fieldName, mb_convert_encoding($arFields[$fieldName],'utf-8'), 'utf-8'));
+				$doc->addField(Zend_Search_Lucene_Field::unStored($fieldName, mb_convert_encoding($arFields[$fieldName],self::$_encoding), self::$_encoding));
 			}
 		}
 		$this->_index->addDocument($doc);
@@ -73,14 +102,15 @@ class SearchFactory
 		{//РїРѕРёСЃРє РїРѕ РІС‹Р±СЂР°РЅРЅС‹Рј РїРѕР»СЏРј
 			foreach ($arFields as $field)
 			{
-				$query .= $field.':('.$sSearch.') ';
+				$queryString .= $field.':('.$sSearch.') ';
 			}
-			$query = Zend_Search_Lucene_Search_QueryParser::parse($query, "utf-8");
+			$query = Zend_Search_Lucene_Search_QueryParser::parse($queryString, self::$_encoding);
 		}
 		else
 		{//РїРѕРёСЃРє РїРѕ РІСЃРµРј РїРѕР»СЏРј
-			$query = Zend_Search_Lucene_Search_QueryParser::parse($sSearch, "utf-8");
+			$query = Zend_Search_Lucene_Search_QueryParser::parse($sSearch, self::$_encoding);
 		}
+		var_dump($queryString);
 		$hits = $this->_index->find($query);
 		$this->_iHitsCount = count($hits);
 		if ($this->_iHitsCount > 0)
@@ -114,7 +144,7 @@ class SearchFactory
 		;
 	}
 	
-	public function serviseAddAll($arData) 
+	public function serviceAddAll($arData) 
 	{
 		$i =0;
 		foreach ($arData as $key => $value) 
@@ -125,6 +155,7 @@ class SearchFactory
 		//$this->_index->optimize();
 	}
 }
+/*
 function precho($s,$die = 0) 
 {
 	echo "<pre>";
@@ -132,4 +163,5 @@ function precho($s,$die = 0)
 	echo "</pre>";
 	$die == 1 ? die(): FALSE;
 }
+*/
 ?>
