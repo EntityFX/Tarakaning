@@ -52,6 +52,10 @@ require_once 'ReportHistoryController.php';
 		{
 			$reportDataBefore=$this->_itemsController->getReport($reportID);
 			$errorEnumBefore=new ErrorStatusENUM($reportDataBefore["Status"]);
+			if ($newBugsData["DefectType"]==null)
+			{
+				$newBugsData["DefectType"]=ErrorTypeENUM::MAJOR;
+			}
 			$res=$this->_itemsController->editReport(
 				$reportID, 
 				$this->_userID, 

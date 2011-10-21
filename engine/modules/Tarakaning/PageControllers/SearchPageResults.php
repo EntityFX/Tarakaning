@@ -39,7 +39,7 @@ require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
 		{
 			$p = new ProjectsController();
 			$this->searcher = new ProjectSearch();
-			$this->searcher->ServiseAddAll($p->getProjects());
+			$this->searcher->ServiceAddAll($p->getProjects());
 		}
 		
 		protected function doAssign()
