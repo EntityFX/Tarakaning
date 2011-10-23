@@ -263,7 +263,7 @@ require_once 'MySQLException.php';
                 {
                     if (is_string($fields_arr[$i]) && $char!="`")
                     {
-                        $fld=mysql_escape_string($fields_arr[$i]);                          
+                        $fld=addslashes($fields_arr[$i]);                          
                         $fld="'$fld'";
                     }
                     else if (is_bool($fields_arr[$i]))

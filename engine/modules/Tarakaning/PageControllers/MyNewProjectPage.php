@@ -21,10 +21,10 @@ require_once 'engine/modules/Tarakaning/Logic/ProjectsSearch.php';
 						$postData["project_name"], 
 						$postData["description"]
 					);
-					$indexer = new ProjectSearch();
+					/*$indexer = new ProjectSearch();
 					$indexer->Add($projectId, 
 						array($postData["project_name"],
-							$postData["description"]));
+							$postData["description"]));*/
 				}
 				catch (Exception $exception)
 				{

@@ -488,7 +488,7 @@
 	        	{
 	        		if (is_string($paramsArray[$current]))
 	        		{
-	        			$val='\''.$paramsArray[$current].'\'';
+	        			$val='\''.addslashes($paramsArray[$current]).'\'';
 	        		}
 	        		else if (is_bool(is_string($paramsArray[$current])))
 	        		{

@@ -41,6 +41,10 @@
 		public function addProject($userID, $projectName, $description)
 		{
 			$projectName = htmlspecialchars($projectName);
+			if ($projectName=='')
+			{
+				throw new Exception("«аголовок проекта не должен быть пустым");
+			}
 			$description = htmlspecialchars($description);
 			$projectName = mysql_escape_string($projectName);
 			$description = mysql_escape_string($description);
