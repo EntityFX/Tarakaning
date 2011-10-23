@@ -10,7 +10,7 @@
             $this->__value=$value;
             if (!$this->check())
             {
-                throw new Exception("Элемент $value не соответствует");
+                throw new Exception("Элемент <strong style=\"color: blue; font-style: italic;\">$value</strong> не соответствует константам в списке");
             }
         }
         

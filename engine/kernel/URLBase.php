@@ -188,4 +188,8 @@
 			}
 		}
 		
+		static public function getGlobalEncoding()
+		{
+			return FrontController::getGlobalEncoding();
+		}
 	}

@@ -155,6 +155,7 @@ class FrontController implements ISingleton
 			}
 		}
 		header("Content-type: text/html; charset=\"".self::$_encoding."\"");
+		header("X-Engine: MOTPWBAH");
 		$data=$this->makeGet();
 		$module=new ModuleLoader($moduleType,$data);
 		$this->_out=$module->getOutput();
@@ -260,6 +261,11 @@ class FrontController implements ISingleton
 	public static function setGlobalEncoding($encoding)
 	{
 		self::$_encoding=$encoding;
+	}
+	
+	public static function getGlobalEncoding()
+	{
+		return self::$_encoding;
 	}
 	
 }
