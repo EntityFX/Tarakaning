@@ -40,19 +40,27 @@ abstract class BugsBasePage extends InfoBasePage
 			if ($this->request->getParam("project_id",null)==null)
 			{
 				$this->_currentProjectID=$this->_userInfo["DefaultProjectID"] == null ? $this->_currentProjectID : $this->_userInfo["DefaultProjectID"];
-			}		
+			}	
 
-			$this->_bugsOperation=new ErrorReportsController($useInitialProject?$this->_currentProjectID:null);
-		
-			if ($this->request->isPost())
+			$projectExists=$this->_projectsController->isProjectExists($this->_currentProjectID);
+			if ($projectExists)
 			{
-				if ($this->request->getPost("del",null)!=null)
+				$this->_bugsOperation=new ErrorReportsController($useInitialProject?$this->_currentProjectID:null);
+	
+				if ($this->request->isPost())
 				{
-					$this->deleteSelectedItems();
+					if ($this->request->getPost("del",null)!=null)
+					{
+						$this->deleteSelectedItems();
+					}
 				}
+				
+				$this->initializeGeneralBugsData();
 			}
-			
-			$this->initializeGeneralBugsData();
+			else 
+			{
+				$this->navigate($this->getModuleURL());
+			}
 		}
 	}
 	
