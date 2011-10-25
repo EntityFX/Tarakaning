@@ -20,7 +20,7 @@ class ProjectSearch
 		$this->_encoding=$encoding;
 	}
 	
-	public function addProjectToIndex($projectRecord) 
+	public function addProjectToIndex(&$projectRecord) 
 	{
 		$this->_helper->addToIndex(				
 			new ArrayObject(array(

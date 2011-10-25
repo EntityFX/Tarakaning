@@ -22,7 +22,7 @@ require_once 'engine/modules/Auth/Logic/UserAuth.php';
 			array("title" => "Задачи проекта", "url" => "/my/project/bugs/", "id" => 87),
 			array("title" => "Мои задачи", "url" => "/my/bugs/", "id" => 63),
 			array("title" => "Заявки", "url" => "/requests/", "id" => -1),
-			array("title" => "Поиск", "url" => "/search/", "id" => -1),
+			array("title" => "Поиск", "url" => "/search/", "id" => 76),
 			array("title" => "Профиль", "url" => "/profile/show/", "id" => 73)
 		);
 		
