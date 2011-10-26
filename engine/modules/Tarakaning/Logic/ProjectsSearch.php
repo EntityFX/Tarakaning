@@ -32,6 +32,11 @@ class ProjectSearch
 		);
 	}
 	
+	public function updateProjectInIndex(&$projectRecord)
+	{
+		
+	}
+	
 	public function deleteFromIndex($projectID)
 	{
 		$this->_helper->deleteFromIndex();
@@ -50,12 +55,11 @@ class ProjectSearch
 		$projectController=new ProjectsController();
 		$queryString=mb_convert_encoding($query,"UTF8",$this->_encoding);
 		$hits=$this->_helper->search($queryString);
-		var_dump($queryString);
 		foreach ($hits as $hit)
 		{
 			$projectList[]=$hit->ProjectID;
 		}
-		var_dump($projectList);
+		return $projectList;
 	}
 }
 

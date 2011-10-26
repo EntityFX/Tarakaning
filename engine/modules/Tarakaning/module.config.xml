@@ -52,11 +52,8 @@
 				<url>/my/project/bugs/</url>
 			</ProjectBugsPage>
 		<!-- Search -->
-			<SearchPage type="HTML"> <!-- bugs assigned to user page class -->
-				<url>/search/</url>
-			</SearchPage>
 			<SearchPageResults type="HTML"> <!-- bugs assigned to user page class -->
-				<url>/search/result/</url>
+				<url>/search/</url>
 			</SearchPageResults>
 	</PageClasses>
 </pages>
