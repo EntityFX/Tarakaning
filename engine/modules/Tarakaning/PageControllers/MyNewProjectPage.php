@@ -2,6 +2,8 @@
 require_once 'InfoBasePage.php';
 require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
 require_once 'engine/modules/Tarakaning/Logic/ProjectsSearch.php';
+require_once 'engine/modules/Tarakaning/Logic/ProjectsFacade.php';
+
 	class MyNewProjectPage extends InfoBasePage
 	{
 		private $projectOperation;
@@ -13,18 +15,16 @@ require_once 'engine/modules/Tarakaning/Logic/ProjectsSearch.php';
 			{
 				$postData=$this->request->getParams();
 				$projectsOperation=new ProjectsController();
-				$userData=$this->_controller->auth->getName();
+				$projectSearch=new ProjectSearch(self::getGlobalEncoding());
+				
+				$projectsFacadeOperation=new ProjectsFacade(
+					$projectsOperation, 
+					$projectSearch, 
+					$this->_controller->auth
+				);
 				try 
 				{
-					$projectId = $projectsOperation->addProject(
-						$userData["UserID"],
-						$postData["project_name"], 
-						$postData["description"]
-					);
-					/*$indexer = new ProjectSearch();
-					$indexer->Add($projectId, 
-						array($postData["project_name"],
-							$postData["description"]));*/
+					$projectsFacadeOperation->addProject($postData["project_name"], $postData["description"]);
 				}
 				catch (Exception $exception)
 				{

@@ -2,6 +2,7 @@
 
 	require_once 'engine/modules/Tarakaning/Logic/ProjectFieldsUsersInfoENUM.php';
 	require_once 'engine/modules/Tarakaning/Logic/MyProjectsFieldsENUM.php';
+	require_once 'engine/system/addons/Serialize.php';
 	
 	/**
 	 * Класс управления проектами.
@@ -41,13 +42,11 @@
 		public function addProject($userID, $projectName, $description)
 		{
 			$projectName = htmlspecialchars($projectName);
-			if ($projectName=='')
+			if (trim($projectName)=='')
 			{
 				throw new Exception("Заголовок проекта не должен быть пустым");
 			}
 			$description = htmlspecialchars($description);
-			$projectName = mysql_escape_string($projectName);
-			$description = mysql_escape_string($description);
 			$userID = (int)$userID;
 			$this->_sql->insert(
 				"Projects", 
@@ -201,12 +200,36 @@
 			return $ret;
 		}
 		
+		/**
+		 * 
+		 * Возвращает проект по его идентификатору
+		 * @param int $projectID
+		 */
 		public function getProjectById($projectID)
 		{
 			$projectID=(int)$projectID;
 			$this->_sql->selAllWhere("ProjectsWithUserName","ProjectID=$projectID");
 			$data=$this->_sql->getTable();
 			return $data[0];
+		}
+		
+		/**
+		 * 
+		 * Возращает проекты по списку идентификаторов
+		 * @param array $projectIDList
+		 */
+		public function getProjectsByList($projectIDList)
+		{
+			$projectsListStatement=Serialize::serializeForINStatement($projectIDList);
+			if ($projectsListStatement!='')
+			{
+				$this->_sql->selAllWhere("ProjectsWithUserName","ProjectID IN $projectsListStatement");
+				return $this->_sql->getTable();
+			}
+			else
+			{
+				return null;
+			}
 		}
 		
 		public function getUserProjectsInfo($userId,MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction,$page=1,$size=10)

@@ -2,30 +2,34 @@
 require_once 'engine/modules/Tarakaning/PageControllers/InfoBasePage.php';
 require_once 'engine/modules/Tarakaning/Logic/ProjectsSearch.php';
 require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
+require_once 'engine/modules/Tarakaning/Logic/ProjectsFacade.php';
 
 	class SearchPageResults extends InfoBasePage
 	{
 		private $_arPks;
 		private $getData;
-		private $searcher;
+		private $_searcher;
+		private $_projectsOperation;
 		
 		protected function onInit()
 		{
 			parent::onInit();
 			$this->getData = $this->request->getParams();
-			if ($this->request->isGet() && $this->getData)
+			
+			if (isset($this->getData["by_proj"]) && $this->getData["by_proj"]!='')
 			{
+				$this->_projectsOperation=new ProjectsController();
+				$this->_searcher = new ProjectSearch(self::getGlobalEncoding());
+				
+				$projectsFacadeOperation=new ProjectsFacade(
+					$this->_projectsOperation, 
+					$this->_searcher, 
+					$this->_controller->auth
+				);
+
 				try 
 				{
-					if ($this->getData["createIndex"]=="Y") 
-					{
-						$this->AllIntoIndex();
-					}
-					else 
-					{
-						$this->searcher = new ProjectSearch();
-						$this->_arPks = $this->searcher->Search(mb_convert_encoding($this->getData["by_proj"],"utf-8"));
-					}
+					$this->_arPks=$projectsFacadeOperation->searchProject($this->getData['by_proj']);
 				} 
 				catch (Exception $exception) 
 				{
@@ -35,26 +39,18 @@ require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
 			}
 		}
 		
-		protected function AllIntoIndex() 
-		{
-			$p = new ProjectsController();
-			$this->searcher = new ProjectSearch();
-			$this->searcher->ServiceAddAll($p->getProjects());
-		}
-		
 		protected function doAssign()
 		{
 			parent::doAssign();
-			$this->_smarty->assign("AR_SEARCH_FIELD_by_proj", htmlspecialchars($this->getData["by_proj"]));
+			$this->_smarty->assign("SEARCH_QUERY", htmlspecialchars($this->getData["by_proj"]));
 			$this->_smarty->assign("AR_SEARCH_ITEM", $this->_arPks);
 			$searchError = $this->_controller->error->getErrorByName("searchError");
+			$this->_smarty->assign("COUNT",count($this->_arPks));
 			if ($searchError!=null)
 			{
 				$exception=$searchError["error"];
 				$this->_smarty->assign("ERROR",$exception->getMessage());
 			}
-			//$this->_smarty->assign("STATUS", $this->searcher->GetCountHits());
-			//$this->_smarty->assign("STATUS", $this->AllIntoIndex());
 		}
 	}
 ?>
