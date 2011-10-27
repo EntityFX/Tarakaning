@@ -232,6 +232,40 @@
 			}
 		}
 		
+			/**
+		 * 
+		 * Возращает проекты по списку идентификаторов
+		 * @param array $projectIDList
+		 */
+		public function getProjectsByListWithSubscribes($userID,$projectIDList)
+		{
+			$projectsListStatement=Serialize::serializeForINStatement($projectIDList);
+			if ($projectsListStatement!='')
+			{
+				$userID=(int)$userID;
+				$query=sprintf('SELECT 
+    								`P`.*,
+    								CASE 
+        								WHEN `P`.OwnerID=%1$d THEN 2
+        								WHEN `UP`.UserID IS null THEN 0
+        								ELSE 1
+    								END AS ProjectRelation
+								FROM 
+    								`ProjectsWithUserName` `P`
+    							LEFT JOIN UsersInProjects UP ON
+        							`P`.ProjectID=`UP`.ProjectID AND `UP`.UserID=%1$d
+								WHERE `P`.ProjectID IN %2$s',$userID,$projectsListStatement);
+				$this->_sql->debugging=true;
+				$this->_sql->query($query);
+				$this->_sql->debugging=false;
+				return $this->_sql->GetRows();
+			}
+			else
+			{
+				return null;
+			}
+		}
+		
 		public function getUserProjectsInfo($userId,MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction,$page=1,$size=10)
 		{
 			$userId=(int)$userId;

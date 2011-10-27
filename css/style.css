@@ -420,6 +420,21 @@ dd.subm {
     font-size: 12px;
     margin: 5px 20px;
 }
+
+.red {
+	color: red;
+    font-size: 12px;
+}
+
+.green {
+	color: green;
+    font-size: 12px;
+}
+
+.standard {
+    font-size: 12px;
+}
+
 /* конец моего кода.*/
 
 /* <Timur date = '17.09.2011'>: код для вывода результатов операции (ошибка,удачно) */

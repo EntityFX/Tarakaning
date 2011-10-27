@@ -116,8 +116,8 @@
             {
                 throw new Exception("Неверный формат ошибки");
             }
-            $description=nl2br(htmlspecialchars($description));
-            $steps=nl2br(htmlspecialchars($steps));
+            $description=htmlspecialchars($description);
+            $steps=htmlspecialchars($steps);
             $assignedTo=$assignedTo==' '?null:(int)$assignedTo;
             $this->_sql->call(
             	'AddItem', 
@@ -549,7 +549,7 @@
         		case ErrorStatusENUM::IDENTIFIED:
         			$reportData["StatusN"]="Идентифицирован"; break;
         		case ErrorStatusENUM::ASSESSED:
-        			$reportData["StatusN"]="Оценён"; break;
+        			$reportData["StatusN"]="В процессе"; break;
         		case ErrorStatusENUM::RESOLVED:
         			$reportData["StatusN"]="Решён"; break;
         		case ErrorStatusENUM::CLOSED:

@@ -4,9 +4,9 @@
     final class ErrorStatusENUM extends AEnum
     {
         const IS_NEW        = "NEW";
-        const IDENTIFIED      = "IDENTIFIED";
-        const ASSESSED     = "ASSESSED";
-        const RESOLVED        = "RESOLVED";
+        const IDENTIFIED    = "IDENTIFIED";
+        const ASSESSED      = "ASSESSED";
+        const RESOLVED      = "RESOLVED";
         const CLOSED        = "CLOSED";
         
         public function __construct($value=self::IS_NEW)
@@ -19,7 +19,7 @@
         	return array(
         		self::IS_NEW => "Новый",
         		self::IDENTIFIED => "Идентифицирован",
-        		self::ASSESSED => "Оценён",
+        		self::ASSESSED => "В процессе",
         		self::RESOLVED => "Решён",
         		self::CLOSED => "Закрыт"
         	);
@@ -60,7 +60,7 @@
         		case ErrorStatusENUM::IDENTIFIED:
         			$res="Идентифицирован"; break;
         		case ErrorStatusENUM::ASSESSED:
-        			$res="Оценён"; break;
+        			$res="В процессе"; break;
         		case ErrorStatusENUM::RESOLVED:
         			$res="Решён"; break;
         		case ErrorStatusENUM::CLOSED:

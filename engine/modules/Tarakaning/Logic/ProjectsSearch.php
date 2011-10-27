@@ -54,7 +54,7 @@ class ProjectSearch
 	{
 		$projectController=new ProjectsController();
 		$queryString=mb_convert_encoding($query,"UTF8",$this->_encoding);
-		$hits=$this->_helper->search($queryString);
+		$hits=$this->_helper->search($queryString,'Name');
 		foreach ($hits as $hit)
 		{
 			$projectList[]=$hit->ProjectID;
