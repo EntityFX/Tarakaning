@@ -5,6 +5,8 @@
 		private $_projectsSearch;
 		private $_auth;
 		private $_userInfo;
+		private $_count=0;
+		private $_paginator;
 		
 		public function __construct(ProjectsController $projectsController, ProjectSearch $projectsSearch, UserAuth $auth)
 		{
@@ -64,8 +66,44 @@
 		
 		public function searchProject($query)
 		{
-			$projectsFound=$this->_projectsSearch->searchProjects($query);
-			$projectsData=$this->_projectsController->getProjectsByList($projectsFound);
-			return $projectsData;
+			if ($_SESSION['search']['query']===$query)
+			{
+				$projectsFound=$_SESSION['search']['result'];
+			}
+			else 
+			{
+				$projectsFound=$this->_projectsSearch->searchProjects($query);
+				$_SESSION['search']['query']=$query;
+				$_SESSION['search']['result']=$projectsFound;
+			}
+			$this->_count=count($projectsFound);
+			if ($projectsFound!=null)
+			{
+				$this->_paginator = new TarakaningULListPager($this->_count);
+				$projectsFoundSlice=array_slice($projectsFound, $this->_paginator->getOffset(),$this->_paginator->getSize());
+				$projectsData=$this->_projectsController->getProjectsByListWithSubscribes($this->_userInfo["UserID"],$projectsFoundSlice);
+				foreach ($projectsFound as $value)
+				{
+					foreach ($projectsData as $projValue)
+					{
+						if ($projValue['ProjectID']==$value)
+						{
+							$result[]=$projValue;	
+							break;
+						}
+					}
+				}
+			}
+			return $result;
+		}
+		
+		public function getPaginator()
+		{
+			return $this->_paginator;
+		}
+		
+		public function getCountFound()
+		{
+			return $this->_count;
 		}
 	}

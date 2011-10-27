@@ -114,38 +114,6 @@
 			return $hits;
 		}
 		
-		/**
-		 * Поиск в индексе
-		 * @param string $sSearch
-		 * @param array $arFields
-		 */
-	/*	public function search($sSearch, $arFields = null) 
-		{
-			if ($arFields != null) 
-			{//поиск по выбранным полям
-				foreach ($arFields as $field)
-				{
-					$queryString .= $field.':('.$sSearch.') ';
-				}
-				$query = Zend_Search_Lucene_Search_QueryParser::parse($queryString, self::$_encoding);
-			}
-			else
-			{//поиск по всем полям
-				$query = Zend_Search_Lucene_Search_QueryParser::parse($sSearch, self::$_encoding);
-			}
-			var_dump($queryString);
-			$hits = $this->_index->find($query);
-			$this->_iHitsCount = count($hits);
-			if ($this->_iHitsCount > 0)
-			{
-				foreach ($hits as $hit)
-				{
-					$document = $hit->getDocument();
-					$this->_arSearchResults[] = $document->pk;
-				}
-			}
-		}*/
-		
 		public function indexSize()
 		{
 			$index=$this->getSearchIndex();

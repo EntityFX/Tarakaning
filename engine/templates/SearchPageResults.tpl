@@ -8,15 +8,17 @@
 			<dl>
 			<dt>По названию:</dt>
 			<dd><input type="text" name="by_proj" value="{$SEARCH_QUERY}" /></dd>
-			<dd class="subm"><input type="submit" value="Найти" /></dd>
+			<dd class="subm"><input type="submit" value="Найти" name="search" /></dd>
 			</dl>
 		</div>
 	</form>
-	{$MY_BUGS_PAGINATOR}
 	{$ERROR}
 	{if $SEARCH_QUERY neq ''}
 		{if $AR_SEARCH_ITEM neq NULL}
-			{if $COUNT neq NULL}Количество результатов поиска: {$COUNT}{/if}
+			<div class="groupier">
+				{if $COUNT neq NULL}Количество результатов поиска: {$COUNT}{/if}
+				{$PROJECT_SEARCH_PAGINATOR}
+			</div>
 			{foreach name=searchResult from=$AR_SEARCH_ITEM item=element}
 			<div class="find_results">
 				<div>
@@ -27,15 +29,25 @@
 				<p>
 					{$element.Description}
 				</p>
+				{if $element.ProjectRelation eq 0}
 				<form action="#" method="post">
 					<div>
-						<input type="submit" value="Принять участие" />
+						<input type="submit" value="Принять участие" class="standard" />
 					</div>		
 				</form>
+				{elseif $element.ProjectRelation eq 1}
+				<form action="#" method="post">
+					<div>
+						<input type="submit" value="Прервать участие" class="red" />
+					</div>		
+				</form>
+				{else}
+				<span class="green">Вы владелец</span>
+				{/if}
 			</div>
 			{/foreach}
 		{else}
-			По запросу "<strong>{$SEARCH_QUERY}</strong>" ничего не найдено. :( Но не время грустить! Пора работать!
+			По запросу "<strong>{$SEARCH_QUERY}</strong>" ничего не найдено.
 		{/if}
 	{/if}
 </div>
