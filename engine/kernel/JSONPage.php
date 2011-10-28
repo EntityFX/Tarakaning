@@ -2,7 +2,7 @@
 
 	require_once 'SinglePage.php';
 	
-	require_once 'engine/system/zend/JSON.php';
+	require_once 'Zend/JSON.php';
 
 	abstract class JSONPage extends SinglePage
 	{

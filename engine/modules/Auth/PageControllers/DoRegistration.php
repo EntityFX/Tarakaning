@@ -1,13 +1,24 @@
 <?php
 require_once 'engine/modules/Auth/Logic/UsersOperation.php';
+require_once 'Zend/Captcha/Image.php';
 
 	class DoRegistration extends SinglePage
 	{
 		protected function onInit()
 		{
-			$reg=new UsersOperation();
 			if ($this->request->isPost())
 			{
+				$captcha=new Zend_Captcha_Image();
+				$captchaValue=array(
+					"id" => $this->request->getPost("captchaId"),
+					"input" => $this->request->getPost("captcha")
+				);
+				var_dump($captchaValue);
+				if ($captcha->isValid($captchaValue))
+				{
+					
+				}
+				$reg=new UsersOperation();
 				try
 				{
 					$reg->createUser(
