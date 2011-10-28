@@ -22,8 +22,13 @@
 				<dt><label for="password">Пароль <strong>*</strong></label></dt>
 				<dd><input type="password" name="password" id="password"/><span>Минимальная длина пароля - 7 символов</span></dd>
 				<dt><label for="commitPass">Подтверди пароль <strong>*</strong></label></dt>
-				<dd><input type="password" name="commitPass" id="commitPass"/></dd>										
+				<dd><input type="password" name="commitPass" id="commitPass"/></dd>	
+				<dt><label for="captcha">CAPTCHA <strong>*</strong></label></dt>
+				<dd><input type="text" name="captcha" id="captcha"/></dd>	
+				<dt>&nbsp;</dt>
+				<dd>{$CAPTCHA}</dd>	
 			</dl>
+			<input type="hidden" name="captchaId" id="captchaId" value="{$CAPTCHA_ID}" />
 			<span>&nbsp;<strong>*</strong> Поля, обязательные для заполнения</span>
 			<hr />
 			<dl>

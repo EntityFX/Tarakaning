@@ -1,8 +1,8 @@
 <?php
-
-	require_once "engine/system/zend/Controller/Request/Http.php";
-	
-	require_once "engine/system/zend/Controller/Response/Http.php";
+set_include_path($_SERVER["DOCUMENT_ROOT"]."/engine/system/zend_search/");
+require_once 'Zend/Session.php';	
+require_once 'Zend/Controller/Request/Http.php';
+require_once 'Zend/Controller/Response/Http.php';
 	
 	/**
 	 * 
@@ -118,6 +118,7 @@
             $this->_initData=$initData;
 			$this->response=new Zend_Controller_Response_Http();
 			$this->request=new Zend_Controller_Request_Http();
+			Zend_Session::start();
         }
 		
         /**

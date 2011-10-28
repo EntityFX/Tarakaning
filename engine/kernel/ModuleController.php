@@ -5,7 +5,7 @@ require_once 'URLBase.php';
 
 require_once 'SinglePage.php';
 
-require_once 'engine/kernel/Error.php';
+require_once 'Error.php';
 
     abstract class ModuleController extends URLBase
     {
@@ -56,7 +56,7 @@ require_once 'engine/kernel/Error.php';
 		
 		protected function loadPagesByXML()
 		{
-			require_once 'engine/system/zend/Config/Xml.php';
+			require_once 'Zend/Config/Xml.php';
 			$path="engine/modules/".$this->_moduleType.'/'.self::XML_CONFIG_NAME;
 			$xmlConfig=new Zend_Config_Xml($path,'PageClasses');
 			$data=$xmlConfig->toArray();

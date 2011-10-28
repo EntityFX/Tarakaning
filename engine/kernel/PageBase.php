@@ -1,8 +1,8 @@
 <?php
 
-	require_once "engine/system/zend/Controller/Request/Http.php";
+	require_once "Zend/Controller/Request/Http.php";
 	
-	require_once "engine/system/zend/Controller/Response/Http.php";
+	require_once "Zend/Controller/Response/Http.php";
 
 	require_once 'URLBase.php';
 	
