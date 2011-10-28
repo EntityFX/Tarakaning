@@ -46,7 +46,7 @@
     * Подключает константы БД
     * @filesource config/databaseConsts.php 
     */    
-    require_once "engine/config/databaseConsts.php";    
+    require_once "engine/config/globals.php";    
     
     require_once "engine/kernel/FrontController.php";
     

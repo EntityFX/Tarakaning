@@ -201,11 +201,11 @@ class UsersOperation extends DBConnector
 			{
 				$id=(int)$id;
 				$this->_sql->update(
-				self::$authTableName,
-            			"UserID=$id", 
-				new ArrayObject(array(
+					self::$authTableName,
+            		"UserID=$id", 
+					new ArrayObject(array(
             				"PasswordHash" => $newPasswordHash
-				))
+					))
 				);
 			}
 		}

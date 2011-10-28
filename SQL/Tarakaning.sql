@@ -1,6 +1,6 @@
 ﻿-- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 5.0.50.1
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 23.10.2011 19:10:02
+-- Дата скрипта: 29.10.2011 2:47:19
 -- Версия сервера: 5.1.40-community
 -- Версия клиента: 4.1
 
@@ -32,7 +32,7 @@ CREATE TABLE DefectItem (
     REFERENCES errorreport(ID) ON DELETE CASCADE ON UPDATE CASCADE
 )
 ENGINE = INNODB
-AVG_ROW_LENGTH = 481
+AVG_ROW_LENGTH = 455
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -53,8 +53,8 @@ CREATE TABLE ErorrReportHistory (
     REFERENCES errorreport(ID) ON DELETE CASCADE ON UPDATE CASCADE
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 146
-AVG_ROW_LENGTH = 442
+AUTO_INCREMENT = 175
+AVG_ROW_LENGTH = 2978
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -82,8 +82,8 @@ CREATE TABLE ErrorReport (
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 8722
-AVG_ROW_LENGTH = 190
+AUTO_INCREMENT = 8731
+AVG_ROW_LENGTH = 176
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -139,8 +139,8 @@ CREATE TABLE Projects (
     REFERENCES users(UserID) ON DELETE SET NULL ON UPDATE SET NULL
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 53
-AVG_ROW_LENGTH = 585
+AUTO_INCREMENT = 84
+AVG_ROW_LENGTH = 292
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -163,8 +163,8 @@ CREATE TABLE ReportComment (
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 76
-AVG_ROW_LENGTH = 744
+AUTO_INCREMENT = 80
+AVG_ROW_LENGTH = 682
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -272,8 +272,8 @@ CREATE TABLE Users (
   UNIQUE INDEX NickName (NickName)
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 20
-AVG_ROW_LENGTH = 1092
+AUTO_INCREMENT = 22
+AVG_ROW_LENGTH = 963
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -294,8 +294,8 @@ CREATE TABLE UsersInProjects (
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 28
-AVG_ROW_LENGTH = 1170
+AUTO_INCREMENT = 30
+AVG_ROW_LENGTH = 1024
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -541,7 +541,7 @@ DELIMITER ;
 -- Описание для представления alluserprojects
 --
 DROP VIEW IF EXISTS alluserprojects CASCADE;
-CREATE OR REPLACE 
+CREATE 
 	DEFINER = 'root'@'localhost'
 VIEW alluserprojects
 AS
@@ -551,7 +551,7 @@ AS
 -- Описание для представления commentsdetail
 --
 DROP VIEW IF EXISTS commentsdetail CASCADE;
-CREATE OR REPLACE 
+CREATE 
 	DEFINER = 'root'@'localhost'
 VIEW commentsdetail
 AS
@@ -561,7 +561,7 @@ AS
 -- Описание для представления errorcommentscount
 --
 DROP VIEW IF EXISTS errorcommentscount CASCADE;
-CREATE OR REPLACE 
+CREATE 
 	DEFINER = 'root'@'localhost'
 VIEW errorcommentscount
 AS
@@ -571,7 +571,7 @@ AS
 -- Описание для представления errorreportsinfo
 --
 DROP VIEW IF EXISTS errorreportsinfo CASCADE;
-CREATE OR REPLACE 
+CREATE 
 	DEFINER = 'root'@'localhost'
 VIEW errorreportsinfo
 AS
@@ -581,7 +581,7 @@ AS
 -- Описание для представления projectanderrorsview
 --
 DROP VIEW IF EXISTS projectanderrorsview CASCADE;
-CREATE OR REPLACE 
+CREATE 
 	DEFINER = 'root'@'localhost'
 VIEW projectanderrorsview
 AS
@@ -591,7 +591,7 @@ AS
 -- Описание для представления projectcomentscount
 --
 DROP VIEW IF EXISTS projectcomentscount CASCADE;
-CREATE OR REPLACE 
+CREATE 
 	DEFINER = 'root'@'localhost'
 VIEW projectcomentscount
 AS
@@ -601,7 +601,7 @@ AS
 -- Описание для представления projectsinfoview
 --
 DROP VIEW IF EXISTS projectsinfoview CASCADE;
-CREATE OR REPLACE 
+CREATE 
 	DEFINER = 'root'@'localhost'
 VIEW projectsinfoview
 AS
@@ -611,7 +611,7 @@ AS
 -- Описание для представления projectsinfowithoutmeview
 --
 DROP VIEW IF EXISTS projectsinfowithoutmeview CASCADE;
-CREATE OR REPLACE 
+CREATE 
 	DEFINER = 'root'@'localhost'
 VIEW projectsinfowithoutmeview
 AS
@@ -621,7 +621,7 @@ AS
 -- Описание для представления projectswithusername
 --
 DROP VIEW IF EXISTS projectswithusername CASCADE;
-CREATE OR REPLACE 
+CREATE 
 	DEFINER = 'root'@'localhost'
 VIEW projectswithusername
 AS
@@ -631,7 +631,7 @@ AS
 -- Описание для представления projectusersinfo
 --
 DROP VIEW IF EXISTS projectusersinfo CASCADE;
-CREATE OR REPLACE 
+CREATE 
 	DEFINER = 'root'@'localhost'
 VIEW projectusersinfo
 AS
@@ -641,7 +641,7 @@ AS
 -- Описание для представления projectusersinfofull
 --
 DROP VIEW IF EXISTS projectusersinfofull CASCADE;
-CREATE OR REPLACE 
+CREATE 
 	DEFINER = 'root'@'localhost'
 VIEW projectusersinfofull
 AS
@@ -650,6 +650,7 @@ AS
 -- 
 -- Вывод данных для таблицы DefectItem
 --
+/*!40000 ALTER TABLE DefectItem DISABLE KEYS */;
 INSERT INTO DefectItem VALUES 
   (2, 'Crash', ''),
   (3, 'Major', 'sdfasdfadsf'),
@@ -681,14 +682,18 @@ INSERT INTO DefectItem VALUES
   (84, 'Major', '1. Перешёл в раздел добавления айтемов.\r\n2. Заполнил все поля\r\n3. Сохранил\r\n4. Текст обрезался.'),
   (87, 'Major', 'Меню всегда активна на Мои Отчёты - это неправильно'),
   (91, 'Minor', '1. Переходим на страницу "Мои отчёты"<br />\r\n2. Выбираем в выпадающем списке "Проекты" нужный проект<br />\r\n3. Должно обновится на выбранный проект, но обновляется на тот, который по-умолчанию'),
-  (106, 'Major', '1. Перешёл на страницу &quot;Профиль&quot;<br />\r\n2. Нажал кнопку &quot;Редактировать профиль&quot;<br />\r\n3. Выбрал вкладку &quot;Смена пароля&quot;<br />\r\n4. Ничего не заполнял<br />\r\n5. Нажал сохранить. Система показала успешное сохранение, но произошла потеря данных (см. Описание)'),
+  (106, 'Major', '1. Перешёл на страницу "Профиль"\r\n2. Нажал кнопку "Редактировать профиль"\r\n3. Выбрал вкладку "Смена пароля"\r\n4. Ничего не заполнял\r\n5. Нажал сохранить. Система показала успешное сохранение, но произошла потеря данных (см. Описание)'),
   (107, 'Minor', '1. Перешёл на страницу проекта.<br />\r\n2. Открыл вкладку &quot;Участники&quot;<br />\r\n3. Навёл на ссылку пользователя и нажал на неё - не перенаправляет на страницу профиля пользователя.'),
   (8689, 'Major', 'ghhjghj'),
-  (8721, 'Major', '1 пунктов от увеличения частоты — 3.0/2.6=115% \r\n\r\nпока они не раскроют "источники" этого прироста — предсказатель переходов, уже говорили. Хотя сомнительно, он и так во всех современных ЦП работает на 98-99%. Тогда где-то затыки приуменьшили. Или префетчер подкрутили. Проверим \r\n\r\n48 — и это само по себе любопытно — им при этом удалось ещё и латентность уменьшить.');
+  (8721, 'Major', '1 пунктов от увеличения частоты — 3.0/2.6=115% \r\n\r\nпока они не раскроют "источники" этого прироста — предсказатель переходов, уже говорили. Хотя сомнительно, он и так во всех современных ЦП работает на 98-99%. Тогда где-то затыки приуменьшили. Или префетчер подкрутили. Проверим \r\n\r\n48 — и это само по себе любопытно — им при этом удалось ещё и латентность уменьшить.'),
+  (8724, 'Major', '1. Страница "Задачи проекта"<br />\r\n2. Переключил на другой проект<br />\r\n3. Выдало ошибку'),
+  (8729, 'Major', '''');
+/*!40000 ALTER TABLE DefectItem ENABLE KEYS */;
 
 -- 
 -- Вывод данных для таблицы ErorrReportHistory
 --
+/*!40000 ALTER TABLE ErorrReportHistory DISABLE KEYS */;
 INSERT INTO ErorrReportHistory VALUES 
   (2, 136, 1, '2011-10-18 03:53:39', 'Пользователь 1 изменил статус с Array на Array'),
   (3, 136, 1, '2011-10-18 03:55:25', 'Пользователь 1 изменил статус с Array на Array'),
@@ -833,11 +838,42 @@ INSERT INTO ErorrReportHistory VALUES
   (142, 8688, 1, '2011-10-20 21:47:20', 'Пользователь <strong>1</strong> изменил статус с <strong>Решён</strong> на <strong>Закрыт</strong>'),
   (143, 8688, 1, '2011-10-20 21:47:24', 'Пользователь <strong>1</strong> изменил статус с <strong>Закрыт</strong> на <strong>Закрыт</strong>'),
   (144, 8688, 1, '2011-10-20 21:52:14', 'Пользователь <strong>1</strong> изменил статус с <strong>Закрыт</strong> на <strong>Решён</strong>'),
-  (145, 43, 1, '2011-10-20 22:00:36', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Новый</strong>');
+  (145, 43, 1, '2011-10-20 22:00:36', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Новый</strong>'),
+  (146, 8724, 1, '2011-10-24 00:32:12', 'Задача добавлена'),
+  (147, 8724, 1, '2011-10-24 00:33:42', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Новый</strong>'),
+  (148, 8724, 1, '2011-10-24 00:33:45', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Новый</strong>'),
+  (149, 8724, 1, '2011-10-24 00:34:12', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Новый</strong>'),
+  (150, 8724, 1, '2011-10-24 00:34:27', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Новый</strong>'),
+  (151, 8724, 1, '2011-10-24 00:35:04', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Новый</strong>'),
+  (152, 8724, 1, '2011-10-24 00:35:10', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Идентифицирован</strong>'),
+  (153, 8725, 1, '2011-10-24 00:37:28', 'Задача добавлена'),
+  (154, 8726, 1, '2011-10-24 01:13:28', 'Задача добавлена'),
+  (155, 8726, 1, '2011-10-24 01:13:41', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Новый</strong>'),
+  (156, 8727, 1, '2011-10-24 01:13:55', 'Задача добавлена'),
+  (157, 8724, 1, '2011-10-24 01:31:59', 'Пользователь <strong>1</strong> изменил статус с <strong>Идентифицирован</strong> на <strong>Оценён</strong>'),
+  (158, 8724, 1, '2011-10-24 01:32:04', 'Пользователь <strong>1</strong> изменил статус с <strong>Оценён</strong> на <strong>Решён</strong>'),
+  (159, 8728, 1, '2011-10-28 00:33:09', 'Задача добавлена'),
+  (160, 8729, 1, '2011-10-28 00:35:53', 'Задача добавлена'),
+  (161, 8729, 1, '2011-10-28 00:35:59', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Новый</strong>'),
+  (162, 82, 1, '2011-10-28 00:44:29', 'Пользователь <strong>1</strong> изменил статус с <strong>Идентифицирован</strong> на <strong>Идентифицирован</strong>'),
+  (163, 82, 1, '2011-10-28 00:45:00', 'Пользователь <strong>1</strong> изменил статус с <strong>Идентифицирован</strong> на <strong>Оценён</strong>'),
+  (164, 82, 1, '2011-10-28 00:46:29', 'Пользователь <strong>1</strong> изменил статус с <strong>В процессе</strong> на <strong>В процессе</strong>'),
+  (165, 82, 1, '2011-10-28 01:47:01', 'Пользователь <strong>1</strong> изменил статус с <strong>В процессе</strong> на <strong>Решён</strong>'),
+  (166, 8730, 1, '2011-10-28 01:49:53', 'Задача добавлена'),
+  (167, 8730, 1, '2011-10-29 00:45:02', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Идентифицирован</strong>'),
+  (168, 8730, 1, '2011-10-29 00:45:06', 'Пользователь <strong>1</strong> изменил статус с <strong>Идентифицирован</strong> на <strong>В процессе</strong>'),
+  (169, 8730, 1, '2011-10-29 00:45:10', 'Пользователь <strong>1</strong> изменил статус с <strong>В процессе</strong> на <strong>Решён</strong>'),
+  (170, 106, 1, '2011-10-29 01:26:49', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Идентифицирован</strong>'),
+  (171, 106, 1, '2011-10-29 01:26:54', 'Пользователь <strong>1</strong> изменил статус с <strong>Идентифицирован</strong> на <strong>Идентифицирован</strong>'),
+  (172, 106, 1, '2011-10-29 02:36:52', 'Пользователь <strong>1</strong> изменил статус с <strong>Идентифицирован</strong> на <strong>В процессе</strong>'),
+  (173, 106, 1, '2011-10-29 02:37:26', 'Пользователь <strong>1</strong> изменил статус с <strong>В процессе</strong> на <strong>Решён</strong>'),
+  (174, 106, 1, '2011-10-29 02:37:32', 'Пользователь <strong>1</strong> изменил статус с <strong>Решён</strong> на <strong>Закрыт</strong>');
+/*!40000 ALTER TABLE ErorrReportHistory ENABLE KEYS */;
 
 -- 
 -- Вывод данных для таблицы ErrorReport
 --
+/*!40000 ALTER TABLE ErrorReport DISABLE KEYS */;
 INSERT INTO ErrorReport VALUES 
   (2, 3, 2, 'Defect', '1', 'CLOSED', '2011-02-06 18:05:52', 'Возник BSOD', 'При попытке вызвать экран, вышла критическая ошибка', NULL),
   (3, 10, 3, 'Defect', '1', 'NEW', '2011-02-17 19:57:46', '', 'dsvfdgfdgdfg', NULL),
@@ -872,7 +908,7 @@ INSERT INTO ErrorReport VALUES
   (78, 18, 48, 'Defect', '1', 'CLOSED', '2011-10-06 03:05:15', 'При создании айтема урезается текст в полях ', 'Текст после создания айтема урезается, что неверно. Нужно увеличить до 1024 символов поля "Описание" и "Действия, которые привели к ошибке".\r\n\r\nНадо пофиксить.', 1),
   (79, 1, 48, 'Task', '2', 'RESOLVED', '2011-10-06 21:56:30', 'Редактирование статуса айтема', 'Сделать возможность редактирования айтема при просмотре. Менять состояние может только владелец айтема, на кого заасайненно и владелец проекта. Закрыть айтем может только владелец айтема и владелец проекта. При отображении состояния показывается текущее и', 1),
   (80, 1, 48, 'Task', '2', 'NEW', '2011-10-06 22:02:55', 'Отображение заявок на проект', 'Сделать отображения всех запросов на вступление в проект, называемые &quot;Заявки&quot;.\r\n\r\nОтображение имени пользователя, даты подачи заявки и кнопок &quot;Подтвердить&quot; и &quot;Отклонить&quot;.\r\n\r\nСделать чекбоксы для грида, которые позволяют подтв', 18),
-  (82, 1, 48, 'Task', '2', 'IDENTIFIED', '2011-10-06 22:08:45', 'Поиск проектов', 'Реализовать полнотекстовый поиск по проекту и его описанию. На первом месте должны находиться проекты более совпадающие с поисковым критерием. \r\n\r\nПри удалении проекта - удалять полнотекстовый индекс проекта. Если у проекта пользователь был удалён, то ото', 18),
+  (82, 1, 48, 'Task', '2', 'RESOLVED', '2011-10-06 22:08:45', 'Поиск проектов', 'Реализовать полнотекстовый поиск по проекту и его описанию. На первом месте должны находиться проекты более совпадающие с поисковым критерием. \r\n\r\nПри удалении проекта - удалять полнотекстовый индекс проекта. Если у проекта пользователь был удалён, то ото', 1),
   (83, 1, 48, 'Task', '1', 'NEW', '2011-10-06 22:14:28', 'В настройках профиля добавить вкладку Дополнительные настройки', 'В данной вкладке добавить выпадающий список, который настраивает проект по-умолчанию. Для это есть специальный метод в классе ConcreteUser (бизнес-логика) ConcreteUser ::setDefaultProject($projectID), ConcreteUser::deleteDefaultProject().\r\n\r\nВ выпадающем ', 18),
   (84, 1, 48, 'Defect', '1', 'RESOLVED', '2011-10-06 22:29:37', 'Обрезается текст и заголовок при создании дефекта', 'При превышении размера в 256 символов - обрезается текст в описании и действиях, которые привели к ошибке. В хранимую процедуру AddItem стоит ограничение на входной текст.', 1),
   (85, 1, 48, 'Task', '0', 'RESOLVED', '2011-10-06 22:33:58', 'Добавить возможность замены переносов на &lt;br/&gt;', 'Текст линейно отображается, было бы неплохо добавлять реальне переносы строки.', 1),
@@ -885,7 +921,7 @@ INSERT INTO ErrorReport VALUES
   (101, 15, 47, 'Task', '1', 'NEW', '2011-10-10 00:18:15', 'fghfhgfh', 'ghfghfgj', 0),
   (102, 15, 47, 'Task', '1', 'NEW', '2011-10-10 00:23:21', 'Дададад', 'Нетнетнет', 0),
   (103, 15, 47, 'Task', '1', 'NEW', '2011-10-10 00:24:25', 'апрпарпарпар', 'рпопроапроапро', 15),
-  (106, 1, 48, 'Defect', '2', 'NEW', '2011-10-10 01:34:01', 'Смена пароля неправильно реализована', 'При смене пароля, даже если не введён старый пароль, изменения сохраняются.<br />\r\nТакже Имя, Фамилия, Отчество, Время входа становятся пустыми.', 18),
+  (106, 1, 48, 'Defect', '2', 'CLOSED', '2011-10-10 01:34:01', 'Смена пароля неправильно реализована', 'При смене пароля, даже если не введён старый пароль, изменения сохраняются.\r\nТакже Имя, Фамилия, Отчество, Время входа становятся пустыми.', 1),
   (107, 1, 48, 'Defect', '1', 'RESOLVED', '2011-10-10 23:00:41', 'Ссылки на участников проекта не работают', 'Ссылки на участников проекта не работают.', 1),
   (108, 1, 48, 'Task', '1', 'RESOLVED', '2011-10-10 23:02:45', 'Реализовать&quot;количество комментариев&quot;', 'Необходимо отображать количество комментариев, оставленные пользователем для каждого участника', 1),
   (128, 1, 48, 'Task', '2', 'RESOLVED', '2011-10-12 23:17:39', 'Произвести рефакторинг классов MyBugsPage ProjectBugsPage', 'В данных класса большое количество повторяющихся методов - вынести в базовый класс', 1),
@@ -924,19 +960,30 @@ INSERT INTO ErrorReport VALUES
   (8718, 18, 49, 'Task', '1', 'NEW', '2011-10-19 21:14:22', 'рврпар', 'апрапрвапр', 18),
   (8719, 1, 22, 'Task', '1', 'NEW', '2011-10-19 21:17:36', 'fdgfdhg', 'dfdg', 0),
   (8720, 1, 22, 'Task', '1', 'NEW', '2011-10-19 21:18:13', 'gfhdghdgh', 'fgdfgdfg', 0),
-  (8721, 18, 49, 'Defect', '2', 'ASSESSED', '2011-10-19 21:29:47', '85846546973596735849637', 'Блочное кеширование на стороне клиента\r\n\r\nВ последнее время в высоконагруженных сайтах стали все чаще применять технику Partial Caching или блочного кеширования. Достигается это, как правило, за счет применения, казалось бы уже давно забытого, SSI или близких ему технологий (например, ESI). Например, в связках Nginx + Memcached + SSI или Varnish + ESI.\r\n\r\nНедавно и на Хабре тоже появился топик в котором автор описывал данный метод кеширования.\r\n\r\nВ данном топике в 3м варианте решения автор предложил читателям топика привести свои варианты решения относительно данной задачи.\r\n\r\nЭтому, собственно, и посвящается этот топик.\r\n\r\nПостановка задачи\r\n\r\nВ большинстве случаев веб-страница состоит из блоков. Например, для простейшей страницы это блоки: шапка, подвал, правый или левый блок, и блок основного контента. Если сайт более сложный, то и соответственно, таких блоков будет больше, например для хабра это блоки: «последние посты», «последние коментарии», «похожие посты» и т.д. Соответственно возникают проблемы если мы хотим кешировать страницу на уровне представаления, т.е. непосредственно сгенерированный html, т.к. инвалидировать кеш для такой страницы пришлось бы при изменении любого из блоков, размещенного на данной странице.\r\nПоэтому в большинстве случаев применяется кеширование на уровне модели или данных, которые впоследствии заполняют некий шаблон страницы.\r\n\r\nЗдесь-то на помощь и приходит SSI, благодаря данной технологии мы собственно и разбиваем страницу на эти самые логические блоки, и кешируем каждый блок отдельно.\r\n\r\nПример страницы, использующей SSI вставки:\r\n<html>\r\n<body>\r\n\r\n<div class="header">\r\n<!--# include virtual="/header.php" -->\r\n</div>\r\n\r\n<div class="main_content">\r\n<!--# include virtual="/main.php" -->\r\n</div>\r\n\r\n\r\n<!--# include virtual="/footer.php" -->\r\n\r\n</body>\r\n</html>\r\n\r\n\r\n\r\nЗдесь-то, казалось бы и все хорошо, но есть несколько НО, на которых и хотелось бы задержаться.\r\n\r\nПроблемы\r\n\r\nПерсонализированные блоки — это блоки, содержащие персональные данные какого-то пользователя, например, «Привет, %username%!». На самом деле таких данных может быть очень много, взять ту же анкету на вконтакте. Не путайте их с блоками для авторизированных пользователей! Экземпляров вторых у вас в кеше всего два (для залогиненых и нет), для первых представление прийдется хранить в кеше для каждого пользователя! Cохраняя в мемкеше ключи такого вида {%block_id%}_{%PHPSESSID|user_id%}. А так как у нас кеширование на уровне представления, т.е. помимо данных мы храним еще и кучу html кода, который будет повторяться у нас для каждого пользователя, следовательно, расход памяти под кеш (Memcached) в данном случае очень сильно растет. Я уже не говорю про то, что в большой ферме мемкеш серверов, некоторые сервера время от времени отваливаются и даже с алгоритмом Consistent hashing проблемы все равно остаются\r\nНа разогревание кеша (обычно после перезагрузок, релизов новых версий и пр.) уходит очень много времени\r\n\r\n\r\nЧто предлагается?\r\n\r\nА предлагается, собственно следующий механизм кеширования:\r\nБлоки, отвечающие за представление, обобщаем для всех пользователей, т.е. выносим из них все персонифицированные данные, чтобы хранить всего один экземпляр блока в кеше для всех пользователей сайта. Что же остается от этих блоков? Правильно, остаются обычные темплейты представления, которые мы и будем передавать пользователю, а каждый пользователь заполнит данный шаблон сам, на стороне клиента, с помощью, Javascript. Т.е. клиент по запросу к странице получит страницу, состоящую из логических блоков, каждый блок, в свою очередь будет являтся шаблоном. Например\r\n<html>\r\n<body>\r\n    <div id="head_block">\r\n        Some {%personified%} data here\r\n    </div>\r\n    <div id="main_block">\r\n        Hello {%username%}!\r\n    </div>\r\n</body>\r\n</html>\r\n\r\n\r\n\r\nНу или, например, так\r\n<html>\r\n<body>\r\n    <div id="head_block">\r\n        Some <div id="{%personified%}"></div> data here\r\n    </div>\r\n    <div id="main_block">\r\n        Hello <div id="{%username%}"></div>!\r\n    </div>\r\n</body>\r\n</html>\r\n\r\n', 0);
+  (8721, 18, 49, 'Defect', '2', 'ASSESSED', '2011-10-19 21:29:47', '85846546973596735849637', 'Блочное кеширование на стороне клиента\r\n\r\nВ последнее время в высоконагруженных сайтах стали все чаще применять технику Partial Caching или блочного кеширования. Достигается это, как правило, за счет применения, казалось бы уже давно забытого, SSI или близких ему технологий (например, ESI). Например, в связках Nginx + Memcached + SSI или Varnish + ESI.\r\n\r\nНедавно и на Хабре тоже появился топик в котором автор описывал данный метод кеширования.\r\n\r\nВ данном топике в 3м варианте решения автор предложил читателям топика привести свои варианты решения относительно данной задачи.\r\n\r\nЭтому, собственно, и посвящается этот топик.\r\n\r\nПостановка задачи\r\n\r\nВ большинстве случаев веб-страница состоит из блоков. Например, для простейшей страницы это блоки: шапка, подвал, правый или левый блок, и блок основного контента. Если сайт более сложный, то и соответственно, таких блоков будет больше, например для хабра это блоки: «последние посты», «последние коментарии», «похожие посты» и т.д. Соответственно возникают проблемы если мы хотим кешировать страницу на уровне представаления, т.е. непосредственно сгенерированный html, т.к. инвалидировать кеш для такой страницы пришлось бы при изменении любого из блоков, размещенного на данной странице.\r\nПоэтому в большинстве случаев применяется кеширование на уровне модели или данных, которые впоследствии заполняют некий шаблон страницы.\r\n\r\nЗдесь-то на помощь и приходит SSI, благодаря данной технологии мы собственно и разбиваем страницу на эти самые логические блоки, и кешируем каждый блок отдельно.\r\n\r\nПример страницы, использующей SSI вставки:\r\n<html>\r\n<body>\r\n\r\n<div class="header">\r\n<!--# include virtual="/header.php" -->\r\n</div>\r\n\r\n<div class="main_content">\r\n<!--# include virtual="/main.php" -->\r\n</div>\r\n\r\n\r\n<!--# include virtual="/footer.php" -->\r\n\r\n</body>\r\n</html>\r\n\r\n\r\n\r\nЗдесь-то, казалось бы и все хорошо, но есть несколько НО, на которых и хотелось бы задержаться.\r\n\r\nПроблемы\r\n\r\nПерсонализированные блоки — это блоки, содержащие персональные данные какого-то пользователя, например, «Привет, %username%!». На самом деле таких данных может быть очень много, взять ту же анкету на вконтакте. Не путайте их с блоками для авторизированных пользователей! Экземпляров вторых у вас в кеше всего два (для залогиненых и нет), для первых представление прийдется хранить в кеше для каждого пользователя! Cохраняя в мемкеше ключи такого вида {%block_id%}_{%PHPSESSID|user_id%}. А так как у нас кеширование на уровне представления, т.е. помимо данных мы храним еще и кучу html кода, который будет повторяться у нас для каждого пользователя, следовательно, расход памяти под кеш (Memcached) в данном случае очень сильно растет. Я уже не говорю про то, что в большой ферме мемкеш серверов, некоторые сервера время от времени отваливаются и даже с алгоритмом Consistent hashing проблемы все равно остаются\r\nНа разогревание кеша (обычно после перезагрузок, релизов новых версий и пр.) уходит очень много времени\r\n\r\n\r\nЧто предлагается?\r\n\r\nА предлагается, собственно следующий механизм кеширования:\r\nБлоки, отвечающие за представление, обобщаем для всех пользователей, т.е. выносим из них все персонифицированные данные, чтобы хранить всего один экземпляр блока в кеше для всех пользователей сайта. Что же остается от этих блоков? Правильно, остаются обычные темплейты представления, которые мы и будем передавать пользователю, а каждый пользователь заполнит данный шаблон сам, на стороне клиента, с помощью, Javascript. Т.е. клиент по запросу к странице получит страницу, состоящую из логических блоков, каждый блок, в свою очередь будет являтся шаблоном. Например\r\n<html>\r\n<body>\r\n    <div id="head_block">\r\n        Some {%personified%} data here\r\n    </div>\r\n    <div id="main_block">\r\n        Hello {%username%}!\r\n    </div>\r\n</body>\r\n</html>\r\n\r\n\r\n\r\nНу или, например, так\r\n<html>\r\n<body>\r\n    <div id="head_block">\r\n        Some <div id="{%personified%}"></div> data here\r\n    </div>\r\n    <div id="main_block">\r\n        Hello <div id="{%username%}"></div>!\r\n    </div>\r\n</body>\r\n</html>\r\n\r\n', 0),
+  (8724, 1, 48, 'Defect', '2', 'RESOLVED', '2011-10-24 00:32:12', 'Если проект был удалён и мы получаем его список задач, то возникает ошибка.', 'Попытался просмотреть задачи проекта, который был удалён, вылезло исключение:\r\n\r\nFatal error: Uncaught exception Exception with message Проект не существует. Нельзя присвоить несуществующему проекту отчёты об ошибках in Z:home\tarakaning.ruwwwenginemodulesTarakaningLogicErrorReportsController.php:75 Stack trace: #0 Z:home\tarakaning.ruwwwenginemodulesTarakaningPageControllersBugsBasePage.php(45): ErrorReportsController->__construct(''520'') #1 Z:home\tarakaning.ruwwwenginemodulesTarakaningPageControllersMyBugsPage.php(19): BugsBasePage->onInit(true) #2 Z:home\tarakaning.ruwwwenginekernelSinglePage.php(26): MyBugsPage->onInit() #3 Z:home\tarakaning.ruwwwenginekernelHTMLPage.php(27): SinglePage->__construct(Object(TarakaningController)) #4 Z:home\tarakaning.ruwwwenginekernelModuleController.php(39): HTMLPage->__construct(Object(TarakaningController), MyBugsPage.tpl) #5 Z:home\tarakaning.ruwwwenginekernelModuleController.php(63): ModuleController->loadPages(Array) #6 Z:home\tarakaning.ruwwwenginekernelModuleController.php(68): ModuleController->loadPagesB in Z:home\tarakaning.ruwwwenginemodulesTarakaningLogicErrorReportsController.php on line 75', 1),
+  (8725, 1, 48, 'Task', '2', 'NEW', '2011-10-24 00:37:27', 'Исследовать пользовательский интерфейс проекта Tarakaning', '1. Исследовать интерфейс проекта<br />\r\n2. Провести его анализ<br />\r\n3. Предложить изменения в интерфейсе<br />\r\n4. Задокументировать все предложения в комментариях к данной задаче.', 20),
+  (8726, 1, 22, 'Task', '1', 'NEW', '2011-10-24 01:13:28', '''', '''''''', 0),
+  (8727, 1, 22, 'Task', '1', 'NEW', '2011-10-24 01:13:55', '''', '''''''', 0),
+  (8728, 1, 22, 'Task', '1', 'NEW', '2011-10-28 00:33:09', '''', '', 0),
+  (8729, 1, 22, 'Defect', '1', 'NEW', '2011-10-28 00:35:53', '''''''', '''\r\n''\r\n''\r\n''\r\n', 0),
+  (8730, 1, 48, 'Task', '2', 'RESOLVED', '2011-10-28 01:49:53', 'Добавить капчу при регистрации', 'При регистрации отсутствует капча. Нужно добавить её.', 1);
+/*!40000 ALTER TABLE ErrorReport ENABLE KEYS */;
 
 -- 
 -- Вывод данных для таблицы MainMenu
 --
+/*!40000 ALTER TABLE MainMenu DISABLE KEYS */;
 INSERT INTO MainMenu VALUES 
   (1, 'www.google.ru', 'GOOGLE'),
   (3, '', 'Единственный'),
   (4, 'hi', 'HI');
+/*!40000 ALTER TABLE MainMenu ENABLE KEYS */;
 
 -- 
 -- Вывод данных для таблицы Modules
 --
+/*!40000 ALTER TABLE Modules DISABLE KEYS */;
 INSERT INTO Modules VALUES 
   (1, 'Текстовый модуль', 'Текстовый модуль', 'Text'),
   (14, 'Модуль ошибок', '', 'Error'),
@@ -944,10 +991,12 @@ INSERT INTO Modules VALUES
   (6, 'Auth', 'Модуль аутентификации', 'Auth'),
   (10, '', '', 'Profile'),
   (18, 'TestModule', 'Тестовый модуль', 'TestModule');
+/*!40000 ALTER TABLE Modules ENABLE KEYS */;
 
 -- 
 -- Вывод данных для таблицы Projects
 --
+/*!40000 ALTER TABLE Projects DISABLE KEYS */;
 INSERT INTO Projects VALUES 
   (1, 'Quki', 'вот наш один из долгостроев))', 13, '0000-00-00 00:00:00'),
   (2, 'Tarakaning', 'Баг-треккер на начальной стадии', 13, '0000-00-00 00:00:00'),
@@ -976,11 +1025,41 @@ INSERT INTO Projects VALUES
   (48, 'Tarakaning', 'Баг-треккер, таскер', 1, '2011-10-05 23:45:25'),
   (49, 'Тестовый проект от имени Тимура', 'Да просто тестовый проект)))', 18, '2011-10-10 02:21:23'),
   (50, 'ммарпрпвапрпа', 'птрьрпар', 18, '2011-10-19 20:51:01'),
-  (52, 'Проект', 'Персонализированные блоки — это блоки, содержащие персональные данные какого-то пользователя, например, «Привет, %username%!». На самом деле таких данных может быть очень много, взять ту же анкету на вконтакте. Не путайте их с блоками для авторизированных', 1, '2011-10-20 22:35:54');
+  (52, 'Проект', 'Персонализированные блоки — это блоки, содержащие персональные данные какого-то пользователя, например, «Привет, %username%!». На самом деле таких данных может быть очень много, взять ту же анкету на вконтакте. Не путайте их с блоками для авторизированных', 1, '2011-10-20 22:35:54'),
+  (56, 'Проектик', 'Возникает вопрос: если администрация социальной сети действительно понимает степень своей ответственности, и думает о судьбах миллионов людей, и при этом всем составом отучилась в лучших вузах страны, почему же до сих пор не сделано ничего масштабного в с', 1, '2011-10-27 00:25:20'),
+  (57, '578', 'Gecnjt', 1, '2011-10-27 00:26:30'),
+  (58, 'кусок', 'кусок', 1, '2011-10-27 00:31:53'),
+  (59, 'Проблема', 'А проблема остается. Пользователи плохо пишут по-русски, не способны воспринимать даже те записи, которые пишутся в официальном блоге, в то время как развитых людей упрощение формулировок не удовлетворяет (в какой-то момент было принято решение не занижат', 1, '2011-10-27 00:54:49'),
+  (60, 'Проблема', 'А проблема остается. Пользователи плохо пишут по-русски, не способны воспринимать даже те записи, которые пишутся в официальном блоге, в то время как развитых людей упрощение формулировок не удовлетворяет (в какой-то момент было принято решение не занижат', 1, '2011-10-27 00:56:42'),
+  (61, 'Хуй', 'хуй', 1, '2011-10-27 02:02:46'),
+  (62, 'прол', '', 15, '2011-10-28 00:05:03'),
+  (63, 'прае', '', 15, '2011-10-28 00:05:12'),
+  (64, 'проц', '', 15, '2011-10-28 00:05:19'),
+  (65, 'прога', '', 15, '2011-10-28 00:05:27'),
+  (66, 'прпрпр', '', 15, '2011-10-28 00:06:44'),
+  (67, 'прачечная', '', 15, '2011-10-28 00:06:53'),
+  (68, 'прикол', '', 15, '2011-10-28 00:07:01'),
+  (69, 'прилип', '', 15, '2011-10-28 00:07:07'),
+  (70, 'прокакал', '', 15, '2011-10-28 00:07:13'),
+  (71, 'Вася', 'привет\r\n', 15, '2011-10-28 00:07:24'),
+  (72, 'Коля', 'пройди', 15, '2011-10-28 00:07:35'),
+  (73, 'Приеол', 'Прикол', 15, '2011-10-28 00:07:47'),
+  (74, 'приятно', '', 15, '2011-10-28 00:08:41'),
+  (75, 'Привет', 'пряник\r\n', 15, '2011-10-28 00:08:52'),
+  (76, 'Приходи', 'пить чай', 15, '2011-10-28 00:09:02'),
+  (77, 'прохуй', 'уже нам', 15, '2011-10-28 00:09:15'),
+  (78, 'Приспичило', 'пукать', 15, '2011-10-28 00:09:28'),
+  (79, 'Прощай', 'Придурок', 15, '2011-10-28 00:09:43'),
+  (80, 'Призма', 'Просрочена', 15, '2011-10-28 00:09:54'),
+  (81, 'Проект', 'Прлживает дни', 15, '2011-10-28 00:10:07'),
+  (82, 'hgjhgj', '', 15, '2011-10-29 02:16:05'),
+  (83, 'Кошак', '', 15, '2011-10-29 02:25:00');
+/*!40000 ALTER TABLE Projects ENABLE KEYS */;
 
 -- 
 -- Вывод данных для таблицы ReportComment
 --
+/*!40000 ALTER TABLE ReportComment DISABLE KEYS */;
 INSERT INTO ReportComment VALUES 
   (35, 70, 15, '2011-10-03 22:35:43', ' привет'),
   (36, 70, 15, '2011-10-03 22:35:50', ' сделаем это!'),
@@ -1003,7 +1082,10 @@ INSERT INTO ReportComment VALUES
   (69, 107, 1, '2011-10-10 23:22:44', ' Также заработала ссылка - владелец проекта.'),
   (72, 8690, 1, '2011-10-16 22:45:02', ' fghbfghfghjhgj'),
   (73, 136, 1, '2011-10-18 21:53:56', ' паравпрвапопро'),
-  (75, 8688, 1, '2011-10-20 03:01:09', ' Баг при изменении задачи.');
+  (75, 8688, 1, '2011-10-20 03:01:09', ' Баг при изменении задачи.'),
+  (78, 8725, 1, '2011-10-24 00:40:04', ' значит Марат, просто поссмотри дизайн и предложи улучшения и ошибки какие исправить бы)'),
+  (79, 106, 1, '2011-10-29 02:37:12', ' Выполнил, проблема была в таблице URL');
+/*!40000 ALTER TABLE ReportComment ENABLE KEYS */;
 
 -- 
 -- Вывод данных для таблицы ReportsUsersHandling
@@ -1013,6 +1095,7 @@ INSERT INTO ReportComment VALUES
 -- 
 -- Вывод данных для таблицы SubscribesRequest
 --
+/*!40000 ALTER TABLE SubscribesRequest DISABLE KEYS */;
 INSERT INTO SubscribesRequest VALUES 
   (1, 6, 1),
   (6, 1, 7),
@@ -1021,17 +1104,21 @@ INSERT INTO SubscribesRequest VALUES
   (8, 9, 7),
   (10, 7, 21),
   (9, 10, 21);
+/*!40000 ALTER TABLE SubscribesRequest ENABLE KEYS */;
 
 -- 
 -- Вывод данных для таблицы TextModule
 --
+/*!40000 ALTER TABLE TextModule DISABLE KEYS */;
 INSERT INTO TextModule VALUES 
   (19, '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\r\n<html xmlns="http://www.w3.org/1999/xhtml">\r\n\t<head>\r\n\t\t<title>Tarakaning</title>\r\n\t\t<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />\r\n\t\t<link rel="stylesheet" type="text/css" href="verstko/style.css" />\r\n\t\t<link href="verstko/custom-theme/jquery-ui-1.8.9.custom.css" rel="stylesheet" type="text/css"/>\r\n\t\t<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>\r\n\t\t<script type="text/javascript" src="js/jquery-ui-1.8.5.custom.min.js"></script>\r\n\r\n\t\t<script type="text/javascript" src="js/j.checkboxes.js"></script>\r\n\t\t<script type="text/javascript">\r\n\t\t/* <![CDATA[ */\r\n\t\t\t$(document).ready(function() {\r\n\t\t\t\t$("#tabs").tabs();\r\n\t\t\t\t$("input:button, input:submit, button, .groupier a, .groupier li span").button();\t\r\n\t\t\t\t$(''.reports_form'').checkboxes();\r\n\t\t\t});\r\n\t\t/* ]]>*/\r\n\t\t</script>\r\n\t</head>\r\n<body>\r\n<div id="header"> <img id="img_logo" src="images/logotype.PNG" alt="Tarakaning" />\r\n<div id="logo">\r\n<h1>Tarakaning</h1>\r\n<span>Багтреккер и управление проектами</span> </div>\r\n\r\n</div>\r\n\r\n<div id="main_menu">\r\n\t<ul>\r\n\t\t<li><a href="my_reports_with_checkboxes.html">Мои отчёты</a></li>\r\n\t\t<li><a href="reports_with_checkboxes.html">Отчёты проекта</a></li>\r\n\t\t<li><a href="projects.html">Мои проекты</a></li>\r\n\t\t<li><a href="subscribes.html">Мои заявки</a></li>\r\n\r\n\t\t<li><a href="find.html">Поиск</a></li>\r\n\t\t<li><a href="user_info.html">Профиль</a></li>\r\n\t</ul>\r\n</div>\r\n<div id="content_body">\r\n\t<div id="tabs">\r\n\t\t<ul>\r\n\t\t\t<li><a href="#my_project"><span>Мои проекты</span></a></li>\r\n\r\n\t\t\t<li><a href="#all_projects"><span>Все проекты</span></a></li>\t\t\t\r\n\t\t</ul>\r\n\t\t<div id="my_project">\r\n\t\t\t<div class="groupier">\r\n\t\t\t\t<a href="new_project.html">Создать новый проект</a>\r\n\t\t\t\t<ul>\r\n\t\t\t\t\t<li><a href="#">&lt;&lt;</a></li>\r\n\t\t\t\t\t<li><a href="#">&lt;</a></li>\r\n\r\n\t\t\t\t\t<li><a href="#">6</a></li>\r\n\t\t\t\t\t<li><span style="font-weight: bold; color: #a88; border-color: #a80; background: #d5d597 !important;">7</span></li>\r\n\t\t\t\t\t<li><a href="#">8</a></li>\r\n\t\t\t\t\t<li><a href="#">9</a></li>\r\n\t\t\t\t\t<li><a href="#">10</a></li>\r\n\t\t\t\t\t<li><a href="#">&gt;</a></li>\r\n\r\n\t\t\t\t\t<li><a href="#">&gt;&gt;</a></li>\r\n\t\t\t\t</ul>\r\n\t\t\t</div>\r\n\t\t\t<form action="#" class="reports_form">\r\n\t\t\t  <table class="projects_table">\r\n\t\t\t\t<col width="23" />\r\n\t\t\t\t<thead> \r\n\t\t\t\t\t<tr>\r\n\t\t\t\t\t  <th><input name="del" type="checkbox" /></th>\r\n\r\n\t\t\t\t\t  <th><a href="#">Проект</a></th>\r\n\t\t\t\t\t  <th><a href="#">Заголовок</a></th>\r\n\t\t\t\t\t  <th colspan="5"><a href="#">Отчётов</a></th>\r\n\t\t\t\t\t  <th><a href="#">Заявки</a></th>\r\n\t\t\t\t\t  <th><a href="#">Дата</a></th>\r\n\t\t\t\t\t</tr>\r\n\r\n\t\t\t\t</thead> \r\n\t\t\t\t<tbody>\r\n\t\t\t\t  <tr class="odd">\r\n\t\t\t\t\t<td><input name="delId" type="checkbox" /></td>\r\n\t\t\t\t\t<td>ООО Волосатый<br />\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td>Парикмахерыы</td>\r\n\t\t\t\t\t<td class="new">23</td><td class="confirmed">36</td><td class="assigned">9</td><td class="solved">11</td><td class="closed">2</td>\r\n\r\n\t\t\t\t\t<td><strong class="strongest">2</strong></td>\r\n\t\t\t\t\t<td>6 февраля 2007 12:56</td>\r\n\t\t\t\t  </tr>\r\n\t\t\t\t  <tr class="even">\r\n\t\t\t\t\t<td><input name="delId" type="checkbox" /></td>\r\n\t\t\t\t\t<td>ОАО Пингви</td>\r\n\t\t\t\t\t<td>ставим линукс</td>\r\n\r\n\t\t\t\t\t<td class="new">13</td><td class="confirmed">678</td><td class="assigned">98</td><td class="solved">1</td><td class="closed">27</td>\r\n\t\t\t\t\t<td><strong class="strongest">1</strong></td>\r\n\t\t\t\t\t<td>7 октября 2011 07:48</td>\r\n\t\t\t\t  </tr>\r\n\t\t\t\t  <tr class="odd">\r\n\r\n\t\t\t\t\t<td><input name="delId" type="checkbox" /></td>\r\n\t\t\t\t\t<td>ООО ЭнтитиЭфИкс</td>\r\n\t\t\t\t\t<td>Тити<br />\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class="new">36</td><td class="confirmed">32</td><td class="assigned">19</td><td class="solved">28</td><td class="closed">46</td>\r\n\r\n\t\t\t\t\t<td><strong class="strongest">6</strong></td>\r\n\t\t\t\t\t<td>23 февраля 1989 11:34</td>\r\n\t\t\t\t  </tr>\r\n\t\t\t\t  <tr class="even">\r\n\t\t\t\t\t<td><input name="delId" type="checkbox" /></td>\r\n\t\t\t\t\t<td>ООО Тараканинг</td>\r\n\t\t\t\t\t<td>крекер. баг-крекер<br />\r\n\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class="new">223</td><td class="confirmed">316</td><td class="assigned">90</td><td class="solved">101</td><td class="closed">72</td>\r\n\t\t\t\t\t<td><strong>0</strong><br />\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td>7 июля 2008 22:37</td>\r\n\r\n\t\t\t\t  </tr>\r\n\t\t\t\t  <tr class="odd">\r\n\t\t\t\t\t<td><input name="delId" type="checkbox" /></td>\r\n\t\t\t\t\t<td><a href="my_project_properties.html">ООО ТС </a></td>\r\n\t\t\t\t\t<td>Выбор себя</td>\r\n\t\t\t\t\t<td class="new">53</td><td class="confirmed">146</td><td class="assigned">34</td><td class="solved">45</td><td class="closed">11</td>\r\n\r\n\t\t\t\t\t<td><strong class="strongest">7</strong></td>\r\n\t\t\t\t\t<td>7 июля 2008 22:37</td>\r\n\t\t\t\t  </tr>\r\n\t\t\t\t</tbody>\r\n\t\t\t  </table>\r\n\t\t\t\t<div class="groupier">\r\n\t\t\t\t\t<input value="Удалить" name="delBtn" type="button" />\r\n\t\t\t\t</div>\r\n\r\n\t\t\t</form>\r\n\t\t</div>\r\n\t\t<div id="all_projects">\r\n\t\t\t<div class="groupier">\r\n\t\t\t\t<ul>\r\n\t\t\t\t\t<li><a href="#">&lt;&lt;</a></li>\r\n\t\t\t\t\t<li><a href="#">&lt;</a></li>\r\n\t\t\t\t\t<li><a href="#">6</a></li>\r\n\r\n\t\t\t\t\t<li><span style="font-weight: bold; color: #a88; border-color: #a80; background: #d5d597 !important;">7</span></li>\r\n\t\t\t\t\t<li><a href="#">8</a></li>\r\n\t\t\t\t\t<li><a href="#">9</a></li>\r\n\t\t\t\t\t<li><a href="#">10</a></li>\r\n\t\t\t\t\t<li><a href="#">&gt;</a></li>\r\n\t\t\t\t\t<li><a href="#">&gt;&gt;</a></li>\r\n\t\t\t\t</ul>\r\n\r\n\t\t\t</div>\r\n\t\t\t  <table class="projects_table">\r\n\t\t\t\t<thead> \r\n\t\t\t\t\t<tr>\r\n\t\t\t\t\t\t<th><a href="#">Проект</a></th>\r\n\t\t\t\t\t\t<th><a href="#">Заголовок</a></th>\r\n\t\t\t\t\t\t<th><a href="#">Владелец</a></th>\r\n\t\t\t\t\t\t<th colspan="5"><a href="#">Отчётов</a></th>\r\n\r\n\t\t\t\t\t\t<th><a href="#">Заявки</a></th>\r\n\t\t\t\t\t\t<th><a href="#">Дата</a></th>\r\n\t\t\t\t\t</tr>\r\n\t\t\t\t</thead> \r\n\t\t\t\t<tbody>\r\n\t\t\t\t  <tr class="odd">\r\n\t\t\t\t\t<td>ООО Волосатый</td>\r\n\t\t\t\t\t<td>Парикмахерыы</td>\r\n\r\n\t\t\t\t\t<td><a href="#">Yeldy</a></td>\r\n\t\t\t\t\t<td class="new">23</td><td class="confirmed">36</td><td class="assigned">9</td><td class="solved">11</td><td class="closed">2</td>\r\n\t\t\t\t\t<td><strong class="strongest">2</strong></td>\r\n\t\t\t\t\t<td>6 февраля 2007 12:56</td>\r\n\t\t\t\t  </tr>\r\n\r\n\t\t\t\t  <tr class="even">\r\n\t\t\t\t\t<td>ОАО Пингви</td>\r\n\t\t\t\t\t<td>ставим линукс</td>\r\n\t\t\t\t\t<td><a href="#">Trisha</a></td>\r\n\t\t\t\t\t<td class="new">13</td><td class="confirmed">678</td><td class="assigned">98</td><td class="solved">1</td><td class="closed">27</td>\r\n\r\n\t\t\t\t\t<td><strong class="strongest">1</strong></td>\r\n\t\t\t\t\t<td>7 октября 2011 07:48</td>\r\n\t\t\t\t  </tr>\r\n\t\t\t\t  <tr class="odd">\r\n\t\t\t\t\t<td>ООО ЭнтитиЭфИкс</td>\r\n\t\t\t\t\t<td>SQL-Lover</td>\r\n\t\t\t\t\t<td><a href="#">EntityFX</a></td>\r\n\r\n\t\t\t\t\t<td class="new">36</td><td class="confirmed">32</td><td class="assigned">19</td><td class="solved">28</td><td class="closed">46</td>\r\n\t\t\t\t\t<td><strong class="strongest">6</strong></td>\r\n\t\t\t\t\t<td>23 февраля 1989 11:34</td>\r\n\t\t\t\t  </tr>\r\n\t\t\t\t  <tr class="even">\r\n\r\n\t\t\t\t\t<td>ООО Тараканинг</td>\r\n\t\t\t\t\t<td>крекер. баг-крекер</td>\r\n\t\t\t\t\t<td><a href="#">EntityFX</a></td>\r\n\t\t\t\t\t<td class="new">223</td><td class="confirmed">316</td><td class="assigned">90</td><td class="solved">101</td><td class="closed">72</td>\r\n\t\t\t\t\t<td><strong>0</strong><br />\r\n\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td>7 июля 2008 22:37</td>\r\n\t\t\t\t  </tr>\r\n\t\t\t\t  <tr class="odd">\r\n\t\t\t\t\t<td><a href="my_project_properties.html">ООО ТС </a></td>\r\n\t\t\t\t\t<td>Выбор себя</td>\r\n\t\t\t\t\t<td><a href="#">Sudo777</a></td>\r\n\r\n\t\t\t\t\t<td class="new">53</td><td class="confirmed">146</td><td class="assigned">34</td><td class="solved">45</td><td class="closed">11</td>\r\n\t\t\t\t\t<td><strong class="strongest">7</strong></td>\r\n\t\t\t\t\t<td>7 июля 2008 22:37</td>\r\n\t\t\t\t  </tr>\r\n\t\t\t\t</tbody>\r\n\r\n\t\t\t  </table>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n\r\n</body></html>', NULL),
   (46, '<html>\r\n<head>\r\n<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">\r\n<title>Переменные PHP, переменные окружения, глобальные переменные</title>\r\n<link rel="StyleSheet" type="text/css" href="book4.css" tppabs="http://site/bookphp/book4.css">\r\n<link rel="StyleSheet" type="text/css" href="code.css" tppabs="http://site/bookphp/code.css">\r\n</head>\r\n<body bottommargin="0" marginheight="0" marginwidth="0" rightmargin="0" leftmargin="0" topmargin="0">\r\n<table style="border-bottom-style: solid; border-width: 4px; border-color: #BABABA" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#D8F0FB">\r\n    <tr valign="top">\r\n        <td style="padding-left: 50" height="18" colspan="2">\r\n            <a href="http://www.softtime.ru/" title="IT-студия SoftTime"><img src="images/softtime.gif" tppabs="http://site/bookphp/images/softtime.gif" border="0" width="137" height="18" vspace="10"></a>                    \r\n        </td>\r\n        <td valign="middle" align="right">  \r\n            <a style="color: #607683; font-size: 11px; font-family: Arial, Helvetica, sans-serif;" href="mailto:softtime@softtime.ru">Написать письмо авторам</a>\r\n        </td>\r\n        <td width=10%>&nbsp;</td>\r\n    </tr>\r\n</table>\r\n<table border="0" cellspacing="17" >\r\n    <tr valign="bottom">\r\n        <td width=7%>&nbsp;</td>\r\n        <td width="30%" align="center"><h1 style="font-size: 36; padding-top: 20px;  margin: 0px">УЧЕБНИК&nbsp;PHP</h1></td>\r\n        <td align="center"><img src="images/help.gif" tppabs="http://site/bookphp/images/help.gif" border="0" width="40" height="25" alt=""><br>\r\n            <a class=a1 href="http://www.softtime.ru/bookphp/help.php"  title="Справочник функций языка PHP 4 на сайте IT-студии <SoftTime>"><b>справочник&nbsp;функций&nbsp;<Оnline></b></a>\r\n        </td>\r\n        <td align="center"><img src="images/aboutbook.gif" tppabs="http://site/bookphp/images/aboutbook.gif" border="0" width="25" height="25" alt=""><br>\r\n            <a title="Об учебнике и его авторах" class=a1 href="aboutbook.php.htm" tppabs="http://site/bookphp/aboutbook.php"><b>Об&nbsp;учебнике</b></a>\r\n        </td>\r\n        <td align="center"><img src="images/updatebook.gif" tppabs="http://site/bookphp/images/updatebook.gif" border="0" width="40" height="25" alt=""><br>\r\n            <a target="_blank" title="Проверить обновления учебника" class=a1 href="http://www.softtime.ru/info/bookphp.php"><b>Обновление</b></a>\r\n        </td>       \r\n    </tr>\r\n</table><br>\r\n<a name="up"></a>\r\n<table border="0" cellspacing="0" cellpadding="0">\r\n    <tr valign="top">\r\n        <td width="25%">\r\n            <table border="0" width="100%">\r\n                <tr>\r\n                    <td style="background-image: url(images/linebook1.gif); background-repeat: no-repeat"  height="5" width="213"><img src="images/pic.gif" tppabs="http://site/bookphp/images/pic.gif" border="0" width="1" height="1" alt=""></td>\r\n                </tr>\r\n                <tr align="left">\r\n                    <td><p style="color: #1020E3; font-size: 16px; margin-left: 10"><b>Оглавление</b></p></td>\r\n                </tr>\r\n                <tr>\r\n                    <td style="background-image: url(images/linebook2.gif); background-repeat: no-repeat" height="7"><img src="images/pic.gif" tppabs="http://site/bookphp/images/pic.gif" border="0" width="1" height="1" alt=""></td>\r\n                </tr>\r\n                <tr>\r\n                    <td width="213">\r\n                        <ol>\r\n                            <li><a class=bookmenu href="gl1_1.php.htm" tppabs="http://site/bookphp/gl1_1.php">Основы PHP</a>\r\n                                                            <div id="activechapter">                                                        \r\n                                    <p class=subchapter><a class=bookmenu href="gl1_1.php.htm" tppabs="http://site/bookphp/gl1_1.php"><nobr>PHP программы</nobr></a></b></p>\r\n                                    <p class=subchapter><a class=bookmenu href="gl1_2.php.htm" tppabs="http://site/bookphp/gl1_2.php">Комментарии</a></b></p>\r\n                                    <p class=subchapter><b><a class=bookmenu href="gl1_3.php.htm" tppabs="http://site/bookphp/gl1_3.php">Переменные PHP</a></b></p>\r\n                                    <p class=subchapter><a class=bookmenu href="gl1_4.php.htm" tppabs="http://site/bookphp/gl1_4.php">Константы</a></b></p>\r\n                                    <p class=subchapter><a class=bookmenu href="gl1_5.php.htm" tppabs="http://site/bookphp/gl1_5.php">Типы данных в РНР. Преобразование типов</a></b></p>\r\n                                    <p class=subchapter><a class=bookmenu href="gl1_6.php.htm" tppabs="http://site/bookphp/gl1_6.php">Операторы</a></b></p>\r\n                                </div>  \r\n                                                        </li>\r\n                            <li><a class=bookmenu href="gl2_1.php.htm" tppabs="http://site/bookphp/gl2_1.php">Операторы языка PHP</a>\r\n                                                        </li>\r\n                            <li><a class=bookmenu href="gl3_1.php.htm" tppabs="http://site/bookphp/gl3_1.php">Строковые функции</a></li>\r\n                                    \r\n                            <li><a class=bookmenu href="gl4_1.php.htm" tppabs="http://site/bookphp/gl4_1.php">Массивы</a>\r\n                                \r\n                            </li>                                                           \r\n                            <li><a class=bookmenu href="gl5_1.php.htm" tppabs="http://site/bookphp/gl5_1.php">Функции</a>\r\n                                                        </li>\r\n                            <li><a class=bookmenu href="gl6_1.php.htm" tppabs="http://site/bookphp/gl6_1.php">Работа с файлами</a>\r\n                                                        </li>\r\n                            <li ><a class=bookmenu href="gl7_1.php.htm" tppabs="http://site/bookphp/gl7_1.php">Регулярные выражения</a>\r\n                                                        </li>\r\n                            <li ><a class=bookmenu href="gl8_1.php.htm" tppabs="http://site/bookphp/gl8_1.php">Сессии и cookies в PHP</a>\r\n                                                        </li>\r\n                            <li><a class=bookmenu href="gl9_1.php.htm" tppabs="http://site/bookphp/gl9_1.php">Работа с FTP</a>\r\n                                                        </li>\r\n                            <li><a class=bookmenu href="gl10_1.php.htm" tppabs="http://site/bookphp/gl10_1.php">Проверка данных</a>\r\n                                                        </li>\r\n                            <li><a class=bookmenu href="gl11_1.php.htm" tppabs="http://site/bookphp/gl11_1.php">Гостевая книга</a>\r\n                                                        </li>\r\n                            <li class="newchaptr"><a class=bookmenu href="gl12_1.php.htm" tppabs="http://site/bookphp/gl12_1.php">PHP и MySQL</a>\r\n                                                        </li>\r\n                            \r\n                        </ol>\r\n                        <p><i>Продолжение следует</i></p>\r\n                    </td>\r\n                </tr>\r\n            </table>\r\n        </td>\r\n        <td ><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">\r\n<br><br>\r\n<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">\r\n<table border="0" cellpadding="0" cellspacing="0" height="70">\r\n    <tr>\r\n        <td rowspan="3" width="70"><img src="images/book.gif" tppabs="http://site/bookphp/images/book.gif" border="0" width="59" height="44" alt=""></td>\r\n        <td height="50" valign="middle"><h1 class=namepage>Основы PHP</h1></td>\r\n    </tr>\r\n    <tr>\r\n        <td height="7px" bgcolor="#9FB6C9"><img src="images/pic.gif" tppabs="http://site/bookphp/images/pic.gif" border="0" width="1" height="1" alt=""></td>\r\n    </tr>\r\n    <tr><td height="13"><img src="images/pic.gif" tppabs="http://site/bookphp/images/pic.gif" border="0" width="1" height="1" alt=""></td></tr>\r\n</table><table border="0" align="right" cellpadding="0" cellspacing="7">\r\n    <tr valign="middle" align="center">\r\n        <td><img src="images/arrowleft.gif" tppabs="http://site/bookphp/images/arrowleft.gif" border="0" width="10" height="17" alt=""></td>\r\n        <td><a class=a1 href="gl1_2.php.htm" tppabs="http://site/bookphp/gl1_2.php">Предыдущая</a></td>\r\n        <td width="1" bgcolor="silver"></td>\r\n        <td><a class=a1 href="gl1_4.php.htm" tppabs="http://site/bookphp/gl1_4.php">Следующая</a></td>\r\n        <td><img src="images/arrowright.gif" tppabs="http://site/bookphp/images/arrowright.gif" border="0" width="10" height="17" alt=""></td>\r\n    </tr>\r\n    <td colspan="5" bgcolor="silver"></td>\r\n</table>\r\n<h1 class=p1>Переменные</h1>\r\n<p class=text>В РНР переменные начинаются со знака доллара (<b>$</b>). За этим знаком может следовать любое количество буквенно-цифровых символов и символов подчеркивания, но первый символ не может быть цифрой или подчеркиванием. Следует также помнить, что имена переменных в РНР чувствительны к регистру, в отличие от ключевых слов.\r\n</p>\r\n<p class=text>При объявлении переменных в РНР не требуется явно указывать тип переменной, при этом одна и та же переменная может иметь на протяжении программы разные типы. \r\n</p>\r\n<p class=text>Переменная инициализируется в момент присваивания ей значения и существует до тех пор, пока выполняется программа. Т.е., в случае web-страницы это означает, что до тех пор, пока не завершен запрос. \r\n</p>\r\n<h1 class=p1>Внешние переменные</h1>\r\n<p class=text>После того, как запрос клиента проанализирован веб-сервером и передан РНР машине, последняя устанавливает ряд переменных, которые содержат данные, относящиеся к запросу и доступны все время его выполнения.  Сначала РНР берет <b class=nob>переменные окружения</b> Вашей системы и создает переменные с теми же именами и значениями в окружении сценария РНР для того чтобы сценариям, расположенным на сервере были доступны особенности системы клиента. Эти переменные помещаются в ассоциативный массив <b>$HTTP_ENV_VARS</b> (подробнее о массивах можно узнать в <a href="gl4_1.php.htm" tppabs="http://site/bookphp/gl4_1.php">главе 4</a>). \r\n</p>\r\n<p class=text>Естественно, что переменные массива <b>$HTTP_ENV_VARS</b> являются системно зависимыми (поскольку это фактически <b class=nob>переменные окружения</b>). Посмотреть значения переменных окружения для Вашей машины Вы можете при помощи команды env (Unix) или set (Windows). \r\n</p>\r\n<p class=text>Затем РНР создает группу GET-переменных, которые создаются при анализе строки запроса. Строка запроса хранится в переменной <b>$QUERY_STRING</b> и представляет собой информацию, следующую за символом &quot;<b>?</b>&quot; в запрошенном URL. РНР разбивает строку запроса по символам <b>&</b> на отдельные элементы, а затем ищет в каждом из этих элементов знак &quot;=&quot;. Если знак &quot;=&quot; найден, то создается переменная с именем из символов, стоящих слева от знака равенства. Рассмотрим следующую форму: \r\n</p>\r\n<blockquote>\r\n<pre>\r\n<em class=gr>&lt;form</em> action = <em class=comnt>"http://localhost/PHP/test.php"</em> method="<b>get</b>"&gt;\r\n   HDD: <em class=gr>&lt;input</em> type="<b>text</b>" name="<b>HDD</b>"/&gt;&lt;br&gt;\r\n   CDROM: <em class=gr>&lt;input</em> type="<b>text</b>" name="<b>CDROM</b>"/&gt;&lt;br&gt;\r\n<em class=gr>&lt;input</em> type="<b>submit</b>"/&gt;\r\n</form>\r\n</pre>\r\n</blockquote>\r\n<p class=text>\r\nЕсли Вы в этой форме в строке HDD наберете, к примеру, &quot;Maxtor&quot;, а в строке  CDROM &quot;Nec&quot;, то она сгенерирует следующую форму запроса:\r\n</p>\r\n<em class=comnt>http://localhost/PHP/test.php?HDD=Maxtor&CDROM=Nec</em>\r\n<p class=text>В нашем случае РНР создаст следующие переменные: </em>\r\n<b>$HDD</b>&nbsp;=&nbsp;&quot;Maxtor&quot; и <b>$CDROM</b>&nbsp;=&nbsp;&quot;Nec&quot;.  \r\n<p class=text>Вы можете работать с этими переменными из Вашего скрипта (у нас – test.php) как с обычными переменными. В нашем случае они просто выводятся на экран:\r\n</p>\r\n<blockquote>\r\n<pre>\r\n<em class=red>&lt;?</em>\r\n   <em class=gr>echo</em>(&quot;&lt;p&gt;HDD is $HDD&lt;/p&gt;");\r\n   <em class=gr>echo</em>(&quot;&lt;p&gt;CDROM is $CDROM&lt;/p&gt;");\r\n<em class=red>?&gt;</em>\r\n</pre>\r\n</blockquote>\r\n<p class=text>\r\nЕсли запрос страницы выполняется при помощи метода POST, то появляется группа POST-переменных, которые интерпретируются также и помещаются в массив <b>$HTTP_POST_VARS</b>.\r\n</p>\r\n<table border="0" align="center" cellpadding="0" cellspacing="0">\r\n    <tr>\r\n        <td colspan="5" align="center"><img src="images/linebook1.gif" tppabs="http://site/bookphp/images/linebook1.gif" border="0" width="212" height="5" alt=""></td>\r\n    </tr>\r\n    <tr valign="middle" align="center">\r\n        <td><img src="images/arrowleft.gif" tppabs="http://site/bookphp/images/arrowleft.gif" border="0" width="10" height="17" alt=""></td>\r\n        <td><a class=a1 href="gl1_2.php.htm" tppabs="http://site/bookphp/gl1_2.php">Предыдущая</a></td>\r\n        <td width="1" bgcolor="silver"></td>\r\n        <td><a class=a1 href="gl1_4.php.htm" tppabs="http://site/bookphp/gl1_4.php">Следующая</a></td>\r\n        <td><img src="images/arrowright.gif" tppabs="http://site/bookphp/images/arrowright.gif" border="0" width="10" height="17" alt=""></td>\r\n    </tr>\r\n    <tr>\r\n        <td colspan="5" align="center"><img src="images/linebook2.gif" tppabs="http://site/bookphp/images/linebook2.gif" border="0" width="213" height="11" alt=""></td>\r\n    </tr>\r\n</table>\r\n        <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">\r\n            </p>\r\n        </td>   \r\n        <td width="7%">&nbsp;</td>  \r\n    </tr>\r\n</table>\r\n<table border="0" width="100%">\r\n    <tr>\r\n        <td width=20%>&nbsp;</td>\r\n        <td>\r\n            <a class=a1 href="#up">Наверх</a>\r\n        </td>\r\n    </tr>\r\n</table><br>\r\n</body>\r\n</html> ', NULL);
+/*!40000 ALTER TABLE TextModule ENABLE KEYS */;
 
 -- 
 -- Вывод данных для таблицы URL
 --
+/*!40000 ALTER TABLE URL DISABLE KEYS */;
 INSERT INTO URL VALUES 
   (1, '/', '', '', 11, 0, 0, 0),
   (71, 'edit', '', '', 11, 0, 64, 0),
@@ -1052,15 +1139,18 @@ INSERT INTO URL VALUES
   (87, 'bugs', '', '', 11, 0, 64, 1),
   (72, 'profile', '', '', 10, 0, 1, 0),
   (73, 'show', '', '', 10, 0, 72, 1),
-  (74, 'edit', '', '', 10, 0, 72, 1),
+  (74, 'edit', '', '', 10, 0, 72, 0),
   (75, 'ajax', '', '', 11, 0, 67, 0),
   (76, 'search', '', '', 11, 0, 1, 0),
   (77, 'result', '', '', 11, 0, 76, 0),
-  (888, 'test', '', '', 18, 0, 1, 0);
+  (888, 'test', '', '', 18, 0, 1, 0),
+  (78, 'newpass', '', '', 10, 0, 74, 0);
+/*!40000 ALTER TABLE URL ENABLE KEYS */;
 
 -- 
 -- Вывод данных для таблицы Users
 --
+/*!40000 ALTER TABLE Users DISABLE KEYS */;
 INSERT INTO Users VALUES 
   (1, 'EntityFX', 'Артём', 'Солопий', 'Валерьевич', '408edad392248bc60f0e7ddaed995fe5', 0, 1, 'artem.solopiy@gmail.com', NULL, 48),
   (3, 'Vasiliy', 'Артём', 'Солопий', 'Валерьевич', 'f188f8028be984727e58c6aed3cbe2d3', 0, 1, 'tym_@mail.ru', NULL, 7),
@@ -1072,18 +1162,23 @@ INSERT INTO Users VALUES
   (11, 'edf', '', '', '', 'baee68b86198d8fe688d0c7fb695e8d8', 0, 0, '', NULL, NULL),
   (13, 'Artem', 'Artem', 'Solopiy', 'Valer''evich', '408edad392248bc60f0e7ddaed995fe5', 0, 1, '', NULL, NULL),
   (14, 'Kolya', '', '', '', 'fc5dd6fdd66051e8a732b5ea5f532993', 0, 1, '', NULL, NULL),
-  (15, 'Android', 'Android', 'Android', 'Android', '5a0cf5667029ac6bbad1c4ecdc3f659e', 0, 1, '', NULL, NULL),
+  (15, 'Android', 'Ирен', 'Android', 'Вафнютович', '5a0cf5667029ac6bbad1c4ecdc3f659e', 0, 1, 'artem.solopiy@gmail.com', NULL, NULL),
   (16, 'Los', '', '', '', '408edad392248bc60f0e7ddaed995fe5', 0, 0, '', NULL, NULL),
   (17, 'Egor', 'Egor', 'Vasilyev', 'Ermolaev', 'fc5dd6fdd66051e8a732b5ea5f532993', 0, 1, 'aik2029@gmail.com', NULL, NULL),
   (18, 'Timur', 'Тимур', 'Юсупзянов', 'Равхатович', 'a25960829aeaba68de7c7a0a669a5023', 0, 1, 'gtimur7@gmail.com', NULL, 48),
-  (19, 'testtest', 'Name', 'Surname', 'SecondName', '1aa2b2ad9df19416c64defac32050dc8', 0, 1, '', NULL, NULL);
+  (19, 'testtest', 'Name', 'Surname', 'SecondName', '1aa2b2ad9df19416c64defac32050dc8', 0, 1, '', NULL, NULL),
+  (20, 'GreenDragon', 'Марат', 'Ахметов', 'Альбертович', '07c100dcae659c3fe410e98e3177aa4d', 0, 1, 'green_dragon_88@mail.ru', NULL, NULL),
+  (21, 'Irina', '', '', '', '408edad392248bc60f0e7ddaed995fe5', 0, 0, '', NULL, NULL);
+/*!40000 ALTER TABLE Users ENABLE KEYS */;
 
 -- 
 -- Вывод данных для таблицы UsersInProjects
 --
+/*!40000 ALTER TABLE UsersInProjects DISABLE KEYS */;
 INSERT INTO UsersInProjects VALUES 
   (10, 3, 1),
   (12, 6, 1),
+  (29, 47, 1),
   (6, 1, 3),
   (1, 2, 3),
   (8, 6, 3),
@@ -1095,7 +1190,9 @@ INSERT INTO UsersInProjects VALUES
   (7, 5, 13),
   (23, 6, 15),
   (22, 22, 15),
-  (27, 48, 18);
+  (27, 48, 18),
+  (28, 48, 20);
+/*!40000 ALTER TABLE UsersInProjects ENABLE KEYS */;
 
 -- 
 -- Включение внешних ключей

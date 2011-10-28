@@ -1,5 +1,5 @@
 <?php
-set_include_path($_SERVER["DOCUMENT_ROOT"]."/engine/system/zend_search/");
+set_include_path($_SERVER["DOCUMENT_ROOT"].ZEND_FOLDER);
 require_once 'Zend/Session.php';	
 require_once 'Zend/Controller/Request/Http.php';
 require_once 'Zend/Controller/Response/Http.php';

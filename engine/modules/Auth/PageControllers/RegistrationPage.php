@@ -13,9 +13,9 @@ require_once 'Zend/Captcha/Image.php';
 			$captcha=new Zend_Captcha_Image();
 			$captcha->setFont('fonts/calibri.ttf')
 					->setName('registrationCaptcha')
-					->setWidth(200)
-					->setHeight(50)
-					->setFontSize(36)
+					->setWidth(180)
+					->setHeight(55)
+					->setFontSize(32)
 					->setWordLen(6)
 					->generate();
 			$this->_captchaImage=$captcha->render();

@@ -48,6 +48,11 @@ require_once 'engine/libs/controls/Orderer/Orderer.php';
 			$this->_smarty->assign("Project",$this->_projectData);
 			$this->_smarty->assign("MY_PROJECT_DETAIL_PAGINATOR",$this->_myProjectsInfoPaginator->getHTML());
 			$this->_smarty->assign("MY_PROJECT_ORDERER",$this->_orderData);
+			$newProjectOK=$this->_controller->error->getErrorByName("newProjectOK");
+			if ($newProjectOK)
+			{
+				$this->_smarty->assign("GOOD",true);
+			}
 		}	
 	}
 ?>

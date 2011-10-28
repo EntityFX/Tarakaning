@@ -3,12 +3,12 @@
 <div id="content_body">
 	
 	{if $GOOD eq TRUE}
-	<div class="operationResultBox">
+	<div class="messageBox goodBox">
 		<strong class="ok" id="good">Изменения сохранены</strong>
 	</div> 
 	{/if}
 	{if $ERROR neq ""}
-	<div class="operationResultBox">
+	<div class="messageBox errorBox">
 		<strong class="error" id="error">{$ERROR}</strong>
 	</div> 
 	{/if}
@@ -16,7 +16,8 @@
 	<div id="tabs">
 			<ul>
 				<li><a href="#edit_info"><span>Редактировать информацию</span></a></li>
-				<li><a href="#pass_change"><span>Смена пароля</span></a></li>			
+				<li><a href="#pass_change"><span>Смена пароля</span></a></li>
+				<li><a href="#settings"><span>Дополнительные настройки</span></a></li>			
 			</ul>
 			<div id="edit_info" >
 				<form action="/profile/edit/" method="post">
@@ -28,8 +29,6 @@
 							<dd><input type="text" name="Surname" value="{$AR_USER_INFO.Surname}" /></dd>
 							<dt>Отчество:</dt>
 							<dd><input type="text" name="SecondName" value="{$AR_USER_INFO.SecondName}" /></dd>
-							{*<dt>Ник:</dt>
-							<dd><input type="text" name="NickName" value="{$AR_USER_INFO.NickName}" /></dd>*}
 							<dt>e-mail:</dt>
 							<dd><input type="text" name="Email" value="{$AR_USER_INFO.Email}" /></dd>
 							<dd class="subm"><input type="submit" name="save_btn" value="Сохранить" /></dd>
@@ -51,6 +50,8 @@
 						</dl>
 					</div>
 				</form>
+			</div>
+			<div id="settings" >
 			</div>
 	</div>	
 </div>

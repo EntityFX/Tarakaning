@@ -204,7 +204,7 @@
 
 .add_form {
 	border: 1px solid #dedede;
-	margin: 0 20px;
+	margin: 0;
 	background: #f1f1f1;
 	border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -269,7 +269,7 @@ dd.subm {
 	position: absolute;
 	top: 50%;
 	width: 300px;
-	radius: 15px 15px 15px 15px;
+	border-radius: 15px 15px 15px 15px;
 	-moz-border-radius: 15px 15px 15px 15px;
 }
 
@@ -294,13 +294,13 @@ dd.subm {
 	
 	#enter div#hdr
 	{
-		radius: 13px 13px 0 0;
+		border-radius: 13px 13px 0 0;
 		-moz-border-radius: 13px 13px 0 0;
 	}
 	
 	.add_form  div#hdr
 	{
-		radius: 3px 3px 0 0;
+		border-radius: 3px 3px 0 0;
 		-moz-border-radius: 3px 3px 0 0;
 	}
 	
@@ -435,14 +435,21 @@ dd.subm {
     font-size: 12px;
 }
 
-/* конец моего кода.*/
 
 /* <Timur date = '17.09.2011'>: код для вывода результатов операции (ошибка,удачно) */
-.operationResultBox { 
-	width:600px; 
+.messageBox { 
 	padding:10px; 
-	border-radius:8px; 
-	background-color: #eee;
+	border-radius:4px;
 	margin: 10px 0;
+}
+
+.errorBox {
+	border: solid 1px red;
+	background-color: #faa; 
+}
+	
+.goodBox {
+	border: solid 1px green;
+	background-color: #afa; 
 }
 /* </Timur date = '17.09.2011'> */

@@ -83,11 +83,6 @@ require_once 'engine/system/addons/Serialize.php';
 			
 			$this->_smarty->assign("MEMBER_PROJECTS_PAGINATOR",$this->_memberProjectsPaginator->getHTML());
 			$this->_smarty->assign("MEMBER_PROJECTS_ORDERER",$this->_memberProjectsOrderer->getNewUrls());
-			$newProjectOK=$this->_controller->error->getErrorByName("newProjectOK");
-			if ($newProjectOK)
-			{
-				$this->_smarty->assign("GOOD",true);
-			}
 		}
 		
 		protected function deleteSelectedItems()
