@@ -2,10 +2,13 @@
 class UserAuth extends DBConnector
 {
 	public static $authTableName="AdminUsers";
+	
+	protected $_authNamespace;
 	 
 	public function __construct()
 	{
 		parent::__construct();
+		$this->_authNamespace=new Zend_Session_Namespace('AUTH');
 	}
 
 	public function logIn($login,$password)
@@ -14,7 +17,7 @@ class UserAuth extends DBConnector
 		{
 			throw new Exception("Вы уже вошли в систему");
 		}
-		$login=mysql_escape_string($login);
+		$login=stripcslashes($login);
 		$this->_sql->selAllWhere(self::$authTableName,"NickName='$login'");
 		$res=$this->_sql->getTable();
 		if ($res!=NULL)
@@ -31,7 +34,8 @@ class UserAuth extends DBConnector
 			else
 			{
 				$res["EnterTime"]=date("d.m.Y G:i",time());
-				$_SESSION[self::$authTableName]=$res;
+				Zend_Session::regenerateId();
+				$this->_authNamespace->data[self::$authTableName]=$res;
 			}
 		}
 		else
@@ -42,7 +46,7 @@ class UserAuth extends DBConnector
 
 	public function logOut()
 	{
-		unset($_SESSION[self::$authTableName]);
+		unset($this->_authNamespace->data[self::$authTableName]);
 	}
 
 	/**
@@ -51,7 +55,7 @@ class UserAuth extends DBConnector
 	 */
 	public function isEntered()
 	{
-		if (isset($_SESSION[self::$authTableName]))
+		if (isset($this->_authNamespace->data[self::$authTableName]))
 		{
 			return true;
 		}
@@ -63,35 +67,35 @@ class UserAuth extends DBConnector
 
 	public function getName()
 	{
-		return $_SESSION[self::$authTableName];
+		return $this->_authNamespace->data[self::$authTableName];
 	}
 
 	public function changePassword($oldPassword,$newPassword)
 	{
 		$uC=new UsersOperation();
-		$newPassHash=$uC->changePassword($_SESSION[self::$authTableName]["UserID"], $oldPassword, $newPassword);
-		$_SESSION[self::$authTableName]["PasswordHash"]=$newPassHash;
+		$newPassHash=$uC->changePassword($this->_authNamespace->data[self::$authTableName]["UserID"], $oldPassword, $newPassword);
+		$this->_authNamespace[self::$authTableName]->data["PasswordHash"]=$newPassHash;
 	}
 
 	public function changeData($name,$surname,$secondName,$email)
 	{
 		$uC=new UsersOperation();
-		$uC->changeData($_SESSION[self::$authTableName]["UserID"], $name, $surname, $secondName, $email);
+		$uC->changeData($this->_authNamespace->data[self::$authTableName]["UserID"], $name, $surname, $secondName, $email);
 		$this->refreshData();
 	}
 
 	public function refreshData()
 	{
-		$this->_sql->selAllWhere(self::$authTableName,"UserID='".$_SESSION[self::$authTableName]["UserID"]."'");
+		$this->_sql->selAllWhere(self::$authTableName,"UserID='".$this->_authNamespace->data[self::$authTableName]["UserID"]."'");
 		$res=$this->_sql->getTable();
 		$res=$res[0];
-		if ($res!=NULL) $_SESSION[self::$authTableName]=$res;
+		if ($res!=NULL) $this->_authNamespace->data[self::$authTableName]=$res;
 	}
 
 	public function checkUserType($type)
 	{
 		$type=(int)$type;
-		return $_SESSION[self::$authTableName]["UserType"]==$type?true:false;
+		return $this->_authNamespace->data[self::$authTableName]["UserType"]==$type?true:false;
 	}
 	
 	/**
@@ -107,12 +111,12 @@ class UserAuth extends DBConnector
 		$count=$this->_sql->countQuery("Locations","LANG_ID=$langCode");
 		if ($count!=0)
 		{
-			$this->_sql->update(self::$authTableName, "UserID='".$_SESSION[self::$authTableName]["UserID"]."'", 
+			$this->_sql->update(self::$authTableName, "UserID='".$this->_authNamespace->data[self::$authTableName]["UserID"]."'", 
 				new ArrayObject(array(
 					"LANG_ID" => $langCode
 				))
 			);
-			$_SESSION[self::$authTableName]["LANG_ID"]=$langCode;
+			$this->_authNamespace->data[self::$authTableName]["LANG_ID"]=$langCode;
 		}
 		else
 		{
@@ -123,7 +127,7 @@ class UserAuth extends DBConnector
 	
 	public function getLanguage()
 	{
-		return $_SESSION[self::$authTableName]["LANG_ID"];
+		return $this->_authNamespace->data[self::$authTableName]["LANG_ID"];
 	}
 }
 ?>

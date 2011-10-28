@@ -1,5 +1,4 @@
 <?php
-	set_include_path($_SERVER["DOCUMENT_ROOT"]."/engine/system/zend_search/");
 	require_once 'Zend/Search/Lucene.php';
 	
 	require_once 'SearchHelper.php';

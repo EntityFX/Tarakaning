@@ -19,9 +19,6 @@
 			<li><a href="#all_projects"><span>Все проекты</span></a></li>			
 		</ul>
 		<div id="my_project">
-			{if $GOOD eq TRUE}
-				<strong class="ok" id="good">Проект успешно создан</strong>
-			{/if}
 			<div class="groupier">
 				<a href="/my/project/new/">Создать новый проект</a>
 				{$MY_PROJECTS_PAGINATOR}

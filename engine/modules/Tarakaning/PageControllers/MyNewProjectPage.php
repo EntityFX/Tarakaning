@@ -24,7 +24,7 @@ require_once 'engine/modules/Tarakaning/Logic/ProjectsFacade.php';
 				);
 				try 
 				{
-					$projectsFacadeOperation->addProject($postData["project_name"], $postData["description"]);
+					$projectsID=$projectsFacadeOperation->addProject($postData["project_name"], $postData["description"]);
 				}
 				catch (Exception $exception)
 				{
@@ -37,7 +37,7 @@ require_once 'engine/modules/Tarakaning/Logic/ProjectsFacade.php';
 				if ($exception==null)
 				{
 					$this->_controller->error->addError("newProjectOK",true);
-					$this->navigate("/my/projects/");
+					$this->navigate("/my/project/show/$projectsID/");
 				}
 			}
 		}

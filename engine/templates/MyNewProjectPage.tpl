@@ -1,10 +1,14 @@
 {extends file="info.base.tpl"}
 {block name=body}
 <div id="content_body">
+	{if $ERROR neq ""}
+	<div class="messageBox errorBox">
+		<strong class="error" id="error">{$ERROR}</strong>
+	</div> 
+	{/if}
 	<form action="" method="post">
 		<div class="add_form">
 			<div id="hdr">Создание проекта</div>
-			{if $ERROR neq ""}<strong class="error" id="error">{$ERROR}</strong>{/if}
 			<dl>
 				<dt><label for="project_name">Имя проекта</label></dt>
 				<dd><input type="text" name="project_name" id="project_name" value="{$DATA.project_name}"/></dd>

@@ -41,10 +41,14 @@
 {/block}
 {block name=body}
 	<div id="content_body">
+		{if $ERROR neq ""}
+		<div class="messageBox errorBox">
+			<strong class="error" id="error">{$ERROR}</strong>
+		</div> 
+		{/if}
 		<form action="" method="post">
 			<div class="add_form">
 				<div id="hdr">Добавление отчёта об ошибке</div>
-				{if $ERROR neq ""}<strong class="error" id="error">{$ERROR}</strong>{/if}
 				<dl>
 					<dt><label for="project_id">Выберите проект</label></dt>
 					<dd>

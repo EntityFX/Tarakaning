@@ -71,7 +71,7 @@
                 {
                     throw new Exception("Пользователь не подписан на проект");
                 }
-                $_SESSION["user"]["DefaultProjectID"]=$projectID;                    
+                $this->_authNamespace->data['defaultProjectID']=$projectID;                    
             }
             else
             {

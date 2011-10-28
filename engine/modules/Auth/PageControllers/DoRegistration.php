@@ -8,19 +8,11 @@ require_once 'Zend/Captcha/Image.php';
 		{
 			if ($this->request->isPost())
 			{
-				$captcha=new Zend_Captcha_Image();
-				$captchaValue=array(
-					"id" => $this->request->getPost("captchaId"),
-					"input" => $this->request->getPost("captcha")
-				);
-				var_dump($captchaValue);
-				if ($captcha->isValid($captchaValue))
-				{
-					
-				}
+
 				$reg=new UsersOperation();
 				try
 				{
+					$this->validateForm();
 					$reg->createUser(
 						$this->request->getPost("login"),
 						$this->request->getPost("password"),
@@ -44,10 +36,37 @@ require_once 'Zend/Captcha/Image.php';
 						)
 					);
 					$this->_controller->error->addError("registrationError",$error);
+					$this->navigate('/registration/');
 				}
-				$this->_controller->error->addError("registrationOk",true);
+				if ($exception==null)
+				{
+					$this->_controller->error->addError("registrationOk",true);
+					$this->navigate(AuthController::LOGIN_URL);
+				}
 			}
-			$this->navigate(AuthController::LOGIN_URL);
+			else 
+			{
+				$this->navigate(AuthController::LOGIN_URL);
+			}
+		}
+		
+		private function validateForm()
+		{
+			$captcha=new Zend_Captcha_Image();
+			$captchaValue=array(
+				"id" => $this->request->getPost("captchaId"),
+				"input" => $this->request->getPost("captcha")
+			);
+			if (!$captcha->isValid($captchaValue))
+			{
+				throw new Exception('Код на картинке неверный');
+			}
+			$password=$this->request->getPost("password");
+			$commitPassword=$this->request->getPost("commitPass");
+			if ($password!==$commitPassword)
+			{
+				throw new Exception('Подтверждение пароля не совпадает');
+			}
 		}
 	}
 ?>

@@ -23,7 +23,6 @@ require_once 'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
 			{
 				$this->_projectsOperation=new ProjectsController();
 				$this->_searcher = new ProjectSearch(self::getGlobalEncoding());
-				
 
 				$projectsFacadeOperation=new ProjectsFacade(
 					$this->_projectsOperation, 

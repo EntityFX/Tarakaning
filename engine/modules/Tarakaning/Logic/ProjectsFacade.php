@@ -34,6 +34,7 @@
 			{
 				$this->_projectsController->deleteProject($this->_userInfo["UserID"], $addedProjectID);
 			}
+			return $addedProjectID;
 		}
 		
 		public function deleteProject($projectID) 
@@ -66,15 +67,16 @@
 		
 		public function searchProject($query)
 		{
-			if ($_SESSION['search']['query']===$query)
+			$searchNamespace = new Zend_Session_Namespace('SEARCH');
+			if ($searchNamespace->query===$query)
 			{
-				$projectsFound=$_SESSION['search']['result'];
+				$projectsFound=$searchNamespace->result;
 			}
 			else 
 			{
 				$projectsFound=$this->_projectsSearch->searchProjects($query);
-				$_SESSION['search']['query']=$query;
-				$_SESSION['search']['result']=$projectsFound;
+				$searchNamespace->query=$query;
+				$searchNamespace->result=$projectsFound;
 			}
 			$this->_count=count($projectsFound);
 			if ($projectsFound!=null)

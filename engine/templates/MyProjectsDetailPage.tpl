@@ -1,6 +1,11 @@
 {extends file="info.base.tpl"}
 {block name=body}
-<div id="content_body"> 
+<div id="content_body">
+	{if $GOOD eq TRUE}
+	<div class="messageBox goodBox">
+		<strong class="ok" id="good">Проект успешно создан</strong>
+	</div> 
+	{/if}
 	<div id="tabs"> 
 		<ul> 
 			<li><a href="#about"><span>Описание</span></a></li> 
@@ -24,9 +29,11 @@
 			</form> 
 		</div> 
 		<div id="users"> 
+			{if $MY_PROJECT_DETAIL_PAGINATOR neq NULL}
 			<div class="groupier"> 
 				{$MY_PROJECT_DETAIL_PAGINATOR}
 			</div>
+			{/if}
 			{if $PROJECT_USERS neq NULL}
 			<form action="#" class="reports_form"> 
 				<table class="projects_table"> 

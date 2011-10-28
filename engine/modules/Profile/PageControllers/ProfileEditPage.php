@@ -5,7 +5,6 @@ require_once 'engine/modules/Auth/Logic/UsersOperation.php';
 
 	class ProfileEditPage extends InfoBasePage
 	{
-		private $_arUserInfo;
 		private $_bIsMe;
 		
 		protected function onInit()
@@ -14,10 +13,10 @@ require_once 'engine/modules/Auth/Logic/UsersOperation.php';
 			$arCurrentUser = $this->_controller->auth->getName();
 			$postData=$this->request->getParams();
 			if ($this->request->isPost() && $postData)
-			{//если есть пост-параметры, то обновлять
+			{
+				$arPostParams = $this->request->getParams();
 				try 
 				{
-					$arPostParams = $this->request->getParams();
 					$this->_controller->auth->changeData($arPostParams["Name"],$arPostParams["Surname"],$arPostParams["SecondName"],$arPostParams["Email"]);
 				} 
 				catch (Exception $exception) 
@@ -30,13 +29,13 @@ require_once 'engine/modules/Auth/Logic/UsersOperation.php';
 					$this->_controller->error->addError("editProfileError",true);
 				}
 			}
-			$this->_arUserInfo = $this->_controller->auth->getName();
+			$this->_userInfo=$this->_controller->auth->getName();
 		}
 		
 		protected function doAssign()
 		{
 			parent::doAssign();
-			$this->_smarty->assign("AR_USER_INFO", $this->_arUserInfo);
+			$this->_smarty->assign("AR_USER_INFO", $this->_userInfo);
 			$editProfileError=$this->_controller->error->getErrorByName("editProfileError");
 			if ($editProfileError===true)
 			{
