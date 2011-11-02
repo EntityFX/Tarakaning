@@ -1,6 +1,6 @@
 ﻿-- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 5.0.50.1
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 29.10.2011 2:47:19
+-- Дата скрипта: 03.11.2011 2:53:26
 -- Версия сервера: 5.1.40-community
 -- Версия клиента: 4.1
 
@@ -53,8 +53,8 @@ CREATE TABLE ErorrReportHistory (
     REFERENCES errorreport(ID) ON DELETE CASCADE ON UPDATE CASCADE
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 175
-AVG_ROW_LENGTH = 2978
+AUTO_INCREMENT = 179
+AVG_ROW_LENGTH = 241
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -82,8 +82,8 @@ CREATE TABLE ErrorReport (
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 8731
-AVG_ROW_LENGTH = 176
+AUTO_INCREMENT = 8732
+AVG_ROW_LENGTH = 174
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -140,7 +140,7 @@ CREATE TABLE Projects (
 )
 ENGINE = INNODB
 AUTO_INCREMENT = 84
-AVG_ROW_LENGTH = 292
+AVG_ROW_LENGTH = 297
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -163,8 +163,8 @@ CREATE TABLE ReportComment (
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 80
-AVG_ROW_LENGTH = 682
+AUTO_INCREMENT = 81
+AVG_ROW_LENGTH = 655
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -198,6 +198,7 @@ CREATE TABLE SubscribesRequest (
   ID INT(11) NOT NULL AUTO_INCREMENT,
   UserID INT(10) UNSIGNED DEFAULT NULL,
   ProjectID INT(11) DEFAULT NULL,
+  RequestTime DATETIME NOT NULL,
   PRIMARY KEY (ID),
   INDEX fk_SubscribesRequest_Projects1 (ProjectID),
   INDEX fk_SubscribesRequest_Users1 (UserID),
@@ -208,8 +209,8 @@ CREATE TABLE SubscribesRequest (
     REFERENCES users(UserID) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 13
-AVG_ROW_LENGTH = 2340
+AUTO_INCREMENT = 37
+AVG_ROW_LENGTH = 2048
 CHARACTER SET cp1251
 COLLATE cp1251_general_ci;
 
@@ -618,6 +619,16 @@ AS
 	select `p`.`ProjectID` AS `ProjectID`,`p`.`Name` AS `Name`,`p`.`Description` AS `Description`,`p`.`OwnerID` AS `OwnerID`,`p`.`NickName` AS `NickName`,`p`.`CreateDate` AS `CreateDate`,`p`.`CountRequests` AS `CountRequests`,`p`.`CountUsers` AS `CountUsers`,`p`.`NEW` AS `NEW`,`p`.`IDENTIFIED` AS `IDENTIFIED`,`p`.`ASSESSED` AS `ASSESSED`,`p`.`RESOLVED` AS `RESOLVED`,`p`.`CLOSED` AS `CLOSED`,`U`.`UserID` AS `UserID` from (`usersinprojects` `U` join `projectanderrorsview` `P` on((`p`.`ProjectID` = `U`.`ProjectID`)));
 
 --
+-- Описание для представления projectsubscribesdetails
+--
+DROP VIEW IF EXISTS projectsubscribesdetails CASCADE;
+CREATE 
+	DEFINER = 'root'@'localhost'
+VIEW projectsubscribesdetails
+AS
+	select `SR`.`ID` AS `ID`,`SR`.`UserID` AS `UserID`,`SR`.`ProjectID` AS `ProjectID`,`SR`.`RequestTime` AS `RequestTime`,`U`.`NickName` AS `NickName` from (`subscribesrequest` `SR` left join `users` `U` on((`SR`.`UserID` = `U`.`UserID`)));
+
+--
 -- Описание для представления projectswithusername
 --
 DROP VIEW IF EXISTS projectswithusername CASCADE;
@@ -646,6 +657,16 @@ CREATE
 VIEW projectusersinfofull
 AS
 	select `p`.`UserID` AS `UserID`,`p`.`ProjectID` AS `ProjectID`,`p`.`NickName` AS `NickName`,`p`.`NEW` AS `NEW`,`p`.`IDENTIFIED` AS `IDENTIFIED`,`p`.`ASSESSED` AS `ASSESSED`,`p`.`RESOLVED` AS `RESOLVED`,`p`.`CLOSED` AS `CLOSED`,`p`.`CountErrors` AS `CountErrors`,`p`.`Owner` AS `Owner`,count(`E`.`ID`) AS `CountCreated`,`pc`.`CountComments` AS `CountComments` from ((`projectusersinfo` `P` left join `errorreport` `E` on(((`p`.`ProjectID` = `E`.`ProjectID`) and (`p`.`UserID` = `E`.`UserID`)))) join `projectcomentscount` `PC` on(((`p`.`ProjectID` = `pc`.`ProjectID`) and (`p`.`UserID` = `pc`.`UserID`)))) group by `p`.`ProjectID`,`p`.`UserID`;
+
+--
+-- Описание для представления subscribesdetails
+--
+DROP VIEW IF EXISTS subscribesdetails CASCADE;
+CREATE 
+	DEFINER = 'root'@'localhost'
+VIEW subscribesdetails
+AS
+	select `SR`.`ID` AS `ID`,`SR`.`UserID` AS `UserID`,`SR`.`ProjectID` AS `ProjectID`,`SR`.`RequestTime` AS `RequestTime`,`P`.`Name` AS `ProjectName`,`P`.`OwnerID` AS `OwnerID`,`U`.`NickName` AS `ProjectOwner` from ((`subscribesrequest` `SR` join `projects` `P` on((`SR`.`ProjectID` = `P`.`ProjectID`))) left join `users` `U` on((`P`.`OwnerID` = `U`.`UserID`)));
 
 -- 
 -- Вывод данных для таблицы DefectItem
@@ -867,7 +888,11 @@ INSERT INTO ErorrReportHistory VALUES
   (171, 106, 1, '2011-10-29 01:26:54', 'Пользователь <strong>1</strong> изменил статус с <strong>Идентифицирован</strong> на <strong>Идентифицирован</strong>'),
   (172, 106, 1, '2011-10-29 02:36:52', 'Пользователь <strong>1</strong> изменил статус с <strong>Идентифицирован</strong> на <strong>В процессе</strong>'),
   (173, 106, 1, '2011-10-29 02:37:26', 'Пользователь <strong>1</strong> изменил статус с <strong>В процессе</strong> на <strong>Решён</strong>'),
-  (174, 106, 1, '2011-10-29 02:37:32', 'Пользователь <strong>1</strong> изменил статус с <strong>Решён</strong> на <strong>Закрыт</strong>');
+  (174, 106, 1, '2011-10-29 02:37:32', 'Пользователь <strong>1</strong> изменил статус с <strong>Решён</strong> на <strong>Закрыт</strong>'),
+  (175, 8731, 1, '2011-11-01 01:18:56', 'Задача добавлена'),
+  (176, 8731, 1, '2011-11-01 01:19:03', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Идентифицирован</strong>'),
+  (177, 80, 1, '2011-11-01 01:20:36', 'Пользователь <strong>1</strong> изменил статус с <strong>Новый</strong> на <strong>Идентифицирован</strong>'),
+  (178, 80, 1, '2011-11-01 01:20:40', 'Пользователь <strong>1</strong> изменил статус с <strong>Идентифицирован</strong> на <strong>В процессе</strong>');
 /*!40000 ALTER TABLE ErorrReportHistory ENABLE KEYS */;
 
 -- 
@@ -907,7 +932,7 @@ INSERT INTO ErrorReport VALUES
   (77, 18, 48, 'Defect', '2', 'RESOLVED', '2011-10-06 03:01:38', 'Если отсутствует скомпилированный шаблон для страниц &quot;Мои отчёты&quot; и &quot;Отчёты проекта&quot;, происходит исключение в Apache', 'Краш отчёт:\r\n\r\nСигнатура проблемы:\r\n  Имя события проблемы:\tAPPCRASH\r\n  Имя приложения:\thttpd.exe\r\n  Версия приложения:\t2.2.4.0\r\n  Отметка времени приложения:\t45a476e3\r\n  Имя модуля с ошибкой:\tphp5ts.dll\r\n  Версия модуля с ошибкой:\t5.2.4.4\r\n  Отметка врем', 1),
   (78, 18, 48, 'Defect', '1', 'CLOSED', '2011-10-06 03:05:15', 'При создании айтема урезается текст в полях ', 'Текст после создания айтема урезается, что неверно. Нужно увеличить до 1024 символов поля "Описание" и "Действия, которые привели к ошибке".\r\n\r\nНадо пофиксить.', 1),
   (79, 1, 48, 'Task', '2', 'RESOLVED', '2011-10-06 21:56:30', 'Редактирование статуса айтема', 'Сделать возможность редактирования айтема при просмотре. Менять состояние может только владелец айтема, на кого заасайненно и владелец проекта. Закрыть айтем может только владелец айтема и владелец проекта. При отображении состояния показывается текущее и', 1),
-  (80, 1, 48, 'Task', '2', 'NEW', '2011-10-06 22:02:55', 'Отображение заявок на проект', 'Сделать отображения всех запросов на вступление в проект, называемые &quot;Заявки&quot;.\r\n\r\nОтображение имени пользователя, даты подачи заявки и кнопок &quot;Подтвердить&quot; и &quot;Отклонить&quot;.\r\n\r\nСделать чекбоксы для грида, которые позволяют подтв', 18),
+  (80, 1, 48, 'Task', '2', 'ASSESSED', '2011-10-06 22:02:55', 'Отображение заявок на проект', 'Сделать отображения всех запросов на вступление в проект, называемые "Заявки".\r\n\r\nОтображение имени пользователя, даты подачи заявки и кнопок "Подтвердить" и "Отклонить".\r\n\r\nСделать чекбоксы для грида, которые позволяют подтв', 1),
   (82, 1, 48, 'Task', '2', 'RESOLVED', '2011-10-06 22:08:45', 'Поиск проектов', 'Реализовать полнотекстовый поиск по проекту и его описанию. На первом месте должны находиться проекты более совпадающие с поисковым критерием. \r\n\r\nПри удалении проекта - удалять полнотекстовый индекс проекта. Если у проекта пользователь был удалён, то ото', 1),
   (83, 1, 48, 'Task', '1', 'NEW', '2011-10-06 22:14:28', 'В настройках профиля добавить вкладку Дополнительные настройки', 'В данной вкладке добавить выпадающий список, который настраивает проект по-умолчанию. Для это есть специальный метод в классе ConcreteUser (бизнес-логика) ConcreteUser ::setDefaultProject($projectID), ConcreteUser::deleteDefaultProject().\r\n\r\nВ выпадающем ', 18),
   (84, 1, 48, 'Defect', '1', 'RESOLVED', '2011-10-06 22:29:37', 'Обрезается текст и заголовок при создании дефекта', 'При превышении размера в 256 символов - обрезается текст в описании и действиях, которые привели к ошибке. В хранимую процедуру AddItem стоит ограничение на входной текст.', 1),
@@ -967,7 +992,8 @@ INSERT INTO ErrorReport VALUES
   (8727, 1, 22, 'Task', '1', 'NEW', '2011-10-24 01:13:55', '''', '''''''', 0),
   (8728, 1, 22, 'Task', '1', 'NEW', '2011-10-28 00:33:09', '''', '', 0),
   (8729, 1, 22, 'Defect', '1', 'NEW', '2011-10-28 00:35:53', '''''''', '''\r\n''\r\n''\r\n''\r\n', 0),
-  (8730, 1, 48, 'Task', '2', 'RESOLVED', '2011-10-28 01:49:53', 'Добавить капчу при регистрации', 'При регистрации отсутствует капча. Нужно добавить её.', 1);
+  (8730, 1, 48, 'Task', '2', 'RESOLVED', '2011-10-28 01:49:53', 'Добавить капчу при регистрации', 'При регистрации отсутствует капча. Нужно добавить её.', 1),
+  (8731, 1, 48, 'Task', '2', 'IDENTIFIED', '2011-11-01 01:18:56', 'Реализовать отмену заявок, которые отправил пользователь', '1. Создать хранимую процедуру, которая очищает со списка\r\n2. Протестировать логику', 1);
 /*!40000 ALTER TABLE ErrorReport ENABLE KEYS */;
 
 -- 
@@ -1031,7 +1057,6 @@ INSERT INTO Projects VALUES
   (58, 'кусок', 'кусок', 1, '2011-10-27 00:31:53'),
   (59, 'Проблема', 'А проблема остается. Пользователи плохо пишут по-русски, не способны воспринимать даже те записи, которые пишутся в официальном блоге, в то время как развитых людей упрощение формулировок не удовлетворяет (в какой-то момент было принято решение не занижат', 1, '2011-10-27 00:54:49'),
   (60, 'Проблема', 'А проблема остается. Пользователи плохо пишут по-русски, не способны воспринимать даже те записи, которые пишутся в официальном блоге, в то время как развитых людей упрощение формулировок не удовлетворяет (в какой-то момент было принято решение не занижат', 1, '2011-10-27 00:56:42'),
-  (61, 'Хуй', 'хуй', 1, '2011-10-27 02:02:46'),
   (62, 'прол', '', 15, '2011-10-28 00:05:03'),
   (63, 'прае', '', 15, '2011-10-28 00:05:12'),
   (64, 'проц', '', 15, '2011-10-28 00:05:19'),
@@ -1084,7 +1109,8 @@ INSERT INTO ReportComment VALUES
   (73, 136, 1, '2011-10-18 21:53:56', ' паравпрвапопро'),
   (75, 8688, 1, '2011-10-20 03:01:09', ' Баг при изменении задачи.'),
   (78, 8725, 1, '2011-10-24 00:40:04', ' значит Марат, просто поссмотри дизайн и предложи улучшения и ошибки какие исправить бы)'),
-  (79, 106, 1, '2011-10-29 02:37:12', ' Выполнил, проблема была в таблице URL');
+  (79, 106, 1, '2011-10-29 02:37:12', ' Выполнил, проблема была в таблице URL'),
+  (80, 8731, 1, '2011-11-01 01:19:43', ' Хранимую процедуру буду реализовывать аналогично другим процедурам. Будет принята стандартная схема.');
 /*!40000 ALTER TABLE ReportComment ENABLE KEYS */;
 
 -- 
@@ -1097,13 +1123,14 @@ INSERT INTO ReportComment VALUES
 --
 /*!40000 ALTER TABLE SubscribesRequest DISABLE KEYS */;
 INSERT INTO SubscribesRequest VALUES 
-  (1, 6, 1),
-  (6, 1, 7),
-  (5, 7, 7),
-  (12, 8, 7),
-  (8, 9, 7),
-  (10, 7, 21),
-  (9, 10, 21);
+  (24, 1, 49, '2011-11-01 01:04:43'),
+  (25, 1, 62, '2011-11-01 01:04:45'),
+  (26, 1, 70, '2011-11-01 01:04:47'),
+  (27, 1, 80, '2011-11-01 01:04:50'),
+  (28, 1, 81, '2011-11-01 01:04:52'),
+  (29, 1, 2, '2011-11-01 01:05:02'),
+  (30, 1, 77, '2011-11-01 02:10:08'),
+  (36, 3, 70, '2011-11-03 00:19:12');
 /*!40000 ALTER TABLE SubscribesRequest ENABLE KEYS */;
 
 -- 
@@ -1144,7 +1171,8 @@ INSERT INTO URL VALUES
   (76, 'search', '', '', 11, 0, 1, 0),
   (77, 'result', '', '', 11, 0, 76, 0),
   (888, 'test', '', '', 18, 0, 1, 0),
-  (78, 'newpass', '', '', 10, 0, 74, 0);
+  (78, 'newpass', '', '', 10, 0, 74, 0),
+  (79, 'requests', '', '', 11, 0, 1, 0);
 /*!40000 ALTER TABLE URL ENABLE KEYS */;
 
 -- 

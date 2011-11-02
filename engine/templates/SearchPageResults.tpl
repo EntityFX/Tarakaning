@@ -32,7 +32,8 @@
 				{if $element.ProjectRelation eq 0}
 				<form action="#" method="post">
 					<div>
-						<input type="submit" value="Принять участие" class="standard" />
+						<input type="hidden" value="{$element.ProjectID}" name="projectID" />
+						<input type="submit" value="Подать заявку" class="standard" />
 					</div>		
 				</form>
 				{elseif $element.ProjectRelation eq 1}

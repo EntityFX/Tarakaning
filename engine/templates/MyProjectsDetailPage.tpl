@@ -65,50 +65,37 @@
 			{/if} 
 		</div> 
 		<div id="requests"> 
+			{if $PROJECT_SUBSCRIBES_REQUEST_PAGINATOR neq NULL}
+			<div class="groupier"> 
+				{$PROJECT_SUBSCRIBES_REQUEST_PAGINATOR}
+			</div>
+			{/if}
+			{if $PROJECT_SUBSCRIBES_REQUEST neq NULL}
 			<form action="#" class="reports_form"> 
-			  <table class="projects_table"> 
-				<col width="23" /> 
-				<col /> 
-				<col width="250" /> 
-				<thead> <tr> 
-				  <th><input name="del" type="checkbox" /></th> 
-				  <th><a href="#">Пользователь</a></th> 
-				  <th><a href="#">Действие</a></th> 
-				</tr> 
-				</thead> <tbody> 
-				  <tr class="odd"> 
-					<td><input name="delId" type="checkbox" /></td> 
-					<td><a href="#">EntityFX</a></td> 
-					<td><button type="button">Подтвердить</button><button type="button">Отменить</button></td> 
-				  </tr> 
-				  <tr class="even"> 
-					<td><input name="delId" type="checkbox" /></td> 
-					<td><a href="#">Flood</a></td> 
-					<td><button type="button">Подтвердить</button><button type="button">Отменить</button></td> 
-				  </tr> 
-				  <tr class="odd"> 
-					<td><input name="delId" type="checkbox" /></td> 
-					<td>Тити</td> 
-					<td><button type="button">Подтвердить</button><button type="button">Отменить</button></td> 
-				  </tr> 
-				  <tr class="even"> 
-					<td><input name="delId" type="checkbox" /></td> 
-					<td><a href="#">Sudo777</a><br /> 
-					</td> 
-					<td><button type="button">Подтвердить</button><button type="button">Отменить</button></td> 
-				  </tr> 
-				  <tr class="odd"> 
-					<td><input name="delId" type="checkbox" /></td> 
-					<td><a href="#">Sudo777</a></td> 
-					<td><button type="button">Подтвердить</button><button type="button">Отменить</button></td> 
-				  </tr> 
-				</tbody> 
-			  </table> 
+				<table class="projects_table"> 
+					<col width="23" /> 
+					<thead> <tr> 
+						<th><input name="del" type="checkbox" /></th> 
+						<th><a href="{$MY_PROJECT_ORDERER.NickName.url}#users" {if $MY_PROJECT_ORDERER.NickName.order eq true}class="sort"{/if}>Пользователь</a></th> 
+						<th><a href="{$MY_PROJECT_ORDERER.CountCreated.url}#users" {if $MY_PROJECT_ORDERER.CountCreated.order eq true}class="sort"{/if}>Дата заявки</a></th> 
+					</tr> 
+					</thead> 
+					<tbody> 
+					{foreach name=projectSubscribes from=$PROJECT_SUBSCRIBES_REQUEST item=element} {* Выводит мои проекты*}
+						<tr class="{if $smarty.foreach.projectUsers.index % 2 == 0}odd{else}even{/if}"> 
+							<td><input name="delId" type="checkbox" /></td> 
+							<td>{if $element.Owner eq 1}<strong><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a></strong>&nbsp;<sup style="font-size: 10px; color: red;">(владелец)</sup>{else}<a href="/profile/show/{$element.UserID}/">{$element.NickName}</a>{/if}</td> 
+							<td>{$element.RequestTime}</td> 
+						</tr> 
+					{/foreach}
+					</tbody> 
+				</table> 
 				<div class="groupier"> 
 					<input value="Подтвердить заявки" name="deSubscr" type="button" /> 
 					<input value="Удалить заявки" name="delBtn" type="button" /> 
 				</div> 
 			</form> 
+			{/if} 
 		</div> 
     </div> 
 </div>
