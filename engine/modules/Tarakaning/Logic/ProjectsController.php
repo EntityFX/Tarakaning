@@ -255,15 +255,40 @@
     							LEFT JOIN UsersInProjects UP ON
         							`P`.ProjectID=`UP`.ProjectID AND `UP`.UserID=%1$d
 								WHERE `P`.ProjectID IN %2$s',$userID,$projectsListStatement);
-				$this->_sql->debugging=true;
-				$this->_sql->query($query);
-				$this->_sql->debugging=false;
 				return $this->_sql->GetRows();
 			}
 			else
 			{
 				return null;
 			}
+		}
+		
+		public function searchProjectsUsingLikeCount($userID,$query)
+		{
+			return $this->_sql->countQuery('Projects',"`Name` LIKE '$query%' OR Description LIKE '%$query%'");
+		}
+		
+		public function searchProjectsUsingLike($userID,$query,ListPager $paginator)
+		{
+			$userID=(int)$userID;
+			$this->_sql->setLimit($paginator->getOffset(), $paginator->getSize());
+			$query=sprintf('SELECT 
+							    `P`.*,
+							    CASE 
+							    	WHEN `P`.OwnerID=%1$d THEN 2
+							    	WHEN `UP`.UserID IS null THEN 0
+							    	ELSE 1
+							    END AS ProjectRelation
+							FROM 
+							    Projects P
+							LEFT JOIN UsersInProjects UP ON
+							    `P`.ProjectID=`UP`.ProjectID AND `UP`.UserID=%1$d
+							WHERE 
+							    `Name` LIKE \'%2$s%%\' OR Description LIKE \'%%%2$s%%\'
+							LIMIT %3$d,%4$d'
+					,$userID,$query,$paginator->getOffset(),$paginator->getSize());
+			$this->_sql->query($query);
+			return $this->_sql->GetRows();
 		}
 		
 		public function getUserProjectsInfo($userId,MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction,$page=1,$size=10)

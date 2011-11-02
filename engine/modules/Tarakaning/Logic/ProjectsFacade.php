@@ -67,7 +67,7 @@
 		
 		public function searchProject($query)
 		{
-			$searchNamespace = new Zend_Session_Namespace('SEARCH');
+			/*$searchNamespace = new Zend_Session_Namespace('SEARCH');
 			if ($searchNamespace->query===$query)
 			{
 				$projectsFound=$searchNamespace->result;
@@ -95,7 +95,9 @@
 						}
 					}
 				}
-			}
+			}*/
+			$this->_paginator = new TarakaningULListPager($this->_projectsController->searchProjectsUsingLikeCount($this->_userInfo["UserID"],$query,$this->_paginator));
+			$result=$this->_projectsController->searchProjectsUsingLike($this->_userInfo["UserID"],$query,$this->_paginator);
 			return $result;
 		}
 		

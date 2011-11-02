@@ -55,5 +55,9 @@
 			<SearchPageResults type="HTML"> <!-- bugs assigned to user page class -->
 				<url>/search/</url>
 			</SearchPageResults>
+		<!-- Requests -->
+			<MyRequestsPage type="HTML"> <!-- bugs assigned to user page class -->
+				<url>/requests/</url>
+			</MyRequestsPage>
 	</PageClasses>
 </pages>
