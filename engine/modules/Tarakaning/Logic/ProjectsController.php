@@ -208,7 +208,7 @@
 		public function getProjectById($projectID)
 		{
 			$projectID=(int)$projectID;
-			$this->_sql->selAllWhere("ProjectsWithUserName","ProjectID=$projectID");
+			$this->_sql->selAllWhere("projectswithusername","ProjectID=$projectID");
 			$data=$this->_sql->getTable();
 			return $data[0];
 		}
@@ -223,7 +223,7 @@
 			$projectsListStatement=Serialize::serializeForINStatement($projectIDList);
 			if ($projectsListStatement!='')
 			{
-				$this->_sql->selAllWhere("ProjectsWithUserName","ProjectID IN $projectsListStatement");
+				$this->_sql->selAllWhere("projectswithusername","ProjectID IN $projectsListStatement");
 				return $this->_sql->getTable();
 			}
 			else
@@ -251,7 +251,7 @@
         								ELSE 1
     								END AS ProjectRelation
 								FROM 
-    								`ProjectsWithUserName` `P`
+    								`projectswithusername` `P`
     							LEFT JOIN UsersInProjects UP ON
         							`P`.ProjectID=`UP`.ProjectID AND `UP`.UserID=%1$d
 								WHERE `P`.ProjectID IN %2$s',$userID,$projectsListStatement);
