@@ -1,7 +1,7 @@
 <?php
 
-require_once 'engine/classes/ProjectsController.php';
-require_once 'engine/classes/ReportHistory.php';
+require_once 'ProjectsController.php';
+require_once 'ReportHistoryController.php';
 
 	class CheckParams
 	{

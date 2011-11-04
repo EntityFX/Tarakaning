@@ -83,7 +83,7 @@ require_once SOURCE_PATH."engine/system/db/DBConnector.php";
 				throw new Exception("ENGINE: Module (id=$type) is not declared");
 			}
 			$this->_moduleID=$array["moduleId"];
-			$fullPath=ModuleLoader::MODULE_PATH.$array["path"]."/".$array["path"]."Controller.php";           
+			$fullPath=SOURCE_PATH.ModuleLoader::MODULE_PATH.$array["path"]."/".$array["path"]."Controller.php";           
             $className=$array["path"]."Controller"; 
 			if (file_exists($fullPath))
 			{

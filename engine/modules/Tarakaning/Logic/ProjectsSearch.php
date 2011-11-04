@@ -1,5 +1,5 @@
 <?php
-require_once 'engine/system/search/SearchDirector.php';
+require_once SOURCE_PATH.'engine/system/search/SearchDirector.php';
 require_once 'ProjectsSearchBuilder.php';
 require_once 'ProjectsController.php';
 

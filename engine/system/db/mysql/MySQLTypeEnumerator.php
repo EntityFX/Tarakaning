@@ -7,7 +7,7 @@
 * @copyright Idel Media Group: Developers Team (Solopiy Artem, Jusupziyanov Timur)
 */
    
-	require_once "engine/system/AEnum.php";
+	require_once SOURCE_PATH."engine/system/AEnum.php";
     
     /**
     * Перечисление констант для типов полей

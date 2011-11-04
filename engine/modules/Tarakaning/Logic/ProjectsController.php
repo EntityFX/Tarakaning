@@ -1,8 +1,8 @@
 <?php 
 
-	require_once 'engine/modules/Tarakaning/Logic/ProjectFieldsUsersInfoENUM.php';
-	require_once 'engine/modules/Tarakaning/Logic/MyProjectsFieldsENUM.php';
-	require_once 'engine/system/addons/Serialize.php';
+	require_once 'ProjectFieldsUsersInfoENUM.php';
+	require_once 'MyProjectsFieldsENUM.php';
+	require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 	
 	/**
 	 * Класс управления проектами.

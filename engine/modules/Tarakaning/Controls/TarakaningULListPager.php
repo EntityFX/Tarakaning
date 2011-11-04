@@ -1,5 +1,5 @@
 <?php
-require_once 'engine/libs/controls/Pager/ULListPager.php';
+require_once SOURCE_PATH.'engine/libs/controls/Pager/ULListPager.php';
 
 	class TarakaningULListPager extends ULListPager
 	{

@@ -1,10 +1,10 @@
 <?php
 require_once 'InfoBasePage.php';
-require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
-require_once 'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
-require_once 'engine/libs/controls/Orderer/Orderer.php';
-require_once 'engine/modules/Tarakaning/Logic/Subscribes.php';
-require_once 'engine/modules/Tarakaning/Logic/ProjectSubscribesDetailENUM.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
+require_once SOURCE_PATH.'engine/libs/controls/Orderer/Orderer.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/Subscribes.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetailENUM.php';
 
 	class MyProjectsDetailPage extends InfoBasePage
 	{

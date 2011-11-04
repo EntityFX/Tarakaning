@@ -10,7 +10,7 @@
  * Подключает загрузчик модулей
  * @filesource engine/kernel/ModuleLoader.php
  */
-require_once SOURCE_PATH."ModuleLoader.php";
+require_once "ModuleLoader.php";
 
 /**
  * Подключает класс для работы с БД
@@ -23,13 +23,13 @@ require_once SOURCE_PATH."engine/system/db/DBConnector.php";
  * Подключает Smarty с настройками
  * @filesource engine/kernel/SmartyExst.php
  */
-require_once SOURCE_PATH."SmartyExst.php";
+require_once "SmartyExst.php";
 
 /**
  * Подключает класс выводимых ссылок
  * @filesource engine/kernel/Menu.php
  */
-require_once SOURCE_PATH."Menu.php";
+require_once "Menu.php";
 
 require_once "ISingleton.php";
 

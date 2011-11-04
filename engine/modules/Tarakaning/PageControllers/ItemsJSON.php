@@ -1,6 +1,6 @@
 <?php
-	require_once 'engine/kernel/JSONPage.php';
-	require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
+	require_once SOURCE_PATH.'engine/kernel/JSONPage.php';
+	require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php';
 	
 	class ItemsJSON extends JSONPage
 	{

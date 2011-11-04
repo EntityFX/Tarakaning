@@ -1,5 +1,5 @@
 <?php
-	require_once 'engine/system/search/SearchBuilder.php';
+	require_once SOURCE_PATH.'engine/system/search/SearchBuilder.php';
 	
 	class ProjectsSearchBuilder extends SearchBuilder
 	{

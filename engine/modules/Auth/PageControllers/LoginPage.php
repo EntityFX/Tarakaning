@@ -1,5 +1,5 @@
 <?php
-require_once 'engine/kernel/HTMLPage.php';
+require_once SOURCE_PATH.'engine/kernel/HTMLPage.php';
 
 	class LoginPage extends HTMLPage
 	{

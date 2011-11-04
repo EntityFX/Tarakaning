@@ -1,5 +1,5 @@
 <?php
-require_once 'engine/modules/Tarakaning/PageControllers/InfoBasePage.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/PageControllers/InfoBasePage.php';
 
 	class SearchPage extends InfoBasePage
 	{

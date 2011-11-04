@@ -1,5 +1,5 @@
 <?php
-require_once 'engine/modules/Auth/Logic/UsersOperation.php';
+require_once SOURCE_PATH.'engine/modules/Auth/Logic/UsersOperation.php';
 require_once 'Zend/Captcha/Image.php';
 
 	class DoRegistration extends SinglePage
