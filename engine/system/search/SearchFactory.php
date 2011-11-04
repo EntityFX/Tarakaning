@@ -46,7 +46,7 @@ abstract class SearchFactory
 	
 	public function __construct() 
 	{
-		$this->_sIndexDirPath .= $this->_arTableIndexName;
+		$this->_sIndexDirPath .= SOURCE_PATH.'/'.$this->_arTableIndexName;
 		$this->_index = $this->GetSearchIndex();
 	}
 	
@@ -59,11 +59,11 @@ abstract class SearchFactory
 		Zend_Search_Lucene_Search_QueryParser::setDefaultEncoding(self::$_encoding);
 		try 
 		{
-	    	return Zend_Search_Lucene::open($_SERVER['DOCUMENT_ROOT']."/".$this->_sIndexDirPath);
+	    	return Zend_Search_Lucene::open($this->_sIndexDirPath);
 		} 
 		catch( Exception $e) 
 		{
-		    return Zend_Search_Lucene::create($_SERVER['DOCUMENT_ROOT']."/".$this->_sIndexDirPath);
+		    return Zend_Search_Lucene::create($this->_sIndexDirPath);
 		}
 	}
 	

@@ -1,6 +1,6 @@
 <?php
 require_once 'InfoBasePage.php';
-require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php';
 
 	class MyProjectEditPage extends InfoBasePage
 	{

@@ -7,11 +7,11 @@
 * @copyright Developers Team (Solopiy Artem, Jusupziyanov Timur) © 2010 
 */
 
-    require_once "engine/config/databaseConsts.php";
+    require_once SOURCE_PATH."engine/config/databaseConsts.php";
     
-    require_once "engine/kernel/ISingleton.php";    
+    require_once SOURCE_PATH."engine/kernel/ISingleton.php";    
     
-    require_once "mysql/MySQL.php";
+    require_once SOURCE_PATH."engine/system/db/mysql/MySQL.php";
     
     
     /**
@@ -37,7 +37,7 @@
         protected function __construct()
         {
             $this->_sql=MySQL::getInstance(DB_SERVER,DB_USER,DB_PASSWORD);
-            //MySQL::$globalDebugging=true;
+            MySQL::$globalDebugging=true;
             $this->_sql->selectDB(DB_NAME);
         }
         

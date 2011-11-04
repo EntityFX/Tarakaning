@@ -1,8 +1,8 @@
 <?php
 require_once 'InfoBasePage.php';
-require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
-require_once 'engine/modules/Tarakaning/Logic/ProjectsSearch.php';
-require_once 'engine/modules/Tarakaning/Logic/ProjectsFacade.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsSearch.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsFacade.php';
 
 	class MyNewProjectPage extends InfoBasePage
 	{

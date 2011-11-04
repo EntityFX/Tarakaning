@@ -32,7 +32,7 @@ require_once 'Error.php';
 			}
 			if ($pageInfo!=null)
 			{
-				require_once "engine/modules/".$this->_moduleType."/PageControllers/".$pageInfo["class"].".php";
+				require_once SOURCE_PATH."engine/modules/".$this->_moduleType."/PageControllers/".$pageInfo["class"].".php";
 				switch($pageInfo["page"]["type"])
 				{
 					case "HTML":
@@ -57,7 +57,7 @@ require_once 'Error.php';
 		protected function loadPagesByXML()
 		{
 			require_once 'Zend/Config/Xml.php';
-			$path="engine/modules/".$this->_moduleType.'/'.self::XML_CONFIG_NAME;
+			$path=SOURCE_PATH."engine/modules/".$this->_moduleType.'/'.self::XML_CONFIG_NAME;
 			$xmlConfig=new Zend_Config_Xml($path,'PageClasses');
 			$data=$xmlConfig->toArray();
 			$this->loadPages(&$data);

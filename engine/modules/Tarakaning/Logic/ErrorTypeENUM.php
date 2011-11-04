@@ -1,5 +1,5 @@
 <?php
-    require_once "engine/system/AEnum.php";
+    require_once SOURCE_PATH."engine/system/AEnum.php";
     
     final class ErrorTypeENUM extends AEnum
     {

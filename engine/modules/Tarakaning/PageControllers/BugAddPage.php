@@ -1,8 +1,8 @@
 <?php
 require_once 'InfoBasePage.php';
-require_once 'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
-require_once 'engine/modules/Tarakaning/Logic/ItemsFacade.php';
-require_once 'engine/modules/Tarakaning/Logic/ReportHistoryController.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ItemsFacade.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ReportHistoryController.php';
 
 	class BugAddPage extends InfoBasePage
 	{

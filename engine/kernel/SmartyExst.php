@@ -11,7 +11,7 @@
     * Подключает константы для Smarty
     * @filesource config/smartyConsts.php 
     */  
-    require_once "engine/config/smartyConsts.php";
+    require_once SOURCE_PATH."engine/config/smartyConsts.php";
     
     /**
     * Подключает Smarty
@@ -37,16 +37,16 @@
     	public function __construct()
         {
             parent::__construct(); 
-            $this->setTemplateDir(SmartyConsts::TEMPLATES_DIR);
-            $this->setCacheDir(SmartyConsts::CACHE_DIR);
-            $this->setCompileDir(SmartyConsts::COMPILE_DIR); 
+            $this->setTemplateDir(SOURCE_PATH.SmartyConsts::TEMPLATES_DIR);
+            $this->setCacheDir(SOURCE_PATH.SmartyConsts::CACHE_DIR);
+            $this->setCompileDir(SOURCE_PATH.SmartyConsts::COMPILE_DIR); 
         }
         
         public function fetch($template, $cache_id = null, $compile_id = null, $parent = null, $display = false)
         {
         	if ($this->langCode!==false)
         	{
-        		$languagePath=self::LANGUAGE_CONFIG_DIRECTORY.Language::getLangName($this->langCode).".ini";
+        		$languagePath=SOURCE_PATH.'/'.self::LANGUAGE_CONFIG_DIRECTORY.Language::getLangName($this->langCode).".ini";
         		$this->configLoad($languagePath);
         		$this->assign($languagePath,"LANGUAGE");
         	}

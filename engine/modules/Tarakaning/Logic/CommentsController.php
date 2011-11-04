@@ -2,7 +2,7 @@
 require_once 'ProjectsController.php';	
 require_once 'ItemCommentsENUM.php';
 require_once 'RequestsController.php';
-require_once 'engine/system/addons/Serialize.php';
+require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 
 	/**
 	 * Класс управления комментариями к ошибкам.

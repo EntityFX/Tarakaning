@@ -1,6 +1,6 @@
 <?php
 
-require_once 'engine/kernel/HTMLPage.php';
+require_once SOURCE_PATH.'engine/kernel/HTMLPage.php';
 
 class ErrorPage extends HTMLPage
 {

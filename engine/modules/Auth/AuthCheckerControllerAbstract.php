@@ -1,5 +1,5 @@
 <?php
-require_once 'engine/modules/Auth/Logic/UserAuth.php';
+require_once SOURCE_PATH.'engine/modules/Auth/Logic/UserAuth.php';
 
 	class AuthCheckerControllerAbstract extends ModuleController
 	{

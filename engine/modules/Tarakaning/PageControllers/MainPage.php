@@ -1,5 +1,5 @@
 <?php
-require_once 'engine/kernel/SinglePage.php';
+require_once SOURCE_PATH.'engine/kernel/SinglePage.php';
 
 class MainPage extends SinglePage
 {

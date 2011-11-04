@@ -1,10 +1,10 @@
 <?php
-require_once 'engine/modules/Tarakaning/PageControllers/InfoBasePage.php';
-require_once 'engine/modules/Tarakaning/Logic/ProjectsSearch.php';
-require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
-require_once 'engine/modules/Tarakaning/Logic/ProjectsFacade.php';
-require_once 'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
-require_once 'engine/modules/Tarakaning/Logic/Subscribes.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/PageControllers/InfoBasePage.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsSearch.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsFacade.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/Subscribes.php';
 
 	class SearchPageResults extends InfoBasePage
 	{

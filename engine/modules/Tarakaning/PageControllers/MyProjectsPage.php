@@ -1,9 +1,9 @@
 <?php
 require_once 'InfoBasePage.php';
-require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
-require_once 'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
-require_once 'engine/libs/controls/Orderer/Orderer.php';
-require_once 'engine/system/addons/Serialize.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
+require_once SOURCE_PATH.'engine/libs/controls/Orderer/Orderer.php';
+require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 
 	class MyProjectsPage extends InfoBasePage
 	{

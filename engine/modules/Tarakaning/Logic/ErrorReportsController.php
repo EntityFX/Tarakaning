@@ -279,7 +279,7 @@
             {
             	$kindExpression="AND Kind='$itemKind'";
             }
-            $this->_sql->selAllWhere("ErrorReportsInfo","ProjectID=$projectID $kindExpression");
+            $this->_sql->selAllWhere("errorreportsinfo","ProjectID=$projectID $kindExpression");
             $res=$this->_sql->getTable();
             if ($res!=null)
             {
@@ -300,7 +300,7 @@
             {
             	$kindExpression="AND Kind='$itemKind'";
             }
-            return $this->_sql->countQuery("ErrorReportsInfo","ProjectID=$projectID $kindExpression");
+            return $this->_sql->countQuery("errorreportsinfo","ProjectID=$projectID $kindExpression");
         }
         
         private function checkProject(&$projectID)
@@ -468,7 +468,7 @@
         private function getReportByID($reportID)
         {
             $reportID=(int)$reportID;
-        	$this->_sql->selAllWhere("ErrorReportsInfo","ID=$reportID");
+        	$this->_sql->selAllWhere("errorreportsinfo","ID=$reportID");
             $arr=$this->_sql->getTable();
             if ($arr==null)
             {

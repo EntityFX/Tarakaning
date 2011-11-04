@@ -1,5 +1,5 @@
 <?
-require_once 'engine/modules/Auth/AuthCheckerControllerAbstract.php';
+require_once SOURCE_PATH.'engine/modules/Auth/AuthCheckerControllerAbstract.php';
 
     class ProfileController extends AuthCheckerControllerAbstract
 	{
