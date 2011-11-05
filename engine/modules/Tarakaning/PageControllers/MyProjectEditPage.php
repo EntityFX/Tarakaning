@@ -32,7 +32,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php
 					{
 						$this->_controller->error->addError("editProjectError",true);
 						$this->_projectData['Name']=$postData['project_name'];
-						$this->_projectData['Description']=$postData['description'];
+						$this->_projectData['Description']=$postData['description']; 
 					}
 				}
 				else 
@@ -51,7 +51,9 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php
 		
 		protected function doAssign()
 		{
-			parent::doAssign();
+			parent::doAssign();  
+            $this->_projectData['Name']=htmlspecialchars($this->_projectData['Name']);   
+            var_dump($this->_projectData) ;
 			$this->_smarty->assign("PROJECT_DATA",$this->_projectData);
 			$editProjectError=$this->_controller->error->getErrorByName("editProjectError");
 			if ($editProjectError===true)

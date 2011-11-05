@@ -55,7 +55,6 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 			
 			$this->_subscribesRequestPaginator=new TarakaningULListPager($subscribes->getProjectSubscribesCount($projectID),'subscribesPage');
 			$this->_subscribesRequestOrderer=new Orderer(new ProjectSubscribesDetailENUM(),'orderBySubscribes');
-			var_dump($this->_subscribesRequestOrderer);
 			
 			$this->_subscribesRequestData=$subscribes->getProjectSubscribes(
 				$projectID,

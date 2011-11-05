@@ -19,7 +19,7 @@
 		public function addProject($projectName, $description)
 		{
 			$addedProjectID=$this->_projectsController->addProject($this->_userInfo["UserID"], $projectName, $description);
-			try
+			/*try
 			{
 				$this->_projectsSearch->addProjectToIndex(
 					new ArrayObject(array(
@@ -33,13 +33,13 @@
 			catch(Exception $exception)
 			{
 				$this->_projectsController->deleteProject($this->_userInfo["UserID"], $addedProjectID);
-			}
+			}*/
 			return $addedProjectID;
 		}
 		
 		public function deleteProject($projectID) 
 		{
-			$this->_projectsSearch->deleteFromIndex($projectID);
+			/*$this->_projectsSearch->deleteFromIndex($projectID);*/
 			$this->_projectsController->deleteProject($this->_userInfo["UserID"], $projectID);
 		}
 		
@@ -54,14 +54,14 @@
 		
 		public function setProjectName($projectID,$projectNewName, $newDescription)
 		{
-			//$this->_projectsSearch->
+			/*$this->_projectsSearch->
 					new ArrayObject(array(
 						"ProjectID" => $projectRecord['ProjectID'],
 						"Name" => $projectNewName,
 						"Description" => $newDescription,
 						"OwnerID" => $this->_userInfo["UserID"]
 					));
-			
+			*/
 			$this->_projectsController->setProjectName($projectID, $this->_userInfo["UserID"], $projectNewName, $newDescription);
 		}
 		

@@ -41,12 +41,10 @@
 		 */
 		public function addProject($userID, $projectName, $description)
 		{
-			$projectName = htmlspecialchars($projectName);
 			if (trim($projectName)=='')
 			{
 				throw new Exception("«аголовок проекта не должен быть пустым");
 			}
-			$description = htmlspecialchars($description);
 			$userID = (int)$userID;
 			$this->_sql->insert(
 				"Projects", 
@@ -93,15 +91,12 @@
 			$projectID = (int)$projectID;
 			if ($this->isProjectExists($projectID))
 			{
-				$projectNewName = htmlspecialchars($projectNewName);
-				$newDescription = htmlspecialchars($newDescription);
 				if ($projectNewName=='')
 				{
 					throw new Exception("»м€ проекта не должно быть пустым");
 				}
 				if ($this->isOwner($userID, $projectID))  
 				{
-					
 					$this->_sql->update(
 						'Projects', 
 						"ProjectID = $projectID AND OwnerID = $userID",
@@ -265,13 +260,15 @@
 		
 		public function searchProjectsUsingLikeCount($userID,$query)
 		{
-			return $this->_sql->countQuery('Projects',"`Name` LIKE '$query%' OR Description LIKE '%$query%'");
+		    $query=addslashes($query);
+            return $this->_sql->countQuery('Projects',"`Name` LIKE '%$query%' OR Description LIKE '%$query%'");
 		}
 		
 		public function searchProjectsUsingLike($userID,$query,ListPager $paginator)
 		{
 			$userID=(int)$userID;
 			$this->_sql->setLimit($paginator->getOffset(), $paginator->getSize());
+            $query=addslashes($query);
 			$query=sprintf('SELECT 
 							    `P`.*,
 							    CASE 
@@ -284,7 +281,7 @@
 							LEFT JOIN UsersInProjects UP ON
 							    `P`.ProjectID=`UP`.ProjectID AND `UP`.UserID=%1$d
 							WHERE 
-							    `Name` LIKE \'%2$s%%\' OR Description LIKE \'%%%2$s%%\'
+							    `Name` LIKE \'%%%2$s%%\' OR Description LIKE \'%%%2$s%%\'
 							LIMIT %3$d,%4$d'
 					,$userID,$query,$paginator->getOffset(),$paginator->getSize());
 			$this->_sql->query($query);

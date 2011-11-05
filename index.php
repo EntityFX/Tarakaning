@@ -4,7 +4,7 @@
     * @global Const Путь к файлам
     * @name SOURCE_PATH
     */
-    define("SOURCE_PATH","");
+    define("SOURCE_PATH",dirname(__FILE__).'/');
     
     /**
     * Подключает константы БД
