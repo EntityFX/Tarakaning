@@ -220,7 +220,7 @@
                 		else 
                 		{
                 			if ($title=='') throw new Exception("Заголовок не должен быть пустым");
-                			$this->_sql->call(
+                            $this->_sql->call(
 	                			"EditItem", 
 	                			new ArrayObject(array(
 	                				$reportID,

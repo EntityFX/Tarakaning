@@ -224,7 +224,7 @@ require_once 'MySQLException.php';
         		{
         			if (is_string($val))
         			{
-        				$fld="`$key`"."='".$val."'";			
+        				$fld="`$key`"."='".addslashes($val)."'";			
         			}
         			else if (is_bool($val))
         			{

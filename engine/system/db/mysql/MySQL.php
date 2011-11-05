@@ -256,7 +256,7 @@
 		*/
 		public function selAllWhere($table_name,$where)
 		{
-			$query_res=$this->queryExecute("SELECT * FROM `$table_name` WHERE $where".$this->getPostfix());
+            $query_res=$this->queryExecute("SELECT * FROM `$table_name` WHERE $where".$this->getPostfix());
 			$this->rows=&$this->getRows($query_res);    
 		}
 		
@@ -503,7 +503,7 @@
 	        	}
         	    if (is_string($paramsArray[$current]))
         		{
-        			$val='\''.addslashes($paramsArray[$current]).'\'';
+        			$val='\''.$paramsArray[$current].'\'';
         		}
         		else if (is_bool(is_string($paramsArray[$current])))
         		{

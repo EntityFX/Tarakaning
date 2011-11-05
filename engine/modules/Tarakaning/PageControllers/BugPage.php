@@ -152,7 +152,8 @@ class BugPage extends InfoBasePage
 		parent::doAssign();
 		if ($this->_bugData!=null)
 		{
-			$this->_smarty->assign("BUG",$this->_bugData);
+		    $this->_bugData['Title']=htmlspecialchars($this->_bugData['Title']);
+            $this->_smarty->assign("BUG",$this->_bugData);
 			
 			$this->_smarty->assign("USERS_ASSIGN_TO",$this->_projectUsersList);
 			
