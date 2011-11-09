@@ -69,12 +69,12 @@
 			 <table class="projects_table">
 				<thead> 
 					<tr>
-						<th><a href="{$MEMBER_PROJECTS_ORDERER.Name.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.Name.order eq true}class="sort"{/if}">Проект</a></th>
-						<th><a href="{$MEMBER_PROJECTS_ORDERER.Description.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.Description.order eq true}class="sort"{/if}">Заголовок</a></th>
-						<th><a href="{$MEMBER_PROJECTS_ORDERER.NickName.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.NickName.order eq true}class="sort"{/if}">Владелец</a></th>
+						<th><a href="{$MEMBER_PROJECTS_ORDERER.Name.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.Name.order eq true}class="sort"{/if}>Проект</a></th>
+						<th><a href="{$MEMBER_PROJECTS_ORDERER.Description.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.Description.order eq true}class="sort"{/if}>Заголовок</a></th>
+						<th><a href="{$MEMBER_PROJECTS_ORDERER.NickName.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.NickName.order eq true}class="sort"{/if}>Владелец</a></th>
 						<th colspan="5">Отчётов</th>
-						<th><a href="{$MEMBER_PROJECTS_ORDERER.CountRequests.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.CountRequests.order eq true}class="sort"{/if}">Заявки</a></th>
-						<th><a href="{$MEMBER_PROJECTS_ORDERER.CreateDate.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.CreateDate.order eq true}class="sort"{/if}">Дата</a></th>
+						<th><a href="{$MEMBER_PROJECTS_ORDERER.CountRequests.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.CountRequests.order eq true}class="sort"{/if}>Заявки</a></th>
+						<th><a href="{$MEMBER_PROJECTS_ORDERER.CreateDate.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.CreateDate.order eq true}class="sort"{/if}>Дата</a></th>
 					</tr>
 				</thead> 
 				<tbody>

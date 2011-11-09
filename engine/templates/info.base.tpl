@@ -25,8 +25,8 @@
 	<div class="panel">
 		<form action="#">
 			<div>
-				<a href="/bug/add/" alt="+" title="Добавить новую задачу">З</a>
-				<a href="/my/project/new/" alt="+" title="Добавить новый проект">П</a>
+				<a href="/bug/add/" title="Добавить новую задачу">З</a>
+				<a href="/my/project/new/" title="Добавить новый проект">П</a>
 				<label>№ </label>
 				<input type="text" maxlength="10" name="item" id="item" />
 				<input type="submit" value="OK" id="submit_item" />

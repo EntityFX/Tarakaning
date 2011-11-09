@@ -78,7 +78,7 @@
 					</tbody>
 				</table>
 				<div class="groupier">
-					<input type="submit" value="Удалить выделенные" title="Удалить выделенные" name="del" id="del" />
+					<input type="submit" value="Удалить выделенные" title="Удалить выделенные" name="del_assigned" id="del_assigned" />
 				</div>
 			</form>
 			{else}
