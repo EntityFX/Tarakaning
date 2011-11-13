@@ -9,21 +9,28 @@ class DoLogin extends SinglePage
 	protected function onInit()
 	{
 		$auth=$this->_controller->auth;
-		if ($this->request->isPost())
+		if ($this->_controller->auth->isEntered())
 		{
-			try
+			$this->navigate(AuthCheckerControllerAbstract::MY_PROJECTS_URL);
+		}
+		else 
+		{
+			if ($this->request->isPost())
 			{
-				$auth->logIn(
-					$this->request->getPost("login"),
-					$this->request->getPost("pswrd")
-				);
+				try
+				{
+					$auth->logIn(
+						$this->request->getPost("login"),
+						$this->request->getPost("pswrd")
+					);
+				}
+				catch(Exception $exception)
+				{
+					$this->_controller->error->addError("loginError",$exception);
+					$this->navigate(self::LOGIN_URL);
+				}
+				$this->navigate(AuthCheckerControllerAbstract::MY_PROJECTS_URL);
 			}
-			catch(Exception $exception)
-			{
-				$this->_controller->error->addError("loginError",$exception);
-				$this->navigate(self::LOGIN_URL);
-			}
-			$this->navigate("/my/projects/");
 		}
 	}
 }

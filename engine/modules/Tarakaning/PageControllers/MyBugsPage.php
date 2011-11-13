@@ -22,12 +22,25 @@ class MyBugsPage extends BugsBasePage
 	protected function doAssign()
 	{
 		parent::doAssign();
+		$this->_smarty->clearAssign('PROJECT_BUGS_PAGINATOR');
+
+		$this->_smarty->assign("MY_ASSIGNED_BUGS_PAGINATOR",$this->_paginatorForAssigned!=null?$this->_paginatorForAssigned->getHTML():null);
+		$this->_smarty->assign("MY_PROJECT_BUGS_PAGINATOR",$this->_paginator!=null?$this->_paginator->getHTML():null);
+		
 		$this->_smarty->assign("MY_ASSIGNED_BUGS_ORDERER",$this->_ordererForAssigned!=null?$this->_ordererForAssigned->getNewUrls():null);
 		$this->_smarty->assign("MY_ASSIGNED_BUGS",$this->_assignedBugsData);
 	}
 	
 	protected function initializeGeneralBugsData()
 	{
+		if ($this->request->isPost())
+		{
+			if ($this->request->getPost("del_assigned",null)!=null)
+			{
+				$this->deleteSelectedItems();
+			}
+		}
+				
 		$count=$this->_bugsOperation->countReports($this->_itemKindENUM);
 		$this->_paginator=new TarakaningULListPager($count);
 		$this->_orderer=new Orderer(new ErrorFieldsENUM());

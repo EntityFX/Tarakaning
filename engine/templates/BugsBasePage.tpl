@@ -3,7 +3,7 @@
 {block name=script}
 {literal}
 		$('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
-		$('#del').click(function(){
+		$('#del, del_assigned').click(function(){
 			return confirm('Вы действительно желаете удалить выделенные элементы?');
 		});
 		

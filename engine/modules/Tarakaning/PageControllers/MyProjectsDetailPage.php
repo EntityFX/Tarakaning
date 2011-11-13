@@ -20,43 +20,60 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 		
 		private $_orderData;
 		
+		private $_subscribes;
+		
 		private $_subscribesRequestData;
 		
 		private $_subscribesRequestPaginator;
 		
 		private $_subscribesRequestOrderer;
 		
+		private $_isOwner;
+		
+		private $_projectOperation;
+		
 		protected function onInit()
 		{
 			parent::onInit();
-			$projectsOperation=new ProjectsController();
-			$this->_projectData=$projectsOperation->getProjectById($this->_parameters[0]);
+			$this->_projectOperation=new ProjectsController();
+			$this->_projectData=$this->_projectOperation->getProjectById($this->_parameters[0]);
 			
-			$this->_myProjectsInfoPaginator=new TarakaningULListPager($projectsOperation->getProjectUsersInfoCount($this->_parameters[0]));
+			$this->_subscribes=new Subscribes();
+			
+			if ($this->_projectData!=null)
+			{
+				if ($this->request->isPost())
+				{
+					if ($this->request->getPost("delete_member",null)!=null)
+					{
+						$this->deleteSelectedMembers();
+					}
+				}
+			}
+			else 
+			{
+				$this->navigate('/my/projects/');
+			}
+			
+			$this->_isOwner=$this->isProjectOwner();
+			
+			$this->_myProjectsInfoPaginator=new TarakaningULListPager($this->_projectOperation->getProjectUsersInfoCount($this->_parameters[0]));
 			$this->_orderer=new Orderer(new ProjectFieldsUsersInfoENUM());
 			$this->_orderData=$this->_orderer->getNewUrls();
 			
-			$this->_projectUsers=$projectsOperation->getProjectsUsersInfoPagOrd(
+			$this->_projectUsers=$this->_projectOperation->getProjectsUsersInfoPagOrd(
 				$this->_parameters[0], 
 				new ProjectFieldsUsersInfoENUM($this->_orderer->getOrderField()), 
 				new MySQLOrderENUM($this->_orderer->getOrder()),
 				$this->_myProjectsInfoPaginator->getOffset(),
 				$this->_myProjectsInfoPaginator->getSize()
 			);
-			
-			if ($this->_projectData==null)
-			{
-				$this->navigate('/my/projects/');
-			}
-			
 			$projectID=$this->_projectData['ProjectID'];
 			
-			$subscribes=new Subscribes();
-			
-			$this->_subscribesRequestPaginator=new TarakaningULListPager($subscribes->getProjectSubscribesCount($projectID),'subscribesPage');
+			$this->_subscribesRequestPaginator=new TarakaningULListPager($this->_subscribes->getProjectSubscribesCount($projectID),'subscribesPage');
 			$this->_subscribesRequestOrderer=new Orderer(new ProjectSubscribesDetailENUM(),'orderBySubscribes');
 			
-			$this->_subscribesRequestData=$subscribes->getProjectSubscribes(
+			$this->_subscribesRequestData=$this->_subscribes->getProjectSubscribes(
 				$projectID,
 				$this->_subscribesRequestOrderer,
 				$this->_subscribesRequestPaginator
@@ -76,11 +93,50 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 			$this->_smarty->assign('PROJECT_SUBSCRIBES_REQUEST_PAGINATOR',$this->_subscribesRequestPaginator!=null?$this->_subscribesRequestPaginator->getHTML():null);
 			$this->_smarty->assign('PROJECT_SUBSCRIBES_ORDERER',$this->_subscribesRequestOrderer!=null?$this->_subscribesRequestOrderer->getNewUrls():null);
 			
+			$this->_smarty->assign('IS_OWNER',$this->_isOwner);
+			
 			$newProjectOK=$this->_controller->error->getErrorByName("newProjectOK");
 			if ($newProjectOK)
 			{
 				$this->_smarty->assign("GOOD",true);
 			}
 		}	
+		
+		private function deleteSelectedMembers()
+		{
+			$checkboxes=$this->request->getPost("del_i");
+			$this->_subscribes->deleteProjectMembers(
+				Serialize::SerializeForStoredProcedure($checkboxes), 
+				$this->_userInfo['UserID'],
+				$this->_projectData['ProjectID']
+			);
+		}
+		
+		private function deleteSelectedRequests()
+		{
+			
+		}
+		
+		private function commitSelectedRequests()
+		{
+			
+		}
+		
+		/**
+		 * 
+		 * ѕровера, €вл€етс€ ли участником проекта
+		 * @return boolean
+		 */
+		private function isProjectOwner()
+		{
+			if ($this->_projectData!=null)
+			{
+				if ($this->_userInfo['UserID']==$this->_projectData['OwnerID'])
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 ?>

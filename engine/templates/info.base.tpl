@@ -25,9 +25,10 @@
 	<div class="panel">
 		<form action="#">
 			<div>
-				<a href="/bug/add/" title="Добавить новую задачу">З</a>
-				<a href="/my/project/new/" title="Добавить новый проект">П</a>
-				<label>№ </label>
+				<a href="/bug/add/" title="Добавить новую задачу">Новая задача</a>
+				<a href="/my/project/new/" title="Добавить новый проект">Новый проект</a>
+				<span class="delmiter"></span>
+				<label>Переход к № </label>
 				<input type="text" maxlength="10" name="item" id="item" />
 				<input type="submit" value="OK" id="submit_item" />
 			</div>
@@ -37,8 +38,8 @@
 <div id="account_panel">
 	<strong>{$LOGIN}</strong>
 	<a href="/profile/edit/" title="Настройки профиля"><img src="/images/settings.png" alt="настройки" /></a><br/>
-	<span>{$FULLNAME}</span><br />
-	<span>Вошёл: <span style="color: #aaa">{$TIME}</span></span><br />
+	{*<span>{$FULLNAME}</span><br />*}
+	<span id="enter_time">Вошёл: <span style="color: #aaa">{$TIME}</span></span><br />
 	<a href="/logout/" id="exit" >Выход</a>
 </div>
 {/block}

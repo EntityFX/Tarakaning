@@ -315,7 +315,7 @@ require_once 'MySQLException.php';
         {
         	if ($this->_debugFile==null)
         	{
-        		$this->_debugFile=new TextFile(SOURCE_PATH.'/'.self::$_debugPath);
+        		$this->_debugFile=new TextFile(SOURCE_PATH.self::$_debugPath);
         		$this->_debugFile->open("a+");
         		list($this->_startMikrotime, $sec) = explode(" ", microtime(true));
         		$this->_debugFile->writeLine("START SQL DEBUG ".date("Y-m-d H:i:s.B")." (start time: ".$this->_startMikrotime." µs )");
