@@ -277,7 +277,7 @@
 							    	ELSE 1
 							    END AS ProjectRelation
 							FROM 
-							    Projects P
+							    projectsinfoview P
 							LEFT JOIN UsersInProjects UP ON
 							    `P`.ProjectID=`UP`.ProjectID AND `UP`.UserID=%1$d
 							WHERE 

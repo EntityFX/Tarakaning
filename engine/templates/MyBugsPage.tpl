@@ -6,6 +6,9 @@
 			<li><a href="#assigned_items"><span>Назначенные мне</span></a></li>			
 		</ul>
 		<div id="my_items">
+			<div class="groupier">
+				{$MY_PROJECT_BUGS_PAGINATOR}
+			</div>
 			{if $MY_BUGS neq NULL}
 			<form action="#" class="reports_form" method="post">
 				<!--<a class="z" href="#">Выбрать всё</a>-->
@@ -46,6 +49,9 @@
 			{/if}
 		</div>
 		<div id="assigned_items">
+			<div class="groupier">
+				{$MY_ASSIGNED_BUGS_PAGINATOR}
+			</div>
 			{if $MY_ASSIGNED_BUGS neq NULL}
 			<form action="#" class="reports_form" method="post">
 				<!--<a class="z" href="#">Выбрать всё</a>-->

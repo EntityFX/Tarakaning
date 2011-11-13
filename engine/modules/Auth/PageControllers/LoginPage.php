@@ -5,7 +5,10 @@ require_once SOURCE_PATH.'engine/kernel/HTMLPage.php';
 	{
 		protected function onInit()
 		{
-			
+			if ($this->_controller->auth->isEntered())
+			{
+				$this->navigate(AuthCheckerControllerAbstract::MY_PROJECTS_URL);
+			}
 		}
 		
 		protected function doAssign()

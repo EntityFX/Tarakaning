@@ -145,6 +145,29 @@
 				}
 			}
 			
+			/**
+			 * 
+			 * Удаляет участников проекта
+			 * @param array $keysList Список идентификаторов участников
+			 * @param int $projectID ID проекта
+			 */
+			public function deleteProjectMembers($keysList,$ownerID,$projectID)
+			{
+				$ownerID = (int)$ownerID;
+				$projectID = (int)$projectID;
+				$projectOperation=new ProjectsController();
+	        	if ($projectOperation->isOwner($ownerID, $projectID) && $keysList!='')
+	        	{
+	        		$this->_sql->call(
+	        			'DeleteUsersFromProject', 
+	        			new ArrayObject(array(
+	        				$projectID,
+	        				$keysList
+	        			))
+	        		);
+	        	}
+			}
+			
 			public function getProjectUsers($projectID) 
 			{
 				$p = new ProjectsController();
