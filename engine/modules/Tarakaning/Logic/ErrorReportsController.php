@@ -487,6 +487,7 @@
         
         public function canEditStatus($reportID,$projectID)
         {
+        	$reportID=(int)$reportID;
         	$projectID=(int)$projectID;
         	$user=$this->_errorOwnerID;
         	$isOwnerORAssigned=$this->_sql->countQuery("ErrorReport","ID=$reportID AND (UserID=$user OR AssignedTo=$user)");

@@ -26,7 +26,7 @@
 			<li><a href="#about"><span>Описание</span></a></li> 
 			<li><a href="#users"><span>Участники</span></a></li> 
 			{if $IS_OWNER eq true}
-			<li><a href="#requests"><span>Заявки</span></a></li>	
+			<li><a href="#requests"><span>Заявки</span>{if $COUNT_SUBSCRIBES neq 0} <strong class="strongest">({$COUNT_SUBSCRIBES})</strong>{/if}</a></li>	
 			{/if}		
 		</ul> 
 		<div id="about" class="info_div">			
@@ -98,7 +98,7 @@
 			</div>
 			{/if}
 			{if $PROJECT_SUBSCRIBES_REQUEST neq NULL}
-			<form action="#" class="reports_form"> 
+			<form action="#requests" class="reports_form" method="post"> 
 				<table class="projects_table"> 
 					<col width="23" /> 
 					<thead> <tr> 
@@ -110,7 +110,7 @@
 					<tbody> 
 					{foreach name=projectSubscribes from=$PROJECT_SUBSCRIBES_REQUEST item=element} {* Выводит мои проекты*}
 						<tr class="{if $smarty.foreach.projectUsers.index % 2 == 0}odd{else}even{/if}"> 
-							<td><input name="delId" type="checkbox" /></td> 
+							<td><input name="sub_i[{$element.ID}]" type="checkbox" /></td> 
 							<td>{if $element.Owner eq 1}<strong><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a></strong>&nbsp;<sup style="font-size: 10px; color: red;">(владелец)</sup>{else}<a href="/profile/show/{$element.UserID}/">{$element.NickName}</a>{/if}</td> 
 							<td>{$element.RequestTime}</td> 
 						</tr> 
@@ -118,8 +118,8 @@
 					</tbody> 
 				</table> 
 				<div class="groupier"> 
-					<input value="Подтвердить заявки" name="assign_subscribes" id="assign_subscribes" type="button" /> 
-					<input value="Удалить заявки" name="delete_subscribes" id="delete_subscribes" type="button" /> 
+					<input value="Подтвердить заявки" name="assign_subscribes" id="assign_subscribes" type="submit" /> 
+					<input value="Удалить заявки" name="delete_subscribes" id="delete_subscribes" type="submit" /> 
 				</div> 
 			</form> 
 			{/if} 

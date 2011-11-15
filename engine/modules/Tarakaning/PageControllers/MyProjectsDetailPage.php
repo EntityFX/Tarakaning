@@ -4,6 +4,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php
 require_once SOURCE_PATH.'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
 require_once SOURCE_PATH.'engine/libs/controls/Orderer/Orderer.php';
 require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/Subscribes.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/SubscribesController.php';
 require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetailENUM.php';
 
 	class MyProjectsDetailPage extends InfoBasePage
@@ -32,11 +33,14 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 		
 		private $_projectOperation;
 		
+		private $_subscribesCount;
+		
 		protected function onInit()
 		{
 			parent::onInit();
 			$this->_projectOperation=new ProjectsController();
 			$this->_projectData=$this->_projectOperation->getProjectById($this->_parameters[0]);
+			
 			
 			$this->_subscribes=new Subscribes();
 			
@@ -48,12 +52,20 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 					{
 						$this->deleteSelectedMembers();
 					}
+					if ($this->request->getPost("assign_subscribes",null)!=null)
+					{
+						$this->commitSelectedRequests();
+					}
 				}
 			}
 			else 
 			{
 				$this->navigate('/my/projects/');
 			}
+			
+			$projectID=$this->_projectData['ProjectID'];
+			
+			$this->_subscribesCount=$this->_subscribes->getProjectSubscribesCount($projectID);
 			
 			$this->_isOwner=$this->isProjectOwner();
 			
@@ -68,7 +80,6 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 				$this->_myProjectsInfoPaginator->getOffset(),
 				$this->_myProjectsInfoPaginator->getSize()
 			);
-			$projectID=$this->_projectData['ProjectID'];
 			
 			$this->_subscribesRequestPaginator=new TarakaningULListPager($this->_subscribes->getProjectSubscribesCount($projectID),'subscribesPage');
 			$this->_subscribesRequestOrderer=new Orderer(new ProjectSubscribesDetailENUM(),'orderBySubscribes');
@@ -78,7 +89,6 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 				$this->_subscribesRequestOrderer,
 				$this->_subscribesRequestPaginator
 			);
-			
 		}
 		
 		protected function doAssign()
@@ -94,6 +104,8 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 			$this->_smarty->assign('PROJECT_SUBSCRIBES_ORDERER',$this->_subscribesRequestOrderer!=null?$this->_subscribesRequestOrderer->getNewUrls():null);
 			
 			$this->_smarty->assign('IS_OWNER',$this->_isOwner);
+			
+			$this->_smarty->assign('COUNT_SUBSCRIBES',$this->_subscribesCount);
 			
 			$newProjectOK=$this->_controller->error->getErrorByName("newProjectOK");
 			if ($newProjectOK)
@@ -119,7 +131,13 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 		
 		private function commitSelectedRequests()
 		{
-			
+			$checkboxes=$this->request->getPost("sub_i");
+			$subscribesOperation=new SubscribesController();
+			$subscribesOperation->acceptRequest(
+				Serialize::SerializeForStoredProcedure($checkboxes), 
+				$this->_userInfo['UserID'],
+				$this->_projectData['ProjectID']
+			);
 		}
 		
 		/**
