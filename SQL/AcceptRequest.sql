@@ -1,5 +1,4 @@
-CREATE DEFINER = 'root'@'localhost'
-PROCEDURE Tarakaning.AcceptRequest(IN _ProjectID INT, IN ItemsList TEXT)
+CREATE PROCEDURE AcceptRequest(IN _ProjectID INT, IN ItemsList TEXT)
 BEGIN
     DECLARE SymbolPosition INT;
     DECLARE ItemString     INT;
