@@ -28,12 +28,6 @@ abstract class BugsBasePage extends InfoBasePage
 		
 		if ($this->_projectsList!=null)
 		{
-			$this->_currentProjectID=$this->request->getParam("project_id",$this->_projectsList[0]["ProjectID"]);
-			if ($this->request->getParam("project_id",null)==null)
-			{
-				$this->_currentProjectID=$this->_userInfo["DefaultProjectID"] == null ? $this->_currentProjectID : $this->_userInfo["DefaultProjectID"];
-			}	
-
 			$projectExists=$this->_projectsController->isProjectExists($this->_currentProjectID);
 			if ($projectExists)
 			{
@@ -49,10 +43,7 @@ abstract class BugsBasePage extends InfoBasePage
 				
 				$this->initializeGeneralBugsData();
 			}
-			else 
-			{
-				$this->navigate($this->getModuleURL());
-			}
+
 		}
 	}
 	

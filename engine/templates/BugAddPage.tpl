@@ -32,8 +32,8 @@
 			);
 		}
 		
-		updateProjectUsers($("#project_id").val());
-		$("#project_id").change(function(){
+		updateProjectUsers($("#bug_project_id").val());
+		$("#bug_project_id").change(function(){
 			var projectID=$(this).val();
 			updateProjectUsers(projectID);
 		});
@@ -50,14 +50,12 @@
 			<div class="add_form">
 				<div id="hdr">Добавление отчёта об ошибке</div>
 				<dl>
-					<dt><label for="project_id">Выберите проект</label></dt>
+					<dt><label for="bug_project_id">Выберите проект</label></dt>
 					<dd>
-						<select id="project_id" name="project_id">
-							{if $PROJECTS_LIST neq NULL}
-							{foreach from=$PROJECTS_LIST item=element} {* Выводит все проекты мои и не только*}
-							<option value="{$element.ProjectID}">{$element.Name}</option>
-							{/foreach}
-							{/if}
+						<select id="bug_project_id" name="bug_project_id">
+						{if $PROJECTS.PROJECTS_LIST neq NULL}
+							{html_options options=$PROJECTS.PROJECTS_LIST selected=$PROJECTS.selected}
+						{/if}
 						</select>
 					</dd>
 					<dt><label for="title">Укажите заголовок</label></dt>

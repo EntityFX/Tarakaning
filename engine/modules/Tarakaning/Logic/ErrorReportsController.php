@@ -3,9 +3,7 @@
     
     require_once "ErrorPriorityENUM.php"; 
     
-    require_once "ErrorTypeENUM.php";
-    
-    require_once "ConcreteUser.php"; 
+    require_once "ErrorTypeENUM.php"; 
     
     require_once "ProjectsController.php"; 
     
@@ -20,6 +18,8 @@
     require_once 'ItemKindENUM.php';
     
     require_once 'ItemDBKindENUM.php';
+    
+	require_once 'ConcreteUser.php';
     
     class ErrorReportsController extends DBConnector
     {
@@ -67,7 +67,7 @@
                     }
                     else
                     {
-                        throw new Exception("Пользователь №".$this->_errorOwnerID." не подписан на проект или не является его владельцем");
+                        throw new Exception("Пользователь №".$this->_errorOwnerID." не подписан на проект $projectID или не является его владельцем");
                     }
                 }
                 else

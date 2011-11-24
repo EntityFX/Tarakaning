@@ -1,5 +1,6 @@
 <?php
     require_once "ProjectsController.php";
+	require_once SOURCE_PATH.'engine/modules/Auth/Logic/UserAuth.php';
     
     class ConcreteUser extends UserAuth
     {
@@ -28,11 +29,7 @@
             	if ($userData!=null) 
                 {
                     $this->setData($userData);
-                }
-                else
-                {
-                    throw new Exception("Выполните аутентификацию",5);
-                }       
+                }      
             }
             else
             {
@@ -103,6 +100,21 @@
             $this->id=(int)$resArray["UserID"];
             $this->_passwordHash=$resArray["PasswordHash"]; 
             $this->defaultProjectID=$resArray["DefaultProjectID"];
+        }
+        
+        public function getCurrentProject()
+        {
+        	//var_dump($this->_authNamespace->data["SelectedProject"]);
+        	if ($this->_authNamespace->data[self::$authTableName]["SelectedProject"]==null)
+        	{
+        		$this->_authNamespace->data[self::$authTableName]["SelectedProject"]=$this->defaultProjectID;
+        	}
+        	return $this->_authNamespace->data[self::$authTableName]["SelectedProject"];
+        }
+        
+        public function setCurrentProject($projectID)
+        {
+        	$this->_authNamespace->data[self::$authTableName]["SelectedProject"]=(int)$projectID;
         }
     }
 ?>

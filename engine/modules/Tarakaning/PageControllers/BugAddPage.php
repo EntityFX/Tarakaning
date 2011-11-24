@@ -10,12 +10,18 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ReportHistoryControlle
 		protected function onInit()
 		{
 			parent::onInit();
+			
+			if ($this->_projectsList==null)
+			{
+				$this->navigate('/my/projects/');
+			}
+			
 			if ($this->request->isPost())
 			{
 				if ($this->request->getParam("add_report")!=null)
 				{
 					$postData=$this->request->getParams();
-					$projectID=$userData["DefaultProjectID"] == null ? $postData['project_id'] : $userData["DefaultProjectID"];
+					$projectID=$userData["DefaultProjectID"] == null ? $postData['bug_project_id'] : $userData["DefaultProjectID"];
 					$bugsOperation=new ErrorReportsController($projectID);
 					$itemsFacade=new ItemsFacade(
 						$bugsOperation, 
@@ -54,8 +60,6 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ReportHistoryControlle
 			}
 			$userData=$this->_controller->auth->getName();
 			$concreteUser=new ConcreteUser();
-			$projectsController=new ProjectsController();
-			$this->_projectsList=$projectsController->getUserProjects($userData["UserID"]);
 		}
 		
 		protected function doAssign()
@@ -71,7 +75,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ReportHistoryControlle
 				);
 				$this->_smarty->assign("DATA",$addBugError["postData"]);
 			}
-			$this->_smarty->assign("PROJECTS_LIST",$this->_projectsList);
+			//$this->_smarty->assign("PROJECTS_LIST",$this->_projectsList);
 		}
 	}
 ?>

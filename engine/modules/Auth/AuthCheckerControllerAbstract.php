@@ -1,5 +1,5 @@
 <?php
-require_once SOURCE_PATH.'engine/modules/Auth/Logic/UserAuth.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ConcreteUser.php';
 
 	class AuthCheckerControllerAbstract extends ModuleController
 	{
@@ -58,7 +58,7 @@ require_once SOURCE_PATH.'engine/modules/Auth/Logic/UserAuth.php';
 		{
 			$this->error=Error::getInstance();
 			UserAuth::$authTableName="Users";
-			$this->auth=new UserAuth();
+			$this->auth=new ConcreteUser();
 			$this->_moduleUrl=$this->getModuleURL();
 			$allowedPages=array(
 	   			"/login/",
