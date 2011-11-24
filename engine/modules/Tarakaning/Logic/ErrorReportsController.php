@@ -223,9 +223,9 @@
                             $this->_sql->call(
 	                			"EditItem", 
 	                			new ArrayObject(array(
-	                				$reportID,
+	                				(int)$reportID,
 	                				$title,
-	                				$priority->getValue(),
+	                				(int)$priority->getValue(),
 	                				$newStatusValue,
 	                				(int)$assignedTo,
 	                				$description,
