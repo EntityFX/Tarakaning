@@ -41,7 +41,9 @@
 		<form action="#">
 			<div>
 				<span class="delmiter"></span>
+				{if $PROJECTS.PROJECTS_LIST neq NULL}
 				<a href="/bug/add/" title="Добавить новую задачу">Новая задача</a>
+				{/if}
 				<a href="/my/project/new/" title="Добавить новый проект">Новый проект</a>
 				<span class="delmiter"></span>
 				<label for="item">Переход к № </label>

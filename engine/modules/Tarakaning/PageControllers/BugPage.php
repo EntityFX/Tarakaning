@@ -11,8 +11,6 @@ class BugPage extends InfoBasePage
 {
 	private $_bugData;
 	
-	private $_projectsList;
-	
 	private $_commentData;
 	
 	private $_commentsController;
@@ -42,8 +40,7 @@ class BugPage extends InfoBasePage
 		parent::onInit();
 
 		$this->_userData=$this->_controller->auth->getName();
-		$projectsController=new ProjectsController();
-		$this->_projectsList=$projectsController->getUserProjects($this->_userData["UserID"]);
+		
 		$this->_bugsOperation=new ErrorReportsController(
 			$this->_userData["DefaultProjectID"] == null ? $this->_projectsList[0]['ProjectID'] : $this->_userData["DefaultProjectID"],
 			$this->_userData["UserID"]
@@ -129,7 +126,7 @@ class BugPage extends InfoBasePage
 				$this->_commentsPaginator->getSize()
 			);
 			
-			$usersList=$projectsController->getProjectUsers($this->_bugData['ProjectID']);
+			$usersList=$this->_projectsController->getProjectUsers($this->_bugData['ProjectID']);
 			$this->_projectUsersList=$this->normalizeAssignUsersListForControl($usersList);
 			$this->_historyData=$this->_history->getReportHistory($this->_bugData['ID'], new TarakaningULListPager(10));
 		}
