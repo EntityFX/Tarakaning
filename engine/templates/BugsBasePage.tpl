@@ -7,8 +7,8 @@
 			return confirm('Вы действительно желаете удалить выделенные элементы?');
 		});
 		
-		$("#item_kind, #project_id").change(function(){
-			$("#selectProjectForm").submit();
+		$("#item_kind").change(function(){
+			$("#item_kind_form").submit();
 		});
 {/literal}
 {/block}
@@ -21,19 +21,12 @@
 <div id="content_body">
 	{if $PROJECTS.PROJECTS_LIST neq NULL}
 		<div class="groupier">
-			
-			<form action="#" id="selectProjectForm">
+			<form action="#" id="item_kind_form">
 				<div>
-				<label for="project_id">Проект</label>
-				<select id="project_id" name="project_id">
-				{if $PROJECTS.PROJECTS_LIST neq NULL}
-					{html_options options=$PROJECTS.PROJECTS_LIST selected=$PROJECTS.selected}
-				{/if}
-				</select>
-				<label for="item_kind">Показать </label> 
-				<select id="item_kind" name="item_kind">
-					{html_options values=$ITEM_KIND.values output=$ITEM_KIND.text selected=$ITEM_KIND.selected}
-				</select>
+					<label for="item_kind">Показать </label> 
+					<select id="item_kind" name="item_kind">
+						{html_options values=$ITEM_KIND.values output=$ITEM_KIND.text selected=$ITEM_KIND.selected}
+					</select>
 				</div>
 			</form>
 			<form action="/bug/add/" method="post"><div>

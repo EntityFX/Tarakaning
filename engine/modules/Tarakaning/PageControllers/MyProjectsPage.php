@@ -1,6 +1,5 @@
 <?php
 require_once 'InfoBasePage.php';
-require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php';
 require_once SOURCE_PATH.'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
 require_once SOURCE_PATH.'engine/libs/controls/Orderer/Orderer.php';
 require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
@@ -10,8 +9,6 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 		private $_projectsData;
 		
 		private $_projectsWithoutMeData;
-		
-		private $_projectsController;
 		
 		/**
 		 * 
@@ -36,7 +33,6 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 		protected function onInit()
 		{
 			parent::onInit();
-			$this->_projectsController=new ProjectsController();
 			$this->_userData=$this->_controller->auth->getName();
 			
 			$this->_myProjectsPaginator=new TarakaningULListPager($this->_projectsController->countUserProjectsInfo($userData["UserID"]),'myPage');

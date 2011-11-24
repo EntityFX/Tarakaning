@@ -9,15 +9,9 @@ abstract class BugsBasePage extends InfoBasePage
 {
 	protected $_bugsData;
 	
-	protected $_projectsList;
-	
 	protected $_itemKindENUM;
 	
-	protected $_currentProjectID;
-	
 	protected $_bugsOperation;
-	
-	protected $_projectController;
 	
 	protected $_paginator;
 	
@@ -26,13 +20,11 @@ abstract class BugsBasePage extends InfoBasePage
 	protected function onInit($useInitialProject=false)
 	{
 		parent::onInit();
-		$this->_projectsController=new ProjectsController();
-		$userData=$this->_controller->auth->getName();
+		
+		$this->_projectSelectionFlag=true;
 		
 		$kind=$this->request->getParam("item_kind",ItemKindENUM::ALL);
 		$this->_itemKindENUM=new ItemKindENUM($kind);
-		
-		$this->_projectsList=$this->_projectsController->getUserProjects($this->_userInfo["UserID"]);
 		
 		if ($this->_projectsList!=null)
 		{
@@ -72,18 +64,6 @@ abstract class BugsBasePage extends InfoBasePage
 			$this->_userInfo["UserID"],
 			$this->_currentProjectID
 		);
-	}
-	
-	protected function normalizeProjectsList(&$projectList)
-	{
-		if ($projectList!=null)
-		{
-			foreach($projectList as $value)
-			{
-				$res[$value["ProjectID"]]=$value["Name"];
-			}
-		}
-		return $res;
 	}
 	
 	protected function doAssign()
