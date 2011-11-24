@@ -6,8 +6,6 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ReportHistoryControlle
 
 	class BugAddPage extends InfoBasePage
 	{
-		
-		private $_projectsList;
 	
 		protected function onInit()
 		{

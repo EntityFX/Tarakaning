@@ -390,6 +390,10 @@ dd.subm {
 			-moz-border-radius: 5px;
 		}
 		
+		#goTask div.panel form {
+			float: left;
+		}
+		
 
 		
 		#goTask div input[type="text"]
@@ -441,7 +445,8 @@ dd.subm {
 
 .delmiter {
 	border-left: #ccc 1px solid; 
-	padding: 5px 3px 7px 3px;
+	padding: 5px 0 7px 0;
+	margin: 0 3px;
 }
 
 /* <Timur date = '17.09.2011'>: код для вывода результатов операции (ошибка,удачно) */

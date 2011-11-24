@@ -13,7 +13,12 @@
 					location.replace("/bug/show/"+$("#item").val()+"/");
 					return false;
 				});
-
+				
+				{if $PROJECT_SELECTION_FLAG eq true}
+					$("#project_id").change(function(){
+						$("#selectProjectForm").submit();
+					});
+				{/if}
 				{$smarty.block.child}
 			});
 		/* ]]>*/
@@ -23,12 +28,23 @@
 
 <div id="goTask">
 	<div class="panel">
+		<form action="#" id="selectProjectForm">
+			<div>
+				<label for="project_id">Выберите проект</label>
+				<select id="project_id" name="project_id" {if $PROJECT_SELECTION_FLAG neq true}disabled="disabled"{/if}>
+				{if $PROJECTS.PROJECTS_LIST neq NULL}
+					{html_options options=$PROJECTS.PROJECTS_LIST selected=$PROJECTS.selected}
+				{/if}
+				</select>
+			</div>
+		</form>
 		<form action="#">
 			<div>
+				<span class="delmiter"></span>
 				<a href="/bug/add/" title="Добавить новую задачу">Новая задача</a>
 				<a href="/my/project/new/" title="Добавить новый проект">Новый проект</a>
 				<span class="delmiter"></span>
-				<label>Переход к № </label>
+				<label for="item">Переход к № </label>
 				<input type="text" maxlength="10" name="item" id="item" />
 				<input type="submit" value="OK" id="submit_item" />
 			</div>
