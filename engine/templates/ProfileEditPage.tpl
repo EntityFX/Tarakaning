@@ -31,7 +31,7 @@
 							<dd><input type="text" name="SecondName" value="{$AR_USER_INFO.SecondName}" /></dd>
 							<dt>e-mail:</dt>
 							<dd><input type="text" name="Email" value="{$AR_USER_INFO.Email}" /></dd>
-							<dd class="subm"><input type="submit" name="save_btn" value="Сохранить" /></dd>
+							<dd class="subm"><input type="submit" name="save_profile" value="Сохранить" /></dd>
 						</dl>
 					</div>
 				</form>
@@ -52,6 +52,21 @@
 				</form>
 			</div>
 			<div id="settings" >
+				<form action="/profile/edit/" method="post">
+					<div class="info_div">
+						<dl class="prof">
+							<dt><label for="defaultProject">Проект по-умолчанию:</label></dt>
+							<dd>				
+								<select id="defaultProject" name="defaultProject" {if $PROJECTS.PROJECTS_LIST eq NULL}disabled="disabled"{/if}>
+								{if $PROJECTS.PROJECTS_LIST neq NULL}
+									{html_options options=$PROJECTS.PROJECTS_LIST selected=$PROJECTS.selected}
+								{/if}
+								</select>
+							</dd>
+							<dd class="subm"><input type="submit" name="save_project" value="Сохранить" {if $PROJECTS.PROJECTS_LIST eq NULL}disabled="disabled"{/if}/></dd>
+						</dl>
+					</div>
+				</form>
 			</div>
 	</div>	
 </div>
