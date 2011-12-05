@@ -1,7 +1,7 @@
 <?php
 require_once SOURCE_PATH.'engine/modules/Tarakaning/PageControllers/InfoBasePage.php';
 require_once SOURCE_PATH.'engine/modules/Auth/Logic/UsersOperation.php';
-
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/SubscribesController.php';
 
 	class ProfileEditPage extends InfoBasePage
 	{
@@ -14,22 +14,53 @@ require_once SOURCE_PATH.'engine/modules/Auth/Logic/UsersOperation.php';
 			$postData=$this->request->getParams();
 			if ($this->request->isPost() && $postData)
 			{
-				$arPostParams = $this->request->getParams();
-				try 
+				if ($this->request->getPost('save_project',null)!=null)
 				{
-					$this->_controller->auth->changeData($arPostParams["Name"],$arPostParams["Surname"],$arPostParams["SecondName"],$arPostParams["Email"]);
-				} 
-				catch (Exception $exception) 
-				{
-					$error = array("error" => $exception);
-					$this->_controller->error->addError("editProfileError",$error);
-				}				
-				if ($exception==null)
-				{
-					$this->_controller->error->addError("editProfileError",true);
+					$this->_changeDefaultproject();
 				}
+				else if($this->request->getPost('save_profile',null)!=null)
+				{
+					$this->_changeProfile();
+				}
+
 			}
 			$this->_userInfo=$this->_controller->auth->getName();
+		}
+		
+		private function _changeProfile()
+		{
+			$arPostParams = $this->request->getParams();
+			try 
+			{
+				$this->_controller->auth->changeData($arPostParams["Name"],$arPostParams["Surname"],$arPostParams["SecondName"],$arPostParams["Email"]);
+			} 
+			catch (Exception $exception) 
+			{
+				$error = array("error" => $exception);
+				$this->_controller->error->addError("editProfileError",$error);
+			}				
+			if ($exception==null)
+			{
+				$this->_controller->error->addError("editProfileError",true);
+			}
+		}
+		
+		private function _changeDefaultproject()
+		{
+			$projectID = $this->request->getPost('defaultProject');
+			if ($projectID!=null)
+			{
+				try 
+				{
+					$this->_concreteUser->setDefaultProject($projectID);
+					$this->_concreteUser->setCurrentProject($projectID);
+				}
+				catch(MySQLException $dbException)
+				{
+					
+				}
+			}
+			$this->navigate('/profile/edit/#settings');
 		}
 		
 		protected function doAssign()
