@@ -247,7 +247,7 @@
     								END AS ProjectRelation
 								FROM 
     								`projectswithusername` `P`
-    							LEFT JOIN UsersInProjects UP ON
+    							LEFT JOIN USER_IN_PROJ UP ON
         							`P`.ProjectID=`UP`.ProjectID AND `UP`.UserID=%1$d
 								WHERE `P`.ProjectID IN %2$s',$userID,$projectsListStatement);
 				return $this->_sql->GetRows();
@@ -278,7 +278,7 @@
 							    END AS ProjectRelation
 							FROM 
 							    projectsinfoview P
-							LEFT JOIN UsersInProjects UP ON
+							LEFT JOIN USER_IN_PROJ UP ON
 							    `P`.ProjectID=`UP`.ProjectID AND `UP`.UserID=%1$d
 							WHERE 
 							    `Name` LIKE \'%%%2$s%%\' OR Description LIKE \'%%%2$s%%\'
