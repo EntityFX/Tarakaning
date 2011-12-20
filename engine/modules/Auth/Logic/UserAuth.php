@@ -18,16 +18,16 @@ class UserAuth extends DBConnector
 			throw new Exception("Вы уже вошли в систему");
 		}
 		$login=stripcslashes($login);
-		$this->_sql->selAllWhere(self::$authTableName,"NickName='$login'");
+		$this->_sql->selAllWhere(self::$authTableName,"NICK='$login'");
 		$res=$this->_sql->getTable();
 		if ($res!=NULL)
 		{
 			$res=$res[0];
-			if ($res["PasswordHash"]!=md5(md5($password)."MOTPWBAH"))
+			if ($res["PASSW_HASH"]!=md5(md5($password)."MOTPWBAH"))
 			{
 				throw new Exception("Неверный пароль");
 			}
-			else if ($res["Active"]==false)
+			else if ($res["ACTIVE"]==false)
 			{
 				throw new Exception("Пользователь $login не активирован");
 			}
@@ -73,20 +73,20 @@ class UserAuth extends DBConnector
 	public function changePassword($oldPassword,$newPassword)
 	{
 		$uC=new UsersOperation();
-		$newPassHash=$uC->changePassword($this->_authNamespace->data[self::$authTableName]["UserID"], $oldPassword, $newPassword);
-		$this->_authNamespace[self::$authTableName]->data["PasswordHash"]=$newPassHash;
+		$newPassHash=$uC->changePassword($this->_authNamespace->data[self::$authTableName]["USER_ID"], $oldPassword, $newPassword);
+		$this->_authNamespace[self::$authTableName]->data["PASSW_HASH"]=$newPassHash;
 	}
 
 	public function changeData($name,$surname,$secondName,$email)
 	{
 		$uC=new UsersOperation();
-		$uC->changeData($this->_authNamespace->data[self::$authTableName]["UserID"], $name, $surname, $secondName, $email);
+		$uC->changeData($this->_authNamespace->data[self::$authTableName]["USER_ID"], $name, $surname, $secondName, $email);
 		$this->refreshData();
 	}
 
 	public function refreshData()
 	{
-		$this->_sql->selAllWhere(self::$authTableName,"UserID='".$this->_authNamespace->data[self::$authTableName]["UserID"]."'");
+		$this->_sql->selAllWhere(self::$authTableName,"USER_ID='".$this->_authNamespace->data[self::$authTableName]["UserID"]."'");
 		$res=$this->_sql->getTable();
 		$res=$res[0];
 		if ($res!=NULL) $this->_authNamespace->data[self::$authTableName]=$res;
@@ -95,7 +95,7 @@ class UserAuth extends DBConnector
 	public function checkUserType($type)
 	{
 		$type=(int)$type;
-		return $this->_authNamespace->data[self::$authTableName]["UserType"]==$type?true:false;
+		return $this->_authNamespace->data[self::$authTableName]["USR_TYP"]==$type?true:false;
 	}
 	
 	/**
@@ -111,7 +111,7 @@ class UserAuth extends DBConnector
 		$count=$this->_sql->countQuery("Locations","LANG_ID=$langCode");
 		if ($count!=0)
 		{
-			$this->_sql->update(self::$authTableName, "UserID='".$this->_authNamespace->data[self::$authTableName]["UserID"]."'", 
+			$this->_sql->update(self::$authTableName, "USER_ID='".$this->_authNamespace->data[self::$authTableName]["UserID"]."'", 
 				new ArrayObject(array(
 					"LANG_ID" => $langCode
 				))

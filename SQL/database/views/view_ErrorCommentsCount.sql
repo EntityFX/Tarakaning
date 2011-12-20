@@ -1,12 +1,13 @@
-CREATE VIEW view_ErrorCommentsCount AS SELECT
-    RC.USER_ID AS UserID,
-    RC.RPT_ID AS ReportID,
-    E.PROJ_ID AS ProjectID,
-    COUNT(RC.ID) AS ItemUserComment
+CREATE VIEW view_ErrorCommentsCount AS 
+SELECT
+    IC.USER_ID AS UserID,
+    IC.ITEM_ID AS ReportID,
+    I.PROJ_ID AS ProjectID,
+    COUNT(IC.ITEM_CMMENT_ID) AS ItemUserComment
 FROM
-    (RPT_CMMENT RC
-    INNER JOIN ERR_RPT E
-        ON ((RC.RPT_ID = E.ID)))
+    ITEM_CMMENT IC
+    INNER JOIN ITEM I
+        ON IC.ITEM_ID = I.ITEM_ID
 GROUP BY
-    RC.RPT_ID,
-    RC.USER_ID;
+    IC.ITEM_ID,
+    IC.USER_ID;
