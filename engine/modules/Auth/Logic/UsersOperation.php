@@ -14,13 +14,13 @@ class UsersOperation extends DBConnector
 	{
 		$hash="";
 		$fields=new ArrayObject(array(
-                "NickName",
-                "PasswordHash",
-                "UserType",
-                "Name",
-                "Surname",
-                "SecondName",
-                "Email"
+                "NICK",
+                "PASSW_HASH",
+                "USR_TYP",
+                "FRST_NM",
+                "LAST_NM",
+                "SECND_NM",
+                "EMAIL"
                 ));
                 if (preg_match("/^[a-zA-Z][a-zA-Z0-9_\-\.]*$/", $login)!=1)
                 {
@@ -62,9 +62,9 @@ class UsersOperation extends DBConnector
 		$usr=$this->getById($id);
 		if ($usr!=null)
 		{
-			if ($usr["NickName"]!="admin")
+			if ($usr["NICK"]!="admin")
 			{
-				$this->_sql->delete(self::$authTableName,"UserID=$id");
+				$this->_sql->delete(self::$authTableName,"USER_ID=$id");
 			}
 			else
 			{
@@ -75,17 +75,17 @@ class UsersOperation extends DBConnector
 
 	public function changeUserType($id,$type)
 	{
-		$this->changeField($id,$type,"UserType");
+		$this->changeField($id,$type,'USR_TYP');
 	}
 
 	public function activateUser($id)
 	{
-		$this->changeField($id,true,"Active");
+		$this->changeField($id,true,'ACTIVE');
 	}
 	
 	public function diactivateUser($id)
 	{
-		$this->changeField($id,false,"Active");
+		$this->changeField($id,false,'ACTIVE');
 	}
 
 	private function changeField($id,$type,$fieldName)
@@ -94,7 +94,7 @@ class UsersOperation extends DBConnector
 		$type=(bool)$type;
 		if ($this->checkIfExsist($id))
 		{
-			$this->_sql->update(self::$authTableName, "UserID=$id",
+			$this->_sql->update(self::$authTableName, "USER_ID=$id",
 			new ArrayObject(array(
 			$fieldName => $type
 			))
@@ -116,14 +116,14 @@ class UsersOperation extends DBConnector
 	public function getAllByFirstLetter($letter)
 	{
 		$letter=(string)$letter[0];
-		$this->_sql->selAllWhere(self::$authTableName,"NickName Like '$letter%'");
+		$this->_sql->selAllWhere(self::$authTableName,"NICK Like '$letter%'");
 		return $this->_sql->getTable();
 	}
 
 	public function getById($id)
 	{
 		$id=(int)$id;
-		$this->_sql->selAllWhere(self::$authTableName,"UserID=$id");
+		$this->_sql->selAllWhere(self::$authTableName,"USER_ID=$id");
 		$arr=$this->_sql->getTable();
 		return $arr[0];
 	}
@@ -137,7 +137,7 @@ class UsersOperation extends DBConnector
 	private function checkIfExsistLogin($login)
 	{
 		$login=mysql_escape_string($login);
-		$countGroups=$this->_sql->countQuery(self::$authTableName,"NickName='$login'");
+		$countGroups=$this->_sql->countQuery(self::$authTableName,"NICK='$login'");
 		return (Boolean)$countGroups;
 	}
 
@@ -150,7 +150,7 @@ class UsersOperation extends DBConnector
 	public function checkIfExsist($id)
 	{
 		$id=(int)$id;
-		$countGroups=$this->_sql->countQuery(self::$authTableName,"UserID=$id");
+		$countGroups=$this->_sql->countQuery(self::$authTableName,"USER_ID=$id");
 		return (Boolean)$countGroups;
 	}
 
@@ -193,7 +193,7 @@ class UsersOperation extends DBConnector
 		$usr=$this->getById($id);
 		if ($usr!=null)
 		{
-			if (md5(md5($oldPassword)."MOTPWBAH")!=$usr["PasswordHash"])
+			if (md5(md5($oldPassword)."MOTPWBAH")!=$usr["PASSW_HASH"])
 			{
 				throw new Exception("Старый пароль неверный",2);
 			}
@@ -202,9 +202,9 @@ class UsersOperation extends DBConnector
 				$id=(int)$id;
 				$this->_sql->update(
 					self::$authTableName,
-            		"UserID=$id", 
+            		"USER_ID=$id", 
 					new ArrayObject(array(
-            				"PasswordHash" => $newPasswordHash
+            				"PASSW_HASH" => $newPasswordHash
 					))
 				);
 			}
@@ -238,9 +238,9 @@ class UsersOperation extends DBConnector
 			$id=(int)$id;
 			$this->_sql->update(
 				self::$authTableName,
-	            		"UserID=$id", 
+	            		"USER_ID=$id", 
 				new ArrayObject(array(
-	            			"PasswordHash" => $newPasswordHash
+	            			"PASSW_HASH" => $newPasswordHash
 				))
 			);
 		}
@@ -259,13 +259,13 @@ class UsersOperation extends DBConnector
 		$id=(int)$id;
 		$this->_sql->update(
 			self::$authTableName,
-            "UserID=$id", 
+            "USER_ID=$id", 
 			new ArrayObject(array
 			(
-            		"Name" => htmlspecialchars($name),
-            		"Surname" => htmlspecialchars($surname),
-            		"Secondname" => htmlspecialchars($secondName),   
-            		"Email" => htmlspecialchars($email)            	         	
+            		"FRST_NM" => htmlspecialchars($name),
+            		"LAST_NM" => htmlspecialchars($surname),
+            		"SECND_NM" => htmlspecialchars($secondName),   
+            		"EMAIL" => htmlspecialchars($email)            	         	
 			))
 		);
 	}
@@ -274,6 +274,6 @@ class UsersOperation extends DBConnector
 
 class UsersOrderFields extends AEnum
 {
-	const NICK_NAME="NickName";
+	const NICK_NAME="NICK";
 }
 ?>

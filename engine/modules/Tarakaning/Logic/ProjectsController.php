@@ -12,17 +12,8 @@
 
 	class ProjectsController extends DBConnector
 	{
-		/*Класс управления проектами - ProjectsController: +
-
-		добавление проекта +
-		удаление проекта -+
-		редактирование проекта +
-			изменение имени +
-			изменение описания + 
-		получить список всех проектов +
-		получить список по фильтру +
-		
-		*/
+		const VIEW_ALL_USER_PROJECTS 	= 'view_AllUserProjects';
+		const TABLE_PROJ 				= 'PROJ';
 		
 		public function __construct()
 		{
@@ -348,7 +339,7 @@
 		public function getUserProjects($userId)
 		{
 			$userId=(int)$userId;
-			$this->_sql->selFieldsWhere("alluserprojects", "UserId=$userId",'ProjectID','Name');
+			$this->_sql->selFieldsWhere(self::VIEW_ALL_USER_PROJECTS, "UserID=$userId",'ProjectID','Name');
 			return $this->_sql->getTable();
 		}
 		
@@ -364,7 +355,7 @@
 				new ProjectFieldsUsersInfoENUM(ProjectFieldsUsersInfoENUM::NICK_NAME),
 				new MySQLOrderENUM(MySQLOrderENUM::ASC)
 			);
-			$this->_sql->selFieldsWhere("alluserprojects", "ProjectID=$projectID",'UserID','NickName');
+			$this->_sql->selFieldsWhere(self::VIEW_ALL_USER_PROJECTS, "ProjectID=$projectID",'UserID','NickName');
 			$this->_sql->clearOrder();
 			return $this->_sql->getTable();
 		}
@@ -418,9 +409,8 @@
 		public function getOwnerID($projectID) 
 		{
 			$projectID = (int)$projectID;
-			
-			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `ProjectID` = '$projectID'");
-			$tmp = $this->_sql->fetchArr($res);
+			$this->_sql->selFieldsWhereA(self::TABLE_PROJ, array('USER_ID'), "PROJ_ID = $projectID");
+			$tmp = $this->_sql->getTable();
 			return (int)$tmp["OwnerID"];
 		}
 	}

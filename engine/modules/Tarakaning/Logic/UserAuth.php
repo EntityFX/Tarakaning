@@ -1,7 +1,9 @@
 <?php
     class UserAuth extends DBConnector
     {
-        public function __construct()
+        const TABLE_USER_AUTH = 'USER';
+    	
+    	public function __construct()
         {
             parent::__construct();
             session_start();    
@@ -14,7 +16,7 @@
                 throw new Exception("Вы уже вошли в систему");
             }
             $login=mysql_escape_string($login);
-            $this->_sql->selAllWhere("Users","NickName='$login'");
+            $this->_sql->selAllWhere(self::TABLE_USER_AUTH,"NICK='$login'");
             $res=$this->_sql->getTable();
             if ($res!=NULL)
             {

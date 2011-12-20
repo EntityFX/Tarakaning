@@ -57,7 +57,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ConcreteUser.php';
 		public function initializePages()
 		{
 			$this->error=Error::getInstance();
-			UserAuth::$authTableName="Users";
+			UserAuth::$authTableName="USER";
 			$this->auth=new ConcreteUser();
 			$this->_moduleUrl=$this->getModuleURL();
 			$allowedPages=array(
