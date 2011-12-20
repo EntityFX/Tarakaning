@@ -3,12 +3,12 @@
     
     final class MyProjectsFieldsENUM extends AEnum
     {
-        const PROJECT_NAME  	= "Name";
+        const PROJECT_NAME  	= "ProjectName";
         const DESCRIPTION      	= "Description";
         const COUNT_USERS      	= "CountUsers";
-        const COUNT_REQUESTS    = "CountRequests";
+        const COUNT_REQUESTS    = "CountSubscribeRequests";
         const CREATE_DATE      	= "CreateDate";
-        const NICK_NAME      	= "NickName";
+        const NICK_NAME      	= "OwnerNickName";
                                         
         public function __construct($value=self::PROJECT_NAME)
         {

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), the Project Options File -->
+<!-- Modifying this generated file will probably render it invalid -->
+<Options Version="3.0">
+  <Documents>
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\tables\SUBSCR_RQST.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="Table:Tarakaning.Modules(localhost)" ActiveView="Data" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}">
+      <Persist>
+        <Pinned>True</Pinned>
+      </Persist>
+    </Document>
+    <Document Moniker="Table:Tarakaning2.USER(localhost)" ActiveView="Data" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}">
+      <Persist>
+        <Pinned>True</Pinned>
+      </Persist>
+    </Document>
+    <Document Moniker="View:Tarakaning.projectanderrorsview(localhost)" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}">
+      <Persist>
+        <Pinned>True</Pinned>
+      </Persist>
+    </Document>
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_ProjectAndErrors.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="View:Tarakaning.projectsinfoview(localhost)" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}">
+      <Persist>
+        <Pinned>True</Pinned>
+      </Persist>
+    </Document>
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_ProjectUsersAndSubscribes.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="View:Tarakaning.projectsinfowithoutmeview(localhost)" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}">
+      <Persist>
+        <Pinned>True</Pinned>
+      </Persist>
+    </Document>
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_ProjectInfoWithoutOwner.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" Active="True" />
+  </Documents>
+  <Services>
+    <Service GUID="{811fba21-97c2-44b6-8c1c-eae1f1315f2d}">
+      <Persist />
+    </Service>
+    <Service GUID="{c7b76517-6978-4a0b-8d38-57b7f7223edb}">
+      <Persist />
+    </Service>
+    <Service GUID="{e86507ae-fc27-47e0-925b-3c3e655520d4}">
+      <Persist>
+        <Configurations>
+          <Active>По умолчанию</Active>
+        </Configurations>
+      </Persist>
+    </Service>
+  </Services>
+</Options>

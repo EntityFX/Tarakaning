@@ -12,8 +12,10 @@
 
 	class ProjectsController extends DBConnector
 	{
-		const VIEW_ALL_USER_PROJECTS 	= 'view_AllUserProjects';
-		const TABLE_PROJ 				= 'PROJ';
+		const VIEW_ALL_USER_PROJECTS 			= 'view_AllUserProjects';
+		const VIEW_PROJECT_AND_ERRORS			= 'view_ProjectAndErrors';
+		const VIEW_PROJECT_INFO_WITHOUT_OWNER	= 'view_ProjectInfoWithoutOwner';
+		const TABLE_PROJ 						= 'PROJ';
 		
 		public function __construct()
 		{
@@ -38,7 +40,7 @@
 			}
 			$userID = (int)$userID;
 			$this->_sql->insert(
-				"Projects", 
+				self::TABLE_PROJ, 
 				new ArrayObject(array(
 					$projectName,
 					$description,
@@ -46,10 +48,10 @@
 					date("c")
 				)),
 				new ArrayObject(array(
-					'Name',
-					'Description',
-					'OwnerID',
-					'CreateDate'
+					'PROJ_NM',
+					'DESCR',
+					'USER_ID',
+					'CRT_TM'
 				))
 			);
 			return $this->_sql->getLastID();
@@ -181,7 +183,7 @@
 		 */
 		public function getProjects() 
 		{
-			$this->_sql->selFields("Projects","ProjectID","Name","Description","OwnerID");
+			$this->_sql->selFields(self::TABLE_PROJ,"ProjectID","Name","Description","OwnerID");
 			$ret = $this->_sql->getTable();
 			return $ret;
 		}
@@ -284,7 +286,7 @@
 			$userId=(int)$userId;
 			$this->_sql->setLimit($page, $size);
 			$this->_sql->setOrder($orderField, $direction);
-			$resource=$this->_sql->selAllWhere("projectanderrorsview", "OwnerID=$userId");
+			$resource=$this->_sql->selAllWhere(self::VIEW_PROJECT_AND_ERRORS, "ProjectOwnerID=$userId");
 			$this->_sql->clearLimit();
 			$this->_sql->clearOrder();
 			return $this->_sql->getTable();
@@ -293,7 +295,7 @@
 		public function countUserProjectsInfo($userId)
 		{
 			$userId=(int)$userId;
-			return $this->_sql->countQuery("projectanderrorsview", "OwnerID=$userId");
+			return $this->_sql->countQuery(self::VIEW_PROJECT_AND_ERRORS, "ProjectOwnerID=$userId");
 		}
 		
 		public function getMemberProjects($userId,MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction,$page=1,$size=10)
@@ -301,7 +303,7 @@
 			$userId=(int)$userId;
 			$this->_sql->setLimit($page, $size);
 			$this->_sql->setOrder($orderField, $direction);
-			$resource=$this->_sql->selAllWhere("projectsinfowithoutmeview", "UserID=$userId");
+			$resource=$this->_sql->selAllWhere(self::VIEW_PROJECT_INFO_WITHOUT_OWNER, "UserID=$userId");
 			$this->_sql->clearLimit();
 			$this->_sql->clearOrder();
 			return $this->_sql->getTable();
@@ -310,7 +312,7 @@
 		public function countMemberProjects($userId)
 		{
 			$userId=(int)$userId;
-			return $this->_sql->countQuery("projectsinfowithoutmeview", "UserID=$userId");
+			return $this->_sql->countQuery(self::VIEW_PROJECT_INFO_WITHOUT_OWNER, "UserID=$userId");
 		}
 		
 		public function getProjectUsersInfo($projectID)

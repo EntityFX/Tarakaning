@@ -1,0 +1,29 @@
+USER
+PROJ
+USER_IN_PROJ
+ITEM
+ITEM_DEFECT
+ITEM_HIST
+ITEM_CMMENT
+SUBSCR_RQST
+
+view_AllUserProjects
+view_ProjectUsersAndSubscribes
+view_ProjectAndErrors
+view_ProjectInfoWithoutOwner
+
+`projectsinfoview` -> view_ProjectUsersAndSubscribes
+projectanderrorsview -> view_ProjectAndErrors
+projectsinfowithoutmeview -> view_ProjectInfoWithoutOwner
+
+HOST: localhost
+DATABASE: Tarakaning2
+DB Type: MySQL
+BAD QUERY: INSERT INTO `Projects` (`Name`,`Description`,`OwnerID`,`CreateDate`) VALUES ('Project1','dsdfhdfhg',0,'2011-12-20T20:00:24+03:00')
+MySQL message: Table 'tarakaning2.projects' doesn't exist
+
+HOST: localhost
+DATABASE: Tarakaning2
+DB Type: MySQL
+BAD QUERY: INSERT INTO `PROJ` (`PROJ_NM`,`DESCR`,`USER_ID`,`CRT_TM`) VALUES ('Project1','dsdfhdfhg',0,'2011-12-20T20:02:59+03:00')
+MySQL message: Cannot add or update a child row: a foreign key constraint fails (`tarakaning2`.`proj`, CONSTRAINT `FK__PROJ__USER__USER_ID` FOREIGN KEY (`USER_ID`) REFERENCES `user` (`USER_ID`) ON DELETE SET NULL ON UPDATE SET NULL)
