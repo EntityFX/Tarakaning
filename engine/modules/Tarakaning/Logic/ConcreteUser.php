@@ -68,7 +68,7 @@
                 {
                     throw new Exception("Пользователь не подписан на проект");
                 }
-                $this->_authNamespace->data['defaultProjectID']=$projectID;                    
+                $this->_authNamespace->data['DFLT_PROJ_ID']=$projectID;                    
             }
             else
             {
@@ -79,7 +79,7 @@
         public function deleteDefaultProject()
         {
             $this->_sql->query("
-                UPDATE Users SET 
+                UPDATE ".self::$authTableName." SET 
                     DefaultProjectID=NULL 
                 WHERE UserID=$this->id
             ");             
@@ -92,14 +92,14 @@
         */
         private function setData($resArray)
         {
-            $this->login=$resArray["NickName"];
-            $this->name=$resArray["Name"];
-            $this->secondName=$resArray["SecondName"];
-            $this->surname=$resArray["Surname"];
-            $this->mail=$resArray["Email"];
-            $this->id=(int)$resArray["UserID"];
-            $this->_passwordHash=$resArray["PasswordHash"]; 
-            $this->defaultProjectID=$resArray["DefaultProjectID"];
+            $this->login=$resArray["NICK"];
+            $this->name=$resArray["FRST_NM"];
+            $this->secondName=$resArray["SECND_NM"];
+            $this->surname=$resArray["LAST_NM"];
+            $this->mail=$resArray["EMAIL"];
+            $this->id=(int)$resArray["USER_ID"];
+            $this->_passwordHash=$resArray["PASSW_HASH"]; 
+            $this->defaultProjectID=$resArray["DFLT_PROJ_ID"];
         }
         
         public function getCurrentProject()

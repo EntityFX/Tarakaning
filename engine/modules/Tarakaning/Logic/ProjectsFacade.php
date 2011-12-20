@@ -18,7 +18,7 @@
 		
 		public function addProject($projectName, $description)
 		{
-			$addedProjectID=$this->_projectsController->addProject($this->_userInfo["UserID"], $projectName, $description);
+			$addedProjectID=$this->_projectsController->addProject($this->_userInfo["USER_ID"], $projectName, $description);
 			/*try
 			{
 				$this->_projectsSearch->addProjectToIndex(
@@ -40,7 +40,7 @@
 		public function deleteProject($projectID) 
 		{
 			/*$this->_projectsSearch->deleteFromIndex($projectID);*/
-			$this->_projectsController->deleteProject($this->_userInfo["UserID"], $projectID);
+			$this->_projectsController->deleteProject($this->_userInfo["USER_ID"], $projectID);
 		}
 		
 		public function deleteProjectsFromList($userID,$projectsList)
@@ -49,7 +49,7 @@
 			{
 				$this->deleteProject((int)$key);
 			}
-			$this->_projectsController->deleteProjectsFromList($this->_userInfo["UserID"], $projectsList);
+			$this->_projectsController->deleteProjectsFromList($this->_userInfo["USER_ID"], $projectsList);
 		}
 		
 		public function setProjectName($projectID,$projectNewName, $newDescription)
@@ -62,7 +62,7 @@
 						"OwnerID" => $this->_userInfo["UserID"]
 					));
 			*/
-			$this->_projectsController->setProjectName($projectID, $this->_userInfo["UserID"], $projectNewName, $newDescription);
+			$this->_projectsController->setProjectName($projectID, $this->_userInfo["USER_ID"], $projectNewName, $newDescription);
 		}
 		
 		public function searchProject($query)
@@ -96,8 +96,8 @@
 					}
 				}
 			}*/
-			$this->_paginator = new TarakaningULListPager($this->_projectsController->searchProjectsUsingLikeCount($this->_userInfo["UserID"],$query,$this->_paginator));
-			$result=$this->_projectsController->searchProjectsUsingLike($this->_userInfo["UserID"],$query,$this->_paginator);
+			$this->_paginator = new TarakaningULListPager($this->_projectsController->searchProjectsUsingLikeCount($this->_userInfo["USER_ID"],$query,$this->_paginator));
+			$result=$this->_projectsController->searchProjectsUsingLike($this->_userInfo["USER_ID"],$query,$this->_paginator);
 			return $result;
 		}
 		

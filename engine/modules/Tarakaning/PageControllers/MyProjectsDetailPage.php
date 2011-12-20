@@ -63,7 +63,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 				$this->navigate('/my/projects/');
 			}
 			
-			$projectID=$this->_projectData['ProjectID'];
+			$projectID=$this->_projectData['PROJ_ID'];
 			
 			$this->_subscribesCount=$this->_subscribes->getProjectSubscribesCount($projectID);
 			
@@ -119,7 +119,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 			$checkboxes=$this->request->getPost("del_i");
 			$this->_subscribes->deleteProjectMembers(
 				Serialize::SerializeForStoredProcedure($checkboxes), 
-				$this->_userInfo['UserID'],
+				$this->_userInfo['USER_ID'],
 				$this->_projectData['ProjectID']
 			);
 		}
@@ -135,7 +135,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 			$subscribesOperation=new SubscribesController();
 			$subscribesOperation->acceptRequest(
 				Serialize::SerializeForStoredProcedure($checkboxes), 
-				$this->_userInfo['UserID'],
+				$this->_userInfo['USER_ID'],
 				$this->_projectData['ProjectID']
 			);
 		}
@@ -149,7 +149,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 		{
 			if ($this->_projectData!=null)
 			{
-				if ($this->_userInfo['UserID']==$this->_projectData['OwnerID'])
+				if ($this->_userInfo['USER_ID']==$this->_projectData['OwnerID'])
 				{
 					return true;
 				}

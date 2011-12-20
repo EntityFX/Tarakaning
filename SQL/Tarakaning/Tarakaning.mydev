@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), the Project File -->
+<!-- Modifying this generated file will probably render it invalid -->
+<DatabaseProject Version="1.0.1" Guid="7d7d42e3-910a-467b-ae1b-5f17d50b713d">
+  <Provider Guid="59f90733-4d68-4fdf-82a7-f0fcbf5460aa" />
+  <Include>
+    <Folder Name="stored_procedures" />
+    <File RelPath="tables" Link="C:\WebServers\home\tarakaning.ru\www\SQL\database\tables\ITEM.sql" />
+    <File RelPath="tables" Link="C:\WebServers\home\tarakaning.ru\www\SQL\database\tables\ITEM_CMMENT.sql" />
+    <File RelPath="tables" Link="C:\WebServers\home\tarakaning.ru\www\SQL\database\tables\ITEM_DEFECT.sql" />
+    <File RelPath="tables" Link="C:\WebServers\home\tarakaning.ru\www\SQL\database\tables\ITEM_HIST.sql" />
+    <File RelPath="tables" Link="C:\WebServers\home\tarakaning.ru\www\SQL\database\tables\PROJ.sql" />
+    <File RelPath="tables" Link="C:\WebServers\home\tarakaning.ru\www\SQL\database\tables\RPT_USER_HNDL.sql" />
+    <File RelPath="tables" Link="C:\WebServers\home\tarakaning.ru\www\SQL\database\tables\SUBSCR_RQST.sql" />
+    <File RelPath="tables" Link="C:\WebServers\home\tarakaning.ru\www\SQL\database\tables\USER.sql" />
+    <File RelPath="tables" Link="C:\WebServers\home\tarakaning.ru\www\SQL\database\tables\USER_IN_PROJ.sql" />
+    <File RelPath="views" Link="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_AllUserProjects.sql" />
+    <File RelPath="views" Link="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_ProjectAndErrors.sql" />
+    <File RelPath="views" Link="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_ProjectInfoWithoutOwner.sql" />
+    <File RelPath="views" Link="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_ProjectUsersAndSubscribes.sql" />
+  </Include>
+  <Configurations Active="По умолчанию">
+    <Configuration Name="По умолчанию" CheckReferences="True" IgnoreErrors="False" OutputPath="" Target="" OutputType="SingleFile" KeepOriginalObjects="True" RecreateDatabase="False" RecreateObjects="False" ServerVersion="5.1.40" Database="" UseRegions="False" FullPaths="False" Definer="CURRENT_USER" ScriptDelimiter="$$" StorageEngine="MYISAM" Collation="cp1251_general_ci" ConvertToLowercase="False" DefinerEffect="Keep">
+      <Connection Name="localhost" ConnectionString="User Id=root;Host=localhost;Character Set=utf8" />
+      <Build>
+        <File RelPath="tables" Name="PROJ.sql" BuildAction="Build" />
+        <File RelPath="tables" Name="RPT_USER_HNDL.sql" BuildAction="Build" />
+        <File RelPath="tables" Name="SUBSCR_RQST.sql" BuildAction="Build" />
+        <File RelPath="tables" Name="USER.sql" BuildAction="Build" />
+        <File RelPath="tables" Name="USER_IN_PROJ.sql" BuildAction="Build" />
+        <File RelPath="tables" Name="ITEM_HIST.sql" BuildAction="Build" />
+        <File RelPath="tables" Name="ITEM.sql" BuildAction="Build" />
+        <File RelPath="tables" Name="ITEM_CMMENT.sql" BuildAction="Build" />
+        <File RelPath="tables" Name="ITEM_DEFECT.sql" BuildAction="Build" />
+        <File RelPath="views" Name="view_AllUserProjects.sql" BuildAction="Build" />
+        <File RelPath="views" Name="view_ProjectUsersAndSubscribes.sql" BuildAction="Build" />
+        <File RelPath="views" Name="view_ProjectAndErrors.sql" BuildAction="Build" />
+        <File RelPath="views" Name="view_ProjectInfoWithoutOwner.sql" BuildAction="Build" />
+      </Build>
+    </Configuration>
+  </Configurations>
+</DatabaseProject>

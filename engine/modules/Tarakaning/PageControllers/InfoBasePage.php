@@ -34,7 +34,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php
 			$this->_concreteUser=$this->_controller->auth;
 			
 			$this->_projectsController=new ProjectsController();
-			$this->_projectsList=$this->_projectsController->getUserProjects($this->_userInfo["UserID"]);
+			$this->_projectsList=$this->_projectsController->getUserProjects($this->_userInfo["USER_ID"]);
 			
 			$this->_projectSelectionFlag=false;
 			
@@ -70,12 +70,12 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php
 		
 		protected function doAssign()
 		{
-			$this->_smarty->assign("LOGIN",$this->_userInfo['NickName']);
+			$this->_smarty->assign("LOGIN",$this->_userInfo['NICK']);
 			$this->_smarty->assign("TIME",$this->_userInfo['EnterTime']);
 			$this->_smarty->assign("FULLNAME",
-	 			$this->_userInfo['Surname'].' '.
-				$this->_userInfo['Name'].' '.
-	  			$this->_userInfo['SecondName']
+	 			$this->_userInfo['LAST_NM'].' '.
+				$this->_userInfo['FRST_NM'].' '.
+	  			$this->_userInfo['SECND_NM']
   			);
   			$this->_smarty->assign("MAIN_MENU",$this->_controller->menu);
 			$this->_smarty->assign("PROJECTS",array(
@@ -92,7 +92,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php
 			{
 				foreach($projectList as $value)
 				{
-					$res[$value["ProjectID"]]=$value["Name"];
+					$res[$value["PROJ_ID"]]=$value["PROJ_NM"];
 				}
 			}
 			return $res;
