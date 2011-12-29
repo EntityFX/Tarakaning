@@ -35,7 +35,6 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php
 			
 			$this->_projectsController=new ProjectsController();
 			$this->_projectsList=$this->_projectsController->getUserProjects($this->_userInfo["USER_ID"]);
-			
 			$this->_projectSelectionFlag=false;
 			
 			if ($this->_projectsList!=null)
@@ -92,7 +91,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php
 			{
 				foreach($projectList as $value)
 				{
-					$res[$value["PROJ_ID"]]=$value["PROJ_NM"];
+					$res[$value["ProjectID"]]=$value["Name"];
 				}
 			}
 			return $res;

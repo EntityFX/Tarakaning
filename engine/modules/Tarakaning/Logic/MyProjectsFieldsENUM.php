@@ -7,7 +7,7 @@
         const DESCRIPTION      	= "Description";
         const COUNT_USERS      	= "CountUsers";
         const COUNT_REQUESTS    = "CountSubscribeRequests";
-        const CREATE_DATE      	= "CreateDate";
+        const CREATE_DATE      	= "CreateDateTime";
         const NICK_NAME      	= "OwnerNickName";
                                         
         public function __construct($value=self::PROJECT_NAME)

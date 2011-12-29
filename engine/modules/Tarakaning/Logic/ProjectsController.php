@@ -15,6 +15,8 @@
 		const VIEW_ALL_USER_PROJECTS 			= 'view_AllUserProjects';
 		const VIEW_PROJECT_AND_ERRORS			= 'view_ProjectAndErrors';
 		const VIEW_PROJECT_INFO_WITHOUT_OWNER	= 'view_ProjectInfoWithoutOwner';
+		const VIEW_PROJECT_AND_OWNER_NICK		= 'view_ProjectAndOwnerNick';
+		const VIEW_USER_IN_PROJ_ERROR_AND_COMM	= 'view_UserInProjectErrorsAndComments';
 		const TABLE_PROJ 						= 'PROJ';
 		
 		public function __construct()
@@ -91,7 +93,7 @@
 				if ($this->isOwner($userID, $projectID))  
 				{
 					$this->_sql->update(
-						'Projects', 
+						self::TABLE_PROJ, 
 						"ProjectID = $projectID AND OwnerID = $userID",
 					 	new ArrayObject(array(
 					 		'Name' => $projectNewName,
@@ -119,9 +121,10 @@
 		{
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;
-			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `ProjectID` = '$projectID'");
-			$tmp = $this->_sql->fetchArr($res);
-			return ($userID != $tmp["OwnerID"]) ? FALSE : TRUE; 
+			$this->_sql->selFieldsWhere(self::TABLE_PROJ,"PROJ_ID = '$projectID'","USER_ID");
+			$rec = $this->_sql->getTable();
+			$rec = $rec[0];
+			return ($userID != (int)$rec["USER_ID"]) ? false : true; 
 			
 		}
 		/**
@@ -196,7 +199,7 @@
 		public function getProjectById($projectID)
 		{
 			$projectID=(int)$projectID;
-			$this->_sql->selAllWhere("projectswithusername","ProjectID=$projectID");
+			$this->_sql->selAllWhere(self::VIEW_PROJECT_AND_OWNER_NICK,"ProjectID=$projectID");
 			$data=$this->_sql->getTable();
 			return $data[0];
 		}
@@ -211,7 +214,7 @@
 			$projectsListStatement=Serialize::serializeForINStatement($projectIDList);
 			if ($projectsListStatement!='')
 			{
-				$this->_sql->selAllWhere("projectswithusername","ProjectID IN $projectsListStatement");
+				$this->_sql->selAllWhere(self::VIEW_PROJECT_AND_OWNER_NICK,"ProjectID IN $projectsListStatement");
 				return $this->_sql->getTable();
 			}
 			else
@@ -254,7 +257,7 @@
 		public function searchProjectsUsingLikeCount($userID,$query)
 		{
 		    $query=addslashes($query);
-            return $this->_sql->countQuery('Projects',"`Name` LIKE '%$query%' OR Description LIKE '%$query%'");
+            return $this->_sql->countQuery(self::TABLE_PROJ,"`Name` LIKE '%$query%' OR Description LIKE '%$query%'");
 		}
 		
 		public function searchProjectsUsingLike($userID,$query,ListPager $paginator)
@@ -270,13 +273,13 @@
 							    	ELSE 1
 							    END AS ProjectRelation
 							FROM 
-							    projectsinfoview P
+							    %5$s P
 							LEFT JOIN USER_IN_PROJ UP ON
 							    `P`.ProjectID=`UP`.ProjectID AND `UP`.UserID=%1$d
 							WHERE 
 							    `Name` LIKE \'%%%2$s%%\' OR Description LIKE \'%%%2$s%%\'
 							LIMIT %3$d,%4$d'
-					,$userID,$query,$paginator->getOffset(),$paginator->getSize());
+					,$userID,$query,$paginator->getOffset(),$paginator->getSize(),self::TABLE_PROJ);
 			$this->_sql->query($query);
 			return $this->_sql->GetRows();
 		}
@@ -318,14 +321,14 @@
 		public function getProjectUsersInfo($projectID)
 		{
 			$projectID=(int)$projectID;
-			$this->_sql->selAllWhere('projectusersinfofull', "ProjectID=$projectID");
+			$this->_sql->selAllWhere(self::VIEW_USER_IN_PROJ_ERROR_AND_COMM, "ProjectID=$projectID");
 			return $this->_sql->getTable();
 		}
 		
 		public function getProjectUsersInfoCount($projectID)
 		{
 			$projectID=(int)$projectID;
-			return $this->_sql->countQuery('projectusersinfofull', "ProjectID=$projectID");
+			return $this->_sql->countQuery(self::VIEW_USER_IN_PROJ_ERROR_AND_COMM, "ProjectID=$projectID");
 		}
 		
 		public function getProjectsUsersInfoPagOrd($projectID, ProjectFieldsUsersInfoENUM $orderField, MySQLOrderEnum $direction,$page=1,$size=15)
@@ -357,7 +360,7 @@
 				new ProjectFieldsUsersInfoENUM(ProjectFieldsUsersInfoENUM::NICK_NAME),
 				new MySQLOrderENUM(MySQLOrderENUM::ASC)
 			);
-			$this->_sql->selFieldsWhere(self::VIEW_ALL_USER_PROJECTS, "ProjectID=$projectID",'UserID','NickName');
+			$this->_sql->selFieldsWhere(self::VIEW_ALL_USER_PROJECTS, "ProjectID=$projectID",'UserID','Nick');
 			$this->_sql->clearOrder();
 			return $this->_sql->getTable();
 		}
@@ -403,8 +406,8 @@
 		public function isProjectExists($projectID)
 		{
 			$projectID = (int)$projectID;
-			$res = $this->_sql->query("SELECT * FROM `Projects` WHERE `ProjectID` = '$projectID'");
-			$tmp = $this->_sql->fetchArr($res);
+			$this->_sql->selAllWhere(self::TABLE_PROJ, "PROJ_ID = $projectID");
+			$tmp = $this->_sql->getTable();
 			return $tmp == null ? FALSE : TRUE;
 		}
 		
@@ -413,7 +416,8 @@
 			$projectID = (int)$projectID;
 			$this->_sql->selFieldsWhereA(self::TABLE_PROJ, array('USER_ID'), "PROJ_ID = $projectID");
 			$tmp = $this->_sql->getTable();
-			return (int)$tmp["OwnerID"];
+			$tmp = $tmp[0];
+			return (int)$tmp["USER_ID"];
 		}
 	}
 ?>

@@ -58,11 +58,11 @@
                 $u=new SubscribesController();
                 if ($u->isSubscribed($this->id,$projectID) || $pContr->getOwnerID($projectID)==$this->id)
                 {
-                    $this->_sql->query("
-                        UPDATE Users SET 
-                            DefaultProjectID=$projectID 
-                        WHERE UserID=$this->id
-                    ");
+                	$this->_sql->update(
+                		self::$authTableName, 
+                		"USER_ID=$this->id", 
+                		new ArrayObject(array('DFLT_PROJ_ID' => $projectID))
+                	);
                 }
                 else
                 {
@@ -104,7 +104,6 @@
         
         public function getCurrentProject()
         {
-        	//var_dump($this->_authNamespace->data["SelectedProject"]);
         	if ($this->_authNamespace->data[self::$authTableName]["SelectedProject"]==null)
         	{
         		$this->_authNamespace->data[self::$authTableName]["SelectedProject"]=$this->defaultProjectID;

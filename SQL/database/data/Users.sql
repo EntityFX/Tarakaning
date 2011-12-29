@@ -1,4 +1,4 @@
-﻿INSERT INTO USERS VALUES 
+﻿INSERT INTO `USER` VALUES 
   (1, 'EntityFX', 'Артём', 'Солопий', 'Валерьевич', '408edad392248bc60f0e7ddaed995fe5', 0, 1, 'artem.solopiy@gmail.com', NULL, 48),
   (3, 'Vasiliy', 'Артём', 'Солопий', 'Валерьевич', 'f188f8028be984727e58c6aed3cbe2d3', 0, 1, 'tym_@mail.ru', NULL, 7),
   (6, 'Oliya', NULL, NULL, NULL, '', 0, 0, NULL, NULL, NULL),

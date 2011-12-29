@@ -52,7 +52,7 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 			}
 			
 			$this->_projectsData=$this->_projectsController->getUserProjectsInfo(
-				$this->_userData["UserID"],
+				$this->_userData["USER_ID"],
 				new MyProjectsFieldsENUM($this->_myProjectsOrderer->getOrderField()),
 				$this->_myProjectsOrderer->getMySQLOrderDirection(),
 				$this->_myProjectsPaginator->getOffset(),
@@ -60,12 +60,13 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 			);
 			
 			$this->_projectsWithoutMeData=$this->_projectsController->getMemberProjects(
-				$this->_userData["UserID"],
+				$this->_userData["USER_ID"],
 				new MyProjectsFieldsENUM($this->_memberProjectsOrderer->getOrderField()),
 				$this->_memberProjectsOrderer->getMySQLOrderDirection(),
 				$this->_memberProjectsPaginator->getOffset(),
 				$this->_memberProjectsPaginator->getSize()
 			);
+			
 		}
 		
 		protected function doAssign()

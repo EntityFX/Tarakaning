@@ -23,6 +23,8 @@ require_once 'ProjectsController.php';
 		 * $description
 		 */
 		
+		const TABLE_ITEM_HIST = 'ITEM_HIST';
+		
 		public function __construct()
 		{
 			parent::__construct();
@@ -30,15 +32,15 @@ require_once 'ProjectsController.php';
 		
 		/**
 		 * Добавление элемента в историю.
-		 * @param $userID
-		 * @param $reportID
-		 * @param $description
+		 * @param int $userID Идентификатор пользователя
+		 * @param $reportID Идентификатор элемента
+		 * @param $description Описание элемента
 		 */
 		public function addHistory($userID,$reportID,$description) 
 		{
 			$reportID=(int)$reportID;
 			$this->_sql->insert(
-				"ErorrReportHistory", 
+				self::TABLE_ITEM_HIST, 
 				new ArrayObject(array(
 					$reportID,
 					$userID,
@@ -46,10 +48,10 @@ require_once 'ProjectsController.php';
 					$description
 				)),
 				new ArrayObject(array(
-					"ErrorReportID",
-					"UserID",
-					"OldTime",
-					"Description"
+					"ITEM_ID",
+					"USER_ID",
+					"OLD_TM",
+					"DESCR"
 				))
 			);
 		}
@@ -128,13 +130,19 @@ require_once 'ProjectsController.php';
 			}
 		}
 		
+		/**
+		 * 
+		 * Возращает историю изменения элемента по его идентификатору
+		 * @param int $reportID Идентификатор элемента
+		 * @param ListPager $paginator Ограничитель вывода
+		 */
 		public function getReportHistory($reportID, ListPager $paginator)
 		{
 			$reportID=(int)$reportID;
 			$offset=$paginator->getOffset();
 			$size=$paginator->getSize();
 			$this->_sql->setLimit($offset, $size);
-			$this->_sql->selFieldsWhere('ErorrReportHistory', "ErrorReportID=$reportID");
+			$this->_sql->selFieldsWhere(self::TABLE_ITEM_HIST, "ITEM_ID=$reportID");
 			$res=$this->_sql->getTable();
 			$this->_sql->clearLimit();
 			return $res;

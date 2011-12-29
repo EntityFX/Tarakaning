@@ -86,7 +86,7 @@ class UserAuth extends DBConnector
 
 	public function refreshData()
 	{
-		$this->_sql->selAllWhere(self::$authTableName,"USER_ID='".$this->_authNamespace->data[self::$authTableName]["UserID"]."'");
+		$this->_sql->selAllWhere(self::$authTableName,"USER_ID='".$this->_authNamespace->data[self::$authTableName]["USER_ID"]."'");
 		$res=$this->_sql->getTable();
 		$res=$res[0];
 		if ($res!=NULL) $this->_authNamespace->data[self::$authTableName]=$res;

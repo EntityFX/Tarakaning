@@ -11,6 +11,8 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 	 */
 	class CommentsController extends DBConnector
 		{
+			const VIEW_COMMENTS_DETAIL = 'view_CommentsDetail';
+			
 			public function __construct($projectID=NULL,$ownerID=NULL)
        		{
             	parent::__construct();
@@ -196,7 +198,7 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 					{
 						$this->_sql->setLimit($page, $size);
 						$this->_sql->setOrder($fieldEnum, $direction);
-						$this->_sql->selAllWhere("commentsdetail", "ReportID = $reportID");
+						$this->_sql->selAllWhere(self::VIEW_COMMENTS_DETAIL, "ItemID = $reportID");
 						$this->_sql->clearLimit();
 						$this->_sql->clearOrder();
 						return $this->_sql->getTable();
@@ -220,7 +222,7 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 			public function getReportCommentsCount($reportID)
 			{
 				$reportID = (int)$reportID;
-				return $this->_sql->countQuery("commentsdetail", "ReportID = $reportID");
+				return $this->_sql->countQuery(self::VIEW_COMMENTS_DETAIL, "ItemID = $reportID");
 			}
 			
 			/**

@@ -8,6 +8,8 @@ require_once 'ProjectsController.php';
 	 */
 	class RequestsController extends DBConnector
 		{
+			const TABLE_USER_IN_PROJECT = 'USER_IN_PROJ';
+			
 			/*
 			 * 1) подтвердить заявку (взять из таблицы SubscribesRequest, записать в таблицу UsersInProjects)
 			 * 2) отклонить заявку (удалить из таблицы SubscribesRequest)
@@ -64,16 +66,9 @@ require_once 'ProjectsController.php';
 			{
 				$userID = (int)$userID;
 				$projectID = (int)$projectID;
-				$res = $this->_sql->query("SELECT * FROM `UsersInProjects` WHERE `ProjectID` = '$projectID' AND `UserID`='$userID'");
-				$tmp = $this->_sql->fetchArr($res);
-				if ($tmp == null) 
-				{
-					return FALSE;
-				}
-				else 
-				{
-					return TRUE;
-				}
+				$this->_sql->selAllWhere(self::TABLE_USER_IN_PROJECT, "PROJ_ID = '$projectID' AND USER_ID='$userID'");
+				$records = $this->_sql->getTable();
+				return $records == null ? false : true;
 			}
 			
 			/**

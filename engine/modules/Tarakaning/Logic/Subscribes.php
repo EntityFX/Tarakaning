@@ -8,16 +8,21 @@
  *
  */
 	class Subscribes extends DBConnector
-		{
+	{
 /*
  *  1) получить список проектов, в которых участвует пользователь (для меня минимум) (из таблицы UsersInProjects)
 	2) прервать участие в данном проекте (удаление записи из таблицы UsersInProjects)
 	3) подать заявку на проект (запись в таблицу SubscribesRequest)
  */
-			public function __construct()
-			{
-				parent::__construct();
-			}
+
+		const TABLE_SUBSCR_RQST 		= 'SUBSCR_RQST';
+		const VIEW_SUBSCRIBES_DETAIL	= 'view_SubscribesDetails';
+		const VIEW_SUBSCRIBES_USER_NICK = 'view_SubscribesUserNick';
+		
+		public function __construct()
+		{
+			parent::__construct();
+		}
 			
 			
 			/**
@@ -34,7 +39,7 @@
 				if (!$this->isRequestExists($userID, $projectID))
 				{
 					$this->_sql->insert(
-						'SubscribesRequest', 
+						self::TABLE_SUBSCR_RQST, 
 						new ArrayObject(array(
 							0,
 							$userID,
@@ -61,7 +66,7 @@
 				$p = new ProjectsController();
 				if($p->isProjectExists($projectID))
 				{
-					$count=$this->_sql->countQuery('SubscribesRequest',"UserID = '$userID' AND `ProjectID` = '$projectID'");
+					$count=$this->_sql->countQuery(self::TABLE_SUBSCR_RQST,"USER_ID = '$userID' AND `ProjectID` = '$projectID'");
 					return $count==0 ? false : true;
 				}
 				else 
@@ -82,7 +87,7 @@
 					new SubscribesDetailENUM($orderer->getOrderField()), 
 					new MySQLOrderENUM($orderer->getOrder())
 				);
-				$this->_sql->selAllWhere('subscribesdetails', "UserID = $userID");
+				$this->_sql->selAllWhere(self::VIEW_SUBSCRIBES_DETAIL, "UserID = $userID");
 				$this->_sql->clearOrder();
 				$this->_sql->clearLimit();
 				return $this->_sql->getTable();
@@ -92,7 +97,7 @@
 			public function getSubscribesCount($userID)
 			{
 				$userID = (int)$userID;
-				return $this->_sql->countQuery('SubscribesRequest', "UserID = $userID");
+				return $this->_sql->countQuery(self::TABLE_SUBSCR_RQST, "USER_ID = $userID");
 			}
 			
 			public function getProjectSubscribes($projectID,Orderer $orderer,ListPager $paginator)
@@ -103,7 +108,7 @@
 					new ProjectSubscribesDetailENUM($orderer->getOrderField()), 
 					new MySQLOrderENUM($orderer->getOrder())
 				);
-				$this->_sql->selAllWhere('projectsubscribesdetails', "ProjectID = $projectID");
+				$this->_sql->selAllWhere(self::VIEW_SUBSCRIBES_USER_NICK, "ProjectID = $projectID");
 				$this->_sql->clearOrder();
 				$this->_sql->clearLimit();
 				return $this->_sql->getTable();
@@ -117,7 +122,7 @@
 			public function getProjectSubscribesCount($projectID)
 			{
 				$projectID=(int)$projectID;
-				return $this->_sql->countQuery('SubscribesRequest', "ProjectID = $projectID");
+				return $this->_sql->countQuery(self::TABLE_SUBSCR_RQST, "PROJ_ID = $projectID");
 			}
 			
 		    public function getMyOrdered(ItemKindENUM $kind,ErrorFieldsENUM $field, MySQLOrderEnum $direction,$page=1,$size=15,$userID=NULL,$projectID=NULL)
