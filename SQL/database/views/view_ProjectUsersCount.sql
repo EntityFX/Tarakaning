@@ -4,7 +4,7 @@ SELECT
     P.PROJ_NM AS `Name`,
     left(P.DESCR, 25) AS Description, 
     P.USER_ID AS OwnerID, 
-    U.NICK AS NickName, 
+    U.NICK AS OwnerNickName, 
     P.CRT_TM AS CreateDate, 
     (count(UP.PROJ_ID) + (P.USER_ID IS NOT NULL)) AS CountUsers
 FROM

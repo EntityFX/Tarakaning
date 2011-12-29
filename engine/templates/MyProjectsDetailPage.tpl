@@ -1,4 +1,4 @@
-{extends file="info.base.tpl"}
+{extends file="InfoBasePage.base.tpl"}
 
 {block name=script}
 {literal}
@@ -34,7 +34,7 @@
 				<dt>Название</dt> 
 				<dd>{$Project.Name}</dd> 
 				<dt>Автор</dt> 
-				<dd><a href="/profile/show/{$Project.OwnerID}/">{$Project.NickName}</a></dd>				
+				<dd><a href="/profile/show/{$Project.OwnerID}/">{$Project.OwnerNickName}</a></dd>				
 				<dt>Описание</dt> 
 				<dd>{$Project.Description}&nbsp;</dd> 
 			</dl> 

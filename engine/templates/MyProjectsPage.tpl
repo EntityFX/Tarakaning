@@ -1,4 +1,4 @@
-{extends file="info.base.tpl"}
+{extends file="InfoBasePage.base.tpl"}
 {block name=script}
 {literal}
 		$('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
@@ -30,25 +30,25 @@
 					<thead> 
 						<tr>
 						  <th><input name="del" type="checkbox" /></th>
-						  <th><a href="{$MY_PROJECTS_ORDERER.Name.url}" {if $MY_PROJECTS_ORDERER.Name.order eq true}class="sort"{/if}>Проект</a></th>
+						  <th><a href="{$MY_PROJECTS_ORDERER.ProjectName.url}" {if $MY_PROJECTS_ORDERER.Name.order eq true}class="sort"{/if}>Проект</a></th>
 						  <th><a href="{$MY_PROJECTS_ORDERER.Description.url}" {if $MY_PROJECTS_ORDERER.Description.order eq true}class="sort"{/if}>Заголовок</a></th>
 						  <th colspan="5">Отчётов</th>
-						  <th><a href="{$MY_PROJECTS_ORDERER.CountRequests.url}" {if $MY_PROJECTS_ORDERER.CountRequests.order eq true}class="sort"{/if}>Заявки</a></th>
+						  <th><a href="{$MY_PROJECTS_ORDERER.CountSubscribeRequests.url}" {if $MY_PROJECTS_ORDERER.CountSubscribeRequests.order eq true}class="sort"{/if}>Заявки</a></th>
 						  <th><a href="{$MY_PROJECTS_ORDERER.CountUsers.url}" {if $MY_PROJECTS_ORDERER.CountUsers.order eq true}class="sort"{/if}>Пользователей</a></th>
-						  <th><a href="{$MY_PROJECTS_ORDERER.CreateDate.url}" {if $MY_PROJECTS_ORDERER.CreateDate.order eq true}class="sort"{/if}>Дата создания</a></th>
+						  <th><a href="{$MY_PROJECTS_ORDERER.CreateDateTime.url}" {if $MY_PROJECTS_ORDERER.CreateDateTime.order eq true}class="sort"{/if}>Дата создания</a></th>
 						</tr>
 					</thead> 
 					<tbody>
 				{foreach name=myProjects from=$MY_PROJECTS item=element} {* Выводит мои проекты*}
 						<tr class="{if $smarty.foreach.myProjects.index % 2 == 0}odd{else}even{/if}">
 							<td><input name="del_i[{$element.ProjectID}]" type="checkbox" /></td>
-							<td><a href="/my/project/show/{$element.ProjectID}/">{$element.Name}</a><br />
+							<td><a href="/my/project/show/{$element.ProjectID}/">{$element.ProjectName}</a><br />
 							</td>
 							<td>{$element.Description}</td>
 							<td class="new">{$element.NEW}</td><td class="confirmed">{$element.IDENTIFIED}</td><td class="assigned">{$element.ASSESSED}</td><td class="solved">{$element.RESOLVED}</td><td class="closed">{$element.CLOSED}</td>
-							<td><strong {if $element.CountRequests neq 0}class="strongest"{/if}>{$element.CountRequests}</strong></td>
+							<td><strong {if $element.CountSubscribeRequests neq 0}class="strongest"{/if}>{$element.CountSubscribeRequests}</strong></td>
 							<td>{$element.CountUsers}</td>
-							<td>{$element.CreateDate}</td>
+							<td>{$element.CreateDateTime}</td>
 						</tr>
 				{/foreach}
 					</tbody>

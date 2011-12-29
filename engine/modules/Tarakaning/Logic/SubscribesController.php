@@ -6,6 +6,8 @@
 	 */
 	class SubscribesController extends DBConnector
 	{
+		const TABLE_USER_IN_PROJ = 'USER_IN_PROJ';
+		
 		public function __construct()
 		{
 			parent::__construct();
@@ -51,16 +53,8 @@
 		{
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;
-			$res = $this->_sql->query("SELECT * FROM `UsersInProjects` WHERE `ProjectID` = '$projectID' AND `UserID`='$userID'");
-			$tmp = $this->_sql->fetchArr($res);
-			if ($tmp == null) 
-			{
-				return FALSE;
-			}
-			else 
-			{
-				return TRUE;
-			}
+			$res = $this->_sql->countQuery(self::TABLE_USER_IN_PROJ, "PROJ_ID = $projectID AND USER_ID = $userID");
+			return $res == 1 ? true : false;
 		}
 		
 		/**

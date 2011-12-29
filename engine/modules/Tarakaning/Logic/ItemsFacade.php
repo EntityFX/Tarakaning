@@ -37,7 +37,7 @@ require_once 'ReportHistoryController.php';
 			$this->_historyController=$historyController;
 			$this->_concreteUser=$user;
 			$userData=$this->_concreteUser->getName();
-			$this->_userID=(int)$userData["UserID"];
+			$this->_userID=(int)$userData["USER_ID"];
 			$this->_projectID=(int)$projectID;
 		}
 		

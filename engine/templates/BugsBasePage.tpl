@@ -1,4 +1,4 @@
-{extends file="info.base.tpl"}
+{extends file="InfoBasePage.base.tpl"}
 
 {block name=script}
 {literal}

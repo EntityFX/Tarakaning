@@ -1,4 +1,4 @@
-{extends file="info.base.tpl"}
+{extends file="InfoBasePage.base.tpl"}
 {block name=body}
 <div id="content_body">
 	{if $ERROR neq ""}

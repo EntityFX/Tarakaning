@@ -23,7 +23,10 @@
     
     class ErrorReportsController extends DBConnector
     {
-        private $_errorOwnerID;
+        const VIEW_ITEM_FULL_INFO 	= 'view_ItemFullInfo';
+        const TABLE_ITEM 			= 'ITEM';
+    	
+    	private $_errorOwnerID;
         
         private $_projectOwnerID;
         
@@ -141,7 +144,7 @@
         public function deleteReport($reportID) 
         {
             $id=(int)$reportID;
-            $this->_sql->delete("ErrorReport","ID=$id");    
+            $this->_sql->delete(self::TABLE_ITEM,"ITEM_ID=$id");    
         }
         
         public function deleteReportsFromList($keysList,$userID=null,$projectID=null)
@@ -210,8 +213,8 @@
                 		{
 	                		if ($currentStatusValue==$newStatusValue) return false;
                 			$this->_sql->update(
-	                			"ErrorReport", 
-	                			"ID=$reportID", 
+	                			self::TABLE_ITEM, 
+	                			"ITEM_ID=$reportID", 
 	                			new ArrayObject(array(
 	                				"Status" => $newStatusValue
 	                			))
@@ -249,7 +252,7 @@
         private function getReportOwner($reportID)
         {
             $reportID=(int)$reportID;
-        	$this->_sql->selFieldsWhere("ErrorReport","ID=$reportID","UserID");
+        	$this->_sql->selFieldsWhere(self::TABLE_ITEM,"ITEM_ID=$reportID","USER_ID");
             $res=$this->_sql->getTable();
             return (int)$res[0]["UserID"];
         }
@@ -257,7 +260,7 @@
         private function checkIsProjectError($reportID)
         {
             $reportID=(int)$reportID;
-            $this->_sql->selFieldsWhere("ErrorReport","ID=$reportID","ProjectID");
+            $this->_sql->selFieldsWhere(self::TABLE_ITEM,"ITEM_ID=$reportID","PROJ_ID");
             $projectID=$this->_sql->getTable();          
             $projectID=$projectID[0]["ProjectID"];
             return $projectID==$this->_projectOwnerID;
@@ -266,7 +269,7 @@
         public function checkIsExsist($reportId)
         {
             $id=(int)$reportId;
-            $countGroups=$this->_sql->countQuery("ErrorReport","ID=$id");
+            $countGroups=$this->_sql->countQuery(self::TABLE_ITEM,"ITEM_ID=$id");
             return (Boolean)$countGroups;   
         }
         
@@ -279,7 +282,7 @@
             {
             	$kindExpression="AND Kind='$itemKind'";
             }
-            $this->_sql->selAllWhere("errorreportsinfo","ProjectID=$projectID $kindExpression");
+            $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO,"ProjectID=$projectID $kindExpression");
             $res=$this->_sql->getTable();
             if ($res!=null)
             {
@@ -300,7 +303,7 @@
             {
             	$kindExpression="AND Kind='$itemKind'";
             }
-            return $this->_sql->countQuery("errorreportsinfo","ProjectID=$projectID $kindExpression");
+            return $this->_sql->countQuery(self::VIEW_ITEM_FULL_INFO,"ProjectID=$projectID $kindExpression");
         }
         
         private function checkProject(&$projectID)
@@ -332,7 +335,7 @@
             {
             	$kindExpression="AND Kind='$itemKind'";
             }
-        	return $this->_sql->countQuery("errorreportsinfo","UserID=$userID AND ProjectID=$projectID $kindExpression");
+        	return $this->_sql->countQuery(self::VIEW_ITEM_FULL_INFO,"UserID=$userID AND ProjectID=$projectID $kindExpression");
         }
         
         public function countAssignedReports(ItemKindENUM $kind)
@@ -344,7 +347,7 @@
             {
             	$kindExpression="AND Kind='$itemKind'";
             }
-        	return $this->_sql->countQuery("errorreportsinfo","AssignedTo=$userID AND ProjectID=$projectID $kindExpression");
+        	return $this->_sql->countQuery(self::VIEW_ITEM_FULL_INFO,"AssignedTo=$userID AND ProjectID=$projectID $kindExpression");
         }
         
         public function getReports(ItemKindENUM $kind,$page=1,$size=15,$userID=NULL,$projectID=NULL)
@@ -378,7 +381,7 @@
             	$kindExpression="AND Kind='$itemKind'";
             }
             $this->_sql->setLimit($page, $size);
-            $this->_sql->selAllWhere("errorreportsinfo","UserID=$userID AND ProjectID=$projectID $kindExpression");
+            $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO,"UserID=$userID AND ProjectID=$projectID $kindExpression");
             $this->_sql->clearLimit();
             $res=$this->_sql->getTable();
             if ($res!=null)
@@ -428,7 +431,7 @@
             {
             	$kindExpression="AND Kind='$itemKind'";
             }
-            $this->_sql->selAllWhere("errorreportsinfo","AssignedTo=$userID AND ProjectID=$projectID $kindExpression");
+            $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO,"AssignedTo=$userID AND ProjectID=$projectID $kindExpression");
         	$this->_sql->clearOrder();
         	$this->_sql->clearLimit();
             $res=$this->_sql->getTable();
@@ -445,14 +448,32 @@
         
         public function getProjectOrdered($projectID,ItemKindENUM $kind,ErrorFieldsENUM $field, MySQLOrderEnum $direction,$from,$size)
         {
+            $this->checkProject($projectID); 
             $this->useOrder($field,$direction);
-            $res=$this->getReportsByProject($projectID,$kind,$from,$size);
-            return $res;
+            $this->useLimit($from,$size);
+            $itemKind=$kind->getValue();
+            if ($itemKind<>ItemKindENUM::ALL)
+            {
+            	$kindExpression="AND Kind='$itemKind'";
+            }
+            $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO,"ProjectID=$projectID $kindExpression");
+            $this->_sql->clearLimit();
+            $this->_sql->clearOrder();
+            $res=$this->_sql->getTable();
+            if ($res!=null)
+            {
+	            foreach($res as $index => $report)
+	            {
+	            	$this->normalizeBugReport(&$report);
+	            	$res[$index]=$report;
+	            }
+            }
+            return $res;  
         }
         
         public function getAllReports()
         {
-            $this->_sql->selAll("ErrorReport");
+            $this->_sql->selAll(self::TABLE_ITEM);
             return $this->_sql->getTable();
         }
         
@@ -468,7 +489,7 @@
         private function getReportByID($reportID)
         {
             $reportID=(int)$reportID;
-        	$this->_sql->selAllWhere("errorreportsinfo","ID=$reportID");
+        	$this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO,"ID=$reportID");
             $arr=$this->_sql->getTable();
             if ($arr==null)
             {
@@ -490,7 +511,7 @@
         	$reportID=(int)$reportID;
         	$projectID=(int)$projectID;
         	$user=$this->_errorOwnerID;
-        	$isOwnerORAssigned=$this->_sql->countQuery("ErrorReport","ID=$reportID AND (UserID=$user OR AssignedTo=$user)");
+        	$isOwnerORAssigned=$this->_sql->countQuery(self::TABLE_ITEM,"ITEM_ID=$reportID AND (USER_ID=$user OR ASSGN_TO=$user)");
         	$pC=new ProjectsController();
             return ($isOwnerORAssigned !=0) || $this->_errorOwnerID==$pC->isOwner($user,$projectID);
         }

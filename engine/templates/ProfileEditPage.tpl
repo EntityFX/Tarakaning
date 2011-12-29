@@ -1,4 +1,4 @@
-{extends file="info.base.tpl"}
+{extends file="InfoBasePage.base.tpl"}
 {block name=body}
 <div id="content_body">
 	
@@ -24,13 +24,13 @@
 					<div class="info_div">
 						<dl class="prof">
 							<dt>Имя:</dt>
-							<dd><input type="text" name="Name" value="{$AR_USER_INFO.Name}" /></dd>
+							<dd><input type="text" name="Name" value="{$AR_USER_INFO.FRST_NM}" /></dd>
 							<dt>Фамилия:</dt>
-							<dd><input type="text" name="Surname" value="{$AR_USER_INFO.Surname}" /></dd>
+							<dd><input type="text" name="Surname" value="{$AR_USER_INFO.LAST_NM}" /></dd>
 							<dt>Отчество:</dt>
-							<dd><input type="text" name="SecondName" value="{$AR_USER_INFO.SecondName}" /></dd>
+							<dd><input type="text" name="SecondName" value="{$AR_USER_INFO.SECND_NM}" /></dd>
 							<dt>e-mail:</dt>
-							<dd><input type="text" name="Email" value="{$AR_USER_INFO.Email}" /></dd>
+							<dd><input type="text" name="Email" value="{$AR_USER_INFO.EMAIL}" /></dd>
 							<dd class="subm"><input type="submit" name="save_profile" value="Сохранить" /></dd>
 						</dl>
 					</div>
