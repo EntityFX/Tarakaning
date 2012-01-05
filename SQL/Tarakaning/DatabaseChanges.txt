@@ -8,10 +8,6 @@ ITEM_CMMENT
 SUBSCR_RQST
 
 view_AllUserProjects
-view_ProjectUsersAndSubscribes
-view_ProjectAndErrors
-view_ProjectInfoWithoutOwner
-
 projectsinfoview -> view_ProjectUsersAndSubscribes
 projectanderrorsview -> view_ProjectAndErrors
 projectsinfowithoutmeview -> view_ProjectInfoWithoutOwner

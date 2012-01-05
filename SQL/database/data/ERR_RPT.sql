@@ -1,4 +1,4 @@
-﻿INSERT INTO ERR_RPT VALUES 
+﻿INSERT INTO ITEM VALUES 
   (2, 3, 2, 'Defect', '1', 'CLOSED', '2011-02-06 18:05:52', 'Возник BSOD', 'При попытке вызвать экран, вышла критическая ошибка', NULL),
   (3, 10, 3, 'Defect', '1', 'NEW', '2011-02-17 19:57:46', '', 'dsvfdgfdgdfg', NULL),
   (4, 3, 1, 'Defect', '1', 'ASSESSED', '2011-02-17 19:58:23', 'dfdsfd', 'dsfsdf', NULL),

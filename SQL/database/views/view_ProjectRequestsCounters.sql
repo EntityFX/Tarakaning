@@ -5,7 +5,7 @@ SELECT
     P.`Name` AS `Name`, 
     P.Description AS Description, 
     P.OwnerID AS OwnerID, 
-    P.NickName AS NickName, 
+    P.OwnerNickName AS OwnerNickName, 
     P.CreateDate AS CreateDate, 
     P.CountUsers AS CountUsers, 
     count(S.PROJ_ID) AS CountRequests
