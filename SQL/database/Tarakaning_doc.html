@@ -1,0 +1,608 @@
+<!doctype html>
+<html>
+	<head>
+		<title></title>
+	</head>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			font-family: Verdana;
+		}
+		
+		#menu {
+			margin: 5px;
+			padding: 5px;
+			border: 1px solid #0bf;
+			background: #cef;
+			width: 210px;
+			position: fixed;
+			overflow-x: scroll;
+		}
+		
+			#menu ul {
+				list-style: none;
+			}
+			
+			#menu ul.db_menu li {
+				font-weight: bold;
+			}
+			
+			#menu ul.db_menu ul {
+				margin-left: 30px;
+			}
+			
+			#menu ul.db_menu ul li{
+				font-weight: normal;
+				font-size: 12px;
+			}
+			
+		#content {
+			margin-left: 230px;
+			padding: 5px;
+		}
+		
+			#content div.details table {
+				border-collapse: collapse;
+			}
+			
+				#content div.details table li{
+					margin-left: 20px;
+				}
+				
+				#content div.details th, #content div.details td {
+					border: 1px solid #0bf;
+					padding: 3px;
+				}
+				
+				#content div.details td {
+					font-size: 14px;
+				}
+				
+			#content .details {
+				margin-bottom: 50px;
+			}
+		
+		.pk {
+			text-decoration: underline;
+		}
+		
+		.ignore {
+			color: red;
+			font-weight: bold;
+		}
+		
+		h3.tbl_name {
+			color: #07d;
+		}
+	</style>
+	<body>
+		<div id="menu">
+			<ul class="db_menu">
+				<li>Таблицы
+					<ul>
+						<li><a href="#tbl_user">USER</a></li>
+						<li><a href="#tbl_proj">PROJ</a></li>
+						<li><a href="#tbl_item">ITEM</a></li>
+						<li><a href="#tbl_item_defect">ITEM_DEFECT</a></li>
+						<li><a href="#tbl_item_cmment">ITEM_CMMENT</a></li>
+						<li><a href="#tbl_item_hist">ITEM_HIST</a></li>
+						<li><a href="#tbl_user_in_proj">USER_IN_PROJ</a></li>
+						<li><a href="#tbl_subscr_rqst">SUBSCR_RQST</a></li>
+					</ul>
+				</li>
+				<li>Представления
+					<ul>
+						<li><a href="#tbl_user">view_AllUserProjects</a></li>
+						<li><a href="#tbl_user">view_ProjectUsersAndSubscribes</a></li>
+						<li><a href="#tbl_user">view_ProjectAndErrors</a></li>
+						<li><a href="#tbl_user">view_ProjectInfoWithoutOwner</a></li>
+						<li><a href="#tbl_user">view_ProjectAndOwnerNick</a></li>
+						<li><a href="#tbl_user">view_UserInProjectErrors</a></li>
+						<li><a href="#tbl_user">view_ErrorCommentsCount</a></li>
+						<li><a href="#tbl_user">view_ProjectCommentsCount</a></li>
+						<li><a href="#tbl_user">view_UserInProjectErrorsAndComments</a></li>
+						<li><a href="#tbl_user">view_SubscribesUserNick</a></li>
+						<li><a href="#tbl_user">view_ItemFullInfo</a></li>
+						<li><a href="#tbl_user">view_CommentsDetail</a></li>
+					</ul>
+				</li>
+				<li>Хранимые процедуры
+					<ul>
+						<li><a href="#">AddItem</a></li>
+						<li><a href="#">EditItem</a></li>
+						<li><a href="#">DeleteItemsFromList</a></li>
+						<li><a href="#">DeleteProjects</a></li>
+						<li><a href="#">DeleteCommentsFromList</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div id="content">
+			<h2>Таблицы</h2>
+			<div class="details" id="tbl_user">
+				<dl>
+					<dd><h3 class="tbl_name">USER</h3></dd>
+					<dt>Содержит список всех пользователей</dt>
+				</dl>
+				<br/>
+				
+				<strong>Поля таблицы</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Дополнительно</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="pk">USER_ID</td><td>INT</td><td>UNSIGNED NOT NULL AUTO_INCREMENT</td><td>Уникальный идентификатор пользователя</td>
+						</tr>
+						<tr>
+							<td>NICK</td><td>VARCHAR(32)</td><td>NOT NULL</td><td>Логин пользователя</td>
+						</tr>
+						<tr>
+							<td>FRST_NM</td><td>VARCHAR(50)</td><td>DEFAULT NULL</td><td>Имя пользователя</td>
+						</tr>
+						<tr>
+							<td>LAST_NM</td><td>VARCHAR(50)</td><td>DEFAULT NULL</td><td>Фамилия пользователя</td>
+						</tr>
+						<tr>
+							<td>SECND_NM</td><td>INT</td><td>UNSIGNED NOT NULL AUTO_INCREMENT</td><td>Отчество пользователя</td>
+						</tr>
+						<tr>
+							<td>PASSW_HASH</td><td>VARCHAR(32)</td><td>NOT NULL</td><td>Хеш пароля MD5</td>
+						</tr>
+						<tr>
+							<td>USR_TYP</td><td>TINYINT</td><td>DEFAULT NULL</td><td>Тип пользователя. <span class="ignore">Не используется</span></td>
+						</tr>
+						<tr>
+							<td>ACTIVE</td><td>TINYINT</td><td>DEFAULT NULL</td><td>Активность пользователя.<ul><li>0 - Не активен</li><li>1 - Активен</li></ul></td>
+						</tr>
+						<tr>
+							<td>EMAIL</td><td>VARCHAR(255)</td><td>NOT NULL</td><td>Почтовый адрес</td>
+						</tr>
+						<tr>
+							<td>LANG_ID</td><td>INT</td><td>DEFAULT NULL</td><td>Код языка</td>
+						</tr>
+						<tr>
+							<td>DFLT_PROJ_ID</td><td>INT</td><td>DEFAULT NULL</td><td>Идентификатор языка по умолчанию</td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+				<div>
+					<strong>Индексы</strong>
+					<table>
+						<thead>
+							<tr><th>Название</th><th>Тип</th><th>Поля</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>IX__USER__NICK</td><td>UNIQUE INDEX</td><td>NICK</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<br/>
+				<div>
+					<strong>Внешние ключи</strong>
+					<table>
+						<thead>
+							<tr><th>Название</th><th>Поля</th><th>Ссылается на таблицу</th><th>Ссылается на поля</th></tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+			<div class="details" id="tbl_proj">
+				<dl>
+					<dd><h3 class="tbl_name">PROJ</h3></dd>
+					<dt>Содержит все проекты, которые были созданы пользователем, описание, владельца</dt>
+				</dl>
+				<br/>
+				
+				<strong>Поля таблицы</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Дополнительно</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="pk">PROJ_ID</td><td>INT</td><td>NOT NULL AUTO_INCREMENT</td><td>Уникальный идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>PROJ_NM</td><td>VARCHAR(100)</td><td>NOT NULL</td><td>Имя проекта</td>
+						</tr>
+						<tr>
+							<td>DESCR</td><td>TINYTEXT</td><td>DEFAULT NULL</td><td>Описание проекта</td>
+						</tr>
+						<tr>
+							<td>USER_ID</td><td>VARCHAR(50)</td><td>UNSIGNED DEFAULT NULL</td><td>Идентификатор пользователя - владельца проекта</td>
+						</tr>
+						<tr>
+							<td>CRT_TM</td><td>DATETIME</td><td>NOT NULL</td><td>Дата и время создания проекта</td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+				<div>
+					<strong>Индексы</strong>
+					<table>
+						<thead>
+							<tr><th>Название</th><th>Тип</th><th>Поля</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>IX__PROJ__USER_ID</td><td>INDEX</td><td>USER_ID</td></tr>
+							<tr><td>IX__PROJ__PROJ_NM</td><td>INDEX</td><td>PROJ_NM</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<br/>
+				<div>
+					<strong>Внешние ключи</strong>
+					<table>
+						<thead>
+							<tr><th rowspan="2">Название</th><th rowspan="2">Поля</th><th colspan="2">Ссылается на</th><th colspan="2">Операции</th></tr>
+							<tr><th>таблицу</th><th>поля</th><th>UPDATE</th><th>DELETE</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>FK__PROJ__USER__USER_ID</td><td>USER_ID</td><td>USER</td><td>USER_ID</td><td>SET NULL</td><td>SET NULL</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="details" id="tbl_item">
+				<dl>
+					<dd><h3 class="tbl_name">ITEM</h3></dd>
+					<dt>Содержит все задачи и дефекты проектов</dt>
+				</dl>
+				<br/>
+				
+				<strong>Поля таблицы</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Дополнительно</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="pk">ITEM_ID</td><td>INT</td><td>NOT NULL AUTO_INCREMENT</td><td>Уникальный идентификатор элемента</td>
+						</tr>
+						<tr>
+							<td>USER_ID</td><td>INT</td><td>UNSIGNED NULL</td><td>Идентификатор пользователя - владельца</td>
+						</tr>
+						<tr>
+							<td>PROJ_ID</td><td>INT</td><td>NOT NULL</td><td>Идентификатор проекта, к которому принадлежит элемент</td>
+						</tr>
+						<tr>
+							<td>KIND</td><td>ENUM</td><td>NOT NULL</td><td>Тип элементы. Допустимые значения:<ul><li>Defect</li><li>Task</li></td>
+						</tr>
+						<tr>
+							<td>PRTY_LVL</td><td>ENUM</td><td>NOT NULL</td><td>Уровень приоритета. Допустимые значения:<ul><li>0</li><li>1</li><li>2</li></td>
+						</tr>
+						<tr>
+							<td>STAT</td><td>ENUM</td><td>NOT NULL</td><td>Статус элемента. Допустимые значения:<ul><li>NEW</li><li>ASSESSED</li><li>CLOSED</li><li>RESOLVED</li><li>IDENTIFIED</li></td>
+						</tr>
+						<tr>
+							<td>CRT_TM</td><td>TIMESTAMP</td><td>NOT NULL DEFAULT '0000-00-00 00:00:00'</td><td>Время создания элемента</td>
+						</tr>
+						<tr>
+							<td>TITLE</td><td>VARCHAR(150)</td><td>NOT NULL</td><td>Заголовок элемента</td>
+						</tr>
+						<tr>
+							<td>DESCR</td><td>TEXT</td><td>NOT NULL</td><td>Текстовое описание элемента</td>
+						</tr>
+						<tr>
+							<td>ASSGN_TO</td><td>INT</td><td>DEFAULT NULL</td><td>Индентификатор пользователя, на которого назначен элемент</td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+				<div>
+					<strong>Индексы</strong>
+					<table>
+						<thead>
+							<tr><th>Название</th><th>Тип</th><th>Поля</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>IX__ITEM__PROJ_ID</td><td>INDEX</td><td>PROJ_ID</td></tr>
+							<tr><td>IX__ITEM__USER_ID</td><td>INDEX</td><td>USER_ID</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<br/>
+				<div>
+					<strong>Внешние ключи</strong>
+					<table>
+						<thead>
+							<tr><th rowspan="2">Название</th><th rowspan="2">Поля</th><th colspan="2">Ссылается на</th><th colspan="2">Операции</th></tr>
+							<tr><th>таблицу</th><th>поля</th><th>UPDATE</th><th>DELETE</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>FK__ITEM__PROJ__PROJ_ID</td><td>PROJ_ID</td><td>PROJ</td><td>PROJ_ID</td><td>CASCADE</td><td>CASCADE</td></tr>
+							<tr><td>FK__ITEM__USER__USER_ID</td><td>USER_ID</td><td>USER</td><td>USER_ID</td><td>SET NULL</td><td>SET NULL</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="details" id="tbl_item_defect">
+				<dl>
+					<dd><h3 class="tbl_name">ITEM_DEFECT</h3></dd>
+					<dt>Таблица, содержащая информацию о дефектах</dt>
+				</dl>
+				<br/>
+				
+				<strong>Поля таблицы</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Дополнительно</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="pk">ITEM_DEFECT_ID</td><td>INT</td><td>NOT NULL</td><td>Уникальный идентификатор дефекта</td>
+						</tr>
+						<tr>
+							<td>DEFECT_TYP</td><td>ENUM</td><td>NOT NULL</td><td>Тип дефекта. Допустимые значения:<ul><li>Crash</li><li>Cosmetic</li><li>Error Handling</li><li>Functional</li><li>Minor</li><li>Major</li><li>Setup</li><li>Block</li></td>
+						</tr>
+						<tr>
+							<td>STP_TXT</td><td>TEXT</td><td>NOT NULL</td><td>Описание шагов к воспроизведению дефекта</td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+				<div>
+					<strong>Индексы</strong>
+					<table>
+						<thead>
+							<tr><th>Название</th><th>Тип</th><th>Поля</th></tr>
+						</thead>
+					</table>
+				</div>
+				<br/>
+				<div>
+					<strong>Внешние ключи</strong>
+					<table>
+						<thead>
+							<tr><th rowspan="2">Название</th><th rowspan="2">Поля</th><th colspan="2">Ссылается на</th><th colspan="2">Операции</th></tr>
+							<tr><th>таблицу</th><th>поля</th><th>UPDATE</th><th>DELETE</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>FK__ITEM_DEFECT__ITEM__ITEM_DEFECT_ID</td><td>ITEM_DEFECT_ID</td><td>ITEM</td><td>ITEM_ID</td><td>CASCADE</td><td>CASCADE</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="details" id="tbl_item_cmment">
+				<dl>
+					<dd><h3 class="tbl_name">ITEM_CMMENT</h3></dd>
+					<dt>Содержит комментарии дефекта</dt>
+				</dl>
+				<br/>
+				<strong>Поля таблицы</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Дополнительно</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="pk">ITEM_CMMENT_ID</td><td>INT</td><td>UNSIGNED NOT NULL AUTO_INCREMENT</td><td>Уникальный идентификатор комментария</td>
+						</tr>
+						<tr>
+							<td>ITEM_ID</td><td>INT</td><td>NOT NULL</td><td>Идентификатор элемента, к которому принадлежит комментарий</td>
+						</tr>
+						<tr>
+							<td>USER_ID</td><td>INT</td><td>UNSIGNED DEFAULT NULL</td><td>Идентификатор пользователя - владельца элемента</td>
+						</tr>
+						<tr>
+							<td>CRT_TM</td><td>TIMESTAMP</td><td>DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP</td><td>Дата создания комментария</td>
+						</tr>
+						<tr>
+							<td>CMMENT</td><td>VARCHAR(255)</td><td>DEFAULT NULL</td><td>Текст комментария</td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+				<div>
+					<strong>Индексы</strong>
+					<table>
+						<thead>
+							<tr><th>Название</th><th>Тип</th><th>Поля</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>IX__ITEM_CMMENT__ITEM_ID</td><td>INDEX</td><td>PROJ_ID</td></tr>
+							<tr><td>IX__ITEM_CMMENT__USER_ID</td><td>INDEX</td><td>USER_ID</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<br/>
+				<div>
+					<strong>Внешние ключи</strong>
+					<table>
+						<thead>
+							<tr><th rowspan="2">Название</th><th rowspan="2">Поля</th><th colspan="2">Ссылается на</th><th colspan="2">Операции</th></tr>
+							<tr><th>таблицу</th><th>поля</th><th>UPDATE</th><th>DELETE</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>FK__ITEM_CMMENT__ITEM__ITEM_ID</td><td>ITEM_ID</td><td>ITEM</td><td>ITEM_ID</td><td>CASCADE</td><td>CASCADE</td></tr>
+							<tr><td>FK__ITEM_CMMENT__USER__USER_ID</td><td>USER_ID</td><td>USER</td><td>USER_ID</td><td>SET NULL</td><td>SET NULL</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="details" id="tbl_item_hist">
+				<dl>
+					<dd><h3 class="tbl_name">ITEM_HIST</h3></dd>
+					<dt>Хранит историю дефекта</dt>
+				</dl>
+				<br/>
+				<strong>Поля таблицы</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Дополнительно</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="pk">ITEM_HIST_ID</td><td>INT</td><td>NOT NULL AUTO_INCREMENT</td><td>Уникальный идентификатор элемента истории</td>
+						</tr>
+						<tr>
+							<td>ITEM_ID</td><td>INT</td><td>NOT NULL</td><td>Идентификатор элемента, который занесён в историю</td>
+						</tr>
+						<tr>
+							<td>USER_ID</td><td>INT</td><td>UNSIGNED DEFAULT NULL</td><td>Идентификатор пользователя - владельца элемента</td>
+						</tr>
+						<tr>
+							<td>OLD_TM</td><td>TIMESTAMP</td><td>TIMESTAMP DEFAULT CURRENT_TIMESTAMP</td><td>Дата занесения в историю</td>
+						</tr>
+						<tr>
+							<td>DESCR</td><td>TEXT</td><td>DEFAULT NULL</td><td>Причина попадания в историю</td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+				<div>
+					<strong>Индексы</strong>
+					<table>
+						<thead>
+							<tr><th>Название</th><th>Тип</th><th>Поля</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>IX__ITEM_HIST__ITEM_ID</td><td>INDEX</td><td>PROJ_ID</td></tr>
+							<tr><td>IX__ITEM_HIST__USER_ID</td><td>INDEX</td><td>USER_ID</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<br/>
+				<div>
+					<strong>Внешние ключи</strong>
+					<table>
+						<thead>
+							<tr><th rowspan="2">Название</th><th rowspan="2">Поля</th><th colspan="2">Ссылается на</th><th colspan="2">Операции</th></tr>
+							<tr><th>таблицу</th><th>поля</th><th>UPDATE</th><th>DELETE</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>FK__ITEM_HIST__ITEM__ITEM_ID</td><td>ITEM_ID</td><td>ITEM</td><td>ITEM_ID</td><td>CASCADE</td><td>CASCADE</td></tr>
+							<tr><td>FK__ITEM_HIST__USER__USER_ID</td><td>USER_ID</td><td>USER</td><td>USER_ID</td><td>SET NULL</td><td>SET NULL</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="details" id="tbl_user_in_proj">
+				<dl>
+					<dd><h3 class="tbl_name">USER_IN_PROJ</h3></dd>
+					<dt>Содержит всех пользователей проекта</dt>
+				</dl>
+				<br/>
+				<strong>Поля таблицы</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Дополнительно</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="pk">USER_IN_PROJ_ID</td><td>INT</td><td>NOT NULL AUTO_INCREMENT</td><td>Уникальный идентификатор</td>
+						</tr>
+						<tr>
+							<td>PROJ_ID</td><td>INT</td><td>NOT NULL</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>USER_ID</td><td>INT</td><td>UNSIGNED DEFAULT NULL</td><td>Идентификатор пользователя, который является участником проекта</td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+				<div>
+					<strong>Индексы</strong>
+					<table>
+						<thead>
+							<tr><th>Название</th><th>Тип</th><th>Поля</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>IX__USER_IN_PROJ__PROJ_ID</td><td>INDEX</td><td>PROJ_ID</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<br/>
+				<div>
+					<strong>Внешние ключи</strong>
+					<table>
+						<thead>
+							<tr><th rowspan="2">Название</th><th rowspan="2">Поля</th><th colspan="2">Ссылается на</th><th colspan="2">Операции</th></tr>
+							<tr><th>таблицу</th><th>поля</th><th>UPDATE</th><th>DELETE</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>FK__USER_IN_PROJ__PROJ__PROJ_ID</td><td>PROJ_ID</td><td>PROJ</td><td>PROJ_ID</td><td>CASCADE</td><td>CASCADE</td></tr>
+							<tr><td>FK__USER_IN_PROJ__USER__USER_ID</td><td>USER_ID</td><td>USER</td><td>USER_ID</td><td>SET NULL</td><td>SET NULL</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="details" id="tbl_subscr_rqst">
+				<dl>
+					<dd><h3 class="tbl_name">SUBSCR_RQST</h3></dd>
+					<dt>Содержит запросы всех пользователей на добавление в проект</dt>
+				</dl>
+				<br/>
+				<strong>Поля таблицы</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Дополнительно</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="pk">SUBSCR_RQST_ID</td><td>INT</td><td>NOT NULL AUTO_INCREMENT</td><td>Уникальный идентификатор заявки</td>
+						</tr>
+						<tr>
+							<td>USER_ID</td><td>INT</td><td>UNSIGNED DEFAULT NULL</td><td>Идентификатор пользователя, который подал заявку на проект</td>
+						</tr>
+						<tr>
+							<td>PROJ_ID</td><td>INT</td><td>NOT NULL</td><td>Идентификатор проекта, на который подали заявку</td>
+						</tr>
+						<tr>
+							<td>RQST_TM</td><td>DATETIME</td><td>NOT NULL</td><td>Время подачи заявки</td>
+						</tr>
+					</tbody>
+				</table>
+				<br/>
+				<div>
+					<strong>Индексы</strong>
+					<table>
+						<thead>
+							<tr><th>Название</th><th>Тип</th><th>Поля</th></tr>
+						</thead>
+						<tbody>
+							<tr><td>IX__SUBSCR_RQST__PROJ_ID</td><td>INDEX</td><td>PROJ_ID</td></tr>
+						</tbody>
+						<tbody>
+							<tr><td>IX__SUBSCR_RQST__USER_ID</td><td>INDEX</td><td>USER_ID</td></tr>
+						</tbody>
+						<tbody>
+							<tr><td>IX__SUBSCR_RQST__PROJ_ID__USER_ID</td><td>UNIQUE INDEX</td><td>PROJ_ID, USER_ID</td></tr>
+						</tbody>
+					</table>
+				</div>
+				<br/>
+				<div>
+					<strong>Внешние ключи</strong>
+					<table>
+						<thead>
+							<tr><th rowspan="2">Название</th><th rowspan="2">Поля</th><th colspan="2">Ссылается на</th><th colspan="2">Операции</th></tr>
+							<tr><th>таблицу</th><th>поля</th><th>UPDATE</th><th>DELETE</th></tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+			<h2>Представления</h2>
+		</div>
+	</body>
+</html>

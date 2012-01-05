@@ -32,29 +32,29 @@
     <File RelPath="views" Link="..\database\views\view_UserInProjectErrorsAndComments.sql" />
   </Include>
   <Configurations Active="По умолчанию">
-    <Configuration Name="По умолчанию" CheckReferences="True" IgnoreErrors="False" OutputPath=".\По умолчанию" Target="Tarakaning" OutputType="SingleFile" KeepOriginalObjects="True" RecreateDatabase="False" RecreateObjects="False" ServerVersion="5.1.40" Database="" UseRegions="False" FullPaths="False" Definer="CURRENT_USER" ScriptDelimiter="$$" StorageEngine="MYISAM" Collation="cp1251_general_ci" ConvertToLowercase="False" DefinerEffect="Keep">
-      <Connection Name="127.0.0.1" ConnectionString="User Id=root;Host=127.0.0.1;Character Set=utf8" />
+    <Configuration Name="По умолчанию" CheckReferences="True" IgnoreErrors="False" OutputPath=".\По умолчанию" Target="Tarakaning" OutputType="SingleFile" KeepOriginalObjects="True" RecreateDatabase="False" RecreateObjects="False" ServerVersion="5.1.40" Database="Tarakaning2" UseRegions="False" FullPaths="False" Definer="CURRENT_USER" ScriptDelimiter="$$" StorageEngine="MYISAM" Collation="cp1251_general_ci" ConvertToLowercase="False" DefinerEffect="Keep">
+      <Connection Name="localhost" ConnectionString="User Id=root;Host=localhost;Character Set=utf8" />
       <Build>
+        <File RelPath="tables" Name="USER.sql" BuildAction="Build" />
+        <File RelPath="tables" Name="PROJ.sql" BuildAction="Build" />
+        <File RelPath="tables" Name="USER_IN_PROJ.sql" BuildAction="Build" />
         <File RelPath="tables" Name="ITEM.sql" BuildAction="Build" />
         <File RelPath="tables" Name="ITEM_CMMENT.sql" BuildAction="Build" />
         <File RelPath="tables" Name="ITEM_DEFECT.sql" BuildAction="Build" />
         <File RelPath="tables" Name="ITEM_HIST.sql" BuildAction="Build" />
-        <File RelPath="tables" Name="PROJ.sql" BuildAction="Build" />
-        <File RelPath="tables" Name="RPT_USER_HNDL.sql" BuildAction="Build" />
         <File RelPath="tables" Name="SUBSCR_RQST.sql" BuildAction="Build" />
-        <File RelPath="tables" Name="USER.sql" BuildAction="Build" />
-        <File RelPath="tables" Name="USER_IN_PROJ.sql" BuildAction="Build" />
+        <File RelPath="tables" Name="RPT_USER_HNDL.sql" BuildAction="Build" />
         <File RelPath="data" Name="ERR_RPT.sql" BuildAction="Build" />
         <File RelPath="data" Name="Users.sql" BuildAction="Build" />
         <File RelPath="views" Name="view_AllUserProjects.sql" BuildAction="Build" />
         <File RelPath="views" Name="view_CommentsDetail.sql" BuildAction="Build" />
         <File RelPath="views" Name="view_ErrorCommentsCount.sql" BuildAction="Build" />
+        <File RelPath="views" Name="view_ProjectUsersAndSubscribes.sql" BuildAction="Build" />
         <File RelPath="views" Name="view_ProjectAndErrors.sql" BuildAction="Build" />
         <File RelPath="views" Name="view_ProjectCommentsCount.sql" BuildAction="Build" />
         <File RelPath="views" Name="view_ProjectInfoWithoutOwner.sql" BuildAction="Build" />
-        <File RelPath="views" Name="view_ProjectRequestsCounters.sql" BuildAction="Build" />
-        <File RelPath="views" Name="view_ProjectUsersAndSubscribes.sql" BuildAction="Build" />
         <File RelPath="views" Name="view_ProjectUsersCount.sql" BuildAction="Build" />
+        <File RelPath="views" Name="view_ProjectRequestsCounters.sql" BuildAction="Build" />
         <File RelPath="views" Name="view_SubscribesDetails.sql" BuildAction="Build" />
         <File RelPath="views" Name="view_ProjectAndOwnerNick.sql" BuildAction="Build" />
         <File RelPath="views" Name="view_UserInProjectErrors.sql" BuildAction="Build" />
