@@ -28,6 +28,7 @@
     <File RelPath="views" Link="..\database\views\view_ProjectUsersAndSubscribes.sql" />
     <File RelPath="views" Link="..\database\views\view_ProjectUsersCount.sql" />
     <File RelPath="views" Link="..\database\views\view_SubscribesDetails.sql" />
+    <File RelPath="views" Link="..\database\views\view_SubscribesUserNick.sql" />
     <File RelPath="views" Link="..\database\views\view_UserInProjectErrors.sql" />
     <File RelPath="views" Link="..\database\views\view_UserInProjectErrorsAndComments.sql" />
   </Include>
@@ -61,6 +62,7 @@
         <File RelPath="views" Name="view_UserInProjectErrorsAndComments.sql" BuildAction="Build" />
         <File RelPath="views" Name="view_ItemFullInfo.sql" BuildAction="Build" />
         <File RelPath="stored_procedures" Name="AddItem.sql" BuildAction="Build" />
+        <File RelPath="views" Name="view_SubscribesUserNick.sql" BuildAction="Build" />
       </Build>
     </Configuration>
   </Configurations>

@@ -93,27 +93,27 @@
 				</li>
 				<li>Представления
 					<ul>
-						<li><a href="#tbl_user">view_AllUserProjects</a></li>
-						<li><a href="#tbl_user">view_ProjectUsersAndSubscribes</a></li>
-						<li><a href="#tbl_user">view_ProjectAndErrors</a></li>
-						<li><a href="#tbl_user">view_ProjectInfoWithoutOwner</a></li>
-						<li><a href="#tbl_user">view_ProjectAndOwnerNick</a></li>
-						<li><a href="#tbl_user">view_UserInProjectErrors</a></li>
-						<li><a href="#tbl_user">view_ErrorCommentsCount</a></li>
-						<li><a href="#tbl_user">view_ProjectCommentsCount</a></li>
-						<li><a href="#tbl_user">view_UserInProjectErrorsAndComments</a></li>
-						<li><a href="#tbl_user">view_SubscribesUserNick</a></li>
-						<li><a href="#tbl_user">view_ItemFullInfo</a></li>
-						<li><a href="#tbl_user">view_CommentsDetail</a></li>
+						<li><a href="#view_AllUserProjects">view_AllUserProjects</a></li>
+						<li><a href="#view_ProjectUsersAndSubscribes">view_ProjectUsersAndSubscribes</a></li>
+						<li><a href="#view_ProjectAndErrors">view_ProjectAndErrors</a></li>
+						<li><a href="#view_ProjectInfoWithoutOwner">view_ProjectInfoWithoutOwner</a></li>
+						<li><a href="#view_ProjectAndOwnerNick">view_ProjectAndOwnerNick</a></li>
+						<li><a href="#view_UserInProjectErrors">view_UserInProjectErrors</a></li>
+						<li><a href="#view_ErrorCommentsCount">view_ErrorCommentsCount</a></li>
+						<li><a href="#view_ProjectCommentsCount">view_ProjectCommentsCount</a></li>
+						<li><a href="#view_UserInProjectErrorsAndComments">view_UserInProjectErrorsAndComments</a></li>
+						<li><a href="#view_SubscribesUserNick">view_SubscribesUserNick</a></li>
+						<li><a href="#view_ItemFullInfo">view_ItemFullInfo</a></li>
+						<li><a href="#view_CommentsDetail">view_CommentsDetail</a></li>
 					</ul>
 				</li>
 				<li>Хранимые процедуры
 					<ul>
-						<li><a href="#">AddItem</a></li>
-						<li><a href="#">EditItem</a></li>
-						<li><a href="#">DeleteItemsFromList</a></li>
-						<li><a href="#">DeleteProjects</a></li>
-						<li><a href="#">DeleteCommentsFromList</a></li>
+						<li><a href="#sp_">AddItem</a></li>
+						<li><a href="#sp_EditItem">EditItem</a></li>
+						<li><a href="#sp_DeleteItemsFromList">DeleteItemsFromList</a></li>
+						<li><a href="#sp_DeleteProjects">DeleteProjects</a></li>
+						<li><a href="#sp_DeleteCommentsFromList">DeleteCommentsFromList</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -603,6 +603,384 @@
 				</div>
 			</div>
 			<h2>Представления</h2>
+			<div class="details" id="view_AllUserProjects">
+				<dl>
+					<dd><h3 class="tbl_name">view_AllUserProjects</h3></dd>
+					<dt>Отображает всех пользователей в проекте и их логины</dt>
+				</dl>
+				<br/>
+				<strong>Поля представления</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ProjectID</td><td>INT</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>Name</td><td>VARCHAR</td><td>Название проекта</td>
+						</tr>
+						<tr>
+							<td>UserID</td><td>INT</td><td>Идентификатор пользователя - владельца проекта</td>
+						</tr>
+						<tr>
+							<td>Nick</td><td>VARCHAR</td><td>Логин пользователя</td>
+						</tr>
+						<tr>
+							<td>My</td><td>TINYINT</td><td>Является владельцем проекта. <ul><li>0 - не владелец проекта</li><li>1 - владелец проекта</li></ul></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="details" id="view_ProjectUsersAndSubscribes">
+				<dl>
+					<dd><h3 class="tbl_name">view_ProjectUsersAndSubscribes</h3></dd>
+					<dt>Отображает все проекты, количество пользователей в проекте, количество заявок в проект</dt>
+				</dl>
+				<br/>
+				<strong>Поля представления</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ProjectID</td><td>INT</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>ProjectName</td><td>VARCHAR</td><td>Название проекта</td>
+						</tr>
+						<tr>
+							<td>Description</td><td>TEXT</td><td>Описание проекта</td>
+						</tr>
+						<tr>
+							<td>ProjectOwnerID</td><td>INT</td><td>Идентификатор пользователя - владельца проекта</td>
+						</tr>
+						<tr>
+							<td>OwnerNickName</td><td>VARCHAR</td><td>Логин пользователя</td>
+						</tr>
+						<tr>
+							<td>CreateDateTime</td><td>DATETIME</td><td>Дата создания проекта</td>
+						</tr>
+						<tr>
+							<td>CountUsers</td><td>INT</td><td>Количество пользователей в проекте</td>
+						</tr>
+						<tr>
+							<td>CountSubscribeRequests</td><td>INT</td><td>Количество заявок на добавление в проект</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="details" id="view_ProjectAndErrors">
+				<dl>
+					<dd><h3 class="tbl_name">view_ProjectAndErrors</h3></dd>
+					<dt>Отображает все проекты, количество пользователей в проекте, количество заявок в проект и количество элементов на каждое состояние</dt>
+				</dl>
+				<br/>
+				<strong>Поля представления</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ProjectID</td><td>INT</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>ProjectName</td><td>VARCHAR</td><td>Название проекта</td>
+						</tr>
+						<tr>
+							<td>Description</td><td>TEXT</td><td>Описание проекта</td>
+						</tr>
+						<tr>
+							<td>ProjectOwnerID</td><td>INT</td><td>Идентификатор пользователя - владельца проекта</td>
+						</tr>
+						<tr>
+							<td>OwnerNickName</td><td>VARCHAR</td><td>Логин пользователя</td>
+						</tr>
+						<tr>
+							<td>CreateDateTime</td><td>DATETIME</td><td>Дата создания проекта</td>
+						</tr>
+						<tr>
+							<td>CountUsers</td><td>INT</td><td>Количество пользователей в проекте</td>
+						</tr>
+						<tr>
+							<td>CountSubscribeRequests</td><td>INT</td><td>Количество заявок на добавление в проект</td>
+						</tr>
+						<tr>
+							<td>NEW</td><td>INT</td><td>Количество элементов с состоянием New</td>
+						</tr>
+						<tr>
+							<td>IDENTIFIED</td><td>INT</td><td>Количество элементов с состоянием IDENTIFIED</td>
+						</tr>
+						<tr>
+							<td>ASSESSED</td><td>INT</td><td>Количество элементов с состоянием ASSESSED</td>
+						</tr>
+						<tr>
+							<td>RESOLVED</td><td>INT</td><td>Количество элементов с состоянием RESOLVED</td>
+						</tr>	
+						<tr>
+							<td>CLOSED</td><td>INT</td><td>Количество элементов с состоянием CLOSED</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="details" id="view_ProjectInfoWithoutOwner">
+				<dl>
+					<dd><h3 class="tbl_name">view_ProjectInfoWithoutOwner</h3></dd>
+					<dt>Отображает все проекты, количество пользователей в проекте, количество заявок в проект и количество элементов на каждое состояние для каждого пользователя в проекте</dt>
+				</dl>
+				<br/>
+				<strong>Поля представления</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ProjectID</td><td>INT</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>ProjectName</td><td>VARCHAR</td><td>Название проекта</td>
+						</tr>
+						<tr>
+							<td>Description</td><td>TEXT</td><td>Описание проекта</td>
+						</tr>
+						<tr>
+							<td>ProjectOwnerID</td><td>INT</td><td>Идентификатор пользователя - владельца проекта</td>
+						</tr>
+						<tr>
+							<td>OwnerNickName</td><td>VARCHAR</td><td>Логин пользователя</td>
+						</tr>
+						<tr>
+							<td>CreateDateTime</td><td>DATETIME</td><td>Дата создания проекта</td>
+						</tr>
+						<tr>
+							<td>CountUsers</td><td>INT</td><td>Количество пользователей в проекте</td>
+						</tr>
+						<tr>
+							<td>CountSubscribeRequests</td><td>INT</td><td>Количество заявок на добавление в проект</td>
+						</tr>
+						<tr>
+							<td>NEW</td><td>INT</td><td>Количество элементов с состоянием New</td>
+						</tr>
+						<tr>
+							<td>IDENTIFIED</td><td>INT</td><td>Количество элементов с состоянием IDENTIFIED</td>
+						</tr>
+						<tr>
+							<td>ASSESSED</td><td>INT</td><td>Количество элементов с состоянием ASSESSED</td>
+						</tr>
+						<tr>
+							<td>RESOLVED</td><td>INT</td><td>Количество элементов с состоянием RESOLVED</td>
+						</tr>	
+						<tr>
+							<td>CLOSED</td><td>INT</td><td>Количество элементов с состоянием CLOSED</td>
+						</tr>
+						<tr>
+							<td>UserID</td><td>INT</td><td>Идентификатор пользователя</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="details" id="view_ProjectAndOwnerNick">
+				<dl>
+					<dd><h3 class="tbl_name">view_ProjectAndOwnerNick</h3></dd>
+					<dt>Отображает все проекты и логины владельца</dt>
+				</dl>
+				<br/>
+				<strong>Поля представления</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ProjectID</td><td>INT</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>Name</td><td>VARCHAR</td><td>Название проекта</td>
+						</tr>
+						<tr>
+							<td>Description</td><td>TEXT</td><td>Описание проекта</td>
+						</tr>
+						<tr>
+							<td>OwnerID</td><td>INT</td><td>Идентификатор пользователя - владельца проекта</td>
+						</tr>
+						<tr>
+							<td>CreateDate</td><td>DATETIME</td><td>Дата создания проекта</td>
+						</tr>
+						<tr>
+							<td>OwnerNickName</td><td>VARCHAR</td><td>Логин пользователя</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="details" id="view_UserInProjectErrors">
+				<dl>
+					<dd><h3 class="tbl_name">view_UserInProjectErrors</h3></dd>
+					<dt>Отображает количество элементов на каждого пользователя в проекте</dt>
+				</dl>
+				<br/>
+				<strong>Поля представления</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>UserID</td><td>INT</td><td>Идентификатор пользователя</td>
+						</tr>
+						<tr>
+							<td>ProjectID</td><td>INT</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>NickName</td><td>VARCHAR</td><td>Логин пользователя</td>
+						</tr>
+						<tr>
+							<td>NEW</td><td>INT</td><td>Количество элементов с состоянием New</td>
+						</tr>
+						<tr>
+							<td>IDENTIFIED</td><td>INT</td><td>Количество элементов с состоянием IDENTIFIED</td>
+						</tr>
+						<tr>
+							<td>ASSESSED</td><td>INT</td><td>Количество элементов с состоянием ASSESSED</td>
+						</tr>
+						<tr>
+							<td>RESOLVED</td><td>INT</td><td>Количество элементов с состоянием RESOLVED</td>
+						</tr>	
+						<tr>
+							<td>CLOSED</td><td>INT</td><td>Количество элементов с состоянием CLOSED</td>
+						</tr>
+						<tr>
+							<td>CountErrors</td><td>INT</td><td>Количество ошибок в проекте</td>
+						</tr>
+						<tr>
+							<td>Owner</td><td>TINYINT</td><td>Является владельцем проекта. <ul><li>0 - не владелец проекта</li><li>1 - владелец проекта</li></ul></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="details" id="view_ErrorCommentsCount">
+				<dl>
+					<dd><h3 class="tbl_name">view_ErrorCommentsCount</h3></dd>
+					<dt>Отображает количество комментариев для каждого элемента</dt>
+				</dl>
+				<br/>
+				<strong>Поля представления</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>UserID</td><td>INT</td><td>Идентификатор пользователя</td>
+						</tr>
+						<tr>
+							<td>ReportID</td><td>INT</td><td>Идентификатор элемента</td>
+						</tr>
+						<tr>
+							<td>ProjectID</td><td>INT</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>ItemUserComment</td><td>INT</td><td>Количество комментариев в элементе</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="details" id="view_ProjectCommentsCount">
+				<dl>
+					<dd><h3 class="tbl_name">view_ProjectCommentsCount</h3></dd>
+					<dt>Отображает количество комментариев для каждого проекта</dt>
+				</dl>
+				<br/>
+				<strong>Поля представления</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ProjectID</td><td>INT</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>UserID</td><td>INT</td><td>Идентификатор пользователя</td>
+						</tr>
+						<tr>
+							<td>CountComments</td><td>INT</td><td>Количество комментариев в проекте</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="details" id="view_UserInProjectErrorsAndComments">
+				<dl>
+					<dd><h3 class="tbl_name">view_UserInProjectErrorsAndComments</h3></dd>
+					<dt>Отображает количество комментариев для каждого проекта</dt>
+				</dl>
+				<br/>
+				<strong>Поля представления</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>UserID</td><td>INT</td><td>Идентификатор пользователя</td>
+						</tr>
+						<tr>
+							<td>ProjectID</td><td>INT</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>NickName</td><td>VARCHAR</td><td>Логин пользователя</td>
+						</tr>
+						<tr>
+							<td>NEW</td><td>INT</td><td>Количество элементов с состоянием New</td>
+						</tr>
+						<tr>
+							<td>IDENTIFIED</td><td>INT</td><td>Количество элементов с состоянием IDENTIFIED</td>
+						</tr>
+						<tr>
+							<td>ASSESSED</td><td>INT</td><td>Количество элементов с состоянием ASSESSED</td>
+						</tr>
+						<tr>
+							<td>RESOLVED</td><td>INT</td><td>Количество элементов с состоянием RESOLVED</td>
+						</tr>	
+						<tr>
+							<td>CLOSED</td><td>INT</td><td>Количество элементов с состоянием CLOSED</td>
+						</tr>
+						<tr>
+							<td>CountErrors</td><td>INT</td><td>Количество ошибок в проекте</td>
+						</tr>
+						<tr>
+							<td>Owner</td><td>TINYINT</td><td>Является владельцем проекта. <ul><li>0 - не владелец проекта</li><li>1 - владелец проекта</li></ul></td>
+						</tr>
+						<tr>
+							<td>CountCreated</td><td>INT</td><td>Количество созданных элементов</td>
+						</tr>
+						<tr>
+							<td>CountComments</td><td>INT</td><td>Количество комментариев в проекте</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</body>
 </html>

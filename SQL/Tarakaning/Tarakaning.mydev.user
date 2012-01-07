@@ -9,14 +9,24 @@
     <Document Moniker="..\database\stored_procedures\AddItem.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
     <Document Moniker="..\database\tables\USER.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
     <Document Moniker="..\database\tables\PROJ.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
-    <Document Moniker="..\database\tables\ITEM.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
     <Document Moniker="..\database\tables\ITEM_DEFECT.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
-    <Document Moniker=".\Tarakaning.mydev" ActiveView="Design" Factory="{00000000-0000-0000-0000-000000000000}" />
+    <Document Moniker=".\Tarakaning.mydev" ActiveView="Design" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
     <Document Moniker="..\database\data\ERR_RPT.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
     <Document Moniker="..\database\views\view_ProjectAndErrors.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
     <Document Moniker="..\database\views\view_ProjectRequestsCounters.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
-    <Document Moniker="..\database\views\view_ProjectUsersCount.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
-    <Document Moniker=".\По умолчанию\Tarakaning.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" Active="True" />
+    <Document Moniker="..\database\views\view_AllUserProjects.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="..\database\views\view_ProjectAndOwnerNick.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="..\database\views\view_ErrorCommentsCount.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="..\database\views\view_ProjectCommentsCount.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="..\database\views\view_UserInProjectErrorsAndComments.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="..\database\views\view_SubscribesDetails.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="View:Tarakaning.projectsubscribesdetails(localhost)" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}">
+      <Persist>
+        <Pinned>True</Pinned>
+      </Persist>
+    </Document>
+    <Document Moniker="..\database\views\view_SubscribesUserNick.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" Active="True" />
+    <Document Moniker="..\database\tables\SUBSCR_RQST.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
   </Documents>
   <Services>
     <Service GUID="{c7b76517-6978-4a0b-8d38-57b7f7223edb}">
