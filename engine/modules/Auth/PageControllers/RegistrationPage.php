@@ -7,11 +7,13 @@ require_once 'Zend/Captcha/Image.php';
 		private $_captchaImage;
 		
 		private $_captchaID;
+        
+        public static $_fontPath='fonts/arial.ttf';
 		
 		protected function onInit()
 		{
 			$captcha=new Zend_Captcha_Image();
-			$captcha->setFont('fonts/arial.ttf')
+			$captcha->setFont(self::$_fontPath)
 					->setName('registrationCaptcha')
 					->setWidth(180)
 					->setHeight(55)

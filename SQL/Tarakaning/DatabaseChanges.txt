@@ -19,3 +19,4 @@ projectusersinfofull -> view_UserInProjectErrorsAndComments
 projectsubscribesdetails -> view_SubscribesUserNick
 errorreportsinfo -> view_ItemFullInfo
 commentsdetail -> view_CommentsDetail
+view_SubscribesDetails

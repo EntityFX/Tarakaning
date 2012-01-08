@@ -103,13 +103,14 @@
 						<li><a href="#view_ProjectCommentsCount">view_ProjectCommentsCount</a></li>
 						<li><a href="#view_UserInProjectErrorsAndComments">view_UserInProjectErrorsAndComments</a></li>
 						<li><a href="#view_SubscribesUserNick">view_SubscribesUserNick</a></li>
+						<li><a href="#view_SubscribesDetails">view_SubscribesDetails</a></li>
 						<li><a href="#view_ItemFullInfo">view_ItemFullInfo</a></li>
 						<li><a href="#view_CommentsDetail">view_CommentsDetail</a></li>
 					</ul>
 				</li>
 				<li>Хранимые процедуры
 					<ul>
-						<li><a href="#sp_">AddItem</a></li>
+						<li><a href="#sp_AddItem">AddItem</a></li>
 						<li><a href="#sp_EditItem">EditItem</a></li>
 						<li><a href="#sp_DeleteItemsFromList">DeleteItemsFromList</a></li>
 						<li><a href="#sp_DeleteProjects">DeleteProjects</a></li>
@@ -276,7 +277,7 @@
 							<td>PROJ_ID</td><td>INT</td><td>NOT NULL</td><td>Идентификатор проекта, к которому принадлежит элемент</td>
 						</tr>
 						<tr>
-							<td>KIND</td><td>ENUM</td><td>NOT NULL</td><td>Тип элементы. Допустимые значения:<ul><li>Defect</li><li>Task</li></td>
+							<td>KIND</td><td>ENUM</td><td>NOT NULL</td><td>Тип элемента. Допустимые значения:<ul><li>Defect</li><li>Task</li></td>
 						</tr>
 						<tr>
 							<td>PRTY_LVL</td><td>ENUM</td><td>NOT NULL</td><td>Уровень приоритета. Допустимые значения:<ul><li>0</li><li>1</li><li>2</li></td>
@@ -977,6 +978,224 @@
 						</tr>
 						<tr>
 							<td>CountComments</td><td>INT</td><td>Количество комментариев в проекте</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="details" id="view_SubscribesUserNick">
+				<dl>
+					<dd><h3 class="tbl_name">view_SubscribesUserNick</h3></dd>
+					<dt>Отображает заявки и логины пользователей</dt>
+				</dl>
+				<br/>
+				<strong>Поля представления</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ID</td><td>INT</td><td>Идентификатор заявки</td>
+						</tr>
+						<tr>
+							<td>UserID</td><td>INT</td><td>Идентификатор пользователя</td>
+						</tr>
+						<tr>
+							<td>ProjectID</td><td>INT</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>RequestTime</td><td>DATETIME</td><td>Время подачи заявки</td>
+						</tr>
+						<tr>
+							<td>NickName</td><td>VARCHAR</td><td>Логин пользователя</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="details" id="view_SubscribesDetails">
+				<dl>
+					<dd><h3 class="tbl_name">view_SubscribesDetails</h3></dd>
+					<dt>Отображает заявки и логины пользователей</dt>
+				</dl>
+				<br/>
+				<strong>Поля представления</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ID</td><td>INT</td><td>Идентификатор заявки</td>
+						</tr>
+						<tr>
+							<td>UserID</td><td>INT</td><td>Идентификатор пользователя</td>
+						</tr>
+						<tr>
+							<td>ProjectID</td><td>INT</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>RequestTime</td><td>DATETIME</td><td>Время подачи заявки</td>
+						</tr>
+						<tr>
+							<td>ProjectName</td><td>VARCHAR</td><td>Название проекта</td>
+						</tr>
+						<tr>
+							<td>OwnerID</td><td>INT</td><td>Идентификатор пользователя-владельца проекта</td>
+						</tr>
+						<tr>
+							<td>ProjectOwnerNick</td><td>VARCHAR</td><td>Логин пользователя-владельца проекта</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="details" id="view_ItemFullInfo">
+				<dl>
+					<dd><h3 class="tbl_name">view_ItemFullInfo</h3></dd>
+					<dt>Отображает полную информацию об элементах: логин владельца, логин назначенного, название проекта, стутс, время создания, тип</dt>
+				</dl>
+				<br/>
+				<strong>Поля представления</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ID</td><td>INT</td><td>Идентификатор элемента</td>
+						</tr>
+						<tr>
+							<td>Kind</td><td>ENUM</td><td>Тип элементы. Допустимые значения:<ul><li>Defect</li><li>Task</li></td>
+						</tr>
+						<tr>
+							<td>UserID</td><td>INT</td><td>Идентификатор пользователя</td>
+						</tr>
+						<tr>
+							<td>AssignedTo</td><td>INT</td><td>Индентификатор пользователя, на которого назначен элемент</td>
+						</tr>
+						<tr>
+							<td>ProjectID</td><td>INT</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>PriorityLevel</td><td>ENUM</td><td>Уровень приоритета. Допустимые значения:<ul><li>0</li><li>1</li><li>2</li></td>
+						</tr>
+						<tr>
+							<td>Status</td><td>ENUM</td><td>Статус элемента. Допустимые значения:<ul><li>NEW</li><li>ASSESSED</li><li>CLOSED</li><li>RESOLVED</li><li>IDENTIFIED</li></td>
+						</tr>
+						<tr>
+							<td>CreateDateTime</td><td>DATETIME</td><td>Дата создания элемента</td>
+						</tr>
+						<tr>
+							<td>Title</td><td>VARCHAR(150)</td><td>Заголовок элемента</td>
+						</tr>
+						<tr>
+							<td>ErrorType</td><td>ENUM</td><td>Тип дефекта. Допустимые значения:<ul><li>Crash</li><li>Cosmetic</li><li>Error Handling</li><li>Functional</li><li>Minor</li><li>Major</li><li>Setup</li><li>Block</li></td>
+						</tr>
+						<tr>
+							<td>Description</td><td>TEXT</td><td>Текстовое описание элемента</td>
+						</tr>
+						<tr>
+							<td>StepsText</td><td>TEXT</td><td>Описание шагов к воспроизведению дефекта</td>
+						</tr>
+						<tr>
+							<td>ProjectName</td><td>VARCHAR(100)</td><td>Имя проекта</td>
+						</tr>
+						<tr>
+							<td>NickName</td><td>VARCHAR</td><td>Логин пользователя - создателя элемента</td>
+						</tr>
+						<tr>
+							<td>AssignedNickName</td><td>VARCHAR</td><td>Логин пользователя на которого назначен элемент</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="details" id="view_CommentsDetail">
+				<dl>
+					<dd><h3 class="tbl_name">view_CommentsDetail</h3></dd>
+					<dt>Отображает подробную информацию о комментарии</dt>
+				</dl>
+				<br/>
+				<strong>Поля представления</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Поле</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>ID</td><td>INT</td><td>Идентификатор комментария</td>
+						</tr>
+						<tr>
+							<td>ItemID</td><td>INT</td><td>Идентификатор элемента, к которому прекреплён комментарий</td>
+						</tr>
+						<tr>
+							<td>UserID</td><td>INT</td><td>Идентификатор пользователя</td>
+						</tr>
+						<tr>
+							<td>Time</td><td>DATETIME</td><td>Дата создания комментария</td>
+						</tr>
+						<tr>
+							<td>Comment</td><td>VARCHAR(255)</td><td>Текст комментария</td>
+						</tr>
+						<tr>
+							<td>Nick</td><td>VARCHAR</td><td>Логин пользователя - создателя элемента</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<h2>Хранимые процедуры</h2>
+			<div class="details" id="sp_AddItem">
+				<dl>
+					<dd><h3 class="tbl_name">AddItem</h3></dd>
+					<dt>Добавляет новый элемент</dt>
+				</dl>
+				<br/>
+				<strong>Параметры</strong>
+				<table>
+					<thead>
+						<tr>
+							<th>Параметр</th><th>Тип</th><th>Описание</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>UserID</td><td>INT</td><td>Идентификатор пользователя</td>
+						</tr>
+						<tr>
+							<td>ProjectID</td><td>INT</td><td>Идентификатор проекта</td>
+						</tr>
+						<tr>
+							<td>AssignedTo</td><td>INT</td><td>Индентификатор пользователя, на которого назначен элемент</td>
+						</tr>
+						<tr>
+							<td>PriorityLevel</td><td>ENUM</td><td>Уровень приоритета. Допустимые значения:<ul><li>0</li><li>1</li><li>2</li></td>
+						</tr>
+						<tr>
+							<td>Status</td><td>ENUM</td><td>Статус элемента. Допустимые значения:<ul><li>NEW</li><li>ASSESSED</li><li>CLOSED</li><li>RESOLVED</li><li>IDENTIFIED</li></td>
+						</tr>
+						<tr>
+							<td>CreateDateTime</td><td>DATETIME</td><td>Дата создания элемента</td>
+						</tr>
+						<tr>
+							<td>Title</td><td>VARCHAR(150)</td><td>Заголовок элемента</td>
+						</tr>
+						<tr>
+							<td>Kind</td><td>ENUM</td><td>Тип элементы. Допустимые значения:<ul><li>Defect</li><li>Task</li></td>
+						</tr>
+						<tr>
+							<td>Description</td><td>TEXT</td><td>Текстовое описание элемента</td>
+						</tr>
+						<tr>
+							<td>ItemType</td><td>VARCHAR(50)</td><td>Тип дефекта. Допустимые значения:<ul><li>Crash</li><li>Cosmetic</li><li>Error Handling</li><li>Functional</li><li>Minor</li><li>Major</li><li>Setup</li><li>Block</li></ul></td>
+						</tr>
+						<tr>
+							<td>StepsText</td><td>TEXT</td><td>Описание шагов к воспроизведению дефекта</td>
 						</tr>
 					</tbody>
 				</table>
