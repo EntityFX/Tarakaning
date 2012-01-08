@@ -1,4 +1,4 @@
-{extends file="main.base.tpl"}
+{extends file="MainBasePage.base.tpl"}
 {block name=script}
 		<script type="text/javascript">
 		/* <![CDATA[ */

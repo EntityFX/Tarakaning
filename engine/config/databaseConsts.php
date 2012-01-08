@@ -29,5 +29,5 @@
     * Èìÿ ÁÄ
     * 
     */
-    define("DB_NAME","Tarakaning2");
+    define("DB_NAME","Tarakaning3");
 ?>
