@@ -94,10 +94,10 @@
 				{
 					$this->_sql->update(
 						self::TABLE_PROJ, 
-						"ProjectID = $projectID AND OwnerID = $userID",
+						"PROJ_ID = $projectID AND USER_ID = $userID",
 					 	new ArrayObject(array(
-					 		'Name' => $projectNewName,
-					 		'Description' => $newDescription
+					 		'PROJ_NM' => $projectNewName,
+					 		'DESCR' => $newDescription
 					 	))
 					);
 				}
@@ -186,7 +186,7 @@
 		 */
 		public function getProjects() 
 		{
-			$this->_sql->selFields(self::TABLE_PROJ,"ProjectID","Name","Description","OwnerID");
+			$this->_sql->selFields(self::TABLE_PROJ,"PROJ_ID","PROJ_NM","DESCR","USER_ID");
 			$ret = $this->_sql->getTable();
 			return $ret;
 		}
@@ -257,27 +257,27 @@
 		public function searchProjectsUsingLikeCount($userID,$query)
 		{
 		    $query=addslashes($query);
-            return $this->_sql->countQuery(self::TABLE_PROJ,"`Name` LIKE '%$query%' OR Description LIKE '%$query%'");
+            return $this->_sql->countQuery(self::TABLE_PROJ,"`PROJ_NM` LIKE '%$query%' OR DESCR LIKE '%$query%'");
 		}
 		
 		public function searchProjectsUsingLike($userID,$query,ListPager $paginator)
 		{
 			$userID=(int)$userID;
-			$this->_sql->setLimit($paginator->getOffset(), $paginator->getSize());
+			//$this->_sql->setLimit($paginator->getOffset(), $paginator->getSize());
             $query=addslashes($query);
 			$query=sprintf('SELECT 
-							    `P`.*,
+							    P.*,
 							    CASE 
-							    	WHEN `P`.OwnerID=%1$d THEN 2
-							    	WHEN `UP`.UserID IS null THEN 0
+							    	WHEN P.USER_ID=%1$d THEN 2
+							    	WHEN UP.USER_ID IS null THEN 0
 							    	ELSE 1
 							    END AS ProjectRelation
 							FROM 
 							    %5$s P
 							LEFT JOIN USER_IN_PROJ UP ON
-							    `P`.ProjectID=`UP`.ProjectID AND `UP`.UserID=%1$d
+							    P.PROJ_ID=UP.PROJ_ID AND UP.USER_ID=%1$d
 							WHERE 
-							    `Name` LIKE \'%%%2$s%%\' OR Description LIKE \'%%%2$s%%\'
+							    PROJ_NM LIKE \'%%%2$s%%\' OR DESCR LIKE \'%%%2$s%%\'
 							LIMIT %3$d,%4$d'
 					,$userID,$query,$paginator->getOffset(),$paginator->getSize(),self::TABLE_PROJ);
 			$this->_sql->query($query);
