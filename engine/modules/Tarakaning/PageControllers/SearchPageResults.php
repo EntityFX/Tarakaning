@@ -70,7 +70,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/Subscribes.php';
 		
 		private function sendProjectRequest()
 		{
-			$subscribesOperation=new Subscribes();
+			$subscribesOperation=new SubscribesModel();
 			$subscribesOperation->sendRequest($this->_userInfo['UserID'], (int)$this->request->getPost("projectID"));
 		}
 	}

@@ -1,7 +1,7 @@
 <?php
 	require_once SOURCE_PATH.'engine/modules/Tarakaning/PageControllers/InfoBasePage.php';
 	require_once SOURCE_PATH.'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
-	require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/Subscribes.php';
+	require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/SubscribesModel.php';
 	require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/SubscribesDetailENUM.php';
 	require_once SOURCE_PATH.'engine/libs/controls/Orderer/Orderer.php';
 	
@@ -39,7 +39,7 @@
 		{
 			parent::onInit();
 			
-			$this->_subscribesOperation=new Subscribes();
+			$this->_subscribesOperation=new SubscribesModel();
 			
 			if ($this->request->isPost())
 			{

@@ -31,7 +31,7 @@ abstract class BugsBasePage extends InfoBasePage
 			$projectExists=$this->_projectsController->isProjectExists($this->_currentProjectID);
 			if ($projectExists)
 			{
-				$this->_bugsOperation=new ErrorReportsController($useInitialProject?$this->_currentProjectID:null);
+				$this->_bugsOperation=new ItemsModel($useInitialProject?$this->_currentProjectID:null);
 	
 				if ($this->request->isPost())
 				{

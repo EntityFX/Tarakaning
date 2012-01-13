@@ -7,7 +7,7 @@
  * @author timur 28.01.2011
  *
  */
-	class Subscribes extends DBConnector
+	class SubscribesModel extends DBConnector
 	{
 /*
  *  1) получить список проектов, в которых участвует пользователь (для меня минимум) (из таблицы UsersInProjects)

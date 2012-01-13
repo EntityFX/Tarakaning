@@ -4,78 +4,78 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ErrorReportsController
 require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ItemsFacade.php';
 require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ReportHistoryController.php';
 
-	class BugAddPage extends InfoBasePage
+class BugAddPage extends InfoBasePage
+{
+
+	protected function onInit()
 	{
-	
-		protected function onInit()
+		parent::onInit();
+		
+		if ($this->_projectsList==null)
 		{
-			parent::onInit();
-			
-			if ($this->_projectsList==null)
-			{
-				$this->navigate('/my/projects/');
-			}
-			
-			if ($this->request->isPost())
-			{
-				if ($this->request->getParam("add_report")!=null)
-				{
-					$postData=$this->request->getParams();
-					$projectID=$userData["DefaultProjectID"] == null ? $postData['bug_project_id'] : $userData["DefaultProjectID"];
-					$bugsOperation=new ErrorReportsController($projectID);
-					$itemsFacade=new ItemsFacade(
-						$bugsOperation, 
-						new ReportHistoryController(), 
-						$this->_controller->auth,
-						$projectID
-					);
-					try 
-					{	
-						$newItemID=$itemsFacade->addItem(
-							new ItemDBKindENUM($postData['item_type']),
-							new ErrorPriorityENUM($postData['priority']),
-							new ErrorStatusENUM(),
-							new ErrorTypeEnum($postData['error_type']),
-							$postData['title'],
-							$postData['description'],
-							$postData['steps'],
-							$postData['assigned_to']
-						);
-					}
-					catch (Exception $exception)
-					{
-						$error = array(
-							"error" => $exception,
-							"postData" => $postData
-						);
-						$this->_controller->error->addError("addBugError",$error);
-					}	
-					if ($exception==null)
-					{
-						$this->_controller->error->addError("addBugOK",true);
-						$this->navigate("/bug/show/$newItemID/");
-					}	
-					
-				}
-			}
-			$userData=$this->_controller->auth->getName();
-			$concreteUser=new ConcreteUser();
+			$this->navigate('/my/projects/');
 		}
 		
-		protected function doAssign()
+		if ($this->request->isPost())
 		{
-			parent::doAssign();
-			$addBugError=$this->_controller->error->getErrorByName("addBugError");
-			if ($addBugError!=null)
+			if ($this->request->getParam("add_report")!=null)
 			{
-				$exception=$addBugError["error"];
-				$this->_smarty->assign(
-					"ERROR",
-					$exception->getMessage()
+				$postData=$this->request->getParams();
+				$projectID=$userData["DefaultProjectID"] == null ? $postData['bug_project_id'] : $userData["DefaultProjectID"];
+				$bugsOperation=new ItemsModel($projectID);
+				$itemsFacade=new ItemsFacade(
+					$bugsOperation, 
+					new ItemsHistoryModel(), 
+					$this->_controller->auth,
+					$projectID
 				);
-				$this->_smarty->assign("DATA",$addBugError["postData"]);
+				try 
+				{	
+					$newItemID=$itemsFacade->addItem(
+						new ItemDBKindENUM($postData['item_type']),
+						new ErrorPriorityENUM($postData['priority']),
+						new ErrorStatusENUM(),
+						new ErrorTypeEnum($postData['error_type']),
+						$postData['title'],
+						$postData['description'],
+						$postData['steps'],
+						$postData['assigned_to']
+					);
+				}
+				catch (Exception $exception)
+				{
+					$error = array(
+						"error" => $exception,
+						"postData" => $postData
+					);
+					$this->_controller->error->addError("addBugError",$error);
+				}	
+				if ($exception==null)
+				{
+					$this->_controller->error->addError("addBugOK",true);
+					$this->navigate("/bug/show/$newItemID/");
+				}	
+				
 			}
-			//$this->_smarty->assign("PROJECTS_LIST",$this->_projectsList);
 		}
+		$userData=$this->_controller->auth->getName();
+		$concreteUser=new ConcreteUser();
 	}
+	
+	protected function doAssign()
+	{
+		parent::doAssign();
+		$addBugError=$this->_controller->error->getErrorByName("addBugError");
+		if ($addBugError!=null)
+		{
+			$exception=$addBugError["error"];
+			$this->_smarty->assign(
+				"ERROR",
+				$exception->getMessage()
+			);
+			$this->_smarty->assign("DATA",$addBugError["postData"]);
+		}
+		//$this->_smarty->assign("PROJECTS_LIST",$this->_projectsList);
+	}
+}
 ?>

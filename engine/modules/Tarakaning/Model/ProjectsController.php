@@ -360,7 +360,7 @@
 				new ProjectFieldsUsersInfoENUM(ProjectFieldsUsersInfoENUM::NICK_NAME),
 				new MySQLOrderENUM(MySQLOrderENUM::ASC)
 			);
-			$this->_sql->selFieldsWhere(self::VIEW_ALL_USER_PROJECTS, "ProjectID=$projectID",'UserID','Nick');
+			$this->_sql->selFieldsWhere(self::VIEW_ALL_USER_PROJECTS, "ProjectID=$projectID",'UserID','NickName');
 			$this->_sql->clearOrder();
 			return $this->_sql->getTable();
 		}

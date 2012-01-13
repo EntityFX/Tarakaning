@@ -24,7 +24,7 @@ $userID = 1;
 $projectID = 9;
 $requestID = 1;
 
-$c = new Subscribes();
+$c = new SubscribesModel();
 $commentID = 1;
 
 var_dump($c->getProjectUsers($projectID));

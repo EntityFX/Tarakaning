@@ -21,7 +21,7 @@
     
 	require_once 'ConcreteUser.php';
     
-    class ErrorReportsController extends DBConnector
+    class ItemsModel extends DBConnector
     {
         const VIEW_ITEM_FULL_INFO 	= 'view_ItemFullInfo';
         const TABLE_ITEM 			= 'ITEM';

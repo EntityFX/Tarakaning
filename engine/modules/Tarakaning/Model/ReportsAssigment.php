@@ -8,7 +8,7 @@
         {
             parent::__construct();
             $this->_errorReportID=(int)$errorReportID;
-            $errController=new ErrorReportsController();
+            $errController=new ItemsModel();
             if ($errController->checkIsExsist($errorReportID))
             {
                 
