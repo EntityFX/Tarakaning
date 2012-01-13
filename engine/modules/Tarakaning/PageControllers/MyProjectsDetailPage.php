@@ -3,7 +3,7 @@ require_once 'InfoBasePage.php';
 require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php';
 require_once SOURCE_PATH.'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
 require_once SOURCE_PATH.'engine/libs/controls/Orderer/Orderer.php';
-require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/Subscribes.php';
+require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/SubscribesModel.php';
 require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/SubscribesController.php';
 require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetailENUM.php';
 
@@ -42,7 +42,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectSubscribesDetai
 			$this->_projectData=$this->_projectOperation->getProjectById($this->_parameters[0]);
 			
 			
-			$this->_subscribes=new Subscribes();
+			$this->_subscribes=new SubscribesModel();
 			
 			if ($this->_projectData!=null)
 			{

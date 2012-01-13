@@ -18,7 +18,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php
 				{
 					try
 					{
-						$projectsOperation->setProjectName($postData['project_id'],$this->_userInfo["UserID"], $postData['project_name'], $postData['description']);
+						$projectsOperation->setProjectName($postData['project_id'],$this->_userInfo["USER_ID"], $postData['project_name'], $postData['description']);
 					}
 					catch (Exception $exception)
 					{

@@ -9,28 +9,17 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 	 * @author timur 29.01.2011
 	 *
 	 */
-	class CommentsController extends DBConnector
+	class CommentsModel extends DBConnector
 		{
-			const VIEW_COMMENTS_DETAIL = 'view_CommentsDetail';
+			
+            const TABLE_ITEM_COMMENT    = 'ITEM_CMMENT';
+            const VIEW_COMMENTS_DETAIL  = 'view_CommentsDetail';
 			
 			public function __construct($projectID=NULL,$ownerID=NULL)
        		{
             	parent::__construct();
        		}
 			
-			/* ErorrReportHistory, ReportComment 
-			 * 1) прокомментировать ошибку 
-			 * 2) удаление комментария
-			 * 3) получить список всех комментариев к проекту
-			 * 4) получить список комментариев к ошибке
-			 */
-			
-			/*
-			 * $reportID = (int)$reportID;
-			 * $userID = (int)$userID;
-			 * $projectID = (int)$projectID;
-			 * $commentID = (int)$commentID;
-			 */
 			
 			/**
 			 * Функция для комментирования отчета об ошибке.
@@ -42,7 +31,7 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 			 * @todo 1) добавить проверку на существование отчета об ошибке. <br />
 			 * 2) добавить проверку на существование данного пользователя.
 			 */
-			public function setReportComment($projectID, $userID,$reportID, $comment)
+			public function setReportComment($projectID, $userID, $reportID, $comment)
 			{
 				/*
 				 * сперва проверить существование проекта
@@ -58,15 +47,26 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 					$userID = (int)$userID;
 					if ($r->isSubscribed($userID, $projectID) || $p->isOwner($userID, $projectID)) 
 					{
-						;//здесь происходить должна основная работа
-						
 						$comment = htmlspecialchars($comment);
 						$comment = mysql_escape_string($comment);
 						$reportID = (int)$reportID;
-						
-						$q = "INSERT INTO `ReportComment` ( `ID` , `ReportID` , `UserID` , `Time` , `Comment` )
-						VALUES ('', '$reportID', '$userID', NOW( ) , '$comment');";
-						$this->_sql->query($q);
+						$this->_sql->insert(
+                            self::TABLE_ITEM_COMMENT,
+                            new ArrayObject(array(
+                                0,
+                                $reportID,
+                                $userID,
+                                'NOW( )',
+                                $comment
+                            )),
+                            new ArrayObject(array(
+                                'ITEM_CMMENT_ID',
+                                'ITEM_ID',
+                                'USER_ID',
+                                'CRT_TM',
+                                'CMMENT'
+                            ))
+                        );
 					}
 					else 
 					{
@@ -101,8 +101,8 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 						{
 							if ($this->isCommentOwner($commentID, $userID, $projectID))
 							{
-								$this->_sql->query("DELETE FROM `ReportComment` WHERE `ID` = '$commentID' LIMIT 1");
-								return TRUE;
+								$this->_sql->delete(self::TABLE_ITEM_COMMENT,"ITEM_CMMENT_ID=$commentID");
+                                return true;
 							}
 							else 
 							{
@@ -231,7 +231,7 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 			 */
 			public function isCommentExist($commentID)
 			{
-				return $this->_sql->countQuery("ReportComment","ID=$commentID")==0 ? false : true;
+				return $this->_sql->countQuery(self::TABLE_ITEM_COMMENT,"ITEM_CMMENT_ID=$commentID")==0 ? false : true;
 			}
 			
 			/**
@@ -241,9 +241,9 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 			public function getUserIDbyCommentID($commentID) 
 			{
 				$commentID = (int)$commentID;
-				$res = $this->_sql->query("SELECT * FROM `ReportComment` WHERE `ID`='$commentID'");
-				$ret = $this->_sql->fetchArr($res);
-				return $ret["UserID"];
+                $this->_sql->selAllWhere(self::TABLE_ITEM_COMMENT,"ITEM_CMMENT_ID=$commentID");
+                $res=$this->_sql->getTable();
+				return $res[0]["USER_ID"];
 			}
 			
 			/**
@@ -255,11 +255,11 @@ require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
 			{
 				$userID = (int)$userID;
 				$commentID = (int)$commentID;
-				$res = $this->_sql->query("SELECT * FROM `ReportComment` WHERE `ID`='$commentID'");
-				$ret = $this->_sql->fetchArr($res);
+                $this->_sql->selAllWhere(self::TABLE_ITEM_COMMENT,"ITEM_CMMENT_ID=$commentID");
+                $res=$this->_sql->getTable();
 				$p = new ProjectsController();
 				$s = $p->isOwner($userID, $projectID);
-				return  $ret["UserID"] == $userID || $s ? TRUE : FALSE;
+				return  $res[0]["UserID"] == $userID || $s ? TRUE : FALSE;
 			}
 		}
 ?>

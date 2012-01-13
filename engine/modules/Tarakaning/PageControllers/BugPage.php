@@ -1,11 +1,14 @@
 <?php
-require_once 'InfoBasePage.php';
-require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/CommentsController.php';
-require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
-require_once SOURCE_PATH.'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
-require_once SOURCE_PATH.'engine/libs/controls/Orderer/Orderer.php';
-require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ItemsFacade.php';
-require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ReportHistoryController.php';
+
+Loader::LoadPageController('InfoBasePage');  
+
+Loader::LoadModel('ItemsModel'); 
+Loader::LoadModel('CommentsModel');
+Loader::LoadModel('ItemsFacade');   
+Loader::LoadModel('ItemsHistoryModel');     
+
+Loader::LoadControl('TarakaningULListPager');  
+Loader::LoadSystem('Orderer/Orderer');
 
 class BugPage extends InfoBasePage 
 {
@@ -13,7 +16,7 @@ class BugPage extends InfoBasePage
 	
 	private $_commentData;
 	
-	private $_commentsController;
+	private $_commentsModel;
 	
 	private $_userData;
 	
@@ -41,14 +44,14 @@ class BugPage extends InfoBasePage
 
 		$this->_userData=$this->_controller->auth->getName();
 		
-		$this->_bugsOperation=new ErrorReportsController(
+		$this->_bugsOperation=new ItemsModel(
 			$this->_userData["DefaultProjectID"] == null ? $this->_projectsList[0]['ProjectID'] : $this->_userData["DefaultProjectID"],
 			$this->_userData["UserID"]
 		);
 		if (isset($this->_parameters[0]) && $this->_parameters[0]!=='')
 		{
 			$this->_bugData=$this->_bugsOperation->getReport($this->_parameters[0]);
-			$this->_canEditData=$this->_bugsOperation->canEditData($this->_parameters[0],$this->_bugData['ProjectID']);
+            $this->_canEditData=$this->_bugsOperation->canEditData($this->_parameters[0],$this->_bugData['ProjectID']);
 			if (!$this->_canEditData && $this->_bugData["Status"]==ErrorStatusENUM::CLOSED)
 			{
 				$this->_canEditStatus=false;
@@ -63,8 +66,8 @@ class BugPage extends InfoBasePage
 		{
 			$this->navigate("/my/bugs/");
 		}
-		$this->_history=new ReportHistoryController();
-		$this->_commentsController=new CommentsController();
+		$this->_history=new ItemsHistoryModel();
+		$this->_commentsModel=new CommentsModel();
 		
 		if ($this->request->isPost() )
 		{
@@ -75,9 +78,9 @@ class BugPage extends InfoBasePage
 				{
 					try
 					{
-						$this->_commentsController->setReportComment(
+                        $this->_commentsModel->setReportComment(
 							$this->_bugData['ProjectID'], 
-							$this->_userData["UserID"], 
+							$this->_userData["USER_ID"], 
 							$this->_bugData['ID'], 
 							$postData['comment']
 						);
@@ -108,15 +111,15 @@ class BugPage extends InfoBasePage
 		
 		if ($this->_bugData!=null)
 		{
-			$this->_commentsPaginator=new TarakaningULListPager(
-				$this->_commentsController->getReportCommentsCount(				
+            $this->_commentsPaginator=new TarakaningULListPager(
+				$this->_commentsModel->getReportCommentsCount(				
 					$this->_bugData['ID']
 				)
 			);
 			$this->_orderer=new Orderer(new ItemCommentsENUM());
 			$this->_orderData=$this->_orderer->getNewUrls();
 			$this->_commentsPaginator->setIDTag('comments');
-			$this->_commentsData=$this->_commentsController->getReportComments(
+			$this->_commentsData=$this->_commentsModel->getReportComments(
 				$this->_bugData['ProjectID'], 
 				$this->_bugData['ID'], 
 				$this->_bugData['UserID'],
@@ -125,9 +128,9 @@ class BugPage extends InfoBasePage
 				$this->_commentsPaginator->getOffset(),
 				$this->_commentsPaginator->getSize()
 			);
-			
+            
 			$usersList=$this->_projectsController->getProjectUsers($this->_bugData['ProjectID']);
-			$this->_projectUsersList=$this->normalizeAssignUsersListForControl($usersList);
+            $this->_projectUsersList=$this->normalizeAssignUsersListForControl($usersList);
 			$this->_historyData=$this->_history->getReportHistory($this->_bugData['ID'], new TarakaningULListPager(10));
 		}
 	}
@@ -193,7 +196,7 @@ class BugPage extends InfoBasePage
 				)
 			);
 			
-			$this->_smarty->assign("USER_ID",$this->_userData["UserID"]);
+			$this->_smarty->assign("USER_ID",$this->_userData["USER_ID"]);
 			$addCommentError=$this->_controller->error->getErrorByName("addCommentError");
 			if ($addCommentError!=null)
 			{
@@ -214,7 +217,7 @@ class BugPage extends InfoBasePage
 	protected function deleteSelectedItems()
 	{
 		$checkboxes=$this->request->getPost("del_i");
-		$this->_commentsController->deleteCommentsFromList(
+		$this->_commentsModel->deleteCommentsFromList(
 			$this->_userData["UserID"],
 			$checkboxes
 		);

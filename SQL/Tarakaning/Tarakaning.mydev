@@ -6,7 +6,12 @@
   <Include>
     <File RelPath="data" Link="..\database\data\ERR_RPT.sql" />
     <File RelPath="data" Link="..\database\data\Users.sql" />
+    <File RelPath="diagram" Link=".\Tarakaning.dbd" />
     <File RelPath="stored_procedures" Link="..\database\stored_procedures\AddItem.sql" />
+    <File RelPath="stored_procedures" Link="..\database\stored_procedures\DeleteCommentsFromList.sql" />
+    <File RelPath="stored_procedures" Link="..\database\stored_procedures\DeleteItemsFromList.sql" />
+    <File RelPath="stored_procedures" Link="..\database\stored_procedures\DeleteProjects.sql" />
+    <File RelPath="stored_procedures" Link="..\database\stored_procedures\EditItem.sql" />
     <File RelPath="tables" Link="..\database\tables\ITEM.sql" />
     <File RelPath="tables" Link="..\database\tables\ITEM_CMMENT.sql" />
     <File RelPath="tables" Link="..\database\tables\ITEM_DEFECT.sql" />
@@ -63,6 +68,10 @@
         <File RelPath="views" Name="view_ItemFullInfo.sql" BuildAction="Build" />
         <File RelPath="stored_procedures" Name="AddItem.sql" BuildAction="Build" />
         <File RelPath="views" Name="view_SubscribesUserNick.sql" BuildAction="Build" />
+        <File RelPath="stored_procedures" Name="DeleteItemsFromList.sql" BuildAction="Build" />
+        <File RelPath="stored_procedures" Name="DeleteProjects.sql" BuildAction="Build" />
+        <File RelPath="stored_procedures" Name="EditItem.sql" BuildAction="Build" />
+        <File RelPath="stored_procedures" Name="DeleteCommentsFromList.sql" BuildAction="Build" />
       </Build>
     </Configuration>
   </Configurations>

@@ -1,6 +1,4 @@
 <?php
-require_once 'ReportHistoryController.php';
-
 	class ItemsFacade
 	{
 		const ADD_ITEM="Задача добавлена";
@@ -31,7 +29,7 @@ require_once 'ReportHistoryController.php';
 		
 		private $_projectID;
 		
-		public function __construct(ErrorReportsController $itemsController, ReportHistoryController $historyController, UserAuth $user, $projectID)
+		public function __construct(ItemsModel $itemsController, ReportHistoryController $historyController, UserAuth $user, $projectID)
 		{
 			$this->_itemsController=$itemsController;
 			$this->_historyController=$historyController;

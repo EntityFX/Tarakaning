@@ -2,12 +2,12 @@ CREATE VIEW view_AllUserProjects AS SELECT
     P.PROJ_ID AS ProjectID,
     P.PROJ_NM AS Name,
     P.USER_ID AS UserID,
-    U.NICK AS Nick,
+    U.NICK AS NickName,
     _utf8 '1' AS My
 FROM
     (PROJ P
     LEFT JOIN `USER` U
-        ON ((P.PROJ_ID = U.USER_ID)))
+        ON ((P.USER_ID = U.USER_ID)))
 
 UNION
 
@@ -15,7 +15,7 @@ SELECT
     UP.PROJ_ID AS ProjectID,
     P.PROJ_NM AS Name,
     UP.USER_ID AS UserID,
-    U.NICK AS Nick,
+    U.NICK AS NickName,
     _utf8 '0' AS My
 FROM
     ((USER_IN_PROJ UP

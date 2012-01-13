@@ -1,7 +1,7 @@
 <?php
 require_once 'ProjectsController.php';
 
-	class ReportHistoryController extends DBConnector
+	class ItemsHistoryModel extends DBConnector
 	{
 		/*
 		 *Класс управления историей ошибки - ReportHistory:

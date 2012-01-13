@@ -10,7 +10,7 @@
 
 require_once 'ModuleController.php'; 
 
-require_once 'classLoader.php';   
+require_once 'Loader.php';   
 
 require_once SOURCE_PATH."engine/system/db/DBConnector.php"; 
 

@@ -65,7 +65,8 @@ require_once 'Error.php';
         
         public function initializePages()
         {
-        	$this->loadPagesByXML();
+            Loader::setModulePath(SOURCE_PATH."engine/modules/".$this->_moduleName.'/');
+            $this->loadPagesByXML();
         }
         
     }
