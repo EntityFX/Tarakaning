@@ -1,8 +1,11 @@
 <?php
-require_once 'InfoBasePage.php';
-require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsController.php';
-require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsSearch.php';
-require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsFacade.php';
+
+Loader::LoadPageController('InfoBasePage'); 
+
+Loader::LoadModel('ProjectsFacade'); 
+Loader::LoadModel('ItemsFacade'); 
+Loader::LoadModel('ProjectsModel');    
+Loader::LoadModel('ProjectsSearch');
 
 	class MyNewProjectPage extends InfoBasePage
 	{
@@ -14,7 +17,7 @@ require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ProjectsFacade.php';
 			if ($this->request->isPost())
 			{
 				$postData=$this->request->getParams();
-				$projectsOperation=new ProjectsController();
+				$projectsOperation=new ProjectsModel();
 				$projectSearch=new ProjectSearch(self::getGlobalEncoding());
 				
 				$projectsFacadeOperation=new ProjectsFacade(

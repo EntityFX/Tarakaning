@@ -1,5 +1,6 @@
 <?php
-require_once 'BugsBasePage.php';
+
+Loader::LoadPageController('BugsBasePage');
 
 class MyBugsPage extends BugsBasePage 
 {	

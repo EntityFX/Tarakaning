@@ -1,8 +1,9 @@
 <?php 
 
-	require_once 'ProjectFieldsUsersInfoENUM.php';
-	require_once 'MyProjectsFieldsENUM.php';
-	require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
+Loader::LoadModel('ProjectFieldsUsersInfoENUM');
+Loader::LoadModel('MyProjectsFieldsENUM');  
+
+Loader::LoadSystem('addons','Serialize'); 
 	
 	/**
 	 * Класс управления проектами.
@@ -10,7 +11,7 @@
 	 *
 	 */
 
-	class ProjectsController extends DBConnector
+	class ProjectsModel extends DBConnector
 	{
 		const VIEW_ALL_USER_PROJECTS 			= 'view_AllUserProjects';
 		const VIEW_PROJECT_AND_ERRORS			= 'view_ProjectAndErrors';

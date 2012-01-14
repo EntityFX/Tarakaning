@@ -40,7 +40,11 @@ class Loader
     {
         if ($moduleName==null)   
         {
-            require_once self::$_modulePath.'Logic/'.$className.'.php'; 
+            require_once self::$_modulePath.'Model/'.$className.'.php'; 
+        }
+        else
+        {
+            require_once SOURCE_PATH.'engine/modules/'.$moduleName.'/Model/'.$className.'.php'; 
         }
     }
     
@@ -49,6 +53,22 @@ class Loader
         if ($moduleName==null)   
         {
             require_once self::$_modulePath.'PageControllers/'.$className.'.php'; 
+        }
+        else
+        {
+            require_once SOURCE_PATH.'engine/modules/'.$moduleName.'/PageControllers/'.$className.'.php';   
+        }
+    }
+    
+    public static function LoadModuleController($className,$moduleName=null)
+    {
+        if ($moduleName==null)   
+        {
+            require_once self::$_modulePath.$className.'.php'; 
+        }
+        else
+        {
+            require_once SOURCE_PATH.'engine/modules/'.$moduleName.'/'.$className.'.php';   
         }
     }
     
@@ -64,9 +84,16 @@ class Loader
         }
     }
     
-    public static function LoadSystem($package,$className)   
+    public static function LoadSystem($package,$className=null)   
     {
-            require_once SOURCE_PATH.'engine/system/'.$package.'/'.$className.'.php';    
+        if ($className!=null)
+        {
+            require_once SOURCE_PATH.'engine/system/'.$package.'/'.$className.'.php';
+        }
+        else
+        {
+            require_once SOURCE_PATH.'engine/system/'.$package.'.php'; 
+        }  
     }
     
     public static function setModulePath($modulePath)

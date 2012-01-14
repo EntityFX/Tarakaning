@@ -1,16 +1,17 @@
 <?php
-require_once SOURCE_PATH.'engine/modules/Tarakaning/PageControllers/InfoBasePage.php';
 
-	class SearchPage extends InfoBasePage
+Loader::LoadPageController('InfoBasePage');   
+
+class SearchPage extends InfoBasePage
+{
+	protected function onInit()
 	{
-		protected function onInit()
-		{
-			parent::onInit();
-		}
-		
-		protected function doAssign()
-		{
-			parent::doAssign();
-		}
+		parent::onInit();
 	}
+	
+	protected function doAssign()
+	{
+		parent::doAssign();
+	}
+}
 ?>

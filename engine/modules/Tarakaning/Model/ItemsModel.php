@@ -1,25 +1,17 @@
 <?php
-    require_once "ErrorStatusENUM.php";
-    
-    require_once "ErrorPriorityENUM.php"; 
-    
-    require_once "ErrorTypeENUM.php"; 
-    
-    require_once "ProjectsController.php"; 
-    
-    require_once "UsersController.php";
-    
-    require_once "SubscribesController.php";
-    
-    require_once "ReportsAssigment.php";
-    
-    require_once 'ErrorFieldsENUM.php';
-    
-    require_once 'ItemKindENUM.php';
-    
-    require_once 'ItemDBKindENUM.php';
-    
-	require_once 'ConcreteUser.php';
+   
+Loader::LoadModel('ItemsModel');  
+Loader::LoadModel('ErrorStatusENUM');  
+Loader::LoadModel('ErrorPriorityENUM');  
+Loader::LoadModel('ErrorTypeENUM');  
+Loader::LoadModel('UsersController');  
+Loader::LoadModel('SubscribesController');  
+Loader::LoadModel('ReportsAssigment');  
+Loader::LoadModel('ErrorFieldsENUM');  
+Loader::LoadModel('ItemKindENUM');  
+Loader::LoadModel('ItemDBKindENUM');  
+Loader::LoadModel('ConcreteUser'); 
+
     
     class ItemsModel extends DBConnector
     {
@@ -34,7 +26,7 @@
         {
             parent::__construct();
             $concreteUser=new ConcreteUser();
-            $projectsController=new ProjectsController(); 
+            $projectsController=new ProjectsModel(); 
             if ($projectID==NULL)
             {
                 $this->_errorOwnerID=$concreteUser->id;
@@ -47,7 +39,7 @@
             {
                 if ($projectsController->isProjectExists((int)$projectID))
                 {
-                	$sub=new SubscribesController();
+                	$sub=new ProjectsModel();
                     if ($ownerID==NULL)
                     {
                         $this->_errorOwnerID=$concreteUser->id;
@@ -314,7 +306,7 @@
             }
             else
             {
-                $pc=new ProjectsController();
+                $pc=new ProjectsModel();
                 if ($pc->isProjectExists((int)$projectID))
                 {
                     $projectID=(int)$projectID;            
@@ -502,7 +494,7 @@
         private function chekProjectOwnerOrReportOwner($reportID)
         {
             $id=(int)$id;
-            $pC=new ProjectsController();
+            $pC=new ProjectsModel();
             return ($this->_errorOwnerID==$this->getReportOwner($reportID) || $this->_errorOwnerID==$pC->isOwner($this->_errorOwnerID,$this->_projectOwnerID));               
         }
         
@@ -512,14 +504,14 @@
         	$projectID=(int)$projectID;
         	$user=$this->_errorOwnerID;
         	$isOwnerORAssigned=$this->_sql->countQuery(self::TABLE_ITEM,"ITEM_ID=$reportID AND (USER_ID=$user OR ASSGN_TO=$user)");
-        	$pC=new ProjectsController();
+        	$pC=new ProjectsModel();
             return ($isOwnerORAssigned !=0) || $this->_errorOwnerID==$pC->isOwner($user,$projectID);
         }
         
         public function canEditData($reportID,$projectID)
         {
         	$projectID=(int)$projectID;
-        	$pC=new ProjectsController();
+        	$pC=new ProjectsModel();
         	return $this->_errorOwnerID==$this->getReportOwner($reportID) || $this->_errorOwnerID==$pC->isOwner($this->_errorOwnerID,$projectID);
         }
         

@@ -84,6 +84,7 @@ require_once SOURCE_PATH."engine/system/db/DBConnector.php";
 			}
 			$this->_moduleID=$array["moduleId"];
 			$fullPath=SOURCE_PATH.ModuleLoader::MODULE_PATH.$array["path"]."/".$array["path"]."Controller.php";           
+            Loader::setModulePath(SOURCE_PATH."engine/modules/".$array["path"].'/');
             $className=$array["path"]."Controller"; 
 			if (file_exists($fullPath))
 			{

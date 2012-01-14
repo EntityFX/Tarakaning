@@ -63,7 +63,7 @@
 			{
 				$userID = (int)$userID;
 				$projectID = (int)$projectID;
-				$p = new ProjectsController();
+				$p = new ProjectsModel();
 				if($p->isProjectExists($projectID))
 				{
 					$count=$this->_sql->countQuery(self::TABLE_SUBSCR_RQST,"USER_ID = '$userID' AND `ProjectID` = '$projectID'");
@@ -160,7 +160,7 @@
 			{
 				$ownerID = (int)$ownerID;
 				$projectID = (int)$projectID;
-				$projectOperation=new ProjectsController();
+				$projectOperation=new ProjectsModel();
 	        	if ($projectOperation->isOwner($ownerID, $projectID) && $keysList!='')
 	        	{
 	        		$this->_sql->call(
@@ -175,7 +175,7 @@
 			
 			public function getProjectUsers($projectID) 
 			{
-				$p = new ProjectsController();
+				$p = new ProjectsModel();
 				$projectID = (int)$projectID;
 				if($p->isProjectExists($projectID))
 				{
@@ -194,7 +194,7 @@
 			public function getProjectUsersPaged($projectID, $startIndex = 0, $maxCount = 30)
 			{
 				$projectID = (int)$projectID;
-				$p = new ProjectsController();
+				$p = new ProjectsModel();
 				if($p->isProjectExists($projectID))
 				{
 					$ownerID = $p->getOwnerID($projectID);
