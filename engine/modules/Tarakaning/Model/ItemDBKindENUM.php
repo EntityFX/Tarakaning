@@ -1,8 +1,9 @@
 <?php
-    require_once SOURCE_PATH."engine/system/AEnum.php";
+
+Loader::LoadSystem('AEnum'); 
     
-    final class ItemDBKindENUM extends AEnum
-    {
-    	const DEFECT     = 'Defect';
-        const TASK       = 'Task';
-    }  
+final class ItemDBKindENUM extends AEnum
+{
+    const DEFECT     = 'Defect';
+    const TASK       = 'Task';
+}  

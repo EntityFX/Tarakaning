@@ -1,5 +1,6 @@
 <?
-require_once SOURCE_PATH.'engine/modules/Auth/AuthCheckerControllerAbstract.php';
+
+Loader::LoadModuleController('AuthCheckerControllerAbstract','Auth');
 
 class TarakaningController extends AuthCheckerControllerAbstract
 {

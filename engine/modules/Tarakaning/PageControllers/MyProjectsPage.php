@@ -4,8 +4,7 @@ Loader::LoadPageController('InfoBasePage');
 
 Loader::LoadControl('TarakaningULListPager');  
 Loader::LoadSystem('controls','Orderer/Orderer');
-
-require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
+Loader::LoadSystem('addons','Serialize');
 
 class MyProjectsPage extends InfoBasePage
 {

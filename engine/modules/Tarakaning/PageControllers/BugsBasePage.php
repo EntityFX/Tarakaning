@@ -1,9 +1,12 @@
 <?php
-require_once 'InfoBasePage.php';
-require_once SOURCE_PATH.'engine/modules/Tarakaning/Logic/ErrorReportsController.php';
-require_once SOURCE_PATH.'engine/modules/Tarakaning/Controls/TarakaningULListPager.php';
-require_once SOURCE_PATH.'engine/libs/controls/Orderer/Orderer.php';
-require_once SOURCE_PATH.'engine/system/addons/Serialize.php';
+
+Loader::LoadPageController('InfoBasePage');
+  
+Loader::LoadModel('ItemsModel');
+
+Loader::LoadControl('TarakaningULListPager');  
+Loader::LoadSystem('controls','Orderer/Orderer');
+Loader::LoadSystem('addons','Serialize');
 
 abstract class BugsBasePage extends InfoBasePage
 {

@@ -1,15 +1,16 @@
 <?php
-    require_once SOURCE_PATH."engine/system/AEnum.php";
+
+Loader::LoadSystem('AEnum'); 
     
-    final class ItemCommentsENUM extends AEnum
+final class ItemCommentsENUM extends AEnum
+{
+    const NICK_NAME  = "NickName";
+    const TIME       = "Time";
+    const COMMENT    = "Comment";
+    
+    public function __construct($value=self::TIME)
     {
-        const NICK_NAME  = "NickName";
-        const TIME       = "Time";
-        const COMMENT    = "Comment";
-        
-        public function __construct($value=self::TIME)
-        {
-            parent::__construct($value);
-        }
-    } 
+        parent::__construct($value);
+    }
+} 
 ?>

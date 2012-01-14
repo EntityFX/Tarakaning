@@ -8,7 +8,7 @@ Loader::LoadModel('ItemsFacade');
 Loader::LoadModel('ItemsHistoryModel');     
 
 Loader::LoadControl('TarakaningULListPager');  
-Loader::LoadSystem('Orderer/Orderer');
+Loader::LoadSystem('controls','Orderer/Orderer');
 
 class BugPage extends InfoBasePage 
 {

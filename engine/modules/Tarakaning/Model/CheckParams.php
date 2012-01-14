@@ -11,7 +11,7 @@ require_once 'ReportHistoryController.php';
 			{
 				if ($key == "projectID") 
 				{
-					$p = new ProjectsController();
+					$p = new ProjectsModel();
 					$value = (int)$value;
 					if(!$p->isProjectExists($value)) throw new Exception("Проект не существует.",101);
 					

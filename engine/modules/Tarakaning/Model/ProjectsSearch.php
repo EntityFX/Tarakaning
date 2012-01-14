@@ -1,7 +1,9 @@
 <?php
-require_once SOURCE_PATH.'engine/system/search/SearchDirector.php';
-require_once 'ProjectsSearchBuilder.php';
-require_once 'ProjectsController.php';
+
+Loader::LoadModel('ProjectsSearchBuilder');     
+Loader::LoadModel('ProjectsModel');   
+
+Loader::LoadSystem('search','SearchDirector');
 
 class ProjectSearch
 {
@@ -52,7 +54,7 @@ class ProjectSearch
 	
 	public function searchProjects($query)
 	{
-		$projectController=new ProjectsController();
+		$projectController=new ProjectsModel();
 		$queryString=mb_convert_encoding($query,"UTF8",$this->_encoding);
 		$hits=$this->_helper->search($queryString,'Name');
 		foreach ($hits as $hit)

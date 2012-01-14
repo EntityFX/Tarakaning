@@ -7,7 +7,7 @@
 		{
 			require_once 'engine/modules/Tarakaning/Logic/ProjectsSearch.php';
 			require_once 'engine/modules/Tarakaning/Logic/ProjectsController.php';
-			$projectController=new ProjectsController();
+			$projectController=new ProjectsModel();
 			
 			$projSearch=new ProjectSearch(self::getGlobalEncoding());
 			$projSearch->searchProjects("проект");
