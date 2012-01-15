@@ -2,10 +2,14 @@
 
 Loader::LoadPageController('InfoBasePage');
 
-Loader::LoadModel('Items/ItemsModel');
-Loader::LoadModel('Items/ItemsFacade');   
 Loader::LoadModel('Items/ItemsHistoryModel');
 Loader::LoadModel('Requests/RequestModel'); 
+Loader::LoadModel('Items/ItemDBKindENUM'); 
+Loader::LoadModel('Items/ErrorPriorityENUM'); 
+Loader::LoadModel('Items/ErrorStatusENUM'); 
+Loader::LoadModel('Items/ErrorTypeEnum'); 
+Loader::LoadModel('Items/ItemsModel');
+Loader::LoadModel('Items/ItemsFacade');
 
 class BugAddPage extends InfoBasePage
 {
