@@ -2,10 +2,9 @@
 
 Loader::LoadPageController('InfoBasePage'); 
 
-Loader::LoadModel('ProjectsFacade'); 
-Loader::LoadModel('ItemsFacade'); 
-Loader::LoadModel('ProjectsModel');    
-Loader::LoadModel('ProjectsSearch');
+Loader::LoadModel('Projects/ProjectsFacade'); 
+Loader::LoadModel('Items/ItemsFacade');    
+Loader::LoadModel('Projects/ProjectsSearch');
 
 	class MyNewProjectPage extends InfoBasePage
 	{

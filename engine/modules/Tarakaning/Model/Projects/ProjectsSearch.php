@@ -1,7 +1,7 @@
 <?php
 
-Loader::LoadModel('ProjectsSearchBuilder');     
-Loader::LoadModel('ProjectsModel');   
+Loader::LoadModel('Projects/ProjectsSearchBuilder');     
+Loader::LoadModel('Projects/ProjectsModel');   
 
 Loader::LoadSystem('search','SearchDirector');
 

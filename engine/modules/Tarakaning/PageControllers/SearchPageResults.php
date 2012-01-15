@@ -2,10 +2,10 @@
 
 Loader::LoadPageController('InfoBasePage'); 
 
-Loader::LoadModel('ProjectsSearch');
-Loader::LoadModel('ProjectsModel');
-Loader::LoadModel('ProjectsFacade'); 
-Loader::LoadModel('SubscribesModel');  
+Loader::LoadModel('Projects/ProjectsSearch');
+Loader::LoadModel('Projects/ProjectsModel');
+Loader::LoadModel('Projects/ProjectsFacade'); 
+Loader::LoadModel('Subscribes/SubscribesModel');  
 
 Loader::LoadControl('TarakaningULListPager');  
 
@@ -74,7 +74,7 @@ class SearchPageResults extends InfoBasePage
 	private function sendProjectRequest()
 	{
 		$subscribesOperation=new SubscribesModel();
-		$subscribesOperation->sendRequest($this->_userInfo['UserID'], (int)$this->request->getPost("projectID"));
+		$subscribesOperation->sendRequest($this->_userInfo['USER_ID'], (int)$this->request->getPost("projectID"));
 	}
 }
 ?>

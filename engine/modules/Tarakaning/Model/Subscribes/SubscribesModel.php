@@ -47,7 +47,7 @@
 							date("Y-m-d H:i:s")
 						)),
 						new ArrayObject(array(
-							'ID', 'UserID', 'ProjectID','RequestTime'
+							'SUBSCR_RQST_ID', 'USER_ID', 'PROJ_ID','RQST_TM'
 						))
 					);
 				}
@@ -66,7 +66,7 @@
 				$p = new ProjectsModel();
 				if($p->isProjectExists($projectID))
 				{
-					$count=$this->_sql->countQuery(self::TABLE_SUBSCR_RQST,"USER_ID = '$userID' AND `ProjectID` = '$projectID'");
+					$count=$this->_sql->countQuery(self::TABLE_SUBSCR_RQST,"USER_ID = '$userID' AND PROJ_ID = '$projectID'");
 					return $count==0 ? false : true;
 				}
 				else 

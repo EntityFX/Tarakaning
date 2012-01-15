@@ -2,10 +2,18 @@
 
 Loader::LoadPageController('InfoBasePage');  
 
-Loader::LoadModel('ItemsModel'); 
-Loader::LoadModel('CommentsModel');
-Loader::LoadModel('ItemsFacade');   
-Loader::LoadModel('ItemsHistoryModel');     
+Loader::LoadModel('Items/ItemsModel'); 
+Loader::LoadModel('Comments/CommentsModel');
+Loader::LoadModel('Items/ItemsFacade');   
+Loader::LoadModel('Items/ItemsHistoryModel'); 
+Loader::LoadModel('Items/ItemCommentsENUM'); 
+Loader::LoadModel('Items/ErrorPriorityENUM');    
+Loader::LoadModel('Items/ItemKindENUM');    
+Loader::LoadModel('Items/ErrorTypeENUM');    
+Loader::LoadModel('Items/ErrorStatusENUM');    
+Loader::LoadModel('Requests/RequestModel');  
+
+Loader::LoadSystem('addons','Serialize');     
 
 Loader::LoadControl('TarakaningULListPager');  
 Loader::LoadSystem('controls','Orderer/Orderer');

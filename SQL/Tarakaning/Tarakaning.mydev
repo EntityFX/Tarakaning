@@ -7,6 +7,7 @@
     <File RelPath="data" Link="..\database\data\ERR_RPT.sql" />
     <File RelPath="data" Link="..\database\data\Users.sql" />
     <File RelPath="diagram" Link=".\Tarakaning.dbd" />
+    <File RelPath="stored_procedures" Link="..\database\stored_procedures\AcceptRequest.sql" />
     <File RelPath="stored_procedures" Link="..\database\stored_procedures\AddItem.sql" />
     <File RelPath="stored_procedures" Link="..\database\stored_procedures\DeleteCommentsFromList.sql" />
     <File RelPath="stored_procedures" Link="..\database\stored_procedures\DeleteItemsFromList.sql" />
@@ -72,6 +73,7 @@
         <File RelPath="stored_procedures" Name="DeleteProjects.sql" BuildAction="Build" />
         <File RelPath="stored_procedures" Name="EditItem.sql" BuildAction="Build" />
         <File RelPath="stored_procedures" Name="DeleteCommentsFromList.sql" BuildAction="Build" />
+        <File RelPath="stored_procedures" Name="AcceptRequest.sql" BuildAction="Build" />
       </Build>
     </Configuration>
   </Configurations>

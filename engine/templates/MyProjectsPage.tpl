@@ -34,7 +34,7 @@
 						  <th><a href="{$MY_PROJECTS_ORDERER.Description.url}" {if $MY_PROJECTS_ORDERER.Description.order eq true}class="sort"{/if}>Заголовок</a></th>
 						  <th colspan="5">Отчётов</th>
 						  <th><a href="{$MY_PROJECTS_ORDERER.CountSubscribeRequests.url}" {if $MY_PROJECTS_ORDERER.CountSubscribeRequests.order eq true}class="sort"{/if}>Заявки</a></th>
-						  <th><a href="{$MY_PROJECTS_ORDERER.CountUsers.url}" {if $MY_PROJECTS_ORDERER.CountUsers.order eq true}class="sort"{/if}>Пользователей</a></th>
+						  <th><a href="{$MY_PROJECTS_ORDERER.CountUsers.url}" {if $MY_PROJECTS_ORDERER.CountUsers.order eq true}class="sort"{/if}>Участников</a></th>
 						  <th><a href="{$MY_PROJECTS_ORDERER.CreateDateTime.url}" {if $MY_PROJECTS_ORDERER.CreateDateTime.order eq true}class="sort"{/if}>Дата создания</a></th>
 						</tr>
 					</thead> 
@@ -69,23 +69,23 @@
 			 <table class="projects_table">
 				<thead> 
 					<tr>
-						<th><a href="{$MEMBER_PROJECTS_ORDERER.Name.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.Name.order eq true}class="sort"{/if}>Проект</a></th>
-						<th><a href="{$MEMBER_PROJECTS_ORDERER.Description.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.Description.order eq true}class="sort"{/if}>Заголовок</a></th>
-						<th><a href="{$MEMBER_PROJECTS_ORDERER.NickName.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.NickName.order eq true}class="sort"{/if}>Владелец</a></th>
+						<th><a href="{$MEMBER_PROJECTS_ORDERER.ProjectName.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.ProjectName.order eq true}class="sort"{/if}>Проект</a></th>
+						<th><a href="{$MEMBER_PROJECTS_ORDERER.Description.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.Description.order eq true}class="sort"{/if}>Описание</a></th>
+						<th><a href="{$MEMBER_PROJECTS_ORDERER.OwnerNickName.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.OwnerNickName.order eq true}class="sort"{/if}>Владелец</a></th>
 						<th colspan="5">Отчётов</th>
-						<th><a href="{$MEMBER_PROJECTS_ORDERER.CountRequests.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.CountRequests.order eq true}class="sort"{/if}>Заявки</a></th>
-						<th><a href="{$MEMBER_PROJECTS_ORDERER.CreateDate.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.CreateDate.order eq true}class="sort"{/if}>Дата</a></th>
+                        <th><a href="{$MEMBER_PROJECTS_ORDERER.CountUsers.url}" {if $MEMBER_PROJECTS_ORDERER.CountUsers.order eq true}class="sort"{/if}>Участников</a></th>   
+						<th><a href="{$MEMBER_PROJECTS_ORDERER.CreateDateTime.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.CreateDateTime.order eq true}class="sort"{/if}>Дата</a></th>
 					</tr>
 				</thead> 
 				<tbody>
 				{foreach name=notMyProjects from=$PROJECTS_WITHOUT_ME item=element} {* Выводит мои проекты*}
 				  <tr class="{if $smarty.foreach.notMyProjects.index % 2 == 0}odd{else}even{/if}">
-					<td><a href="/my/project/show/{$element.ProjectID}/">{$element.Name}</a></td>
+					<td><a href="/my/project/show/{$element.ProjectID}/">{$element.ProjectName}</a></td>
 					<td>{$element.Description}</td>
-					<td><a href="#">Sudo777</a></td>
+					<td><a href="#">{$element.OwnerNickName}</a></td>
 					<td class="new">{$element.NEW}</td><td class="confirmed">{$element.IDENTIFIED}</td><td class="assigned">{$element.ASSESSED}</td><td class="solved">{$element.RESOLVED}</td><td class="closed">{$element.CLOSED}</td>
-					<td><strong {if $element.CountRequests neq 0}class="strongest"{/if}>{$element.CountRequests}</strong></td>
-					<td>{$element.CreateDate}</td>
+					<td>{$element.CountUsers}</td> 
+                    <td>{$element.CreateDateTime}</td>
 				  </tr>
 				{/foreach}
 				</tbody>

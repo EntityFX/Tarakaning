@@ -2,8 +2,8 @@
 
 Loader::LoadPageController('InfoBasePage'); 
 
-Loader::LoadModel('SubscribesModel');
-Loader::LoadModel('SubscribesDetailENUM');      
+Loader::LoadModel('Subscribes/SubscribesModel');
+Loader::LoadModel('Subscribes/SubscribesDetailENUM');      
 
 Loader::LoadControl('TarakaningULListPager');  
 Loader::LoadSystem('controls','Orderer/Orderer');

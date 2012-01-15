@@ -1,8 +1,8 @@
 <?php
 	require_once SOURCE_PATH.'engine/kernel/JSONPage.php';
 
-Loader::LoadModel('ProjectsModel');
-Loader::LoadModel('ProjectFieldsUsersInfoENUM');
+Loader::LoadModel('Projects/ProjectsModel');
+Loader::LoadModel('Projects/ProjectFieldsUsersInfoENUM');
 	
 class ItemsJSON extends JSONPage
 {

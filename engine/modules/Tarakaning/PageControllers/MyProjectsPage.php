@@ -82,7 +82,7 @@ class MyProjectsPage extends InfoBasePage
 		
 		$this->_smarty->assign("MEMBER_PROJECTS_PAGINATOR",$this->_memberProjectsPaginator->getHTML());
 		$this->_smarty->assign("MEMBER_PROJECTS_ORDERER",$this->_memberProjectsOrderer->getNewUrls());
-	}
+    }
 	
 	protected function deleteSelectedItems()
 	{

@@ -267,11 +267,14 @@
 							    	WHEN P.USER_ID=%1$d THEN 2
 							    	WHEN UP.USER_ID IS null THEN 0
 							    	ELSE 1
-							    END AS ProjectRelation
+							    END AS ProjectRelation,
+                                U.NICK AS NickName
 							FROM 
 							    %5$s P
 							LEFT JOIN USER_IN_PROJ UP ON
 							    P.PROJ_ID=UP.PROJ_ID AND UP.USER_ID=%1$d
+                            LEFT JOIN USER U
+                                ON U.USER_ID=P.USER_ID
 							WHERE 
 							    PROJ_NM LIKE \'%%%2$s%%\' OR DESCR LIKE \'%%%2$s%%\'
 							LIMIT %3$d,%4$d'

@@ -2,17 +2,16 @@
 
 Loader::LoadPageController('InfoBasePage');
 
-Loader::LoadModel('ProjectsModel');  
-Loader::LoadModel('ItemsModel');
-Loader::LoadModel('ErrorStatusENUM');  
-Loader::LoadModel('ErrorPriorityENUM');  
-Loader::LoadModel('ErrorTypeENUM');  
-Loader::LoadModel('UsersController');  
-Loader::LoadModel('RequestModel');  
-Loader::LoadModel('ItemAssignment');  
-Loader::LoadModel('ErrorFieldsENUM');  
-Loader::LoadModel('ItemKindENUM');  
-Loader::LoadModel('ItemDBKindENUM');  
+Loader::LoadModel('Projects/ProjectsModel');  
+Loader::LoadModel('Items/ItemsModel');
+Loader::LoadModel('Items/ErrorStatusENUM');  
+Loader::LoadModel('Items/ErrorPriorityENUM');  
+Loader::LoadModel('Items/ErrorTypeENUM');  
+Loader::LoadModel('Requests/RequestModel');  
+Loader::LoadModel('Items/ItemAssignment');  
+Loader::LoadModel('Items/ErrorFieldsENUM');  
+Loader::LoadModel('Items/ItemKindENUM');  
+Loader::LoadModel('Items/ItemDBKindENUM');  
 Loader::LoadModel('ConcreteUser'); 
 
 Loader::LoadControl('TarakaningULListPager');  

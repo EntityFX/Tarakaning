@@ -22,17 +22,17 @@
 			{foreach name=searchResult from=$AR_SEARCH_ITEM item=element}
 			<div class="find_results">
 				<div>
-				<strong>{$element.Name}</strong>
+				<strong>{$element.PROJ_NM}</strong>
 				<span class="author">автор:</span>
-				<span><a href="/profile/show/{$element.OwnerID}/">{$element.NickName}</a></span>
+				<span><a href="/profile/show/{$element.USER_ID}/">{$element.NickName}</a></span>
 				</div>
 				<p>
-					{$element.Description}
+					{$element.DESCR}
 				</p>
 				{if $element.ProjectRelation eq 0}
 				<form action="#" method="post">
 					<div>
-						<input type="hidden" value="{$element.ProjectID}" name="projectID" />
+						<input type="hidden" value="{$element.PROJ_ID}" name="projectID" />
 						<input type="submit" value="Подать заявку" class="standard" />
 					</div>		
 				</form>
