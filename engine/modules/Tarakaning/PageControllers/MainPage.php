@@ -1,7 +1,7 @@
 <?php
-require_once SOURCE_PATH.'engine/kernel/SinglePage.php';
+require_once SOURCE_PATH.'engine/kernel/SinglePageController.php';
 
-class MainPage extends SinglePage
+class MainPage extends SinglePageController
 {
 
 	
