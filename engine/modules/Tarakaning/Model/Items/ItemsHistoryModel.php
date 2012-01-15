@@ -1,7 +1,5 @@
 <?php
 
-Loader::LoadModel('ProjectsModel');   
-
 class ItemsHistoryModel extends DBConnector
 {
 	/*

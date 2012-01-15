@@ -1,11 +1,5 @@
 <?php
 
-Loader::LoadModel('ProjectsModel');   
-Loader::LoadModel('ItemCommentsENUM'); 
-Loader::LoadModel('RequestModel');  
-
-Loader::LoadSystem('addons','Serialize');
-
 /**
  * Класс управления комментариями к ошибкам.
  * @author timur 29.01.2011

@@ -1,9 +1,9 @@
 <?php
 require_once SOURCE_PATH.'engine/kernel/HTMLPageController.php';
 
-Loader::LoadModel('ProjectsModel',"Tarakaning");
-Loader::LoadModel('ProjectFieldsUsersInfoENUM',"Tarakaning");
-Loader::LoadModel('MyProjectsFieldsENUM',"Tarakaning");  
+Loader::LoadModel('Projects/ProjectsModel',"Tarakaning");
+Loader::LoadModel('Projects/ProjectFieldsUsersInfoENUM',"Tarakaning");
+Loader::LoadModel('Projects/MyProjectsFieldsENUM',"Tarakaning");  
 
 Loader::LoadSystem('addons','Serialize'); 
 

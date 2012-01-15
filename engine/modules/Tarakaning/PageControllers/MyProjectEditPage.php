@@ -2,8 +2,6 @@
 
 Loader::LoadPageController('InfoBasePage'); 
 
-Loader::LoadModel('ProjectsController');
-
 class MyProjectEditPage extends InfoBasePage
 {
 	private $_projectData;

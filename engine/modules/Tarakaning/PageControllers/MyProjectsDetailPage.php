@@ -2,9 +2,10 @@
 
 Loader::LoadPageController('InfoBasePage'); 
 
-Loader::LoadModel('ProjectsModel');  
-Loader::LoadModel('SubscribesModel');
-Loader::LoadModel('ProjectSubscribesDetailENUM');      
+Loader::LoadModel('Subscribes/SubscribesModel');
+Loader::LoadModel('Requests/RequestModel');     
+Loader::LoadModel('Projects/ProjectSubscribesDetailENUM');     
+ 
 
 Loader::LoadControl('TarakaningULListPager');  
 Loader::LoadSystem('controls','Orderer/Orderer');
@@ -65,8 +66,7 @@ class MyProjectsDetailPage extends InfoBasePage
 			$this->navigate('/my/projects/');
 		}
 		
-		$projectID=$this->_projectData['PROJ_ID'];
-		
+		$projectID=$this->_projectData['ProjectID'];
 		$this->_subscribesCount=$this->_subscribes->getProjectSubscribesCount($projectID);
 		
 		$this->_isOwner=$this->isProjectOwner();
@@ -104,7 +104,6 @@ class MyProjectsDetailPage extends InfoBasePage
 		$this->_smarty->assign('PROJECT_SUBSCRIBES_REQUEST',$this->_subscribesRequestData);
 		$this->_smarty->assign('PROJECT_SUBSCRIBES_REQUEST_PAGINATOR',$this->_subscribesRequestPaginator!=null?$this->_subscribesRequestPaginator->getHTML():null);
 		$this->_smarty->assign('PROJECT_SUBSCRIBES_ORDERER',$this->_subscribesRequestOrderer!=null?$this->_subscribesRequestOrderer->getNewUrls():null);
-		
 		$this->_smarty->assign('IS_OWNER',$this->_isOwner);
 		
 		$this->_smarty->assign('COUNT_SUBSCRIBES',$this->_subscribesCount);
@@ -134,7 +133,7 @@ class MyProjectsDetailPage extends InfoBasePage
 	private function commitSelectedRequests()
 	{
 		$checkboxes=$this->request->getPost("sub_i");
-		$subscribesOperation=new ProjectsModel();
+		$subscribesOperation=new RequestModel();
 		$subscribesOperation->acceptRequest(
 			Serialize::SerializeForStoredProcedure($checkboxes), 
 			$this->_userInfo['USER_ID'],

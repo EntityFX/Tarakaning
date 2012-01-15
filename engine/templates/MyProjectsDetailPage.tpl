@@ -110,7 +110,7 @@
 					<tbody> 
 					{foreach name=projectSubscribes from=$PROJECT_SUBSCRIBES_REQUEST item=element} {* Выводит мои проекты*}
 						<tr class="{if $smarty.foreach.projectUsers.index % 2 == 0}odd{else}even{/if}"> 
-							<td><input name="sub_i[{$element.ID}]" type="checkbox" /></td> 
+							<td><input name="sub_i[{$element.SubscribeRequestID}]" type="checkbox" /></td> 
 							<td>{if $element.Owner eq 1}<strong><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a></strong>&nbsp;<sup style="font-size: 10px; color: red;">(владелец)</sup>{else}<a href="/profile/show/{$element.UserID}/">{$element.NickName}</a>{/if}</td> 
 							<td>{$element.RequestTime}</td> 
 						</tr> 
