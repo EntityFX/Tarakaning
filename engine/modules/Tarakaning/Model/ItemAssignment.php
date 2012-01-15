@@ -1,6 +1,6 @@
 <?php
 
-class ReportsAssigment extends DBConnector
+class ItemAssignment extends DBConnector
 {
     private $_errorReportID;
     

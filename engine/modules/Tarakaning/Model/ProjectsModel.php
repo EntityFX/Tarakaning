@@ -1,9 +1,4 @@
 <?php 
-
-Loader::LoadModel('ProjectFieldsUsersInfoENUM');
-Loader::LoadModel('MyProjectsFieldsENUM');  
-
-Loader::LoadSystem('addons','Serialize'); 
 	
 	/**
 	 * Класс управления проектами.

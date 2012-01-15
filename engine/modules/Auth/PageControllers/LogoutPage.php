@@ -1,5 +1,5 @@
 <?php
-class LogoutPage extends SinglePage
+class LogoutPage extends SinglePageController
 {
 	protected function onInit()
 	{

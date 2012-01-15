@@ -172,6 +172,11 @@ require_once 'Zend/Controller/Response/Http.php';
 			$str.="domain=".$cookie->getDomain();
 			$this->response->setHeader("Set-Cookie", $str);
 		}
+        
+        public function getModulePath()
+        {
+            return SOURCE_PATH."engine/modules/".$this->_moduleName.'/';
+        }
 		
 		/**
 		 * 

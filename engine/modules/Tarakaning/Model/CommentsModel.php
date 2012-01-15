@@ -2,7 +2,7 @@
 
 Loader::LoadModel('ProjectsModel');   
 Loader::LoadModel('ItemCommentsENUM'); 
-Loader::LoadModel('RequestsController');  
+Loader::LoadModel('RequestModel');  
 
 Loader::LoadSystem('addons','Serialize');
 
@@ -45,7 +45,7 @@ class CommentsModel extends DBConnector
 			$p = new ProjectsModel();
 			if($p->isProjectExists($projectID))
 			{	
-				$r = new RequestsController();
+				$r = new RequestModel();
 				$userID = (int)$userID;
 				if ($r->isSubscribed($userID, $projectID) || $p->isOwner($userID, $projectID)) 
 				{
@@ -98,7 +98,7 @@ class CommentsModel extends DBConnector
 			{
 				if ($this->isCommentExist($commentID))
 				{
-					$r = new RequestsController();
+					$r = new RequestModel();
 					if ($r->isSubscribed($userID, $projectID))  
 					{
 						if ($this->isCommentOwner($commentID, $userID, $projectID))
@@ -163,7 +163,7 @@ class CommentsModel extends DBConnector
 			$p = new ProjectsModel();
 			if($p->isProjectExists($projectID))
 			{
-				$r = new RequestsController();
+				$r = new RequestModel();
 				if ($r->isSubscribed($userID, $projectID))  
 				{
 					//$this->_sql->query("");  			какой запрос тут надо????
@@ -195,7 +195,7 @@ class CommentsModel extends DBConnector
 			$p = new ProjectsModel();
 			if($p->isProjectExists($projectID))
 			{
-				$r = new RequestsController();
+				$r = new RequestModel();
 				if ($r->isSubscribed($userID, $projectID) || $p->isOwner($userID, $projectID))  
 				{
 					$this->_sql->setLimit($page, $size);

@@ -1,6 +1,5 @@
 <?php
-
-Loader::LoadModel('ProjectsModel');  
+ 
 Loader::LoadModel('UserAuth','Auth');   
     
 class ConcreteUser extends UserAuth

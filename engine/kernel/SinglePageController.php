@@ -4,7 +4,7 @@
 	
 	require_once 'SmartyExst.php';
 
-	abstract class SinglePage extends URLBase
+	abstract class SinglePageController extends URLBase
 	{
 		
 		/**

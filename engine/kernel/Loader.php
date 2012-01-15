@@ -100,5 +100,10 @@ class Loader
     {
         self::$_modulePath=$modulePath; 
     }
+    
+    public static function getModulePath()
+    {
+        return self::$_modulePath;
+    }
 }
 ?>
