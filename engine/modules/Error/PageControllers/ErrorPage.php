@@ -1,8 +1,8 @@
 <?php
 
-require_once SOURCE_PATH.'engine/kernel/HTMLPage.php';
+require_once SOURCE_PATH.'engine/kernel/HTMLPageController.php';
 
-class ErrorPage extends HTMLPage
+class ErrorPage extends HTMLPageController
 {
 	protected function doAssign()
 	{

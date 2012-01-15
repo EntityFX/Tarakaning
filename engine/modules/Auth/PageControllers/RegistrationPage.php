@@ -1,8 +1,8 @@
 <?php
-require_once SOURCE_PATH.'engine/kernel/HTMLPage.php';
+require_once SOURCE_PATH.'engine/kernel/HTMLPageController.php';
 require_once 'Zend/Captcha/Image.php';
 
-	class RegistrationPage extends HTMLPage
+	class RegistrationPage extends HTMLPageController
 	{
 		private $_captchaImage;
 		

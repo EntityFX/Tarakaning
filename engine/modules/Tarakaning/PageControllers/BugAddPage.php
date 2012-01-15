@@ -4,7 +4,8 @@ Loader::LoadPageController('InfoBasePage');
 
 Loader::LoadModel('Items/ItemsModel');
 Loader::LoadModel('Items/ItemsFacade');   
-Loader::LoadModel('Items/ItemsHistoryModel');   
+Loader::LoadModel('Items/ItemsHistoryModel');
+Loader::LoadModel('Requests/RequestModel'); 
 
 class BugAddPage extends InfoBasePage
 {
