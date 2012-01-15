@@ -74,7 +74,7 @@ class UserAuth extends DBConnector
 	{
 		$uC=new UsersOperation();
 		$newPassHash=$uC->changePassword($this->_authNamespace->data[self::$authTableName]["USER_ID"], $oldPassword, $newPassword);
-		$this->_authNamespace[self::$authTableName]->data["PASSW_HASH"]=$newPassHash;
+		$this->_authNamespace->data[self::$authTableName]["PASSW_HASH"]=$newPassHash;
 	}
 
 	public function changeData($name,$surname,$secondName,$email)

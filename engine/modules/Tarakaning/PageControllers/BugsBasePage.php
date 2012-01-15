@@ -1,8 +1,19 @@
 <?php
 
 Loader::LoadPageController('InfoBasePage');
-  
+
+Loader::LoadModel('ProjectsModel');  
 Loader::LoadModel('ItemsModel');
+Loader::LoadModel('ErrorStatusENUM');  
+Loader::LoadModel('ErrorPriorityENUM');  
+Loader::LoadModel('ErrorTypeENUM');  
+Loader::LoadModel('UsersController');  
+Loader::LoadModel('RequestModel');  
+Loader::LoadModel('ItemAssignment');  
+Loader::LoadModel('ErrorFieldsENUM');  
+Loader::LoadModel('ItemKindENUM');  
+Loader::LoadModel('ItemDBKindENUM');  
+Loader::LoadModel('ConcreteUser'); 
 
 Loader::LoadControl('TarakaningULListPager');  
 Loader::LoadSystem('controls','Orderer/Orderer');

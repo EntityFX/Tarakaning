@@ -1,10 +1,10 @@
 <?php
 
-	require_once 'SinglePage.php';
+	require_once 'SinglePageController.php';
 	
 	require_once 'Zend/Json.php';
 
-	abstract class JSONPage extends SinglePage
+	abstract class JSONPage extends SinglePageController
 	{
 		
 		private $_jsonOutput;

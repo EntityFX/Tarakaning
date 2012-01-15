@@ -1,8 +1,9 @@
 <?
-require_once SOURCE_PATH.'engine/modules/Auth/AuthCheckerControllerAbstract.php';
 
-    class ProfileController extends AuthCheckerControllerAbstract
-	{
-		
-	}
+Loader::LoadModuleController('AuthCheckerControllerAbstract','Auth');
+
+class ProfileController extends AuthCheckerControllerAbstract
+{
+	
+}
 ?>

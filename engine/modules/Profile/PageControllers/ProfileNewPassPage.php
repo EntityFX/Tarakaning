@@ -1,8 +1,8 @@
 <?php
-require_once SOURCE_PATH.'engine/modules/Auth/Logic/UsersOperation.php';
-require_once SOURCE_PATH.'engine/modules/Auth/Logic/UserAuth.php';
+Loader::LoadModel('UsersOperation','Auth');
+//require_once SOURCE_PATH.'engine/modules/Auth/Logic/UserAuth.php';
 
-class ProfileNewPassPage extends SinglePage
+class ProfileNewPassPage extends SinglePageController
 {	
 	protected function onInit()
 	{

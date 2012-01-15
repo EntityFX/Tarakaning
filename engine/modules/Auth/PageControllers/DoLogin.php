@@ -1,7 +1,7 @@
 <?php
-require_once SOURCE_PATH.'engine/modules/Auth/Logic/UserAuth.php';
+Loader::LoadModel('UserAuth');
 
-class DoLogin extends SinglePage
+class DoLogin extends SinglePageController
 {
 	const MY_PROJECTS_URL='/my/projects/';
 	const LOGIN_URL='/login/';

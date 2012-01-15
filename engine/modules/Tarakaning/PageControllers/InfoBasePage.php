@@ -1,9 +1,13 @@
 <?php
-require_once SOURCE_PATH.'engine/kernel/HTMLPage.php';
+require_once SOURCE_PATH.'engine/kernel/HTMLPageController.php';
 
-Loader::LoadModel('ProjectsModel');
+Loader::LoadModel('ProjectsModel',"Tarakaning");
+Loader::LoadModel('ProjectFieldsUsersInfoENUM',"Tarakaning");
+Loader::LoadModel('MyProjectsFieldsENUM',"Tarakaning");  
 
-class InfoBasePage extends HTMLPage
+Loader::LoadSystem('addons','Serialize'); 
+
+class InfoBasePage extends HTMLPageController
 {
 	protected $_userInfo;
 	/**

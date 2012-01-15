@@ -1,10 +1,10 @@
 <?php
 
-	require_once 'SinglePage.php';
+	require_once 'SinglePageController.php';
 	
 	require_once 'SmartyExst.php';
 
-	abstract class HTMLPage extends SinglePage
+	abstract class HTMLPageController extends SinglePageController
 	{
 		
 		/**

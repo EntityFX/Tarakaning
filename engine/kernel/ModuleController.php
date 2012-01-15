@@ -3,7 +3,7 @@ require_once 'IPageController.php';
 
 require_once 'URLBase.php';
 
-require_once 'SinglePage.php';
+require_once 'SinglePageController.php';
 
 require_once 'Error.php';
 
