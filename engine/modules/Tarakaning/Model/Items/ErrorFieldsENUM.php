@@ -13,7 +13,7 @@ Loader::LoadSystem('AEnum');
         const TITLE                 = "Title";
         const PRIORITY              = "PriorityLevel";
         const TYPE                  = "ErrorType";
-        const TIME                  = "Time";
+        const TIME                  = "CreateDateTime";
         
         public function __construct($value=self::ID)
         {
