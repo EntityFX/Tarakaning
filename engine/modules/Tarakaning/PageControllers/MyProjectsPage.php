@@ -37,11 +37,11 @@ class MyProjectsPage extends InfoBasePage
 		parent::onInit();
 		$this->_userData=$this->_controller->auth->getName();
 		
-		$this->_myProjectsPaginator=new TarakaningULListPager($this->_projectsController->countUserProjectsInfo($userData["UserID"]),'myPage');
+		$this->_myProjectsPaginator=new TarakaningULListPager($this->_projectsController->countUserProjectsInfo($this->_userData["USER_ID"]),'myPage');
 		$this->_myProjectsPaginator->setIDTag('my_project');
 		$this->_myProjectsOrderer=new Orderer(new MyProjectsFieldsENUM());
 		
-		$this->_memberProjectsPaginator=new TarakaningULListPager($this->_projectsController->countMemberProjects($userData["UserID"]),'memberPage');
+		$this->_memberProjectsPaginator=new TarakaningULListPager($this->_projectsController->countMemberProjects($this->_userData["USER_ID"]),'memberPage');
 		$this->_memberProjectsPaginator->setIDTag('all_projects');
 		$this->_memberProjectsOrderer=new Orderer(new MyProjectsFieldsENUM());
 
@@ -76,7 +76,7 @@ class MyProjectsPage extends InfoBasePage
 		parent::doAssign();
 		$this->_smarty->assign("MY_PROJECTS",$this->_projectsData);
 		$this->_smarty->assign("PROJECTS_WITHOUT_ME",$this->_projectsWithoutMeData);
-		
+
 		$this->_smarty->assign("MY_PROJECTS_PAGINATOR",$this->_myProjectsPaginator->getHTML());
 		$this->_smarty->assign("MY_PROJECTS_ORDERER",$this->_myProjectsOrderer->getNewUrls());
 		

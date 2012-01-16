@@ -89,7 +89,14 @@ class UserAuth extends DBConnector
 		$this->_sql->selAllWhere(self::$authTableName,"USER_ID='".$this->_authNamespace->data[self::$authTableName]["USER_ID"]."'");
 		$res=$this->_sql->getTable();
 		$res=$res[0];
-		if ($res!=NULL) $this->_authNamespace->data[self::$authTableName]=$res;
+		if ($res!=NULL) 
+        {
+            $enterData=$this->_authNamespace->data[self::$authTableName]['EnterTime'];
+            $selectedProject=$this->_authNamespace->data[self::$authTableName]['SelectedProject'];
+            $this->_authNamespace->data[self::$authTableName]=$res;
+            $this->_authNamespace->data[self::$authTableName]['EnterTime']=$enterData;
+            $this->_authNamespace->data[self::$authTableName]['SelectedProject']=$selectedProject;
+        }
 	}
 
 	public function checkUserType($type)

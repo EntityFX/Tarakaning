@@ -30,7 +30,7 @@
 					<thead> 
 						<tr>
 						  <th><input name="del" type="checkbox" /></th>
-						  <th><a href="{$MY_PROJECTS_ORDERER.ProjectName.url}" {if $MY_PROJECTS_ORDERER.Name.order eq true}class="sort"{/if}>Проект</a></th>
+						  <th><a href="{$MY_PROJECTS_ORDERER.ProjectName.url}" {if $MY_PROJECTS_ORDERER.ProjectName.order eq true}class="sort"{/if}>Проект</a></th>
 						  <th><a href="{$MY_PROJECTS_ORDERER.Description.url}" {if $MY_PROJECTS_ORDERER.Description.order eq true}class="sort"{/if}>Заголовок</a></th>
 						  <th colspan="5">Отчётов</th>
 						  <th><a href="{$MY_PROJECTS_ORDERER.CountSubscribeRequests.url}" {if $MY_PROJECTS_ORDERER.CountSubscribeRequests.order eq true}class="sort"{/if}>Заявки</a></th>
@@ -73,7 +73,7 @@
 						<th><a href="{$MEMBER_PROJECTS_ORDERER.Description.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.Description.order eq true}class="sort"{/if}>Описание</a></th>
 						<th><a href="{$MEMBER_PROJECTS_ORDERER.OwnerNickName.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.OwnerNickName.order eq true}class="sort"{/if}>Владелец</a></th>
 						<th colspan="5">Отчётов</th>
-                        <th><a href="{$MEMBER_PROJECTS_ORDERER.CountUsers.url}" {if $MEMBER_PROJECTS_ORDERER.CountUsers.order eq true}class="sort"{/if}>Участников</a></th>   
+                        <th><a href="{$MEMBER_PROJECTS_ORDERER.CountUsers.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.CountUsers.order eq true}class="sort"{/if}>Участников</a></th>   
 						<th><a href="{$MEMBER_PROJECTS_ORDERER.CreateDateTime.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.CreateDateTime.order eq true}class="sort"{/if}>Дата</a></th>
 					</tr>
 				</thead> 

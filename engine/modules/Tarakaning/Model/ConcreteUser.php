@@ -55,7 +55,7 @@ class ConcreteUser extends UserAuth
         $pContr=new ProjectsModel();
         if ($pContr->isProjectExists($projectID))
         {
-            $u=new ProjectsModel();
+            $u=new RequestModel();
             if ($u->isSubscribed($this->id,$projectID) || $pContr->getOwnerID($projectID)==$this->id)
             {
                 $this->_sql->update(

@@ -1,5 +1,7 @@
 <?php
 
+Loader::LoadModel('UsersOperation','Auth');
+
 Loader::LoadPageController('InfoBasePage','Tarakaning');  
 
 class ProfileEditPage extends InfoBasePage

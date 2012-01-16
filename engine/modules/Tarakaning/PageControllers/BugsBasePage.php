@@ -36,9 +36,10 @@ abstract class BugsBasePage extends InfoBasePage
 		
 		$this->_projectSelectionFlag=true;
 		
-		$kind=$this->request->getParam("item_kind",ItemKindENUM::ALL);
-		$this->_itemKindENUM=new ItemKindENUM($kind);
-		
+		$itemKindGet=$this->request->getParam("item_kind",ItemKindENUM::ALL);
+
+		$this->_itemKindENUM=new ItemKindENUM($itemKindGet);
+        
 		if ($this->_projectsList!=null)
 		{
 			$projectExists=$this->_projectsController->isProjectExists($this->_currentProjectID);

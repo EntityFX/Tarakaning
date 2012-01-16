@@ -22,7 +22,7 @@
 							<th><a href="{$MY_BUGS_ORDERER.Title.url}" {if $MY_BUGS_ORDERER.Title.order eq true}class="sort"{/if}>Заголовок</a></th>
 							<th><a href="{$MY_BUGS_ORDERER.AssignedNickName.url}" {if $MY_BUGS_ORDERER.AssignedNickName.order eq true}class="sort"{/if}>Назначена</a></th>
 							<th><a href="{$MY_BUGS_ORDERER.PriorityLevel.url}" {if $MY_BUGS_ORDERER.PriorityLevel.order eq true}class="sort"{/if}>Приоритет</a></th>
-							<th style="width: 180px;"><a href="{$MY_BUGS_ORDERER.Time.url}" {if $MY_BUGS_ORDERER.Time.order eq true}class="sort"{/if}>Дата</a></th>
+							<th style="width: 180px;"><a href="{$MY_BUGS_ORDERER.CreateDateTime.url}" {if $MY_BUGS_ORDERER.CreateDateTime.order eq true}class="sort"{/if}>Дата</a></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -35,7 +35,7 @@
 							<td>{$element.Title}</td>
 							<td>{if $element.AssignedTo neq null}<a href="/profile/show/{$element.AssignedTo}/">{$element.AssignedNickName}</a>{/if}</td>
 							<td>{$element.PriorityLevelN}</td>
-							<td>{$element.Time}</td>
+							<td>{$element.CreateDateTime}</td>
 						</tr>
 					{/foreach}
 					</tbody>
