@@ -1,8 +1,10 @@
 <?php
-require_once SOURCE_PATH.'engine/modules/Auth/Logic/UsersOperation.php';
+
 require_once 'Zend/Captcha/Image.php';
 
-	class DoRegistration extends SinglePage
+Loader::LoadModel('UsersOperation','Auth');
+
+	class DoRegistration extends SinglePageController
 	{
 		protected function onInit()
 		{
