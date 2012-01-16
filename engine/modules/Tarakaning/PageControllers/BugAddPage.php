@@ -7,7 +7,7 @@ Loader::LoadModel('Requests/RequestModel');
 Loader::LoadModel('Items/ItemDBKindENUM'); 
 Loader::LoadModel('Items/ErrorPriorityENUM'); 
 Loader::LoadModel('Items/ErrorStatusENUM'); 
-Loader::LoadModel('Items/ErrorTypeEnum'); 
+Loader::LoadModel('Items/ErrorTypeENUM'); 
 Loader::LoadModel('Items/ItemsModel');
 Loader::LoadModel('Items/ItemsFacade');
 
