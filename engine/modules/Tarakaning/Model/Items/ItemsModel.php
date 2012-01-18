@@ -478,6 +478,32 @@ class ItemsModel extends DBConnector
         return $arr[0];
     }
     
+    public function getPreviousItemID($itemID,$projectID=null)
+    {
+        $projectID=$projectID==null?$this->_projectOwnerID:(int)$projectID; 
+        $itemID=(int)$itemID; 
+        $this->_sql->setLimit(0,1);
+        $this->_sql->setOrder(new ItemTableFieldsENUM(), new MySQLOrderENUM(MySQLOrderENUM::DESC));
+        $this->_sql->selFieldsWhere(self::TABLE_ITEM,"ITEM_ID < $itemID AND PROJ_ID = $projectID","ITEM_ID");
+        $this->_sql->clearOrder();
+        $this->_sql->clearLimit();
+        $result=$this->_sql->getTable();
+        return (int)$result[0]["ITEM_ID"];
+    }
+    
+    public function getNextItemID($itemID,$projectID=null)
+    {
+        $projectID=$projectID==null?$this->_projectOwnerID:(int)$projectID; 
+        $itemID=(int)$itemID; 
+        $this->_sql->setLimit(0,1);
+        $this->_sql->setOrder(new ItemTableFieldsENUM(), new MySQLOrderENUM(MySQLOrderENUM::ASC));
+        $this->_sql->selFieldsWhere(self::TABLE_ITEM,"ITEM_ID > $itemID AND PROJ_ID = $projectID","ITEM_ID");
+        $this->_sql->clearOrder();
+        $this->_sql->clearLimit();
+        $result=$this->_sql->getTable();
+        return (int)$result[0]["ITEM_ID"];
+    }
+    
     private function chekProjectOwnerOrReportOwner($reportID)
     {
         $id=(int)$id;

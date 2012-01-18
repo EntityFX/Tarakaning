@@ -10,7 +10,8 @@ Loader::LoadModel('Items/ItemCommentsENUM');
 Loader::LoadModel('Items/ErrorPriorityENUM');    
 Loader::LoadModel('Items/ItemKindENUM');    
 Loader::LoadModel('Items/ErrorTypeENUM');    
-Loader::LoadModel('Items/ErrorStatusENUM');    
+Loader::LoadModel('Items/ErrorStatusENUM');
+Loader::LoadModel('Items/ItemTableFieldsENUM');
 Loader::LoadModel('Requests/RequestModel');  
 
 Loader::LoadSystem('addons','Serialize');     
@@ -45,6 +46,10 @@ class BugPage extends InfoBasePage
 	private $_projectUsersList;
 	
 	private $_bugsOperation;
+    
+    private $_previousItemID;
+    
+    private $_nextItemID;
 	
 	protected function onInit()
 	{
@@ -59,6 +64,10 @@ class BugPage extends InfoBasePage
 		if (isset($this->_parameters[0]) && $this->_parameters[0]!=='')
 		{
 			$this->_bugData=$this->_bugsOperation->getReport($this->_parameters[0]);
+            $itemProjectID=(int)$this->_bugData['ProjectID'];
+            $itemID=(int)$this->_bugData["ID"];
+            $this->_previousItemID=$this->_bugsOperation->getPreviousItemID($itemID,$itemProjectID);
+            $this->_nextItemID=$this->_bugsOperation->getNextItemID($itemID,$itemProjectID);
             $this->_canEditData=$this->_bugsOperation->canEditData($this->_parameters[0],$this->_bugData['ProjectID']);
 			if (!$this->_canEditData && $this->_bugData["Status"]==ErrorStatusENUM::CLOSED)
 			{
@@ -162,6 +171,9 @@ class BugPage extends InfoBasePage
 		{
 		    $this->_bugData['Title']=htmlspecialchars($this->_bugData['Title']);
             $this->_smarty->assign("BUG",$this->_bugData);
+            
+            $this->_smarty->assign('ITEM_PREV_ID',$this->_previousItemID);
+            $this->_smarty->assign('ITEM_NEXT_ID',$this->_nextItemID);
 			
 			$this->_smarty->assign("USERS_ASSIGN_TO",$this->_projectUsersList);
 			

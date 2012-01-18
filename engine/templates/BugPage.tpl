@@ -2,7 +2,9 @@
 
 {block name=script}
 {literal}
-		$('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
+		$("a.button").button();
+        
+        $('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
 		$('#del').click(function(){
 			return confirm('Вы действительно желаете удалить выбранные комментарии?');
 		});
@@ -31,7 +33,12 @@
 				{if $CAN_EDIT_DATA eq TRUE}
 					<form action="" method="post">
 						<div class="add_form">
-							<div id="hdr">{$BUG.KindN} <strong>№ {$BUG.ID}</strong></div>
+							<div id="hdr">{$BUG.KindN} <strong>№ {$BUG.ID}</strong>
+                                {if $ITEM_PREV_ID neq NULL}<a class="button" href="/bug/show/{$ITEM_PREV_ID}"><</a>{/if}
+                                {if $ITEM_NEXT_ID neq NULL}<a class="button" href="/bug/show/{$ITEM_NEXT_ID}">></a>{/if}
+                                <a class="button" href="/bug/add/" title="Новая задача">*</a>
+                                <a class="button" href="#" title="Удалить задачу">x</a>
+                            </div>
 							{if $ERROR neq ""}<strong class="error" id="error">{$ERROR}</strong>{/if}
 							<dl>
 								<dt>№</dt><dd>{$BUG.ID}</dd>
