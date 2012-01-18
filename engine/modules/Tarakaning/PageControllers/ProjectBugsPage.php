@@ -19,8 +19,8 @@ class ProjectBugsPage extends BugsBasePage
 	
 	protected function initializeGeneralBugsData()
 	{
-		$count=$this->_bugsOperation->countReportsByProject($this->_currentProjectID,$this->_itemKindENUM);
-		if ($count!=null)
+        $count=$this->_bugsOperation->countReportsByProject($this->_currentProjectID,$this->_itemKindENUM);
+        if ($count!=null)
 		{
 			$this->_paginator=new TarakaningULListPager($count);
 			$this->_orderer=new Orderer(new ErrorFieldsENUM());
