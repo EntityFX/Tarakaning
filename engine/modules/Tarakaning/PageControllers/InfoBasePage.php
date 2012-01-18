@@ -57,6 +57,10 @@ class InfoBasePage extends HTMLPageController
 					$this->_currentProjectID=$this->_concreteUser->getCurrentProject();
 				}
 			}
+            else
+            {
+                $this->_concreteUser->setCurrentProject($this->_projectsList[0]['ProjectID']);
+            }
 		}
 	}
 	
