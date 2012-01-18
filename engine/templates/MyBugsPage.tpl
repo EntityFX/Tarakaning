@@ -78,7 +78,7 @@
 							<td>{$element.Title}</td>
 							<td>{if $element.AssignedTo neq null}<a href="/profile/show/{$element.AssignedTo}/">{$element.AssignedNickName}</a>{/if}</td>
 							<td>{$element.PriorityLevelN}</td>
-							<td>{$element.Time}</td>
+							<td>{$element.CreateDateTime}</td>
 						</tr>
 					{/foreach}
 					</tbody>
