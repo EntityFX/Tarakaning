@@ -251,7 +251,7 @@
 		}
 		
 		public function searchProjectsUsingLikeCount($userID,$query)
-		{
+		{                      
 		    $query=addslashes($query);
             return $this->_sql->countQuery(self::TABLE_PROJ,"`PROJ_NM` LIKE '%$query%' OR DESCR LIKE '%$query%'");
 		}
@@ -271,17 +271,17 @@
                                 U.NICK AS NickName
 							FROM 
 							    %5$s P
-							LEFT JOIN USER_IN_PROJ UP ON
-							    P.PROJ_ID=UP.PROJ_ID AND UP.USER_ID=%1$d
-                            LEFT JOIN USER U
-                                ON U.USER_ID=P.USER_ID
+							    LEFT JOIN USER_IN_PROJ UP 
+                                    ON P.PROJ_ID=UP.PROJ_ID AND UP.USER_ID=%1$d
+                                LEFT JOIN USER U
+                                    ON U.USER_ID=P.USER_ID
 							WHERE 
 							    PROJ_NM LIKE \'%%%2$s%%\' OR DESCR LIKE \'%%%2$s%%\'
 							LIMIT %3$d,%4$d'
 					,$userID,$query,$paginator->getOffset(),$paginator->getSize(),self::TABLE_PROJ);
 			$this->_sql->query($query);
 			return $this->_sql->GetRows();
-		}
+		}                                                                                     
 		
 		public function getUserProjectsInfo($userId,MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction,$page=1,$size=10)
 		{

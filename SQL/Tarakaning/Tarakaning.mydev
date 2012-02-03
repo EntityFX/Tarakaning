@@ -21,6 +21,7 @@
     <File RelPath="tables" Link="..\database\tables\RPT_USER_HNDL.sql" />
     <File RelPath="tables" Link="..\database\tables\SUBSCR_RQST.sql" />
     <File RelPath="tables" Link="..\database\tables\USER.sql" />
+    <File RelPath="tables" Link="..\database\tables\USER_ACTIV.sql" />
     <File RelPath="tables" Link="..\database\tables\USER_IN_PROJ.sql" />
     <File RelPath="views" Link="..\database\views\view_AllUserProjects.sql" />
     <File RelPath="views" Link="..\database\views\view_CommentsDetail.sql" />
@@ -74,6 +75,7 @@
         <File RelPath="stored_procedures" Name="EditItem.sql" BuildAction="Build" />
         <File RelPath="stored_procedures" Name="DeleteCommentsFromList.sql" BuildAction="Build" />
         <File RelPath="stored_procedures" Name="AcceptRequest.sql" BuildAction="Build" />
+        <File RelPath="tables" Name="USER_ACTIV.sql" BuildAction="Build" />
       </Build>
     </Configuration>
   </Configurations>
