@@ -97,7 +97,7 @@
 								<dt><label for="title">Заголовок</label></dt><dd><input type="text" id="title" name="title" value="{$BUG.Title}" disabled="disabled" /></dd>
 								<dt>Проект</dt><dd>{$BUG.ProjectName}</dd>
 								<dt>Владелец</dt><dd><a href="/profile/show/{$BUG.UserID}/">{$BUG.NickName}</a></dd>
-								<dt>Дата создания</dt><dd>{$BUG.Time}</dd>
+								<dt>Дата создания</dt><dd>{$BUG.CreateDateTime}</dd>
 								<dt>Тип</dt><dd>{$BUG.KindN}</dd>
 								<dt><label style="padding: 2px;">Статус</label></dt>
 								{if $CAN_EDIT_STATUS neq true}
