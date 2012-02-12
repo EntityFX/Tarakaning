@@ -167,11 +167,10 @@ class BugPage extends InfoBasePage
 	protected function doAssign()
 	{
 		parent::doAssign();
-		if ($this->_bugData!=null)
+		if ($this->_bugData!=null)  //item data information
 		{
 		    $this->_bugData['Title']=htmlspecialchars($this->_bugData['Title']);
             $this->_smarty->assign("BUG",$this->_bugData);
-            
             $this->_smarty->assign('ITEM_PREV_ID',$this->_previousItemID);
             $this->_smarty->assign('ITEM_NEXT_ID',$this->_nextItemID);
 			
@@ -245,7 +244,7 @@ class BugPage extends InfoBasePage
 	
 	private function editState()
 	{
-		$postData=$this->request->getPost();
+        $postData=$this->request->getPost();
 		$stateEnum=new ErrorStatusENUM($postData['state']);
 		$itemsFacade=new ItemsFacade(
 			$this->_bugsOperation, 

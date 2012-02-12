@@ -163,7 +163,7 @@ class ItemsModel extends DBConnector
 		$report=$this->getReportByID($reportID);
 		if ($report!=null)
 		{
-			$currentStatusValue=$report["Status"];
+            $currentStatusValue=$report["Status"];
             $statusesArray=$newStatus->getNumberedKeys();
             $currentValueKey=array_search($currentStatusValue,$statusesArray);
             $newValueKey=array_search($newStatusValue, $statusesArray);
@@ -195,7 +195,7 @@ class ItemsModel extends DBConnector
 	                		self::TABLE_ITEM, 
 	                		"ITEM_ID=$reportID", 
 	                		new ArrayObject(array(
-	                			"Status" => $newStatusValue
+	                			"STAT" => $newStatusValue
 	                		))
 	                	);
                 	}
