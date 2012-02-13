@@ -19,8 +19,8 @@ class AuthCheckerControllerAbstract extends ModuleController
 	
 	public $menu=array(
 		array("title" => "Мои проекты", "url" => "/my/projects/", "id" => 62),
-		array("title" => "Задачи проекта", "url" => "/my/project/bugs/", "id" => 87),
-		array("title" => "Мои задачи", "url" => "/my/bugs/", "id" => 63),
+		array("title" => "Элементы проекта", "url" => "/my/project/bugs/", "id" => 87),
+		array("title" => "Мои элементы", "url" => "/my/bugs/", "id" => 63),
 		array("title" => "Мои заявки", "url" => "/requests/", "id" => 79),
 		array("title" => "Поиск", "url" => "/search/", "id" => 76)
 	);

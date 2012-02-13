@@ -12,7 +12,8 @@
 		<link rel="stylesheet" type="text/css" href="/css/style.css" />
 	</head>
 <body>
-<div id="header"> <img id="img_logo" src="/images/logotype.PNG" alt="Tarakaning" />
+<div id="header"> 
+    <img id="img_logo" src="/images/logotype.PNG" alt="Tarakaning" />
 	<div id="logo">
 	<h1>Tarakaning</h1>
 	<span>Багтреккер и управление проектами</span> </div>

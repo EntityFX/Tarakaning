@@ -48,7 +48,7 @@
 		{/if}
 		<form action="" method="post">
 			<div class="add_form">
-				<div id="hdr">Добавление отчёта об ошибке</div>
+				<div id="hdr">Добавление нового элемента</div>
 				<dl>
 					<dt><label for="bug_project_id">Выберите проект</label></dt>
 					<dd>
@@ -99,7 +99,7 @@
 					<dt class="for_defect"><label for="steps">Действия, которые привели к ошибке</label></dt>
 					<dd class="for_defect"><textarea id="steps" name="steps" rows="10" cols="20" >{$DATA.steps}</textarea></dd>
 					<dt>&nbsp;</dt>
-					<dd class="subm"><input type="submit" name="add_report" value="Создать отчёт" /></dd>						
+					<dd class="subm"><input type="submit" name="add_report" value="Создать" /></dd>						
 				</dl>
 			</div>
 		</form>

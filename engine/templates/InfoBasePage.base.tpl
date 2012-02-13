@@ -7,7 +7,7 @@
 				$("#tabs").tabs();
 				$("input:button, input:submit, button, .groupier a, .groupier li span, #exit, #goTask div.panel a").button();	
 				
-
+                $("#item").focus();
 
 				$("#submit_item").click(function(){
 					location.replace("/bug/show/"+$("#item").val()+"/");
@@ -42,12 +42,12 @@
 			<div>
 				<span class="delmiter"></span>
 				{if $PROJECTS.PROJECTS_LIST neq NULL}
-				<a href="/bug/add/" title="Добавить новую задачу">Новая задача</a>
+				<a href="/bug/add/" title="Создать новый дефкт/задачу">Создать элемент</a>
 				{/if}
-				<a href="/my/project/new/" title="Добавить новый проект">Новый проект</a>
+				<a href="/my/project/new/" title="Создать новый проект">Создать проект</a>
 				<span class="delmiter"></span>
 				<label for="item">Переход к № </label>
-				<input type="text" maxlength="10" name="item" id="item" />
+				<input type="text" maxlength="10" name="item" id="item"/>
 				<input type="submit" value="OK" id="submit_item" />
 			</div>
 		</form>
@@ -57,7 +57,7 @@
 	<strong>{$LOGIN}</strong>
 	<a href="/profile/edit/" title="Настройки профиля"><img src="/images/settings.png" alt="настройки" /></a><br/>
 	{*<span>{$FULLNAME}</span><br />*}
-	<span id="enter_time">Вошёл: <span style="color: #aaa">{$TIME}</span></span><br />
+	<span id="enter_time">Вошёл: <span style="color: #555">{$TIME}</span></span><br />
 	<a href="/logout/" id="exit" >Выход</a>
 </div>
 {/block}

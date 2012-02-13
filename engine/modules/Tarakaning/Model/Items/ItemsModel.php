@@ -517,15 +517,16 @@ class ItemsModel extends DBConnector
         $projectID=(int)$projectID;
         $user=$this->_itemOwnerID;
         $isOwnerORAssigned=$this->_sql->countQuery(self::TABLE_ITEM,"ITEM_ID=$reportID AND (USER_ID=$user OR ASSGN_TO=$user)");
-        $pC=new ProjectsModel();
+        $pC=new ProjectsModel();  
         return ($isOwnerORAssigned !=0) || $this->_itemOwnerID==$pC->isOwner($user,$projectID);
     }
     
     public function canEditData($reportID,$projectID)
     {
-        $projectID=(int)$projectID;
+        /*$projectID=(int)$projectID;
         $pC=new ProjectsModel();
-        return $this->_itemOwnerID==$this->getReportOwner($reportID) || $this->_itemOwnerID==$pC->isOwner($this->_itemOwnerID,$projectID);
+        return $this->_itemOwnerID==$this->getReportOwner($reportID) || $this->_itemOwnerID==$pC->isOwner($this->_itemOwnerID,$projectID);*/
+        return $this->canEditStatus($reportID,$projectID);
     }
     
     /**

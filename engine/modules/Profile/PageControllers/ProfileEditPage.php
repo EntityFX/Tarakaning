@@ -1,6 +1,7 @@
 <?php
 
 Loader::LoadModel('UsersOperation','Auth');
+Loader::LoadModel('Requests/RequestModel','Tarakaning');
 
 Loader::LoadPageController('InfoBasePage','Tarakaning');  
 
