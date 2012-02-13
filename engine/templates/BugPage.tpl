@@ -2,7 +2,7 @@
 
 {block name=script}
 {literal}
-		$("a.button").button();
+		$("a.button, span.button").button();
         
         $('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
 		$('#del').click(function(){
@@ -34,10 +34,18 @@
 					<form action="" method="post">
 						<div class="add_form">
 							<div id="hdr">{$BUG.KindN} <strong>№ {$BUG.ID}</strong>
-                                {if $ITEM_PREV_ID neq NULL}<a class="button" href="/bug/show/{$ITEM_PREV_ID}"><</a>{/if}
-                                {if $ITEM_NEXT_ID neq NULL}<a class="button" href="/bug/show/{$ITEM_NEXT_ID}">></a>{/if}
-                                <a class="button" href="/bug/add/" title="Новая задача">*</a>
-                                <a class="button" href="#" title="Удалить задачу">x</a>
+                                {if $ITEM_PREV_ID neq NULL}
+                                    <a class="button" href="/bug/show/{$ITEM_PREV_ID}" title="Предыдущий элемент"><</a>
+                                {else}
+                                    <span class="button ui-button-disabled ui-state-disabled" title="Предыдущий элемент"><</span>
+                                {/if}
+                                {if $ITEM_NEXT_ID neq NULL}
+                                    <a class="button" href="/bug/show/{$ITEM_NEXT_ID}" title="Следующий элемент">></a>
+                                {else}
+                                    <span class="button ui-button-disabled ui-state-disabled" title="Следующий элемент">></span>
+                                {/if}
+                                <a class="button" href="/bug/add/" title="Создать элемент">*</a>
+                                <a class="button" href="#" title="Удалить элемент">x</a>
                             </div>
 							{if $ERROR neq ""}<strong class="error" id="error">{$ERROR}</strong>{/if}
 							<dl>
@@ -90,7 +98,20 @@
 				{else}
 					<form action="" method="post">	
 						<div class="add_form">
-							<div id="hdr">{$BUG.KindN} <strong>№ {$BUG.ID}</strong></div>
+							<div id="hdr">{$BUG.KindN} <strong>№ {$BUG.ID}</strong>
+                                {if $ITEM_PREV_ID neq NULL}
+                                    <a class="button" href="/bug/show/{$ITEM_PREV_ID}" title="Предыдущий элемент"><</a>
+                                {else}
+                                    <span class="button ui-button-disabled ui-state-disabled" title="Предыдущий элемент"><</span>
+                                {/if}
+                                {if $ITEM_NEXT_ID neq NULL}
+                                    <a class="button" href="/bug/show/{$ITEM_NEXT_ID}" title="Следующий элемент">></a>
+                                {else}
+                                    <span class="button ui-button-disabled ui-state-disabled" title="Следующий элемент">></span>
+                                {/if}
+                                <a class="button" href="/bug/add/" title="Создать элемент">*</a>
+                                <span class="button" title="Удалить элемент">x</span>
+                            </div>
 							{if $ERROR neq ""}<strong class="error" id="error">{$ERROR}</strong>{/if}
 							<dl>
 								<dt>№</dt><dd>{$BUG.ID}</dd>

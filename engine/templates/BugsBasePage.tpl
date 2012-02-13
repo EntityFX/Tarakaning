@@ -29,9 +29,6 @@
 					</select>
 				</div>
 			</form>
-			<form action="/bug/add/" method="post"><div>
-				<input type="submit" value="Добавить отчёт" title="Добавить новый отчёт об ошибке" name="add"/>
-			</div></form>
 			{$PROJECT_BUGS_PAGINATOR}
 		</div>
 		<div>
