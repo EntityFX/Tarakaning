@@ -18,9 +18,9 @@
 								<th style="width: 180px;"><a href="{$MY_BUGS_ORDERER.CreateDateTime.url}" {if $MY_BUGS_ORDERER.CreateDateTime.order eq true}class="sort"{/if}>Дата</a></th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody>  
 						{foreach name=myBugs from=$MY_BUGS item=element} {* Выводит мои проекты*}
-							<tr class="{bug_type value=$element.Status}">
+							<tr class="{bug_type value=$element.Status}">    
 							    <td><input name="del_i[{$element.ID}]" type="checkbox" {if ($LOGIN neq $element.NickName) and ($PROJECT_OWNER neq $USER_ID)}disabled="disabled"{/if}/></td>
 								<td><a href="/bug/show/{$element.ID}/" class="sort">{$element.ID}</a></td>
 								<td>{$element.KindN}</td>

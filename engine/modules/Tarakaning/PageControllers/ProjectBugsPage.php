@@ -14,7 +14,7 @@ class ProjectBugsPage extends BugsBasePage
 	{
 		parent::doAssign();
 		$this->_smarty->assign("PROJECT_OWNER",$this->_projectsController->getOwnerID($this->_currentProjectID));
-		$this->_smarty->assign("USER_ID",(int)$this->_userInfo["UserID"]);
+        $this->_smarty->assign("USER_ID",(int)$this->_userInfo["USER_ID"]);
 	}
 	
 	protected function initializeGeneralBugsData()

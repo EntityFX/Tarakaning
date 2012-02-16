@@ -30,6 +30,8 @@ class BugPage extends InfoBasePage
 	private $_userData;
 	
 	private $_commentsPaginator;
+    
+    private $_commentsCount;
 	
 	private $_orderer;
 	
@@ -50,6 +52,7 @@ class BugPage extends InfoBasePage
     private $_previousItemID;
     
     private $_nextItemID;
+    
 	
 	protected function onInit()
 	{
@@ -93,29 +96,10 @@ class BugPage extends InfoBasePage
 			{
 				if ($postData['sendComment']!=null)
 				{
-					try
-					{
-                        $this->_commentsModel->setReportComment(
-							$this->_bugData['ProjectID'], 
-							$this->_userData["USER_ID"], 
-							$this->_bugData['ID'], 
-							$postData['comment']
-						);
-					}
-					catch (Exception $exception)
-					{
-						$error = array(
-							"error" => $exception,
-							"postData" => $postData
-						);
-						$this->_controller->error->addError("addCommentError",$error);
-					}
+                    $this->addComment();
 				}
 			}
-		}
 
-		if ($this->request->isPost())
-		{
 			if ($this->request->getPost("del",null)!=null)
 			{
 				$this->deleteSelectedItems();
@@ -128,11 +112,8 @@ class BugPage extends InfoBasePage
 		
 		if ($this->_bugData!=null)
 		{
-            $this->_commentsPaginator=new TarakaningULListPager(
-				$this->_commentsModel->getReportCommentsCount(				
-					$this->_bugData['ID']
-				)
-			);
+            $this->_commentsCount =  $this->_commentsModel->getReportCommentsCount($this->_bugData['ID']);
+            $this->_commentsPaginator=new TarakaningULListPager($this->_commentsCount);
 			$this->_orderer=new Orderer(new ItemCommentsENUM());
 			$this->_orderData=$this->_orderer->getNewUrls();
 			$this->_commentsPaginator->setIDTag('comments');
@@ -173,13 +154,13 @@ class BugPage extends InfoBasePage
             $this->_smarty->assign("BUG",$this->_bugData);
             $this->_smarty->assign('ITEM_PREV_ID',$this->_previousItemID);
             $this->_smarty->assign('ITEM_NEXT_ID',$this->_nextItemID);
-			
+
 			$this->_smarty->assign("USERS_ASSIGN_TO",$this->_projectUsersList);
-			
-			$this->_smarty->assign("COMMENTS",$this->_commentsData);
+            $this->_smarty->assign("COMMENT_COUNT",$this->_commentsCount);
+            $this->_smarty->assign("COMMENTS",$this->_commentsData);
 			$this->_smarty->assign("COMMENTS_ORDER",$this->_orderData);
 			$this->_smarty->assign("COMMENTS_PAGINATOR",$this->_commentsPaginator->getHTML());
-			
+
 			$this->_smarty->assign("HISTORY",$this->_historyData);
 			
 			$this->_smarty->assign("CAN_EDIT_DATA",$this->_canEditData);
@@ -237,9 +218,10 @@ class BugPage extends InfoBasePage
 	{
 		$checkboxes=$this->request->getPost("del_i");
 		$this->_commentsModel->deleteCommentsFromList(
-			$this->_userData["UserID"],
+			$this->_userData["USER_ID"],
 			$checkboxes
 		);
+        $this->navigate($this->_controller->_url.'#comments'); 
 	}
 	
 	private function editState()
@@ -287,5 +269,28 @@ class BugPage extends InfoBasePage
 			$this->_controller->error->addError("editBugErrorOK",true);
 		}
 	}
+    
+    protected function addComment()
+    {
+        $postData=$this->request->getParams();
+        try
+        {
+            $this->_commentsModel->setReportComment(
+                $this->_bugData['ProjectID'], 
+                $this->_userData["USER_ID"], 
+                $this->_bugData['ID'], 
+                $postData['comment']
+            );
+        }
+        catch (Exception $exception)
+        {
+            $error = array(
+                "error" => $exception,
+                "postData" => $postData
+            );
+            $this->_controller->error->addError("addCommentError",$error);
+        }
+        $this->navigate($this->_controller->_url.'#comments');
+    }
 }
 ?>
