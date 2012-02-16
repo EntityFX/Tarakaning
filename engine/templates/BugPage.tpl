@@ -25,7 +25,7 @@
 		<div id="tabs">
 			<ul>
 				<li><a href="#description"><span>Описание</span></a></li>
-				<li><a href="#comments"><span>Комментарии</span></a></li>
+				<li><a href="#comments"><span>Комментарии ({$COMMENT_COUNT})</span></a></li>
 				<li><a href="#history"><span>История</span></a></li>
 				<li><a href="#attachments"><span>Файлы</span></a></li>
 			</ul>
@@ -231,7 +231,7 @@
 					</thead>
 					<tbody>
 						{foreach name=bugHistory from=$HISTORY item=element} {* Комментарии отчёта *}
-						<tr class="odd"><td><a href="#">{$element.UserID}</a></td><td class="left">{$element.Description}</td><td>{$element.OldTime}</td></tr>
+						<tr class="odd"><td><a href="#">{$element.USER_ID}</a></td><td class="left">{$element.DESCR}</td><td>{$element.OLD_TM}</td></tr>
 						{/foreach}
 					</tbody>
 				</table>

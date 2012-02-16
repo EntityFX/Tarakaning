@@ -52,7 +52,7 @@ class CommentsModel extends DBConnector
                             0,
                             $reportID,
                             $userID,
-                            'NOW( )',
+                            date("Y-m-d H:i:s"),
                             $comment
                         )),
                         new ArrayObject(array(
@@ -134,7 +134,8 @@ class CommentsModel extends DBConnector
 			if ($commentsList!=null)
 	        {
 	        	$commentsListSerialized=Serialize::SerializeForStoredProcedure($commentsList);
-	        	$this->_sql->call(
+	        	var_dump($userID);
+                $this->_sql->call(
 	        		'DeleteCommentsFromList',
 	        		new ArrayObject(array(
 	        			$userID,
