@@ -13,7 +13,7 @@
 					break;
 			}
 		});
-		
+
 		function updateProjectUsers(projectID)
 		{
 			$.getJSON(
@@ -26,12 +26,12 @@
 					$.each(dataResult, function(key,val){
 						usersList+='<option value="' + val.UserID + '">' + val.NickName + '</option>';
 					});
-					
+
 					$("#assigned_to").empty().append(usersList);
 				}
 			);
 		}
-		
+
 		updateProjectUsers($("#bug_project_id").val());
 		$("#bug_project_id").change(function(){
 			var projectID=$(this).val();
@@ -44,7 +44,7 @@
 		{if $ERROR neq ""}
 		<div class="messageBox errorBox">
 			<strong class="error" id="error">{$ERROR}</strong>
-		</div> 
+		</div>
 		{/if}
 		<form action="" method="post">
 			<div class="add_form">
@@ -61,14 +61,14 @@
 					<dt><label for="title">Укажите заголовок</label></dt>
 					<dd><input type="text" id="title" name="title" value="{$DATA.title}" /></dd>
 					<dt><label for="item_type">Вид</label></dt>
-					<dd>									
+					<dd>
 						<select id="item_type" name="item_type" style="font-weight: bold;">
 							<option value="Task">Задача</option>
 							<option value="Defect">Дефект</option>
 						</select>
 					</dd>
 					<dt class="for_defect"><label for="error_type">Тип ошибки</label></dt>
-					<dd class="for_defect">									
+					<dd class="for_defect">
 						<select id="error_type" name="error_type">
 							<option value="Crash">Крах</option>
 							<option value="Cosmetic">Косметическая</option>
@@ -81,7 +81,7 @@
 						</select>
 					</dd>
 					<dt><label for="priority">Приоритет</label></dt>
-					<dd>									
+					<dd>
 						<select id="priority" name="priority">
 							<option value="0">Низкий</option>
 							<option value="1" selected="selected">Обычный</option>
@@ -89,17 +89,19 @@
 						</select>
 					</dd>
 					<dt><label for="assigned_to">Назначено</label></dt>
-					<dd>									
+					<dd>
 						<select id="assigned_to" name="assigned_to">
 							<option value="">-</option>
 						</select>
 					</dd>
+					<dt><label for="hour_req">Требуется на работу</label></dt>
+					<dd><input type="text" id="hour_req" name="hour_req" value="{$DATA.hour_req}" maxlength="5" size="5" class="no100p alignRight" />&nbsp;часов</dd>
 					<dt><label for="description">Описание</label></dt>
 					<dd><textarea id="description" name="description" rows="7" cols="20" >{$DATA.description}</textarea></dd>
 					<dt class="for_defect"><label for="steps">Действия, которые привели к ошибке</label></dt>
 					<dd class="for_defect"><textarea id="steps" name="steps" rows="10" cols="20" >{$DATA.steps}</textarea></dd>
 					<dt>&nbsp;</dt>
-					<dd class="subm"><input type="submit" name="add_report" value="Создать" /></dd>						
+					<dd class="subm"><input type="submit" name="add_report" value="Создать" /></dd>
 				</dl>
 			</div>
 		</form>

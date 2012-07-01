@@ -76,6 +76,10 @@
 										{html_options options=$USERS_ASSIGN_TO selected=$BUG.AssignedTo}
 									</select>
 								</dd>
+								<dt><label for="hour_req">Требуется на работу</label></dt>
+								<dd><input type="text" id="hour_req" name="hour_req" value="{$BUG.HoursRequired}" maxlength="5" size="5" class="no100p alignRight" />&nbsp;часов</dd>
+								<dt><label for="add_hour_fact">Затрачено времени</label></dt>
+								<dd><span>{$BUG.HoursFact}</span>&nbsp;+&nbsp;<input type="text" id="add_hour_fact" name="add_hour_fact" value="0" maxlength="5" size="5" class="no100p alignRight" />&nbsp;часов</dd>
 								{if $BUG.Kind eq Defect}
 								<dt class="for_defect"><label for="error_type">Вид ошибки</label></dt>
 								<dd class="for_defect">									
@@ -144,6 +148,8 @@
 										{html_options options=$USERS_ASSIGN_TO selected=$BUG.AssignedTo}
 									</select>
 								</dd>
+								<dt><label for="hour_req">Требуется на работу</label></dt>
+								<dd><input type="text" id="hour_req" name="hour_req" value="{$BUG.HoursRequired}" maxlength="5" size="5" class="no100p alignRight" disabled="disabled" />&nbsp;часов</dd>
 								{if $BUG.Kind eq Defect}
 								<dt class="for_defect"><label for="error_type">Вид ошибки</label></dt>
 								<dd class="for_defect">									

@@ -41,9 +41,9 @@ class BugAddPage extends InfoBasePage
 					$newItemID=$itemsFacade->addItem(
 						new ItemDBKindENUM($postData['item_type']),
 						new ErrorPriorityENUM($postData['priority']),
-						new ErrorStatusENUM(),
 						new ErrorTypeEnum($postData['error_type']),
 						$postData['title'],
+						$postData['hour_req'],
 						$postData['description'],
 						$postData['steps'],
 						$postData['assigned_to']
