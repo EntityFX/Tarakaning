@@ -1,4 +1,15 @@
-CREATE PROCEDURE EditItem(IN _ItemID INT, IN _Title VARCHAR(255), IN _PriorityLevel VARCHAR(1), IN _StatusValue VARCHAR(50), IN _AssignedTo INT, IN _Description TEXT, IN _DefectType VARCHAR(50), IN _StepsText TEXT)
+DROP PROCEDURE IF EXISTS EditItem;
+CREATE PROCEDURE EditItem(
+	IN _ItemID INT, 
+	IN _Title VARCHAR(255), 
+	IN _PriorityLevel VARCHAR(1), 
+	IN _StatusValue VARCHAR(50), 
+	IN _AssignedTo INT, 
+	IN _HourRequired INT,
+	IN _AddHourFact INT,
+	IN _Description TEXT, 
+	IN _DefectType VARCHAR(50), 
+	IN _StepsText TEXT)
 BEGIN
     DECLARE ItemProjectID INT;
     DECLARE ItemKind VARCHAR(50);
@@ -22,7 +33,9 @@ BEGIN
             PRTY_LVL=_PriorityLevel,
             STAT=_StatusValue,
             DESCR=_Description,
-            ASSGN_TO=_AssignedTo
+            ASSGN_TO=_AssignedTo,
+			HOUR_REQ=_HourRequired,
+			HOUR_FACT=HOUR_FACT+_AddHourFact
         WHERE 
             ITEM_ID=_ItemID;
     

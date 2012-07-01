@@ -1,5 +1,17 @@
 DROP PROCEDURE IF EXISTS AddItem;
-CREATE PROCEDURE AddItem(IN UserID INT, IN ProjectID INT, IN AssignedTo INT, IN PriorityLevel VARCHAR(1), IN StatusValue VARCHAR(50), IN `CreateDateTime` DATETIME, IN Title VARCHAR(255), IN Kind VARCHAR(50), IN Description TEXT, IN ItemType VARCHAR(50), IN StepsText TEXT)
+CREATE PROCEDURE AddItem(
+	IN UserID INT, 
+	IN ProjectID INT, 
+	IN AssignedTo INT, 
+	IN PriorityLevel VARCHAR(1), 
+	IN StatusValue VARCHAR(50), 
+	IN `CreateDateTime` DATETIME, 
+	IN Title VARCHAR(255), 
+	IN Kind VARCHAR(50), 
+	IN HourRequired INT, 
+	IN Description TEXT, 
+	IN ItemType VARCHAR(50), 
+	IN StepsText TEXT)
 BEGIN
     DECLARE LAST_ID INT;
     INSERT INTO ITEM 
@@ -12,7 +24,8 @@ BEGIN
             TITLE,
             KIND,
             DESCR,
-            ASSGN_TO
+            ASSGN_TO,
+			HOUR_REQ
         ) 
         VALUES
         (
@@ -24,7 +37,8 @@ BEGIN
             Title,
             Kind,
             Description,
-            AssignedTo
+            AssignedTo,
+			HourRequired
         );
 
     SET LAST_ID=(SELECT last_insert_id() FROM ITEM LIMIT 0,1);
