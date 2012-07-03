@@ -7,7 +7,7 @@ SELECT
     , P.CRT_TM AS CreateDateTime
     , left(P.DESCR, 25) AS Description
     , IFNULL(PSR.CountRequests,0) AS 'CountSubscribeRequests' 
-    , IFNULL(PUP.CountUsers,0) + (NOT ISNULL(P.USER_ID)) AS 'CountUsers'
+    , IFNULL(PUP.CountUsers,0) AS 'CountUsers'
     , PUP.OwnerNickName AS OwnerNickName
 FROM
     PROJ P
