@@ -231,7 +231,9 @@
 		width: 100%;
 	}
 
-	.add_form input.no100p {		width: auto !important;	}
+	.add_form input.no100p {
+		width: auto !important;
+	}
 
 	.add_form .alignRight {
 		text-align: right;
@@ -265,7 +267,7 @@
 	}
 
 dd.subm {
-	text-align: right;
+	text-align: left;
 	margin-right: 5px !important;
 }
 

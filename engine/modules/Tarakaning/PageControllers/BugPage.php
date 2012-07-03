@@ -273,7 +273,7 @@ class BugPage extends InfoBasePage
 			$this->_bugData["StepsText"]=$postData['steps'];
 			$this->_bugData["AssignedTo"]=$postData['assigned_to'];
 			$this->_bugData["HoursRequired"]=$postData['hour_req'];
-			$this->_bugData["HoursFact"]=$postData['add_hour_fact'];
+			$this->_bugData["HoursFact"]+=$postData['add_hour_fact'];
 			$this->_controller->error->addError("editBugErrorOK",true);
 		}
 	}
