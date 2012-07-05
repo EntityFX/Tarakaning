@@ -3,13 +3,34 @@
 <!-- Modifying this generated file will probably render it invalid -->
 <Options Version="3.0">
   <Documents>
-    <Document Moniker="..\database\tables\USER_ACTIV.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
-    <Document Moniker="..\database\tables\PROJ.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
-    <Document Moniker="Table:Tarakaning2.USER_ACTIV(127.0.0.1)" ActiveView="Data" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" Active="True">
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\tables\PROJ.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="Table:Tarakaning.USER_ACTIV(localhost)" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}">
       <Persist>
         <Pinned>True</Pinned>
       </Persist>
     </Document>
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\tables\USER_ACTIV.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\tables\ITEM.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\migration\1\views\1_view_ItemFullInfo.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" Active="True" />
+    <Document Moniker="Table:Tarakaning.ITEM(localhost)" ActiveView="Design" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}">
+      <Persist>
+        <Pinned>True</Pinned>
+      </Persist>
+    </Document>
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_SubscribesDetails.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_UserInProjectErrorsAndComments.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_ProjectRequestsCounters.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_ProjectAndOwnerNick.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_ErrorCommentsCount.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\migration\1\views\1_view_ProjectCommentsCount.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_ProjectInfoWithoutOwner.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\migration\1\views\1_view_ProjectSubscribeRequests.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\migration\1\stored_procedures\1_AddItem.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\views\view_SubscribesUserNick.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\migration\1\tables\1_ITEM.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\Tarakaning 20120702.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\migration\1\stored_procedures\1_EditItem.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="C:\WebServers\home\tarakaning.ru\www\SQL\database\migration\1\views\1_view_SubscribesUserNick.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
   </Documents>
   <Services>
     <Service GUID="{811fba21-97c2-44b6-8c1c-eae1f1315f2d}">

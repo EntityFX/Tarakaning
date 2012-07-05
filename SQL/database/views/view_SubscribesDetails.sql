@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS view_SubscribesDetails;
 CREATE VIEW view_SubscribesDetails AS SELECT
     SR.SUBSCR_RQST_ID   AS `ID`,
     SR.USER_ID          AS `UserID`,
