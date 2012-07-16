@@ -9,6 +9,7 @@ class TarakaningULListPager extends ULListPager
 	public function __construct($count,$get="page")
 	{
 		parent::__construct($count,$get,self::SIZE,self::PAGINATOR_SIZE);
-		$this->setCurrentStyle('font-weight: bold; color: #a88; border-color: #a80; background: #d5d597 !important;');
+        $this->setCurrentTag('a');
+        $this->setCurrentLiClass('active');
 	}
 }

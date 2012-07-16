@@ -126,8 +126,8 @@
                         </form>
                     </div>
                     <div class="divider"></div>
-                    <a class="btn" href="">Создать элемент</a>
-                    <a class="btn" href="">Создать проект</a>
+                    <a class="btn btn-primary" href="">Создать элемент</a>
+                    <a class="btn btn-primary" href="">Создать проект</a>
                     <div class="divider"></div>
                     <div class="btn-group">
                         <form class="form-inline" action="">
@@ -142,12 +142,17 @@
                 <div class="btn-toolbar">
                     <div class="btn-group">
                         <form class="form-inline" action="">
-                            <label for="item_kind">Показать</label>
-                            <select id="item_kind" name="item_kind">
-                                <option>Всё</option>
-                                <option>Дефекты</option>
-                                <option>Задачи</option>
-                            </select>
+                            <div class="btn-group">
+                                <button id="item_kind" name="item_kind" data-toggle="dropdown" class="btn dropdown-toggle btn-primary">
+                                    Все элементы
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Все элементы</a></li>         
+                                    <li><a href="#">Только задачи</a></li>
+                                    <li><a href="#">Только дефекты</a></li>
+                                </ul>
+                            </div>
                         </form>
                     </div>
                     

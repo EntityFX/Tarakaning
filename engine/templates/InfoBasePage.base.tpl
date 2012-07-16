@@ -4,9 +4,6 @@
 		<script type="text/javascript">
 		/* <![CDATA[ */
 			$(document).ready(function() {
-				$("#tabs").tabs();
-				$("input:button, input:submit, button, .groupier a, .groupier li span, #exit, #goTask div.panel a").button();	
-				
                 $("#item").focus();
 
 				$("#submit_item").click(function(){
@@ -24,55 +21,75 @@
 		/* ]]>*/
 		</script>
 {/block}
-{block name=info}
 
-<div id="goTask">
-	<div class="panel">
-		<form action="#" id="selectProjectForm">
-			<div>
-				<label for="project_id">Выберите проект</label>
-				<select id="project_id" name="project_id" {if $PROJECT_SELECTION_FLAG neq true}disabled="disabled"{/if}>
-				{if $PROJECTS.PROJECTS_LIST neq NULL}
+{block name=info}
+    <div id="project-panel" class="btn-toolbar well well-small">
+        <div class="btn-group">
+            <form class="form-inline" id="selectProjectForm" action="#">
+                <label for="project_id">Выберите проект</label>
+                <select id="project_id" name="project_id" {if $PROJECT_SELECTION_FLAG neq true}disabled="disabled"{/if}>
+                {if $PROJECTS.PROJECTS_LIST neq NULL}
 					{html_options options=$PROJECTS.PROJECTS_LIST selected=$PROJECTS.selected}
 				{/if}
-				</select>
-			</div>
-		</form>
-		<form action="#">
-			<div>
-				<span class="delmiter"></span>
-				{if $PROJECTS.PROJECTS_LIST neq NULL}
-				<a href="/bug/add/" title="Создать новый дефкт/задачу">Создать элемент</a>
-				{/if}
-				<a href="/my/project/new/" title="Создать новый проект">Создать проект</a>
-				<span class="delmiter"></span>
-				<label for="item">Переход к № </label>
-				<input type="text" maxlength="10" name="item" id="item"/>
-				<input type="submit" value="OK" id="submit_item" />
-			</div>
-		</form>
-	</div>
-</div>
-<div id="account_panel">
-	<strong>{$LOGIN}</strong>
-	<a href="/profile/edit/" title="Настройки профиля"><img src="/images/settings.png" alt="настройки" /></a><br/>
-	{*<span>{$FULLNAME}</span><br />*}
-	<span id="enter_time">Вошёл: <span style="color: #555">{$TIME}</span></span><br />
-	<a href="/logout/" id="exit" >Выход</a>
-</div>
+                </select>
+            </form>
+        </div>
+        <div class="divider"></div>
+        {if $PROJECTS.PROJECTS_LIST neq NULL}
+        <a class="btn btn-primary" href="/bug/add/" title="Создать новый дефкт/задачу">Создать элемент</a>
+        {/if}
+        <a class="btn btn-primary" href="/my/project/new/" title="Создать новый проект">Создать проект</a>
+        <div class="divider"></div>
+        <div class="btn-group">
+            <form class="form-inline" action="#">
+                <label for="item">Переход к №</label>
+                <input class="input-mini" id="item" type="text" name="item" maxlength="8">
+                <input type="submit" value="OK" id="submit_item" class="btn" />
+            </form>
+        </div>
+    </div>
 {/block}
+
 {block name=menu}
-<div id="main_menu">
-	<ul>
-		{foreach name=bugComments from=$MAIN_MENU item=element} {* Комментарии отчёта *}
-			<li {if $element.cur eq true}id="cur"{/if}>
-				{if $element.cur eq true}
-				{$element.title}
-				{else}
-				<a href="{$element.url}">{$element.title}</a>
-				{/if}
-			</li>
-		{/foreach}
-	</ul>
-</div>
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="brand" href="#">Tarakaning</a>
+            <ul class="nav">
+                <li><a href="/my/projects/">Проекты</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Элементы
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/my/bugs/">Мои элементы</a></li>
+                        <li><a href="/my/project/bugs/">Элементы проекта</a></li>
+                    </ul>
+                </li>
+                <li><a href="/requests/">Заявки</a></li>
+                <li><a href="/search/">Поиск</a></li>
+            </ul>
+            <div class="btn-group pull-right">
+                <a href="#" data-toggle="dropdown" class="btn dropdown-toggle">
+                    <i class="icon-user"></i>
+                    {$LOGIN}
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="/profile/edit/">
+                            <i class="icon-user"></i>
+                            Настройки
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="/logout/">
+                            <i class="icon-off"></i>
+                            Выход
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 {/block}
