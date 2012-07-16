@@ -1,0 +1,92 @@
+/* 
+    Document   : ui.custom
+    Created on : 17.07.2012, 2:12:46
+    Author     : EntityFX
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+select {
+    border-radius: 3px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+}
+
+blockquote {
+    padding: 8px 35px 8px 14px;
+}
+
+blockquote .close {
+    right: -21px;
+    top: -2px;
+    position: relative;
+}
+
+.sidebar-nav {
+    padding: 9px 0;
+}
+
+.tarakaning-toolbar form, #project-panel form {
+    margin: 0;
+}
+
+.tarakaning-toolbar .pagination {
+    margin: 0 !important;
+    height: auto !important;
+}
+
+.tarakaning-toolbar .pagination-right {
+    text-align: right;
+    float: right;
+}
+
+#project-panel {
+    float: right;
+}
+
+#project-panel .divider {
+    border-right: 1px solid #CCCCCC;
+    display: inline-block;
+    height: 42px;
+    margin: -18px 3px;
+    overflow: hidden;
+    width: 1px;
+}
+
+.form-horizontal .controls label {
+    display: block;
+    padding-top: 5px;
+}
+
+.table input[type="checkbox"] {
+    width: 5px;
+}
+
+.checkbox-table td:first-child, .checkbox-table th:first-child {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.item-state-new {
+    background-color: #FFE6E6 !important;
+}
+
+.item-state-assesed {
+    background-color: #FFFFE6 !important;
+}
+
+.item-state-solved {
+    background-color: #E6FFE6 !important;
+}
+
+.item-state-inprocess {
+    background-color: #E6E6FF !important;
+}
+

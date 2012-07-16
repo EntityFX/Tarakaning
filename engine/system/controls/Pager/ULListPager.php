@@ -6,6 +6,8 @@
         
         protected $_selectedLiTag="span";
         
+        protected $_liClass="";
+        
         private $_Href="";
         
         private $_getRef; 
@@ -71,7 +73,8 @@
                     ($this->_cStyle!="" ? " style=\"".$this->_cStyle."\"" : "").
                     ">";
                     $tagClose="</$this->_selectedLiTag>";
-                    $str.="\t<li>$tagOpen$pageNum$tagClose</li>\r\n"; 
+                    $str.="\t<li".
+                    ($this->_liClass!="" ? " class=\"".$this->_liClass."\"" : "").">$tagOpen$pageNum$tagClose</li>\r\n"; 
                 }
                 else
                 {
@@ -101,7 +104,16 @@
         
         public function setCurrentTag($tagName="span")  
         {
+            if ($tagName == 'a')
+            {
+                $tagName = 'a href="#"';
+            }
             $this->_selectedLiTag=$tagName;  
+        }
+        
+        public function setCurrentLiClass($value)
+        {
+        	$this->_liClass=$value;
         }
         
         public function setCurrentStyle($value)
