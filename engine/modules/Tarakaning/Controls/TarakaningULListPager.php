@@ -3,7 +3,7 @@ Loader::LoadSystem('controls','Pager/ULListPager');
 
 class TarakaningULListPager extends ULListPager
 {
-	const SIZE=25;
+	const SIZE=5;
 	const PAGINATOR_SIZE=5;
 	
 	public function __construct($count,$get="page")

@@ -18,7 +18,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- База данных: `entityfx616`
 --
-CREATE DATABASE Tarakaning DEFAULT CHARACTER SET cp1251 COLLATE cp1251_general_ci;
+CREATE DATABASE IF NOT EXISTS Tarakaning DEFAULT CHARACTER SET cp1251 COLLATE cp1251_general_ci;
 USE Tarakaning;
 
 -- --------------------------------------------------------
