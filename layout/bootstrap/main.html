@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/bootstrap-responsive.css" rel="stylesheet">
+        <style type="text/css">
+            body {
+                padding-top: 40px;
+                padding-bottom: 40px;
+            }
+            .sidebar-nav {
+                padding: 9px 0;
+            }
+
+            .tarakaning-toolbar form, #project-panel form {
+                margin: 0;
+            }
+            
+            .tarakaning-toolbar .pagination {
+                margin: 0 !important;
+                height: auto !important;
+            }
+            
+            .tarakaning-toolbar .pagination-right {
+                text-align: right;
+                float: right;
+            }
+
+            #project-panel {
+                float: right;
+            }
+
+            #project-panel .divider {
+                border-right: 1px solid #CCCCCC;
+                display: inline-block;
+                height: 42px;
+                margin: -18px 3px;
+                overflow: hidden;
+                width: 1px;
+            }
+            
+            .table input[type="checkbox"] {
+                width: 5px;
+            }
+            
+            .checkbox-table td:first-child, .checkbox-table th:first-child {
+                text-align: center;
+            }
+            
+            .item-state-new {
+                background-color: #FFE6E6 !important;
+            }
+            
+            .item-state-assesed {
+                background-color: #FFFFE6 !important;
+            }
+            
+            .item-state-solved {
+                background-color: #E6FFE6 !important;
+            }
+            
+            .item-state-inprocess {
+                background-color: #E6E6FF !important;
+            }
+        </style>
+    </head>
+    <body lang="ru">
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="brand" href="#">Tarakaning</a>
+                    <ul class="nav">
+                        <li><a href="#">Проекты</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Элементы
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Мои элементы</a></li>
+                                <li><a href="#">Элементы проекта</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Заявки</a></li>
+                        <li><a href="#">Поиск</a></li>
+                    </ul>
+                    <div class="btn-group pull-right">
+                        <a href="#" data-toggle="dropdown" class="btn dropdown-toggle">
+                            <i class="icon-user"></i>
+                            EntityFX
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="#">
+                                    <i class="icon-user"></i>
+                                    Настройки
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="#">
+                                    <i class="icon-off"></i>
+                                    Выход
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div id="project-panel" class="btn-toolbar well well-small">
+                    <div class="btn-group">
+                        <form class="form-inline" action="">
+                            <label for="project_id">Выберите проект</label>
+                            <select id="project_id" name="project_id">
+                                <option>something</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </form>
+                    </div>
+                    <div class="divider"></div>
+                    <a class="btn" href="">Создать элемент</a>
+                    <a class="btn" href="">Создать проект</a>
+                    <div class="divider"></div>
+                    <div class="btn-group">
+                        <form class="form-inline" action="">
+                            <label for="item">Переход к №</label>
+                            <input class="input-mini" id="item" type="text" name="item" maxlength="8">
+                            <button class="btn" type="submit">OK</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid tarakaning-toolbar">
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <form class="form-inline" action="">
+                            <label for="item_kind">Показать</label>
+                            <select id="item_kind" name="item_kind">
+                                <option>Всё</option>
+                                <option>Дефекты</option>
+                                <option>Задачи</option>
+                            </select>
+                        </form>
+                    </div>
+                    
+                        <div class="pagination pagination-right">
+                            <ul>
+                                <li><a href="#">&laquo;</a></li>
+                                <li class="active">
+                                    <a href="#">1</a>
+                                </li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">&raquo;</a></li>
+                            </ul>
+                        </div>
+                    
+                </div>
+            </div>
+            <div class="row-fluid">
+                <form method="post" class="reports_form" action="#">
+                    <!--<a class="z" href="#">Выбрать всё</a>-->
+                    <input type="hidden" value="4" name="cur_project_id">
+                    <table class="table table-bordered table-striped checkbox-table">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" title="Отметить всё" name="del_all" value="+"></th>
+                                <th><a class="sort" href="?page=1&amp;orderBy=ID;desc">№</a></th>
+                                <th><a href="?page=1&amp;orderBy=Kind;asc">Тип</a></th>
+                                <th><a href="?page=1&amp;orderBy=Status;asc">Статус</a></th>
+                                <th><a href="?page=1&amp;orderBy=Title;asc">Заголовок</a></th>
+                                <th><a href="?page=1&amp;orderBy=PriorityLevel;asc">Приоритет</a></th>
+                                <th><a href="?page=1&amp;orderBy=NickName;asc">Владелец</a></th>
+                                <th><a href="?page=1&amp;orderBy=AssignedNickName;asc">Назначено</a></th>
+                                <th colspan="2">Время (ч)</th>
+                                <th style="width: 180px;"><a href="?page=1&amp;orderBy=CreateDateTime;asc">Дата</a></th>
+                            </tr>
+                        </thead>
+                        <tbody>  
+
+                            <tr>    
+                                <td><input type="checkbox" name="del_i[6]"></td>
+                                <td><a class="sort" href="/bug/show/6/">6</a></td>
+                                <td>Задача</td>
+                                <td class="item-state-solved">Решён</td>
+                                <td>Создание БД</td>
+                                <td>Важный</td>
+                                <td><a href="/profile/show/1/">EntityFX</a></td>
+                                <td><a href="/profile/show/1/">EntityFX</a></td>
+                                <td>0</td><td>0</td>
+                                <td>2012-02-11 00:51:51</td>
+                            </tr>
+
+                            <tr class="assigned">    
+                                <td><input type="checkbox" name="del_i[7]"></td>
+                                <td><a class="sort" href="/bug/show/7/">7</a></td>
+                                <td>Задача</td>
+                                <td class="item-state-inprocess">В процессе</td>
+                                <td>Техническое задание</td>
+                                <td>Важный</td>
+                                <td><a href="/profile/show/1/">EntityFX</a></td>
+                                <td><a href="/profile/show/0/"></a></td>
+                                <td>0</td><td>0</td>
+                                <td>2012-02-11 00:53:16</td>
+                            </tr>
+
+                            <tr>    
+                                <td><input type="checkbox" name="del_i[8]"></td>
+                                <td><a class="sort" href="/bug/show/8/">8</a></td>
+                                <td>Задача</td>
+                                <td class="item-state-assesed">Идентифицирован</td>
+                                <td>Дизайн мастер-пейджа</td>
+                                <td>Обычный</td>
+                                <td><a href="/profile/show/24/">Timur</a></td>
+                                <td><a href="/profile/show/20/">GreenDragon</a></td>
+                                <td>0</td><td>0</td>
+                                <td>2012-02-11 01:04:38</td>
+                            </tr>
+
+                            <tr class="closed">    
+                                <td><input type="checkbox" name="del_i[9]"></td>
+                                <td><a class="sort" href="/bug/show/9/">9</a></td>
+                                <td>Задача</td>
+                                <td>Закрыт</td>
+                                <td>Залить Yii на репозиторий</td>
+                                <td>Обычный</td>
+                                <td><a href="/profile/show/24/">Timur</a></td>
+                                <td><a href="/profile/show/24/">Timur</a></td>
+                                <td>0</td><td>0</td>
+                                <td>2012-02-11 23:10:47</td>
+                            </tr>
+
+                            <tr>    
+                                <td><input type="checkbox" name="del_i[11]"></td>
+                                <td><a class="sort" href="/bug/show/11/">11</a></td>
+                                <td>Задача</td>
+                                <td class="item-state-new">Новый</td>
+                                <td>Создание мокапа страницы предприятия</td>
+                                <td>Обычный</td>
+                                <td><a href="/profile/show/24/">Timur</a></td>
+                                <td><a href="/profile/show/24/">Timur</a></td>
+                                <td>0</td><td>0</td>
+                                <td>2012-02-11 23:21:46</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="btn-toolbar">
+                        <input class="btn btn-danger" type="submit" id="del" name="del" title="Удалить выделенные" value="Удалить выделенные" />
+                    </div>
+                </form>
+            </div>
+            <hr />
+            <footer>
+                <p>&copy; EntityFX</p>    
+            </footer>
+        </div>
+        <script type="text/javascript" src="../../js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    </body>
+</html>

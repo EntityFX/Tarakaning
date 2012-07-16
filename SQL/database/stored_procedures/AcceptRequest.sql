@@ -1,3 +1,4 @@
+DROP PROCEDURE IF EXISTS AcceptRequest;
 CREATE PROCEDURE AcceptRequest(IN _ProjectID INT, IN ItemsList TEXT)
 BEGIN
     DECLARE SymbolPosition INT;
