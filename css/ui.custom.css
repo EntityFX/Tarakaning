@@ -75,18 +75,22 @@ blockquote .close {
 }
 
 .item-state-new {
-    background-color: #FFE6E6 !important;
+    background-color: #f2dede !important;
+    color: #b94a48;
 }
 
 .item-state-assesed {
-    background-color: #FFFFE6 !important;
+    background-color: #f3edd2 !important;
+    color: #c09853;
 }
 
 .item-state-solved {
-    background-color: #E6FFE6 !important;
+    background-color: #DFF0D8 !important;
+    color: #468847;
 }
 
 .item-state-inprocess {
-    background-color: #E6E6FF !important;
+    background-color: #d9edf7 !important;
+    color: #3a87ad;
 }
 
