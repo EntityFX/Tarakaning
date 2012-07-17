@@ -20,7 +20,12 @@
 		{function name=bug_type}
 		    {if $value eq NEW}new{else if $value eq IDENTIFIED}confirmed{else if $value eq ASSESSED}assigned{else if $value eq RESOLVED}solved{else if $value eq CLOSED}closed{/if}
 		{/function}
-	{if $ERROR neq ""}<strong class="alert" id="error">{$ERROR}</strong>{/if}
+	{if $ERROR neq ""}
+        <div class="alert alert-error" id="error">
+            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            {$ERROR}
+        </div>
+    {/if}
 	<ul class="nav nav-tabs" id="item-tab">
     	<li class="active"><a href="#description" data-toggle="tab">Описание</a></li>
         <li><a href="#comments" data-toggle="tab">Комментарии<span class="label">{$COMMENT_COUNT}</span></a></li>
@@ -321,7 +326,7 @@
 		</div>
 		<div class="tab-pane" id="history">
 				{if $HISTORY neq NULL}
-					<table class="comments">
+					<table class="table table-bordered table-striped">
 						<thead>
 							<tr><th>Пользователь</th><th>Действие</th><th class="date">Дата</th></tr>
 						</thead>
