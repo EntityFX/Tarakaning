@@ -20,232 +20,320 @@
 		{function name=bug_type}
 		    {if $value eq NEW}new{else if $value eq IDENTIFIED}confirmed{else if $value eq ASSESSED}assigned{else if $value eq RESOLVED}solved{else if $value eq CLOSED}closed{/if}
 		{/function}
-		
-	<div id="content_body">
-		<div id="tabs">
-			<ul>
-				<li><a href="#description"><span>Описание</span></a></li>
-				<li><a href="#comments"><span>Комментарии ({$COMMENT_COUNT})</span></a></li>
-				<li><a href="#history"><span>История</span></a></li>
-				<li><a href="#attachments"><span>Файлы</span></a></li>
-			</ul>
-			<div id="description">
-				{if $CAN_EDIT_DATA eq TRUE}
-					<form action="" method="post">
-						<div class="add_form">
-							<div id="hdr">{$BUG.KindN} <strong>№ {$BUG.ID}</strong>
-                                {if $ITEM_PREV_ID neq NULL}
-                                    <a class="button" href="/bug/show/{$ITEM_PREV_ID}" title="Предыдущий элемент"><</a>
-                                {else}
-                                    <span class="button ui-button-disabled ui-state-disabled" title="Предыдущий элемент"><</span>
-                                {/if}
-                                {if $ITEM_NEXT_ID neq NULL}
-                                    <a class="button" href="/bug/show/{$ITEM_NEXT_ID}" title="Следующий элемент">></a>
-                                {else}
-                                    <span class="button ui-button-disabled ui-state-disabled" title="Следующий элемент">></span>
-                                {/if}
-                                <a class="button" href="/bug/add/" title="Создать элемент">*</a>
-                                <a class="button" href="#" title="Удалить элемент">x</a>
-                            </div>
-							{if $ERROR neq ""}<strong class="error" id="error">{$ERROR}</strong>{/if}
-							<dl>
-								<dt>№</dt><dd>{$BUG.ID}</dd>
-								<dt><label for="title">Заголовок</label></dt><dd><input type="text" id="title" name="title" value="{$BUG.Title}" /></dd>
-								<dt>Проект</dt><dd>{$BUG.ProjectName}</dd>
-								<dt>Владелец</dt><dd><a href="/profile/show/{$BUG.UserID}/">{$BUG.NickName}</a></dd>
-								<dt>Дата создания</dt><dd>{$BUG.CreateDateTime}</dd>
-								<dt>Тип</dt><dd>{$BUG.KindN}</dd>
-								<dt><label style="padding: 2px;">Статус</label></dt>
-								<dd>
-									<div class="{bug_type value=$BUG.Status}" style="padding: 2px;">
-									<select name="state">
+	{if $ERROR neq ""}<strong class="alert" id="error">{$ERROR}</strong>{/if}
+	<ul class="nav nav-tabs" id="item-tab">
+    	<li class="active"><a href="#description" data-toggle="tab">Описание</a></li>
+        <li><a href="#comments" data-toggle="tab">Комментарии<span class="label">{$COMMENT_COUNT}</span></a></li>
+        <li><a href="#history" data-toggle="tab">История изменений</a></li>
+        <li><a href="#attachments" data-toggle="tab">Файлы</a></li>
+	</ul>
+	<div class="tab-content">
+		<div class="tab-pane active" id="description">  
+			{if $CAN_EDIT_DATA eq TRUE}
+			<div class="btn-toolbar">
+				<div class="btn-group">
+					<a class="btn" href="/bug/show/{$ITEM_PREV_ID}" rel="tooltip" title="К предыдущему элементу"><i class="icon-arrow-left"></i></a>
+					<a class="btn" href="/bug/show/{$ITEM_NEXT_ID}" rel="tooltip" title="К следующему элементу"><i class="icon-arrow-right"></i></a>
+				</div>
+				<div class="btn-group">
+					<a class="btn btn-danger" href="/bug/add/"><i class="icon-trash icon-white"></i></a>
+					<a class="btn btn-primary" href="#"><i class="icon-asterisk icon-white"></i></a>
+				</div>
+			</div>
+			<form class="form-horizontal" method="post" action="#">
+				<fieldset>
+					<legend>{$BUG.KindN} № {$BUG.ID}</legend>
+						<div class="control-group">
+							<label class="control-label" for="title">Заголовок</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" id="title" name="title" value="{$BUG.Title}">
+							</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Проект</label>
+								<div class="controls">
+									<label>
+										<span>{$BUG.ProjectName}</span>
+									</label>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Владелец</label>
+								<div class="controls">
+									<label>
+										<a href="/profile/show/{$BUG.UserID}/">{$BUG.NickName}</a>
+									</label>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Дата создания</label>
+								<div class="controls">
+									<label>
+										<time>{$BUG.CreateDateTime}</time>
+									</label>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">Тип</label>
+								<div class="controls">
+									<label>
+										<span>{$BUG.KindN}</span>
+									</label>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="state">Статус</label>
+								<div class="controls">
+									<select id="state" name="state">
 										{html_options options=$STATUSES.values selected=$STATUSES.selected}
 									</select>
-									</div>
-								</dd>
-								<dt><label for="priority">Приоритет</label></dt>
-								<dd>
-									<select id="priority" name="priority">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="priority">Приоритет</label>
+								<div class="controls">
+									<select name="priority" id="priority">
 										{html_options options=$PRIORITY_LEVEL.values selected=$PRIORITY_LEVEL.selected}
 									</select>
-								</dd>
-								<dt><label for="assigned_to">Назначено</label></dt>
-								<dd>									
-									<select id="assigned_to" name="assigned_to">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="assigned_to">Назначено</label>
+								<div class="controls">
+									<select name="assigned_to" id="assigned_to">
 										<option value="">-</option>
 										{html_options options=$USERS_ASSIGN_TO selected=$BUG.AssignedTo}
 									</select>
-								</dd>
-								<dt><label for="hour_req">Требуется на работу</label></dt>
-								<dd><input type="text" id="hour_req" name="hour_req" value="{$BUG.HoursRequired}" maxlength="5" size="5" class="no100p alignRight" />&nbsp;часов</dd>
-								<dt><label for="add_hour_fact">Затрачено времени</label></dt>
-								<dd><span>{$BUG.HoursFact}</span>&nbsp;+&nbsp;<input type="text" id="add_hour_fact" name="add_hour_fact" value="0" maxlength="5" size="5" class="no100p alignRight" />&nbsp;часов</dd>
-								{if $BUG.Kind eq Defect}
-								<dt class="for_defect"><label for="error_type">Вид ошибки</label></dt>
-								<dd class="for_defect">									
-									<select id="error_type" name="error_type">
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="hour_req">Требуется на работу</label>
+								<div class="controls">
+									<div class="input-append">
+										<input class="input-mini align-right" type="text" maxlength="5" value="{$BUG.HoursRequired}" name="hour_req" id="hour_req"><span class="add-on">ч</span>
+									</div>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label" for="hour_req">Затрачено времени</label>
+								<div class="controls">
+									<span class="help-inline">{$BUG.HoursFact} +&nbsp;</span>
+									<div class="input-append">
+										<input class="input-mini align-right" type="text" maxlength="5" value="0" name="add_hour_fact" id="add_hour_fact"><span class="add-on">ч</span>
+									</div>
+								</div>
+							</div>
+							{if $BUG.Kind eq Defect}
+							<div class="control-group">
+								<label class="control-label" for="error_type">Вид ошибки</label>
+								<div class="controls">
+									<select name="error_type" id="error_type">
 										{html_options options=$DEFECT_TYPE.values selected=$DEFECT_TYPE.selected}
 									</select>
-								</dd>
-								{/if}
-								<dt class="for_defect"><label for="descr">Описание</label></dt>
-								<dd class="for_defect"><textarea id="descr" name="descr" rows="10" cols="20" >{$BUG.Description}</textarea></dd>
-								{if $BUG.Kind eq Defect}
-								<dt class="for_defect"><label for="steps">Действия, которые привели к ошибке</label></dt>
-								<dd class="for_defect"><textarea id="steps" name="steps" rows="10" cols="20" >{$BUG.StepsText}</textarea></dd>
-								{/if}
-								<dt>&nbsp;</dt>
-								<dd class="subm"><input type="submit" name="cnange_state" value="Сохранить изменения" /></dd>						
-							</dl>
-						</div>
-					</form>
-				{else}
-					<form action="" method="post">	
-						<div class="add_form">
-							<div id="hdr">{$BUG.KindN} <strong>№ {$BUG.ID}</strong>
-                                {if $ITEM_PREV_ID neq NULL}
-                                    <a class="button" href="/bug/show/{$ITEM_PREV_ID}" title="Предыдущий элемент"><</a>
-                                {else}
-                                    <span class="button ui-button-disabled ui-state-disabled" title="Предыдущий элемент"><</span>
-                                {/if}
-                                {if $ITEM_NEXT_ID neq NULL}
-                                    <a class="button" href="/bug/show/{$ITEM_NEXT_ID}" title="Следующий элемент">></a>
-                                {else}
-                                    <span class="button ui-button-disabled ui-state-disabled" title="Следующий элемент">></span>
-                                {/if}
-                                <a class="button" href="/bug/add/" title="Создать элемент">*</a>
-                                <span class="button" title="Удалить элемент">x</span>
-                            </div>
-							{if $ERROR neq ""}<strong class="error" id="error">{$ERROR}</strong>{/if}
-							<dl>
-								<dt>№</dt><dd>{$BUG.ID}</dd>
-								<dt><label for="title">Заголовок</label></dt><dd><input type="text" id="title" name="title" value="{$BUG.Title}" disabled="disabled" /></dd>
-								<dt>Проект</dt><dd>{$BUG.ProjectName}</dd>
-								<dt>Владелец</dt><dd><a href="/profile/show/{$BUG.UserID}/">{$BUG.NickName}</a></dd>
-								<dt>Дата создания</dt><dd>{$BUG.CreateDateTime}</dd>
-								<dt>Тип</dt><dd>{$BUG.KindN}</dd>
-								<dt><label style="padding: 2px;">Статус</label></dt>
-								{if $CAN_EDIT_STATUS neq true}
-								<dd class="{bug_type value=$BUG.Status}">
-									<div class="{bug_type value=$BUG.Status}" style="padding: 2px;">
-									{$BUG.StatusN}
-									</div>
-								</dd>
-								{else}
-								<dd>
-									<div class="{bug_type value=$BUG.Status}" style="padding: 2px;">
-									<select name="state">
-										{html_options options=$STATUSES.values selected=$STATUSES.selected}
-									</select>
-									</div>
-								</dd>
-								{/if}
-								<dt>Приоритет</dt><dd>{$BUG.PriorityLevelN}</dd>
-								<dt><label for="assigned_to">Назначено</label></dt>
-								<dd>									
-									<select id="assigned_to" name="assigned_to" disabled="disabled" >
-										<option value="">-</option>
-										{html_options options=$USERS_ASSIGN_TO selected=$BUG.AssignedTo}
-									</select>
-								</dd>
-								<dt><label for="hour_req">Требуется на работу</label></dt>
-								<dd><input type="text" id="hour_req" name="hour_req" value="{$BUG.HoursRequired}" maxlength="5" size="5" class="no100p alignRight" disabled="disabled" />&nbsp;часов</dd>
-								{if $BUG.Kind eq Defect}
-								<dt class="for_defect"><label for="error_type">Вид ошибки</label></dt>
-								<dd class="for_defect">									
-									<select id="error_type" name="error_type" disabled="disabled" >
-										{html_options options=$DEFECT_TYPE.values selected=$DEFECT_TYPE.selected}
-									</select>
-								</dd>
-								{/if}
-								<dt class="for_defect"><label for="descr">Описание</label></dt>
-								<dd class="for_defect"><textarea id="descr" name="descr" rows="10" cols="20" disabled="disabled" >{$BUG.Description}</textarea></dd>
-								{if $BUG.Kind eq Defect}
-								<dt class="for_defect"><label for="steps">Действия, которые привели к ошибке</label></dt>
-								<dd class="for_defect"><textarea id="steps" name="steps" rows="10" cols="20" disabled="disabled" >{$BUG.StepsText}</textarea></dd>
-								{/if}
-								<dt>&nbsp;</dt>
-								<dd class="subm"><input type="submit" name="cnange_state" value="Сохранить изменения" {if $CAN_EDIT_STATUS neq true}disabled="disabled"{/if} /></dd>						
-							</dl>
-						</div>
-					</form>
-				{/if}
-			</div>
-			<div id="comments">
-				{if $ERROR neq ""}
-					<strong class="error" id="error">{$ERROR}</strong>
-				{/if}
-				<div class="groupier">
-					<strong>Комментарии</strong>
-					{$COMMENTS_PAGINATOR}
-				</div>
-			{if $COMMENTS neq NULL}
-			<form action="#" class="reports_form" method="post">
-				<table class="comments">
-					<col width="25" valign="top" />
-					<thead>
-						<tr>
-							<th><input name="del_all" type="checkbox" title="" /></th>
-							<th><a href="{$COMMENTS_ORDER.NickName.url}#comments" {if $COMMENTS_ORDER.NickName.order eq true}class="sort"{/if}>Пользователь</a></th>
-							<th><a href="{$COMMENTS_ORDER.Comment.url}#comments" {if $COMMENTS_ORDER.Comment.order eq true}class="sort"{/if}>Комментарий</a></th>
-							<th class="date"><a href="{$COMMENTS_ORDER.Time.url}#comments" {if $COMMENTS_ORDER.Time.order eq true}class="sort"{/if}>Дата</a></th>
-						</tr>
-					</thead>
-					<tbody>
-				{foreach name=bugComments from=$COMMENTS item=element} {* Комментарии отчёта *}
-					<tr class="{if $smarty.foreach.bugComments.index % 2 == 0}odd{else}even{/if}">
-						<td><input name="del_i[{$element.ID}]" type="checkbox" {if $element.UserID neq $USER_ID}disabled="disabled"{/if}/></td>
-						<td><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a></td>
-						<td class="left">{$element.Comment}</td>
-						<td>{$element.Time}</td>
-					</tr>
-				{/foreach}
-					</tbody>
-				</table>
-				<div class="groupier">
-					<input type="submit" value="Удалить выделенные" title="Удалить выделенные" name="del" id="del" />
-				</div>
+								</div>
+							</div>
+							{/if}
+							<div class="control-group">
+								<label class="control-label" for="descr">Описание</label>
+								<div class="controls">
+									<textarea id="descr" name="descr"  class="input-xxlarge" rows="9">{$BUG.Description}</textarea>
+								</div>
+							</div>
+							{if $BUG.Kind eq Defect}
+							<div class="control-group">
+								<label class="control-label" for="steps">Шаги</label>
+								<div class="controls">
+									<textarea id="steps" name="steps" class="input-xxlarge" rows="9">{$BUG.StepsText}</textarea>
+								</div>
+							</div>
+							{/if}
+							<div class="form-actions">
+								<input type="submit" class="btn btn-primary" name="cnange_state" value="Сохранить изменения" />
+							</div>
+				</fieldset>
 			</form>
 			{else}
-				<strong>Комментариев нет</strong>
-			{/if}
-				<div>
-					<form action="#comments" method="post">
-						<div>
-							<dl>
-								<dd style="padding-right:4px">
-									<textarea style="width: 100%; margin: 15px 0pt;" rows="7" cols="100" name="comment"> </textarea>
-
-								</dd>
-								<dd class="subm">
-									<input type="submit" name="sendComment" value="Оставить комментарий"/>
-								</dd>
-							</dl>
+			<div class="btn-toolbar">
+				<div class="btn-group">
+					{if $ITEM_PREV_ID neq NULL}
+						<a class="btn" href="/bug/show/{$ITEM_PREV_ID}" rel="tooltip" title="К предыдущему элементу"><i class="icon-arrow-left"></i></a>
+					{else}
+						<a class="btn" href="#" rel="tooltip" title="К предыдущему элементу"><i class="icon-arrow-left"></i></a>
+					{/if}
+					{if $ITEM_NEXT_ID neq NULL}
+						<a class="btn" href="/bug/show/{$ITEM_NEXT_ID}" rel="tooltip" title="К следующему элементу"><i class="icon-arrow-right"></i></a>
+					{else}
+						<a class="btn" href="#" rel="tooltip" title="К следующему элементу"><i class="icon-arrow-right"></i></a>
+					{/if}
+				</div>
+				<div class="btn-group">
+					<a class="btn btn-danger" href="/bug/add/"><i class="icon-trash icon-white"></i></a>
+					<a class="btn btn-primary" href="#"><i class="icon-asterisk icon-white"></i></a>
+				</div>
+			</div>
+			<form class="form-horizontal">
+				<fieldset>
+				<legend>{$BUG.KindN} № {$BUG.ID}</legend>
+					<div class="control-group">
+						<label class="control-label" for="title">Заголовок</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" id="title" name="title" value="{$BUG.Title}" disabled="disabled" />
 						</div>
-					</form>
-				</div>
-			</div>
-
-			<div id="history">
-				<div class="groupier">
-					<strong>История изменений</strong>
-				</div>
-			{if $HISTORY neq NULL}
-				<table class="comments">
-					<thead>
-						<tr><th>Пользователь</th><th>Действие</th><th class="date">Дата</th></tr>
-					</thead>
-					<tbody>
-						{foreach name=bugHistory from=$HISTORY item=element} {* Комментарии отчёта *}
-						<tr class="odd"><td><a href="#">{$element.USER_ID}</a></td><td class="left">{$element.DESCR}</td><td>{$element.OLD_TM}</td></tr>
-						{/foreach}
-					</tbody>
-				</table>
+					</div>
+					<div class="control-group">
+						<label class="control-label">Проект</label>
+						<div class="controls">
+							<label>
+								<span>{$BUG.ProjectName}</span>
+							</label>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">Владелец</label>
+						<div class="controls">
+							<label>
+								<a href="/profile/show/{$BUG.UserID}/">{$BUG.NickName}</a>
+							</label>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">Дата создания</label>
+						<div class="controls">
+							<label>
+								<time>{$BUG.CreateDateTime}</time>
+							</label>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label">Тип</label>
+						<div class="controls">
+							<label>
+								<span>{$BUG.KindN}</span>
+							</label>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="state">Статус</label>
+						<div class="controls">
+							{if $CAN_EDIT_STATUS neq true}
+								<label>
+									<span>{$BUG.StatusN}</span>
+								</label>
+							{else}
+							<select id="state" name="state">
+								{html_options options=$STATUSES.values selected=$STATUSES.selected}
+							</select>
+							{/if}
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="priority">Приоритет</label>
+						<div class="controls">
+							<select name="priority" id="priority" disabled="disabled" >
+								{html_options options=$PRIORITY_LEVEL.values selected=$PRIORITY_LEVEL.selected}
+							</select>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="assigned_to">Назначено</label>
+						<div class="controls">
+							<label>
+								<span>{$BUG.PriorityLevelN}</span>
+							</label>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="hour_req">Требуется на работу</label>
+						<div class="controls">
+							<div class="input-append">
+								<input class="input-mini align-right" type="text" maxlength="5" disabled="disabled" value="{$BUG.HoursRequired}" name="hour_req" id="hour_req"><span class="add-on">ч</span>
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="hour_req">Затрачено времени</label>
+						<div class="controls">
+							<span class="help-inline">{$BUG.HoursFact} +&nbsp;</span>
+							<div class="input-append">
+								<input class="input-mini align-right" type="text" maxlength="5" disabled="disabled" value="0" name="add_hour_fact" id="add_hour_fact"><span class="add-on">ч</span>
+							</div>
+						</div>
+					</div>
+					{if $BUG.Kind eq Defect}
+					<div class="control-group">
+						<label class="control-label" for="error_type">Вид ошибки</label>
+						<div class="controls">
+							<select name="error_type" id="error_type" disabled="disabled">
+								{html_options options=$DEFECT_TYPE.values selected=$DEFECT_TYPE.selected}
+							</select>
+						</div>
+					</div>
+					{/if}
+					<div class="control-group">
+						<label class="control-label" for="descr">Описание</label>
+						<div class="controls">
+							<textarea id="descr" name="descr" disabled="disabled" class="input-xxlarge" rows="9">{$BUG.Description}</textarea>
+						</div>
+					</div>
+					{if $BUG.Kind eq Defect}
+					<div class="control-group">
+						<label class="control-label" for="steps">Шаги</label>
+						<div class="controls">
+							<textarea id="steps" name="steps" disabled="disabled" class="input-xxlarge" rows="9">{$BUG.StepsText}</textarea>
+						</div>
+					</div>
+					{/if}
+					<div class="form-actions">
+						<input type="submit" class="btn btn-primary" name="cnange_state" value="Сохранить изменения" {if $CAN_EDIT_STATUS neq true}disabled="disabled"{/if} />
+					</div>
+				</fieldset>
+			</form>
 			{/if}
-
+        </div>
+		<div class="tab-pane" id="comments">
+			<div class="span6">
+               		<div class="row-fluid tarakaning-toolbar">
+                    	<div class="btn-toolbar">
+                        	<div class="pagination pagination-right">
+                        		{$COMMENTS_PAGINATOR}
+                        	</div>
+                        </div>
+                    </div>
+                    {if $COMMENTS neq NULL}
+                    	{foreach name=bugComments from=$COMMENTS item=element} {* Комментарии элемента *}
+                    		<blockquote>
+                            	<button class="close" data-dismiss="alert" type="button">&times;</button>
+                                <p>{$element.Comment}</p>
+                                <small><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a></small><time>{$element.Time}</time>
+                        	</blockquote>
+                    	{/foreach}                       
+                    {else}
+                    	<strong>Комментариев нет</strong>
+                    {/if}
 			</div>
-			<div id="attachments">
-			</div>
+            <div class="span6">
+                	<form class="well" action="#comments" method="post">
+                    	<label class="control-label" for="comment">Комментарий</label>
+                        <textarea id="comment" name="comment" style="width: -moz-available;" rows="5"></textarea>
+                        <input class="btn btn-primary" type="submit" name="sendComment" value="Отправить">
+                    </form>
+            </div>
+		</div>
+		<div class="tab-pane" id="history">
+				{if $HISTORY neq NULL}
+					<table class="comments">
+						<thead>
+							<tr><th>Пользователь</th><th>Действие</th><th class="date">Дата</th></tr>
+						</thead>
+						<tbody>
+							{foreach name=bugHistory from=$HISTORY item=element} {* Комментарии отчёта *}
+							<tr class="odd"><td><a href="#">{$element.USER_ID}</a></td><td class="left">{$element.DESCR}</td><td>{$element.OLD_TM}</td></tr>
+							{/foreach}
+						</tbody>
+					</table>
+				{/if}
+		</div>
+        <div class="tab-pane" id="attachments">
 		</div>
 	</div>
 {/block}
