@@ -1,30 +1,46 @@
 {extends file="MainBasePage.base.tpl"}
-{block name=script}
-		<script type="text/javascript">
-		/* <![CDATA[ */
-			$(document).ready(function() {
-				$("#tabs").tabs();
-				$("input:button, input:submit, a").button();
-			});
-		/* ]]>*/
-		</script>
-{/block}
 {block name=body}
-	<div id="enter">
-		<div id="hdr">Вход в систему</div>
-		<form action="/login/do/" method="post" id="form">
-			<div>
-			{if $ERROR neq ""}
-				<strong class="error" id="error">{$ERROR}</strong>
-			{else if $GOOD eq TRUE}
-				<strong class="ok" id="good">Пользователь зарегистрирован</strong>
-			{/if}
-				<dl>
-					<dt><label for="login">Логин </label></dt><dd><input id="login" class="edit" type="text" name="login" /></dd>
-					<dt><label for="psw">Пароль </label></dt><dd><input id="psw" class="edit" type="password" name="pswrd" /></dd>
-					<dt style="margin-top: 1px;"><a href="/registration/">Регистрация</a></dt><dd id="button"><input type="submit" name="sigIn" id="sigIn" value="Войти" class="button" /></dd>
-				</dl>
-			</div>
-		</form>
-	</div>
+<div class="container">
+    <header id="headmain">
+        <div class="inner">
+            <h1>Tarakaning</h1>
+            <p>Система управления проектами, задачами и дефектами</p>
+        </div>
+    </header>
+    <div class="row" id="logIn" >
+        {if $ERROR neq ""}
+            <strong class="error" id="error">{$ERROR}</strong>
+        {else if $GOOD eq TRUE}
+            <strong class="ok" id="good">Пользователь зарегистрирован</strong>
+        {/if}
+        <form action="/login/do/" method="post" class="well form-horizontal">
+            <fieldset>
+                <legend>Войти в Tarakaning</legend>
+            </fieldset>
+            <div class="control-group">
+                <label class="control-label" for="login">Логин</label>
+                <div class="controls">
+                    <input id="login" class="input-xlarge" type="text" name="login" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label input-mini" for="login">Пароль</label>
+                <div class="controls">
+                    <input id="login" class="input-xlarge" type="password" name="pswrd" />
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox">
+                        <input type="checkbox"> Запомнить меня
+                    </label>
+                </div>
+            </div>
+            <div class="form-actions">
+                <input type="submit" name="sigIn" id="sigIn" value="Войти" class="btn btn-large btn-primary" />
+                <a href="/registration/" class="btn btn-large btn-success">Регистрация</a>
+            </div>
+        </form>
+    </div>
+</div>
 {/block}

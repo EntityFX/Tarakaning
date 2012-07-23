@@ -9,6 +9,8 @@
 body {
     padding-top: 40px;
     padding-bottom: 40px;
+    background-image: url(../img/honeycomb_background.png);
+    background-repeat: repeat-x;
 }
 
 select {
@@ -62,10 +64,6 @@ blockquote .close {
     padding-top: 5px;
 }
 
-.table input[type="checkbox"] {
-    width: 5px;
-}
-
 .checkbox-table td:first-child, .checkbox-table th:first-child {
     text-align: center;
 }
@@ -94,3 +92,35 @@ blockquote .close {
     color: #3a87ad;
 }
 
+#main_row {
+    min-height: 300px;
+}
+
+#logIn form {
+    width: 450px;
+    margin: 0 auto;
+}
+
+#headmain {
+    margin-bottom: 72px;
+    padding-top: 36px;
+}
+
+#headmain h1, #headmain p {
+    text-align: center;   
+}
+
+#headmain h1 {
+    font-size: 81px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 9px;
+}
+
+#headmain p {
+    font-size: 30px;
+    line-height: 36px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
