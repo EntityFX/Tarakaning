@@ -1,55 +1,50 @@
 {extends file="InfoBasePage.base.tpl"}
-{block name=body}
 
-<div id="content_body">
-	<form action="" method="get">
-		<div class="add_form fixed_width">		
-			<div id="hdr">Поиск</div>
-			<dl>
-			<dt>По названию:</dt>
-			<dd><input type="text" name="by_proj" value="{$SEARCH_QUERY}" /></dd>
-			<dd class="subm"><input type="submit" value="Найти" name="search" /></dd>
-			</dl>
-		</div>
-	</form>
-	{$ERROR}
-	{if $SEARCH_QUERY neq ''}
-		{if $AR_SEARCH_ITEM neq NULL}
-			<div class="groupier">
-				{if $COUNT neq NULL}Количество результатов поиска: {$COUNT}{/if}
-				{$PROJECT_SEARCH_PAGINATOR}
-			</div>
-			{foreach name=searchResult from=$AR_SEARCH_ITEM item=element}
-			<div class="find_results">
-				<div>
-				<strong>{$element.PROJ_NM}</strong>
-				<span class="author">автор:</span>
-				<span><a href="/profile/show/{$element.USER_ID}/">{$element.NickName}</a></span>
-				</div>
-				<p>
-					{$element.DESCR}
-				</p>
-				{if $element.ProjectRelation eq 0}
-				<form action="#" method="post">
-					<div>
-						<input type="hidden" value="{$element.PROJ_ID}" name="projectID" />
-						<input type="submit" value="Подать заявку" class="standard" />
-					</div>		
-				</form>
-				{elseif $element.ProjectRelation eq 1}
-				<form action="#" method="post">
-					<div>
-						<input type="submit" value="Прервать участие" class="red" />
-					</div>		
-				</form>
-				{else}
-				<span class="green">Вы владелец</span>
-				{/if}
-			</div>
-			{/foreach}
-		{else}
-			По запросу "<strong>{$SEARCH_QUERY}</strong>" ничего не найдено.
-		{/if}
-	{/if}
-</div>
+{block name=body}
+    <div class="row">
+        <div class="span5">
+            <form class="well form-search" action="/search/" method="get">
+                <input type="text" class="input-xlarge" name="by_proj" id="Name" value="{$SEARCH_QUERY}"  />
+                <input class="btn" type="submit" value="Найти" name="search" />
+            </form>  
+        </div>
+    </div>
+
+    {$ERROR}
+    {if $SEARCH_QUERY neq ''}
+        {if $AR_SEARCH_ITEM neq NULL}
+            <div class="groupier">
+                {if $COUNT neq NULL}Количество результатов поиска: {$COUNT}{/if}
+                {$PROJECT_SEARCH_PAGINATOR}
+            </div>
+            <div class="row">
+                {foreach name=searchResult from=$AR_SEARCH_ITEM item=element}
+                    <div class="well">
+                        <h3>{$element.PROJ_NM}</h3>
+                        <span class="author">автор:</span>
+                        <span><a href="/profile/show/{$element.USER_ID}/">{$element.NickName}</a></span>
+                        <p>{$element.DESCR}</p>
+                        {if $element.ProjectRelation eq 0}
+                            <form action="#" method="post" class="form-inline">
+                                <div>
+                                    <input type="hidden" value="{$element.PROJ_ID}" name="projectID" />
+                                    <input type="submit" value="Подать заявку" class="btn btn-primary" />
+                                </div>		
+                            </form>
+                        {elseif $element.ProjectRelation eq 1}
+                            <form action="#" method="post" class="form-inline">
+                                <div>
+                                    <input type="submit" value="Прервать участие" class="btn btn-danger" />
+                                </div>		
+                            </form>
+                        {else}
+                            <span class="label label-success">Вы владелец</span>
+                        {/if}
+                    </div>
+                {/foreach}
+            </div>
+        {else}
+            <span>По запросу "<strong>{$SEARCH_QUERY}</strong>" ничего не найдено.</span>
+        {/if}
+{/if}
 {/block}
