@@ -2,40 +2,41 @@
 {block name=script}
 {literal}
     if ($("#item_type").val()=="Task") $(".for_defect").hide();
+    
     $("#item_type").change(function(){
-    switch ($(this).val())
-    {
-    case "Task":
-    $(".for_defect").hide();
-    break;
-    case "Defect":
-    $(".for_defect").show();
-    break;
-    }
+    	switch ($(this).val())
+    	{
+    		case "Task":
+    			$(".for_defect").hide();
+    			break;
+    		case "Defect":
+    			$(".for_defect").show();
+    			break;
+    	}
     });
 
     function updateProjectUsers(projectID)
     {
-    $.getJSON(
-    "/bug/ajax/",
-    {project_id: projectID},
-    function(dataResult)
-    {
-    var usersList='<option value=" ">-</option>';
+    	$.getJSON(
+    		"/bug/ajax/",
+    		{project_id: projectID},
+    		function(dataResult)
+    		{
+    			var usersList='<option value=" ">-</option>';
 
-    $.each(dataResult, function(key,val){
-    usersList+='<option value="' + val.UserID + '">' + val.NickName + '</option>';
-    });
+    			$.each(dataResult, function(key,val){
+    				usersList+='<option value="' + val.UserID + '">' + val.NickName + '</option>';
+    			});
 
-    $("#assigned_to").empty().append(usersList);
-    }
-    );
+    			$("#assigned_to").empty().append(usersList);
+    		}
+    	);
     }
 
     updateProjectUsers($("#bug_project_id").val());
     $("#bug_project_id").change(function(){
-    var projectID=$(this).val();
-    updateProjectUsers(projectID);
+    	var projectID=$(this).val();
+    	updateProjectUsers(projectID);
     });
 {/literal}
 {/block}

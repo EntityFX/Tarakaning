@@ -17,7 +17,6 @@
 		{/if}
 		<form action="#" class="reports_form" method="post">
 			<table class="projects_table">
-				<col width="23" />
 				<thead> 
 					<tr>
 					  <th><input name="del" type="checkbox" /></th>
