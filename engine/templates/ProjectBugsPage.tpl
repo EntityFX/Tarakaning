@@ -4,7 +4,6 @@
     <form method="post" class="reports_form" action="#">
         <input type="hidden" value="4" name="cur_project_id">
         <table class="table table-bordered table-striped checkbox-table">
-            <col width="23" />
             <thead>
                 <tr>
                     <th><input name="del_all" type="checkbox" title="" /></th>

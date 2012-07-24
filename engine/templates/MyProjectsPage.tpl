@@ -30,7 +30,6 @@
             </div>
             <form action="#" class="reports_form" method="post">
                 <table class="table table-bordered table-striped">
-                    <col width="23" />
                     <thead> 
                         <tr>
                             <th><input name="del" type="checkbox" /></th>

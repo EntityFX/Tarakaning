@@ -26,7 +26,7 @@
             <div class="control-group">
                 <label class="control-label input-mini" for="login">Пароль</label>
                 <div class="controls">
-                    <input id="login" class="input-xlarge" type="password" name="pswrd" />
+                    <input id="pswrd" class="input-xlarge" type="password" name="pswrd" />
                 </div>
             </div>
             <div class="control-group">

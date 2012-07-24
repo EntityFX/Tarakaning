@@ -319,7 +319,7 @@
             <div class="span6">
                 	<form class="well" action="#comments" method="post">
                     	<label class="control-label" for="comment">Комментарий</label>
-                        <textarea id="comment" name="comment" style="width: -moz-available;" rows="5"></textarea>
+                        <textarea id="comment" name="comment" rows="5"></textarea>
                         <input class="btn btn-primary" type="submit" name="sendComment" value="Отправить">
                     </form>
             </div>
