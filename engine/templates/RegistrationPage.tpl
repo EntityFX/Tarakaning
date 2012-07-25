@@ -1,49 +1,93 @@
 {extends file="MainBasePage.base.tpl"}
 {block name=script}
-		<script type="text/javascript">
-		/* <![CDATA[ */
-			$(document).ready(function() {
-				$("#tabs").tabs();
-				$("input:button, input:submit, a").button();
-			});
-		/* ]]>*/
-		</script>
+<script type="text/javascript">
+    /* <![CDATA[ */
+    $(document).ready(function() {
+    $("#tabs").tabs();
+    $("input:button, input:submit, a").button();
+});
+/* ]]>*/
+</script>
 {/block}
+
 {block name=body}
-<div id="content_body">
-	<form action="/registration/do/" method="post">
-		<div class="add_form" id="reg">
-			<div id="hdr">Регистрация</div>
-			{if $ERROR neq ""}<strong class="error" id="error">{$ERROR}</strong>
-			{/if}
-			<dl>
-				<dt><label for="login">Логин <strong>*</strong></label></dt>
-				<dd><input type="text" name="login" id="login" value="{$DATA.login}"/><span>Первый символ - латинские буквы, остальные - латинские буквы, цифры, ".", "-", "_" и "@"</span></dd>
-				<dt><label for="password">Пароль <strong>*</strong></label></dt>
-				<dd><input type="password" name="password" id="password"/><span>Минимальная длина пароля - 7 символов</span></dd>
-				<dt><label for="commitPass">Подтверди пароль <strong>*</strong></label></dt>
-				<dd><input type="password" name="commitPass" id="commitPass"/></dd>	
-				<dt><label for="captcha">CAPTCHA <strong>*</strong></label></dt>
-				<dd><input type="text" name="captcha" id="captcha"/></dd>	
-				<dt>&nbsp;</dt>
-				<dd>{$CAPTCHA}</dd>	
-			</dl>
-			<input type="hidden" name="captchaId" id="captchaId" value="{$CAPTCHA_ID}" />
-			<span>&nbsp;<strong>*</strong> Поля, обязательные для заполнения</span>
-			<hr />
-			<dl>
-				<dt><label for="name">Имя</label></dt>
-				<dd><input type="text" name="name" id="name" value="{$DATA.name}"/></dd>
-				<dt><label for="surname">Фамилия</label></dt>
-				<dd><input type="text" name="surname" id="surname" value="{$DATA.surname}"/></dd>
-				<dt><label for="secondName">Отчество</label></dt>
-				<dd><input type="text" name="secondName" id="secondName" value="{$DATA.secondName}"/></dd>
-				<dt><label for="eMail">E-mail</label></dt>
-				<dd><input type="text" name="eMail" id="eMail" value="{$DATA.eMail}"/></dd>				
-				<dt>&nbsp;</dt>
-				<dd class="subm"><input type="submit" value="Зарегистрироваться" /></dd>						
-			</dl>
-		</div>
-	</form>
+<div class="container">
+    <header id="headmain">
+        <div class="inner">
+            <h1>Tarakaning</h1>
+            <p>Система управления проектами, задачами и дефектами</p>
+        </div>
+    </header>
+    {if $ERROR neq ""}
+        <div class="alert alert-error" id="error">
+            <a class="close" data-dismiss="alert" href="#">&times;</a>
+            {$ERROR}
+        </div>
+    {/if}
+    <div class="row" id="userForm" >
+        <form action="/registration/do/" method="post" id="userForm" class="well form-horizontal">
+            <fieldset>
+                <legend>Регистрация</legend>
+            </fieldset>
+            <div class="control-group">
+                <label class="control-label" for="login">Логин</label>
+                <div class="controls">
+                    <input id="login" class="input-xlarge" type="text" name="login" value="{$DATA.login}"/>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label input-mini" for="password">Пароль</label>
+                <div class="controls">
+                    <input id="password" class="input-xlarge" type="password" name="password" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label input-mini" for="commitPass">Подтверди пароль</label>
+                <div class="controls">
+                    <input id="commitPass" class="input-xlarge" type="password" name="commitPass" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label input-mini" for="">CAPTCHA</label>
+                <div class="controls">
+                    {$CAPTCHA}
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label input-mini" for="captcha">Введите код</label>
+                <div class="controls">
+                    <input id="captcha" class="input-mini" type="text" name="captcha" maxlength="6" />
+                </div>
+            </div> 
+            <hr/>
+            <div class="control-group">
+                <label class="control-label input-mini" for="name">Имя</label>
+                <div class="controls">
+                    <input id="name" class="input-xlarge" type="text" name="name" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label input-mini" for="name">Фамилия</label>
+                <div class="controls">
+                    <input id="name" class="input-xlarge" type="text" name="name" value="{$DATA.name}" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label input-mini" for="secondName">Отчество</label>
+                <div class="controls">
+                    <input id="secondName" class="input-xlarge" type="text" name="secondName" value="{$DATA.surname}" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label input-mini" for="eMail">E-mail</label>
+                <div class="controls">
+                    <input id="eMail" class="input-xlarge" type="text" name="eMail" value="{$DATA.eMail}" />
+                </div>
+            </div>
+            <div class="form-actions">
+                <input type="submit" id="sigIn" value="Зарегистрироваться" class="btn btn-large btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
 {/block}

@@ -8,19 +8,26 @@ require_once 'Zend/Captcha/Image.php';
 		
 		private $_captchaID;
         
-        public static $_fontPath='fonts/arial.ttf';
+        public static $_fontPath = 'fonts/arial.ttf';
+        
+        public static $_imgCaptchaUrl = '/img/captcha/';
 		
 		protected function onInit()
 		{
-			$captcha=new Zend_Captcha_Image();
+            $captcha=new Zend_Captcha_Image();
 			$captcha->setFont(self::$_fontPath)
+                    ->setImgDir(SOURCE_PATH.self::$_imgCaptchaUrl)
+                    ->setImgUrl(self::$_imgCaptchaUrl)
 					->setName('registrationCaptcha')
-					->setWidth(180)
-					->setHeight(55)
-					->setFontSize(32)
+					->setWidth(150)
+					->setHeight(54)
+                    ->setLineNoiseLevel(10)
+                    ->setDotNoiseLevel(10)
+					->setFontSize(24)
 					->setWordLen(6)
 					->generate();
-			$this->_captchaImage=$captcha->render();
+            
+ 			$this->_captchaImage=$captcha->render();
 			
 			$this->_captchaID=$captcha->getId();
 		}

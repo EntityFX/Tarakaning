@@ -7,7 +7,7 @@
             <p>Система управления проектами, задачами и дефектами</p>
         </div>
     </header>
-    <div class="row" id="logIn" >
+    <div class="row" id="userForm" >
         {if $ERROR neq ""}
             <strong class="error" id="error">{$ERROR}</strong>
         {else if $GOOD eq TRUE}
