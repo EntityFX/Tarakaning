@@ -59,6 +59,7 @@ Loader::LoadModel('UsersOperation','Auth');
 				"id" => $this->request->getPost("captchaId"),
 				"input" => $this->request->getPost("captcha")
 			);
+            var_dump($captchaValue);
 			if (!$captcha->isValid($captchaValue))
 			{
 				throw new Exception('Код на картинке неверный');
