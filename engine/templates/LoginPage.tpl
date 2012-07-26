@@ -9,10 +9,11 @@
     </header>
     <div class="row" id="userForm" >
         {if $ERROR neq ""}
-            <strong class="error" id="error">{$ERROR}</strong>
-        {else if $GOOD eq TRUE}
-            <strong class="ok" id="good">Пользователь зарегистрирован</strong>
-        {/if}
+		    <div class="alert alert-error" id="error">
+		        <a class="close" data-dismiss="alert" href="#">&times;</a>
+		        {$ERROR}
+		    </div>
+		{/if}
         <form action="/login/do/" method="post" class="well form-horizontal">
             <fieldset>
                 <legend>Войти в Tarakaning</legend>
