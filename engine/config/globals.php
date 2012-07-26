@@ -1,4 +1,4 @@
 <?php
 	require_once "databaseConsts.php"; 
 	
-	define(ZEND_FOLDER, "engine/system");
+	define("ZEND_FOLDER", "engine/system");

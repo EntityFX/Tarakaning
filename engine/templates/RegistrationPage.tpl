@@ -51,6 +51,7 @@
                 <label class="control-label input-mini" for="">CAPTCHA</label>
                 <div class="controls">
                     {$CAPTCHA}
+                    <input type="hidden" name="captchaId" id="captchaId" value="{$CAPTCHA_ID}" />
                 </div>
             </div>
             <div class="control-group">
