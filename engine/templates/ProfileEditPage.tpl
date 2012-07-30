@@ -1,15 +1,16 @@
 {extends file="InfoBasePage.base.tpl"}
 {block name=body}
-
-{if $GOOD eq TRUE}
-    <div class="messageBox goodBox">
-        <strong class="ok" id="good">Изменения сохранены</strong>
-    </div> 
-{/if}
 {if $ERROR neq ""}
-    <div class="messageBox errorBox">
-        <strong class="error" id="error">{$ERROR}</strong>
-    </div> 
+    <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">&times;</a>
+        {$ERROR}
+    </div>
+{/if}
+{if $GOOD eq TRUE}
+    <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">&times;</a>
+        <span>Изменения сохранены</span>
+    </div>
 {/if}
 <ul class="nav nav-tabs" id="item-tab">
     <li class="active"><a href="#edit_info" data-toggle="tab">Редактировать информацию</a></li>
@@ -47,7 +48,10 @@
                 </div>
             </div>
             <div class="form-actions">
-                <input class="btn btn-primary" type="submit" name="save_profile" value="Сохранить" />
+                <button class="btn btn-primary" type="submit" name="save_profile">
+                    <i class="icon-hdd icon-white"></i>
+                    Сохранить
+                </button>
             </div>
         </form>
     </div>
@@ -59,23 +63,26 @@
             <div class="control-group">
                 <label class="control-label" for="oldPassword">Старый пароль</label>
                 <div class="controls">
-                    <input type="text" class="input-large" name="oldPassword" id="oldPassword" />
+                    <input type="password" class="input-large" name="oldPassword" id="oldPassword" />
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="newPassword">Новый пароль</label>
                 <div class="controls">
-                    <input type="text" class="input-large" name="newPassword" id="newPassword" />
+                    <input type="password" class="input-large" name="newPassword" id="newPassword" />
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="newPasswordRepeat">Повтор нового пароля</label>
                 <div class="controls">
-                    <input type="text" class="input-large" name="newPasswordRepeat" id="newPasswordRepeat" />
+                    <input type="password" class="input-large" name="newPasswordRepeat" id="newPasswordRepeat" />
                 </div>
             </div>
             <div class="form-actions">
-                <input class="btn btn-primary" type="submit" name="save_btn" value="Сменить пароль" />
+                <button class="btn btn-primary" type="submit" name="save_btn">
+                    <i class="icon-hdd icon-white"></i>
+                    Сохранить
+                </button>
             </div>
         </form>
     </div>
@@ -95,7 +102,10 @@
                 </div>
             </div>
             <div class="form-actions">
-                <input class="btn btn-primary" type="submit" name="save_project" value="Сохранить" {if $PROJECTS.PROJECTS_LIST eq NULL}disabled="disabled"{/if} />
+                <button class="btn btn-primary" type="submit" name="save_project" {if $PROJECTS.PROJECTS_LIST eq NULL}disabled="disabled"{/if}>
+                    <i class="icon-hdd icon-white"></i>
+                    Сохранить
+                </button>
             </div>
         </form>
     </div>                

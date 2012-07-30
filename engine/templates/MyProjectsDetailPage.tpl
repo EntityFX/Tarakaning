@@ -30,22 +30,33 @@
 </ul>
 <div class="tab-content">
     <div class="tab-pane active" id="about">
-        <dl> 
-            <dt>Название</dt> 
-            <dd>{$Project.Name}</dd> 
-            <dt>Автор</dt> 
-            <dd><a href="/profile/show/{$Project.OwnerID}/">{$Project.OwnerNickName}</a></dd>				
-            <dt>Описание</dt> 
-            <dd>{$Project.Description}&nbsp;</dd> 
-        </dl> 
-        {if $IS_OWNER eq true}
-            <form action="/my/project/edit/" method="post">
-                <div>
-                    <input type="submit" value="Редактировать проект" class="btn btn-primary" />
-                    <input type="hidden" name="project_id" value="{$Project.ProjectID}" />
+        <form class="form-horizontal" action="/my/project/edit/" method="post">
+            <fieldset {if $IS_OWNER eq false}disabled="disabled"{/if}>
+                <legend>Редактирование проекта</legend>
+                <div class="control-group">
+                    <label class="control-label" for="author">Автор</label>
+                    <div class="controls">
+                        <label><a href="/profile/show/{$Project.OwnerID}/">{$Project.OwnerNickName}</a></label>
+                    </div>
                 </div>
-            </form>
-        {/if} 
+                <div class="control-group">
+                    <label class="control-label" for="project_name">Имя проекта</label>
+                    <div class="controls">
+                        <input type="text" {if $IS_OWNER eq false}disabled="disabled"{/if} class="input-xlarge" name="project_name" id="project_name" value="{$Project.Name}" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="description">Описание проекта</label>
+                    <div class="controls">
+                        <textarea name="description" {if $IS_OWNER eq false}disabled="disabled"{/if} id="description" class="input-xxlarge" rows="10">{$Project.Description}</textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <input class="btn btn-primary" type="submit" {if $IS_OWNER eq false}disabled="disabled"{/if} value="Сохранить изменения" name="save" />
+                </div>
+                <input type="hidden" name="project_id" value="{$Project.ProjectID}" />	
+            </fieldset>
+        </form>
     </div>
     <div class="tab-pane" id="users">
         {if $MY_PROJECT_DETAIL_PAGINATOR neq NULL}
@@ -56,12 +67,11 @@
         {if $PROJECT_USERS neq NULL}
             <form action="#users" class="reports_form" method="post"> 
                 <table class="table table-bordered table-striped checkbox-table"> 
-                    <col width="23" /> 
                     <thead> 
                         <tr> 
                             {if $IS_OWNER eq true}
                                 <th><input name="del" type="checkbox" /></th> 
-                            {/if}
+                                {/if}
                             <th><a href="{$MY_PROJECT_ORDERER.NickName.url}#users" {if $MY_PROJECT_ORDERER.NickName.order eq true}class="sort"{/if}>Пользователь</a></th> 
                             <th><a href="{$MY_PROJECT_ORDERER.CountCreated.url}#users" {if $MY_PROJECT_ORDERER.CountCreated.order eq true}class="sort"{/if}>Создано</a></th> 
                             <th><a href="#">Количество комментариев</a></th> 
@@ -73,7 +83,7 @@
                             <tr class="{if $smarty.foreach.projectUsers.index % 2 == 0}odd{else}even{/if}"> 
                                 {if $IS_OWNER eq true}
                                     <td><input name="del_i[{$element.UserID}]" type="checkbox" {if $element.Owner eq 1}disabled="disabled"{/if} /></td> 
-                                {/if}
+                                    {/if}
                                 <td>{if $element.Owner eq 1}<strong><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a></strong>&nbsp;<span class="label label-success">Владелец</span>{else}<a href="/profile/show/{$element.UserID}/">{$element.NickName}</a>{/if}</td> 
                                 <td>{$element.CountCreated}</td> 
                                 <td>{$element.CountComments}</td> 
@@ -84,7 +94,10 @@
                 </table> 
                 {if $IS_OWNER eq true}
                     <div class="btn-toolbar"> 
-                        <input class="btn btn-danger" value="Удалить выделенных подписчиков" name="delete_member" id="delete_member" type="submit" /> 
+                        <button class="btn btn-danger" type="submit" name="delete_member" id="delete_member" title="Удалить выделенные">
+                            <i class="icon-trash icon-white"></i>
+                            Удалить выделенные проекты
+                        </button>
                     </div> 
                 {/if}
             </form> 
@@ -118,8 +131,14 @@
                         </tbody> 
                     </table> 
                     <div class="btn-toolbar"> 
-                        <input class="btn btn-primary" value="Подтвердить заявки" name="assign_subscribes" id="assign_subscribes" type="submit" /> 
-                        <input class="btn btn-danger" value="Удалить заявки" name="delete_subscribes" id="delete_subscribes" type="submit" /> 
+                        <button class="btn btn-primary" type="submit" name="assign_subscribes" id="assign_subscribes" title="Удалить выделенные">
+                            <i class="icon-ok icon-white"></i>
+                            Подтвердить заявки
+                        </button>
+                        <button class="btn btn-danger" type="submit" name="delete_subscribes" id="delete_subscribes" title="Удалить выделенные">
+                            <i class="icon-trash icon-white"></i>
+                            Удалить заявки
+                        </button>
                     </div> 
                 </form> 
             {/if} 

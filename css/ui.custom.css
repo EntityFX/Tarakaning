@@ -10,7 +10,7 @@ body {
     padding-top: 40px;
     /*padding-bottom: 40px;*/
     background-image: url(../img/honeycomb_background.png);
-    /*background-repeat: repeat-x;*/
+    background-repeat: repeat-x;
 }
 
 select {
@@ -44,38 +44,6 @@ blockquote .close {
 .tarakaning-toolbar .pagination-right {
     text-align: right;
     float: right;
-}
-
-#main-toolbar {
-    float: right;
-	margin: 8px 0px;
-	background-color: #F5F5F5;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
-}
-
-.main-toolbar-group {
-	display: inline-block;
-	padding: 5px 5px 2px;
-	overflow: hidden;
-}
-
-#main-toolbar .divider {
-    border-right: 1px solid #CCCCCC;
-    display: inline-block;
-	height: 39px;
-	margin: -4px 0px;
-    overflow: hidden;
-    width: 1px;
-}
-
-#main-toolbar form {
-	margin: 0;
-}
-
-#main-toolbar .btn-group-normalize {
-	margin-bottom: -10px;	
 }
 
 .form-horizontal .controls label {
@@ -149,4 +117,66 @@ blockquote .close {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	width: 100%;
+}
+
+.btn-toolbar .btn-group .btn {
+    float: none;
+}
+
+.main-toolbar-group {
+	display: inline-block;
+	padding: 5px 5px 2px;
+	overflow: hidden;
+}
+
+.main-toolbar-group .divider {
+    border-right: 1px solid #CCCCCC;
+    display: inline-block;
+    height: 48px;
+    margin: -20px 0;
+    overflow: hidden;
+    width: 1px;
+}
+
+.main-toolbar-group form {
+	margin: 0;
+}
+
+.main-toolbar-group a.btn {
+    margin: auto -4px;
+}
+
+.main-toolbar-group a.btn:last-child {
+    margin: 0 -1px;
+}
+
+#main-toolbar .btn-group-normalize {
+	margin-bottom: -10px;	
+}
+
+.form-horizontal fieldset {
+    margin-bottom: 27px;
+}
+
+.form-horizontal fieldset {
+    margin-bottom: 0px;
+}
+
+form fieldset a.form-header-right {
+    float: right;
+    font-size: 13px;
+}
+
+.required {
+    color: red;
+    font-size: 36px;
+}
+
+.pagination-custom {
+    margin: 0 !important;
+    height: auto !important;
+}
+
+form table td:first-child {
+    width: 14px;
 }

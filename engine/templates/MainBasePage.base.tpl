@@ -18,12 +18,12 @@
         <script type="text/javascript" src="/js/bootstrap.min.js"></script>
         {block name=script}{/block}
     </head>
-    <body lang="ru" data-offset="50" data-spy="scroll">
+    <body lang="ru" data-offset="50" >
         <div class="navbar navbar-fixed-top">
             {block name=menu}{/block}
         </div>
         <div class="container">
-            <div class="row-fluid">
+            <div class="row">
                 {block name=info}{/block}
             </div>
             <div class="row" id="main_row">
