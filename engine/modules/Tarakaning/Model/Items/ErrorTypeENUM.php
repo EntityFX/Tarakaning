@@ -22,13 +22,13 @@ final class ErrorTypeENUM extends AEnum
     {
         return array(
         	self::CRASH => "Крах",
-        	self::COSMETIC => "Косметическая",
+        	self::COSMETIC => "Ошибка интерфейса",
         	self::ERROR_HANDLE => "Исключение",
-        	self::FUNCTIONAL => "Функциональня",
-        	self::MINOR => "Неначительная",
-        	self::MAJOR => "Значительная",
+        	self::FUNCTIONAL => "Функциональный",
+        	self::MINOR => "Незначительный",
+        	self::MAJOR => "Значительный",
         	self::SETUP => "Ошибка инсталляции",
-        	self::BLOCK => "Блокирующая"
+        	self::BLOCK => "Блокирующая ошибка"
         );
     }
 }  

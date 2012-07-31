@@ -14,15 +14,15 @@
     <Document Moniker="..\database\migration\1\tables\1_ITEM.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
   </Documents>
   <Services>
-    <Service GUID="{811fba21-97c2-44b6-8c1c-eae1f1315f2d}">
-      <Persist />
-    </Service>
     <Service GUID="{e86507ae-fc27-47e0-925b-3c3e655520d4}">
       <Persist>
         <Configurations>
           <Active>По умолчанию</Active>
         </Configurations>
       </Persist>
+    </Service>
+    <Service GUID="{811fba21-97c2-44b6-8c1c-eae1f1315f2d}">
+      <Persist />
     </Service>
   </Services>
 </Options>

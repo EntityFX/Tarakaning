@@ -2,8 +2,6 @@
 
 {block name=script}
 {literal}
-    $("a.button, span.button").button();
-
     $('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
     $('#del').click(function(){
     return confirm('Вы действительно желаете удалить выбранные комментарии?');
@@ -26,6 +24,36 @@
         {$ERROR}
     </div>
 {/if}
+<div class="btn-toolbar">
+    <div class="btn-group ">
+        {if $ITEM_PREV_ID neq NULL}
+            <a class="btn" href="/bug/show/{$ITEM_PREV_ID}" rel="tooltip" title="К предыдущему элементу">
+                <i class="icon-arrow-left"></i>
+            </a>
+        {else}
+            <button class="btn" disabled="disabled" rel="tooltip" title="К предыдущему элементу">
+                <i class="icon-arrow-left"></i>
+            </button>
+        {/if}
+        {if $ITEM_NEXT_ID neq NULL}
+            <a class="btn" href="/bug/show/{$ITEM_NEXT_ID}" rel="tooltip" title="К следующему элементу">
+                <i class="icon-arrow-right"></i>
+            </a>
+        {else}
+            <button class="btn" disabled="disabled" rel="tooltip" title="К следующему элементу">
+                <i class="icon-arrow-right"></i>
+            </button>
+        {/if}
+    </div>
+    <div class="btn-group">
+        <a class="btn btn-danger" href="/bug/add/">
+            <i class="icon-trash icon-white"></i>
+        </a>
+        <a class="btn btn-primary" href="#">
+            <i class="icon-asterisk icon-white"></i>
+        </a>
+    </div>
+</div>
 <ul class="nav nav-tabs" id="item-tab">
     <li class="active"><a href="#description" data-toggle="tab">Описание</a></li>
     <li><a href="#comments" data-toggle="tab">Комментарии<span class="label label-success">{$COMMENT_COUNT}</span></a></li>
@@ -35,16 +63,6 @@
 <div class="tab-content">
     <div class="tab-pane active" id="description">  
         {if $CAN_EDIT_DATA eq TRUE}
-            <div class="btn-toolbar main-toolbar-group">
-                <div class="btn-group">
-                    <a class="btn" href="/bug/show/{$ITEM_PREV_ID}" rel="tooltip" title="К предыдущему элементу"><i class="icon-arrow-left"></i></a>
-                    <a class="btn" href="/bug/show/{$ITEM_NEXT_ID}" rel="tooltip" title="К следующему элементу"><i class="icon-arrow-right"></i></a>
-                </div>
-                <div class="btn-group">
-                    <a class="btn btn-primary" href="/bug/add/"><i class="icon-asterisk icon-white"></i></a>
-                    <a class="btn btn-danger" href="/bug/delete/{$BUG.ID}/"><i class="icon-trash icon-white"></i></a>
-                </div>
-            </div>
             <form class="form-horizontal" method="post" action="#">
                 <fieldset>
                     <legend>{$BUG.KindN} № {$BUG.ID}</legend>
@@ -130,7 +148,7 @@
                     </div>
                     {if $BUG.Kind eq Defect}
                         <div class="control-group">
-                            <label class="control-label" for="error_type">Вид ошибки</label>
+                            <label class="control-label" for="error_type">Вид дефекта</label>
                             <div class="controls">
                                 <select name="error_type" id="error_type">
                                     {html_options options=$DEFECT_TYPE.values selected=$DEFECT_TYPE.selected}
@@ -153,41 +171,14 @@
                         </div>
                     {/if}
                     <div class="form-actions">
-                        <input type="submit" class="btn btn-primary" name="cnange_state" value="Сохранить изменения" />
+                        <button class="btn btn-primary" type="submit" name="cnange_state">
+                            <i class="icon-hdd icon-white"></i>
+                            Сохранить изменения
+                        </button>
                     </div>
                 </fieldset>
             </form>
         {else}
-            <div class="btn-toolbar main-toolbar-group">
-                <div class="btn-group ">
-                    {if $ITEM_PREV_ID neq NULL}
-                        <a class="btn" href="/bug/show/{$ITEM_PREV_ID}" rel="tooltip" title="К предыдущему элементу">
-                            <i class="icon-arrow-left"></i>
-                        </a>
-                    {else}
-                        <a class="btn" href="#" rel="tooltip" title="К предыдущему элементу">
-                            <i class="icon-arrow-left"></i>
-                        </a>
-                    {/if}
-                    {if $ITEM_NEXT_ID neq NULL}
-                        <a class="btn" href="/bug/show/{$ITEM_NEXT_ID}" rel="tooltip" title="К следующему элементу">
-                            <i class="icon-arrow-right"></i>
-                        </a>
-                    {else}
-                        <a class="btn" href="#" rel="tooltip" title="К следующему элементу">
-                            <i class="icon-arrow-right"></i>
-                        </a>
-                    {/if}
-                </div>
-                <div class="btn-group">
-                    <a class="btn btn-danger" href="/bug/add/">
-                        <i class="icon-trash icon-white"></i>
-                    </a>
-                    <a class="btn btn-primary" href="#">
-                        <i class="icon-asterisk icon-white"></i>
-                    </a>
-                </div>
-            </div>
             <form class="form-horizontal">
                 <fieldset>
                     <legend>{$BUG.KindN} № {$BUG.ID}</legend>
@@ -301,7 +292,10 @@
                         </div>
                     {/if}
                     <div class="form-actions">
-                        <input type="submit" class="btn btn-primary" name="cnange_state" value="Сохранить изменения" {if $CAN_EDIT_STATUS neq true}disabled="disabled"{/if} />
+                        <button class="btn btn-primary" type="submit" name="cnange_state {if $CAN_EDIT_STATUS neq true}disabled="disabled"{/if}
+                                <i class="icon-hdd icon-white"></i>
+                            Сохранить изменения
+                        </button>
                     </div>
                 </fieldset>
             </form>
