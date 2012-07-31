@@ -48,9 +48,10 @@ abstract class BugsBasePage extends InfoBasePage
 	
 				if ($this->request->isPost())
 				{
-					if ($this->request->getPost("del",null)!=null)
+					if ($this->request->getPost("del",null)==='')
 					{
 						$this->deleteSelectedItems();
+                        $this->navigate($this->_url);
 					}
 				}
 				

@@ -36,9 +36,10 @@ class MyBugsPage extends BugsBasePage
 	{
 		if ($this->request->isPost())
 		{
-			if ($this->request->getPost("del_assigned",null)!=null)
+            if ($this->request->getPost("del_assigned",null)==='')
 			{
-				$this->deleteSelectedItems();
+                $this->deleteSelectedItems();
+                $this->navigate($this->_url);
 			}
 		}
 				

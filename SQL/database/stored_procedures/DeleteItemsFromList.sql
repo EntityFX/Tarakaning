@@ -1,3 +1,4 @@
+DROP PROCEDURE IF EXISTS DeleteItemsFromList;
 CREATE PROCEDURE DeleteItemsFromList(IN _UserID INT, IN _ProjectID INT, IN ItemsList TEXT)
 BEGIN
     DECLARE SymbolPosition INT;

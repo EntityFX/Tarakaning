@@ -13,7 +13,7 @@ class InfoBasePage extends HTMLPageController
 	/**
 	 * Логика проектов
 	 * 
-	 * @var ProjectsController
+	 * @var ProjectsModel
 	 */
 	protected $_projectsController;
 	

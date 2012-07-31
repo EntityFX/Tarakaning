@@ -27,7 +27,7 @@
 <div class="main-toolbar-group btn-toolbar well well-small">
     <div class="btn-group">
         <form class="form-inline" id="selectProjectForm" action="#">
-            <label for="project_id">Выберите проект</label>
+            <label for="project_id">Текущий проект</label>
             <select id="project_id" name="project_id" {if $PROJECT_SELECTION_FLAG neq true}disabled="disabled"{/if}>
                 {if $PROJECTS.PROJECTS_LIST neq NULL}
                     {html_options options=$PROJECTS.PROJECTS_LIST selected=$PROJECTS.selected}

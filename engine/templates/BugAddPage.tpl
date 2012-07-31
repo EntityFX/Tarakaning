@@ -2,41 +2,41 @@
 {block name=script}
 {literal}
     if ($("#item_type").val()=="Task") $(".for_defect").hide();
-    
+
     $("#item_type").change(function(){
-    	switch ($(this).val())
-    	{
-    		case "Task":
-    			$(".for_defect").hide();
-    			break;
-    		case "Defect":
-    			$(".for_defect").show();
-    			break;
-    	}
+    switch ($(this).val())
+    {
+    case "Task":
+    $(".for_defect").hide();
+    break;
+    case "Defect":
+    $(".for_defect").show();
+    break;
+    }
     });
 
     function updateProjectUsers(projectID)
     {
-    	$.getJSON(
-    		"/bug/ajax/",
-    		{project_id: projectID},
-    		function(dataResult)
-    		{
-    			var usersList='<option value=" ">-</option>';
+    $.getJSON(
+    "/bug/ajax/",
+    {project_id: projectID},
+    function(dataResult)
+    {
+    var usersList='<option value=" ">-</option>';
 
-    			$.each(dataResult, function(key,val){
-    				usersList+='<option value="' + val.UserID + '">' + val.NickName + '</option>';
-    			});
+    $.each(dataResult, function(key,val){
+    usersList+='<option value="' + val.UserID + '">' + val.NickName + '</option>';
+    });
 
-    			$("#assigned_to").empty().append(usersList);
-    		}
-    	);
+    $("#assigned_to").empty().append(usersList);
+    }
+    );
     }
 
     updateProjectUsers($("#bug_project_id").val());
     $("#bug_project_id").change(function(){
-    	var projectID=$(this).val();
-    	updateProjectUsers(projectID);
+    var projectID=$(this).val();
+    updateProjectUsers(projectID);
     });
 {/literal}
 {/block}
@@ -75,18 +75,18 @@
                 </select>
             </div>
         </div>
-        <div class="control-group">
-            <label class="control-label" for="error_type">Тип ошибки</label>
+        <div class="control-group for_defect">
+            <label class="control-label" for="error_type">Тип дефекта</label>
             <div class="controls">
                 <select id="error_type" name="error_type">
                     <option value="Crash">Крах</option>
-                    <option value="Cosmetic">Косметическая</option>
+                    <option value="Cosmetic">Ошибка в интерфейсе</option>
                     <option value="Exception">Исключение</option>
                     <option value="Functional">Функциональная</option>
-                    <option value="Minor">Незначительная</option>
-                    <option selected="selected" value="Major">Важная</option>
+                    <option value="Minor">Незначительнаый</option>
+                    <option selected="selected" value="Major">Важный</option>
                     <option value="Install">Ошибка установки</option>
-                    <option value="Block">Блокирующая</option>
+                    <option value="Block">Блокирующая ошибка</option>
                 </select>
             </div>
         </div>
@@ -111,7 +111,10 @@
         <div class="control-group">
             <label class="control-label" for="hour_req">Требуется на работу</label>
             <div class="controls">
-                <input type="text" id="hour_req" name="hour_req" value="{$DATA.hour_req}" maxlength="5" size="5" />
+                <div class="input-append">
+                    <input type="text" class="input-mini align-right" maxlength="5" value="0" id="hour_req" name="hour_req" value="{$DATA.hour_req}" /><span class="add-on">ч</span>
+                </div>
+                
             </div>
         </div>
         <div class="control-group">
@@ -120,7 +123,7 @@
                 <textarea id="description" name="description" class="input-xxlarge" rows="7" >{$DATA.description}</textarea>
             </div>
         </div>
-        <div class="control-group">
+        <div class="control-group for_defect">
             <label class="control-label" for="steps">Действия, которые привели к ошибке</label>
             <div class="controls">
                 <textarea id="steps" name="steps" class="input-xxlarge" rows="10">{$DATA.steps}</textarea>

@@ -324,6 +324,12 @@
 			return $this->_sql->getTable();
 		}
 		
+        /**
+         * Получить число участников в проекте
+         * 
+         * @param int $projectID Идентификатор проекта
+         * @return int Количетво участников в проекте 
+         */
 		public function getProjectUsersInfoCount($projectID)
 		{
 			$projectID=(int)$projectID;

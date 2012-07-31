@@ -16,11 +16,11 @@ class ProfileEditPage extends InfoBasePage
 		$postData=$this->request->getParams();
 		if ($this->request->isPost() && $postData)
 		{
-			if ($this->request->getPost('save_project',null)!=null)
+			if ($this->request->getPost('save_project',null)==='')
 			{
 				$this->_changeDefaultproject();
 			}
-			else if($this->request->getPost('save_profile',null)!=null)
+			else if($this->request->getPost('save_profile',null)==='')
 			{
 				$this->_changeProfile();
 			}

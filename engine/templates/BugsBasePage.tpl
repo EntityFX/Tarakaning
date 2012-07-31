@@ -3,12 +3,12 @@
 {block name=script}
 {literal}
     $('.reports_form').checkboxes({titleOn: "Отметить всё", titleOff: "Снять отметки"});
-    $('#del, del_assigned').click(function(){
-    return confirm('Вы действительно желаете удалить выделенные элементы?');
+    $('#del, #del_assigned').click(function(){
+        return confirm('Вы действительно желаете удалить выделенные элементы?');
     });
 
     $("#item_kind").change(function(){
-    $("#item_kind_form").submit();
+        $("#item_kind_form").submit();
     });
 {/literal}
 {/block}

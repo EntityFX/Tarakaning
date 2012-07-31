@@ -94,7 +94,7 @@ class BugPage extends InfoBasePage
 			$postData=$this->request->getParams();
 			if ($this->_bugData!=null);
 			{
-				if ($postData['sendComment']!=null)
+                if ($postData['sendComment']!=null)
 				{
                     $this->addComment();
 				}
@@ -104,7 +104,7 @@ class BugPage extends InfoBasePage
 			{
 				$this->deleteSelectedItems();
 			}
-			else if ($this->request->getPost("cnange_state",null)!=null)
+			else if ($this->request->getPost("cnange_state",null)==='')
 			{
 				$this->editState();
 			}

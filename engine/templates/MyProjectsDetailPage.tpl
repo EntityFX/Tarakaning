@@ -23,7 +23,7 @@
 {/if}
 <ul class="nav nav-tabs" id="item-tab">
     <li class="active"><a href="#about" data-toggle="tab">Описание</a></li>
-    <li><a href="#users" data-toggle="tab">Участники</a></li>
+    <li><a href="#users" data-toggle="tab">Участники <span class="label label-success">{$PROJECT_USERS_COUNT}</span></a></li>
     {if $IS_OWNER eq true}
         <li><a href="#requests" data-toggle="tab">Заявки{if $COUNT_SUBSCRIBES neq 0} <span class="label label-warning">{$COUNT_SUBSCRIBES}</span>{/if}</a></li>	
     {/if}
@@ -84,7 +84,7 @@
                                 {if $IS_OWNER eq true}
                                     <td><input name="del_i[{$element.UserID}]" type="checkbox" {if $element.Owner eq 1}disabled="disabled"{/if} /></td> 
                                     {/if}
-                                <td>{if $element.Owner eq 1}<strong><a href="/profile/show/{$element.UserID}/">{$element.NickName}</a></strong>&nbsp;<span class="label label-success">Владелец</span>{else}<a href="/profile/show/{$element.UserID}/">{$element.NickName}</a>{/if}</td> 
+                                <td>{if $element.Owner eq 1}<a href="/profile/show/{$element.UserID}/">{$element.NickName}</a>&nbsp;<span class="label label-success">Владелец</span>{else}<a href="/profile/show/{$element.UserID}/">{$element.NickName}</a>{/if}</td> 
                                 <td>{$element.CountCreated}</td> 
                                 <td>{$element.CountComments}</td> 
                                 <td class="item-state-new">{$element.NEW}</td><td class="item-state-assesed">{$element.IDENTIFIED}</td><td class="item-state-inprocess">{$element.ASSESSED}</td><td class="item-state-solved">{$element.RESOLVED}</td><td class="closed">{$element.CLOSED}</td>
@@ -96,7 +96,7 @@
                     <div class="btn-toolbar"> 
                         <button class="btn btn-danger" type="submit" name="delete_member" id="delete_member" title="Удалить выделенные">
                             <i class="icon-trash icon-white"></i>
-                            Удалить выделенные проекты
+                            Удалить выделенных участников
                         </button>
                     </div> 
                 {/if}
