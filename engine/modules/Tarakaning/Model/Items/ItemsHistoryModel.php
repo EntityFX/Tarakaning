@@ -142,7 +142,7 @@ class ItemsHistoryModel extends DBConnector
 		$size=$paginator->getSize();
 		$this->_sql->setLimit($offset, $size);
 		$this->_sql->selFieldsWhere(self::TABLE_ITEM_HIST, "ITEM_ID=$reportID");
-		$res=$this->_sql->getTable();
+		$res=$this->_sql->getResultRows();
 		$this->_sql->clearLimit();
 		return $res;
 	}

@@ -46,7 +46,7 @@ class UserActivation extends DBConnector
     {
         $userIdentificator = (int)$userIdentificator;
         $this->_sql->selFieldsWhere(self::TBL_USER_ACTIVATION,"USER_ID = $userIdentificator","USER_ID");
-        return $this->_sql->getTable() == null ? false : true;
+        return $this->_sql->getResultRows() == null ? false : true;
     }
     
     private function deleteActivationKey($userIdentificator)
@@ -94,7 +94,7 @@ class UserActivation extends DBConnector
         if ($decodedData !== false)
         {
             $this->_sql->selAllWhere(self::TBL_USER_ACTIVATION,"USER_ID = $decodedData[userID]");
-            $records = $this->_sql->getTable();
+            $records = $this->_sql->getResultRows();
             if ($records != null)
             {
                 $currentDateTime = new DateTime(); //current date time

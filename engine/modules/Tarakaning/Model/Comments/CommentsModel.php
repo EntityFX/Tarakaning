@@ -198,7 +198,7 @@ class CommentsModel extends DBConnector
 					$this->_sql->selAllWhere(self::VIEW_COMMENTS_DETAIL, "ItemID = $reportID");
 					$this->_sql->clearLimit();
 					$this->_sql->clearOrder();
-					return $this->_sql->getTable();
+					return $this->_sql->getResultRows();
 				}
 				else 
 				{
@@ -239,7 +239,7 @@ class CommentsModel extends DBConnector
 		{
 			$commentID = (int)$commentID;
             $this->_sql->selAllWhere(self::TABLE_ITEM_COMMENT,"ITEM_CMMENT_ID=$commentID");
-            $res=$this->_sql->getTable();
+            $res=$this->_sql->getResultRows();
 			return $res[0]["USER_ID"];
 		}
 		
@@ -253,7 +253,7 @@ class CommentsModel extends DBConnector
 			$userID = (int)$userID;
 			$commentID = (int)$commentID;
             $this->_sql->selAllWhere(self::TABLE_ITEM_COMMENT,"ITEM_CMMENT_ID=$commentID");
-            $res=$this->_sql->getTable();
+            $res=$this->_sql->getResultRows();
 			$p = new ProjectsModel();
 			$s = $p->isOwner($userID, $projectID);
 			return  $res[0]["UserID"] == $userID || $s ? TRUE : FALSE;

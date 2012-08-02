@@ -16,7 +16,7 @@
 			$langCode=(int)$langCode;
 			$moduleId=(int)$moduleId;
 			self::$_sql->selAllWhere("LocationsText","MOD_ID=$moduleId AND LOC_ID=$langCode");
-			$data=self::$_sql->getTable();
+			$data=self::$_sql->getResultRows();
 			if ($data!=NULL)
 			{
 				return $data[0]["MOD_TXT"];
@@ -40,7 +40,7 @@
 			self::setSql();
 			$code=(int)$code;
 			self::$_sql->selFieldsWhere("Locations","LANG_ID=$code","LANG_NAME");
-			$data=self::$_sql->getTable();
+			$data=self::$_sql->getResultRows();
 			if ($data==null)
 			{
 				throw new Exception("No language for this code");

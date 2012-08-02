@@ -110,21 +110,21 @@ class UsersOperation extends DBConnector
 		);
 		$this->_sql->selAll(self::$authTableName);
 		$this->_sql->clearOrder();
-		return $this->_sql->getTable();
+		return $this->_sql->getResultRows();
 	}
 
 	public function getAllByFirstLetter($letter)
 	{
 		$letter=(string)$letter[0];
 		$this->_sql->selAllWhere(self::$authTableName,"NICK Like '$letter%'");
-		return $this->_sql->getTable();
+		return $this->_sql->getResultRows();
 	}
 
 	public function getById($id)
 	{
 		$id=(int)$id;
 		$this->_sql->selAllWhere(self::$authTableName,"USER_ID=$id");
-		$arr=$this->_sql->getTable();
+		$arr=$this->_sql->getResultRows();
 		return $arr[0];
 	}
 

@@ -400,7 +400,7 @@
 		*  
 		* @return Array[Array[String]]
 		*/
-		public function &getTable()
+		public function &getResultRows()
 		{
 			return $this->rows;    
 		}

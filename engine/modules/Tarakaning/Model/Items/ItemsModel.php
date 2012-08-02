@@ -235,7 +235,7 @@ class ItemsModel extends DBConnector
     {
         $reportID=(int)$reportID;
         $this->_sql->selFieldsWhere(self::TABLE_ITEM,"ITEM_ID=$reportID","USER_ID");
-        $res=$this->_sql->getTable();
+        $res=$this->_sql->getResultRows();
         return (int)$res[0]["UserID"];
     }
 
@@ -243,7 +243,7 @@ class ItemsModel extends DBConnector
     {
         $reportID=(int)$reportID;
         $this->_sql->selFieldsWhere(self::TABLE_ITEM,"ITEM_ID=$reportID","PROJ_ID");
-        $projectID=$this->_sql->getTable();
+        $projectID=$this->_sql->getResultRows();
         $projectID=$projectID[0]["ProjectID"];
         return $projectID==$this->_projectOwnerID;
     }
@@ -265,7 +265,7 @@ class ItemsModel extends DBConnector
             $kindExpression="AND Kind='$itemKind'";
         }
         $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO,"ProjectID=$projectID $kindExpression");
-        $res=$this->_sql->getTable();
+        $res=$this->_sql->getResultRows();
         if ($res!=null)
         {
 	        foreach($res as $index => $report)
@@ -365,7 +365,7 @@ class ItemsModel extends DBConnector
         $this->_sql->setLimit($page, $size);
         $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO,"UserID=$userID AND ProjectID=$projectID $kindExpression");
         $this->_sql->clearLimit();
-        $res=$this->_sql->getTable();
+        $res=$this->_sql->getResultRows();
         if ($res!=null)
         {
 	        foreach($res as $index => $report)
@@ -416,7 +416,7 @@ class ItemsModel extends DBConnector
         $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO,"AssignedTo=$userID AND ProjectID=$projectID $kindExpression");
         $this->_sql->clearOrder();
         $this->_sql->clearLimit();
-        $res=$this->_sql->getTable();
+        $res=$this->_sql->getResultRows();
         if ($res!=null)
         {
 	        foreach($res as $index => $report)
@@ -441,7 +441,7 @@ class ItemsModel extends DBConnector
         $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO,"ProjectID=$projectID $kindExpression");
         $this->_sql->clearLimit();
         $this->_sql->clearOrder();
-        $res=$this->_sql->getTable();
+        $res=$this->_sql->getResultRows();
         if ($res!=null)
         {
 	        foreach($res as $index => $report)
@@ -456,7 +456,7 @@ class ItemsModel extends DBConnector
     public function getAllReports()
     {
         $this->_sql->selAll(self::TABLE_ITEM);
-        return $this->_sql->getTable();
+        return $this->_sql->getResultRows();
     }
 
     public function getReport($reportID)
@@ -472,7 +472,7 @@ class ItemsModel extends DBConnector
     {
         $reportID=(int)$reportID;
         $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO,"ID=$reportID");
-        $arr=$this->_sql->getTable();
+        $arr=$this->_sql->getResultRows();
         if ($arr==null)
         {
             return null;
@@ -490,7 +490,7 @@ class ItemsModel extends DBConnector
         $this->_sql->selFieldsWhere(self::TABLE_ITEM,"ITEM_ID < $itemID AND PROJ_ID = $projectID","ITEM_ID");
         $this->_sql->clearOrder();
         $this->_sql->clearLimit();
-        $result=$this->_sql->getTable();
+        $result=$this->_sql->getResultRows();
         return (int)$result[0]["ITEM_ID"];
     }
 
@@ -503,7 +503,7 @@ class ItemsModel extends DBConnector
         $this->_sql->selFieldsWhere(self::TABLE_ITEM,"ITEM_ID > $itemID AND PROJ_ID = $projectID","ITEM_ID");
         $this->_sql->clearOrder();
         $this->_sql->clearLimit();
-        $result=$this->_sql->getTable();
+        $result=$this->_sql->getResultRows();
         return (int)$result[0]["ITEM_ID"];
     }
 

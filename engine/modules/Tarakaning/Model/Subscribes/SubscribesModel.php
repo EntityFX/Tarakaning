@@ -90,7 +90,7 @@
 				$this->_sql->selAllWhere(self::VIEW_SUBSCRIBES_DETAIL, "UserID = $userID");
 				$this->_sql->clearOrder();
 				$this->_sql->clearLimit();
-				return $this->_sql->getTable();
+				return $this->_sql->getResultRows();
 			}
 			
 			
@@ -111,7 +111,7 @@
 				$this->_sql->selAllWhere(self::VIEW_SUBSCRIBES_USER_NICK, "ProjectID = $projectID");
 				$this->_sql->clearOrder();
 				$this->_sql->clearLimit();
-				return $this->_sql->getTable();
+				return $this->_sql->getResultRows();
 			}
 			
 			/**

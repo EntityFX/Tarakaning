@@ -76,7 +76,7 @@ require_once SOURCE_PATH."engine/system/db/DBConnector.php";
 		{
 			$type=(int)$type;
 			$this->_sql->selAllWhere("Modules", "moduleId=$type");
-			$array=$this->_sql->getTable();
+			$array=$this->_sql->getResultRows();
 			$array=$array[0];
 			if ($array==null)
 			{
@@ -114,7 +114,7 @@ require_once SOURCE_PATH."engine/system/db/DBConnector.php";
         private function getModuleData()
         {
             $this->_sql->SelAllWhere("Modules","moduleId=".$this->_moduleID);
-            $dat=$this->_sql->getTable();
+            $dat=$this->_sql->getResultRows();
             return array("name" => $dat[0]["name"],"descr" => $dat[0]["descr"],"moduleID" => $dat[0]["moduleId"],"type" =>$dat[0]["path"]);  
         }
 		
