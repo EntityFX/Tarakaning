@@ -71,7 +71,7 @@ class URLEditor extends DBConnector
 	{
 		$urlId=(int)$urlId;
 		$this->_sql->selAllWhere("URL", "id=$urlId");
-		$arr=$this->_sql->getTable();
+		$arr=$this->_sql->getResultRows();
 		return $arr[0];
 	}
 
@@ -90,7 +90,7 @@ class URLEditor extends DBConnector
 		{
 			$parentID=(int)$this->_urlInfo["pid"];
 			$this->_sql->selAllWhere("URL", "pid=$id");
-			$childNodes=$this->_sql->getTable();
+			$childNodes=$this->_sql->getResultRows();
 			if ($childNodes!=null)
 			{
 				foreach($childNodes as $child)
@@ -161,7 +161,7 @@ class URLEditor extends DBConnector
 	public function getParent()
 	{
 		$this->_sql->selAllWhere("URL", "pid=0 AND link='/'");
-		$arr=$this->_sql->getTable();
+		$arr=$this->_sql->getResultRows();
 		return $arr[0];
 	}
 	

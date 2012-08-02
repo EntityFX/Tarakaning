@@ -332,15 +332,7 @@ require_once 'MySQLException.php';
         */
         public function fetchArr($resource=NULL)
         {
-            $res=NULL;
-            if ($resource==NULL)
-            {
-                $res=$this->_internalResource;
-            }
-            else
-            {
-                $res=$resource;
-            }
+            $res = resource==NULL ? $this->_internalResource : $resource;
             return mysql_fetch_assoc($res);
         }
         

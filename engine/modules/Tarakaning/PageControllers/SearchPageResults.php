@@ -2,7 +2,6 @@
 
 Loader::LoadPageController('InfoBasePage'); 
 
-Loader::LoadModel('Projects/ProjectsSearch');
 Loader::LoadModel('Projects/ProjectsModel');
 Loader::LoadModel('Projects/ProjectsFacade'); 
 Loader::LoadModel('Subscribes/SubscribesModel');  
@@ -31,11 +30,9 @@ class SearchPageResults extends InfoBasePage
 		if (isset($this->getData["by_proj"]) && $this->getData["by_proj"]!='')
 		{
 			$this->_projectsOperation=new ProjectsModel();
-			$this->_searcher = new ProjectSearch(self::getGlobalEncoding());
 			
 			$projectsFacadeOperation=new ProjectsFacade(
 				$this->_projectsOperation, 
-				$this->_searcher, 
 				$this->_controller->auth
 			);
 			

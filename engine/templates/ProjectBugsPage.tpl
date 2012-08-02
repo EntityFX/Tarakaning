@@ -41,7 +41,7 @@
             <div class="span6">
                 <button class="btn btn-danger" type="submit" id="del" name="del" title="Удалить выделенные">
                     <i class="icon-trash icon-white"></i>
-                    Удалить выделенные проекты
+                    Удалить выделенные элементы
                 </button>
             </div>
             <div class="span6">

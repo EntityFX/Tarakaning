@@ -118,7 +118,7 @@
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;
 			$this->_sql->selFieldsWhere(self::TABLE_PROJ,"PROJ_ID = '$projectID'","USER_ID");
-			$rec = $this->_sql->getTable();
+			$rec = $this->_sql->getResultRows();
 			$rec = $rec[0];
 			return ($userID != (int)$rec["USER_ID"]) ? false : true; 
 			
@@ -183,7 +183,7 @@
 		public function getProjects() 
 		{
 			$this->_sql->selFields(self::TABLE_PROJ,"PROJ_ID","PROJ_NM","DESCR","USER_ID");
-			$ret = $this->_sql->getTable();
+			$ret = $this->_sql->getResultRows();
 			return $ret;
 		}
 		
@@ -196,7 +196,7 @@
 		{
 			$projectID=(int)$projectID;
 			$this->_sql->selAllWhere(self::VIEW_PROJECT_AND_OWNER_NICK,"ProjectID=$projectID");
-			$data=$this->_sql->getTable();
+			$data=$this->_sql->getResultRows();
 			return $data[0];
 		}
 		
@@ -211,7 +211,7 @@
 			if ($projectsListStatement!='')
 			{
 				$this->_sql->selAllWhere(self::VIEW_PROJECT_AND_OWNER_NICK,"ProjectID IN $projectsListStatement");
-				return $this->_sql->getTable();
+				return $this->_sql->getResultRows();
 			}
 			else
 			{
@@ -291,7 +291,7 @@
 			$resource=$this->_sql->selAllWhere(self::VIEW_PROJECT_AND_ERRORS, "ProjectOwnerID=$userId");
 			$this->_sql->clearLimit();
 			$this->_sql->clearOrder();
-			return $this->_sql->getTable();
+			return $this->_sql->getResultRows();
 		}
 		
 		public function countUserProjectsInfo($userId)
@@ -308,7 +308,7 @@
 			$resource=$this->_sql->selAllWhere(self::VIEW_PROJECT_INFO_WITHOUT_OWNER, "UserID=$userId");
 			$this->_sql->clearLimit();
 			$this->_sql->clearOrder();
-			return $this->_sql->getTable();
+			return $this->_sql->getResultRows();
 		}
 		
 		public function countMemberProjects($userId)
@@ -321,7 +321,7 @@
 		{
 			$projectID=(int)$projectID;
 			$this->_sql->selAllWhere(self::VIEW_USER_IN_PROJ_ERROR_AND_COMM, "ProjectID=$projectID");
-			return $this->_sql->getTable();
+			return $this->_sql->getResultRows();
 		}
 		
         /**
@@ -350,7 +350,7 @@
 		{
 			$userId=(int)$userId;
 			$this->_sql->selFieldsWhere(self::VIEW_ALL_USER_PROJECTS, "UserID=$userId",'ProjectID','Name');
-			return $this->_sql->getTable();
+			return $this->_sql->getResultRows();
 		}
 		
 		/**
@@ -367,7 +367,7 @@
 			);
 			$this->_sql->selFieldsWhere(self::VIEW_ALL_USER_PROJECTS, "ProjectID=$projectID",'UserID','NickName');
 			$this->_sql->clearOrder();
-			return $this->_sql->getTable();
+			return $this->_sql->getResultRows();
 		}
 		
 		/**
@@ -412,7 +412,7 @@
 		{
 			$projectID = (int)$projectID;
 			$this->_sql->selAllWhere(self::TABLE_PROJ, "PROJ_ID = $projectID");
-			$tmp = $this->_sql->getTable();
+			$tmp = $this->_sql->getResultRows();
 			return $tmp == null ? FALSE : TRUE;
 		}
 		
@@ -420,7 +420,7 @@
 		{
 			$projectID = (int)$projectID;
 			$this->_sql->selFieldsWhereA(self::TABLE_PROJ, array('USER_ID'), "PROJ_ID = $projectID");
-			$tmp = $this->_sql->getTable();
+			$tmp = $this->_sql->getResultRows();
 			$tmp = $tmp[0];
 			return (int)$tmp["USER_ID"];
 		}

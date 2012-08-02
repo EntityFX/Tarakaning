@@ -74,7 +74,7 @@
 			$this->_sql->setOrder(new MenuFieldsOrder(MenuFieldsOrder::POSITION), new MySQLOrderENUM(MySQLOrderENUM::ASC));
 			$this->_sql->selAll("MainMenu");
 			$this->_sql->clearOrder();
-			return $this->_sql->getTable();	
+			return $this->_sql->getResultRows();	
 		}
 		
 		public function getByID($id)
@@ -82,7 +82,7 @@
 			if ($this->checkIfExsist($id))
 			{
 				$this->_sql->selAllWhere("MainMenu","id=$id");
-				$resArr=$this->_sql->getTable();
+				$resArr=$this->_sql->getResultRows();
 				return $resArr[0];
 			}
 			else
@@ -122,7 +122,7 @@
 				{
 					$queryWhere="`link`='$value' AND `pid`=$pid";
 					$this->_sql->SelAllWhere("URL",$queryWhere);
-					$arr=$this->_sql->getTable();
+					$arr=$this->_sql->getResultRows();
 					$pid=$arr[0]["id"];
 					if ($arr==NULL)
 					{

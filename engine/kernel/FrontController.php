@@ -150,7 +150,7 @@ class FrontController implements ISingleton
 			if ($ex->getCode()==404)
 			{
 				$this->_sql->selAllWhere("Modules", "path='Error'");
-				$errArr=$this->_sql->getTable();
+				$errArr=$this->_sql->getResultRows();
 				$moduleType=(int)$errArr[0]["moduleId"];
 			}
 		}
@@ -233,7 +233,7 @@ class FrontController implements ISingleton
 			{
 				$queryWhere="`link`='$value' AND `pid`=$pid";
 				$this->_sql->SelAllWhere("URL",$queryWhere);
-				$arr=$this->_sql->getTable();
+				$arr=$this->_sql->getResultRows();
 				$this->_arr=$arr[0];
 				$pid=$arr[0]["id"];
 				if ($arr==NULL)

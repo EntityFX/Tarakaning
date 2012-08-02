@@ -19,7 +19,7 @@ class UserAuth extends DBConnector
 		}
 		$login=stripcslashes($login);
 		$this->_sql->selAllWhere(self::$authTableName,"NICK='$login'");
-		$res=$this->_sql->getTable();
+		$res=$this->_sql->getResultRows();
 		if ($res!=NULL)
 		{
 			$res=$res[0];
@@ -87,7 +87,7 @@ class UserAuth extends DBConnector
 	public function refreshData()
 	{
 		$this->_sql->selAllWhere(self::$authTableName,"USER_ID='".$this->_authNamespace->data[self::$authTableName]["USER_ID"]."'");
-		$res=$this->_sql->getTable();
+		$res=$this->_sql->getResultRows();
 		$res=$res[0];
 		if ($res!=NULL) 
         {
