@@ -4,7 +4,6 @@ Loader::LoadPageController('InfoBasePage');
 
 Loader::LoadModel('Projects/ProjectsFacade'); 
 Loader::LoadModel('Items/ItemsFacade');    
-Loader::LoadModel('Projects/ProjectsSearch');
 
 	class MyNewProjectPage extends InfoBasePage
 	{
@@ -17,11 +16,10 @@ Loader::LoadModel('Projects/ProjectsSearch');
 			{
 				$postData=$this->request->getParams();
 				$projectsOperation=new ProjectsModel();
-				$projectSearch=new ProjectSearch(self::getGlobalEncoding());
+				/*$projectSearch=new ProjectSearch(self::getGlobalEncoding());*/
 				
 				$projectsFacadeOperation=new ProjectsFacade(
 					$projectsOperation, 
-					$projectSearch, 
 					$this->_controller->auth
 				);
 				try 
