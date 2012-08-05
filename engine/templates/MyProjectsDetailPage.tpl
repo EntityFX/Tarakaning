@@ -21,6 +21,36 @@
         <span>Проект успешно создан</span>
     </div>
 {/if}
+<div class="btn-toolbar">
+    <div class="btn-group ">
+        {if $ITEM_PREV_ID neq NULL}
+            <a class="btn" href="/my/project/show/{$ITEM_PREV_ID}" rel="tooltip" title="К предыдущему элементу">
+                <i class="icon-arrow-left"></i>
+            </a>
+        {else}
+            <button class="btn" disabled="disabled" rel="tooltip" title="К предыдущему элементу">
+                <i class="icon-arrow-left"></i>
+            </button>
+        {/if}
+        {if $ITEM_NEXT_ID neq NULL}
+            <a class="btn" href="/my/project/show/{$ITEM_NEXT_ID}" rel="tooltip" title="К следующему элементу">
+                <i class="icon-arrow-right"></i>
+            </a>
+        {else}
+            <button class="btn" disabled="disabled" rel="tooltip" title="К следующему элементу">
+                <i class="icon-arrow-right"></i>
+            </button>
+        {/if}
+    </div>
+    <div class="btn-group">
+        <a class="btn btn-primary" href="/my/project/new/">
+            <i class="icon-asterisk icon-white"></i>
+        </a>
+        <a class="btn btn-danger" href="/my/project/delete/{$Project.ProjectID}/">
+            <i class="icon-trash icon-white"></i>
+        </a>
+    </div>
+</div>
 <ul class="nav nav-tabs" id="item-tab">
     <li class="active"><a href="#about" data-toggle="tab">Описание</a></li>
     <li><a href="#users" data-toggle="tab">Участники <span class="label label-success">{$PROJECT_USERS_COUNT}</span></a></li>

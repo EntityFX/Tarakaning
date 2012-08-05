@@ -31,7 +31,7 @@ class BugPage extends InfoBasePage
 	
 	private $_commentsPaginator;
     
-    private $_commentsCount;
+        private $_commentsCount;
 	
 	private $_orderer;
 	
@@ -49,42 +49,42 @@ class BugPage extends InfoBasePage
 	
 	private $_bugsOperation;
     
-    private $_previousItemID;
+        private $_previousItemID;
     
-    private $_nextItemID;
+        private $_nextItemID;
     
 	
 	protected function onInit()
 	{
-		parent::onInit();
+            parent::onInit();
 
-		$this->_userData=$this->_controller->auth->getName();
-		
-		$this->_bugsOperation=new ItemsModel(
-			$this->_userData["DefaultProjectID"] == null ? $this->_projectsList[0]['ProjectID'] : $this->_userData["DefaultProjectID"],
-			$this->_userData["UserID"]
-		);
-		if (isset($this->_parameters[0]) && $this->_parameters[0]!=='')
-		{
-			$this->_bugData=$this->_bugsOperation->getReport($this->_parameters[0]);
-            $itemProjectID=(int)$this->_bugData['ProjectID'];
-            $itemID=(int)$this->_bugData["ID"];
-            $this->_previousItemID=$this->_bugsOperation->getPreviousItemID($itemID,$itemProjectID);
-            $this->_nextItemID=$this->_bugsOperation->getNextItemID($itemID,$itemProjectID);
-            $this->_canEditData=$this->_bugsOperation->canEditData($this->_parameters[0],$this->_bugData['ProjectID']);
-			if (!$this->_canEditData && $this->_bugData["Status"]==ErrorStatusENUM::CLOSED)
-			{
-				$this->_canEditStatus=false;
-			}
-			else 
-			{
-				$this->_canEditStatus=$this->_bugsOperation->canEditStatus($this->_parameters[0],$this->_bugData['ProjectID']);
-			}
-		}
+            $this->_userData=$this->_controller->auth->getName();
+
+            $this->_bugsOperation=new ItemsModel(
+                    $this->_userData["DefaultProjectID"] == null ? $this->_projectsList[0]['ProjectID'] : $this->_userData["DefaultProjectID"],
+                    $this->_userData["UserID"]
+            );
+            if (isset($this->_parameters[0]) && $this->_parameters[0]!=='')
+            {
+                $this->_bugData=$this->_bugsOperation->getReport($this->_parameters[0]);
+                $itemProjectID=(int)$this->_bugData['ProjectID'];
+                $itemID=(int)$this->_bugData["ID"];
+                $this->_previousItemID=$this->_bugsOperation->getPreviousItemID($itemID,$itemProjectID);
+                $this->_nextItemID=$this->_bugsOperation->getNextItemID($itemID,$itemProjectID);
+                $this->_canEditData=$this->_bugsOperation->canEditData($this->_parameters[0],$this->_bugData['ProjectID']);
+                if (!$this->_canEditData && $this->_bugData["Status"]==ErrorStatusENUM::CLOSED)
+                {
+                    $this->_canEditStatus=false;
+                }
+                else 
+                {
+                    $this->_canEditStatus=$this->_bugsOperation->canEditStatus($this->_parameters[0],$this->_bugData['ProjectID']);
+                }
+        }
 		
 		if ($this->_bugData==null)
 		{
-			$this->navigate("/my/bugs/");
+                    $this->navigate("/my/bugs/");
 		}
 		$this->_history=new ItemsHistoryModel();
 		$this->_commentsModel=new CommentsModel();

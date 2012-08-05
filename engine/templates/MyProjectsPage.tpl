@@ -76,10 +76,7 @@
     </div>
     <div class="tab-pane" id="all-projects">
         {if $PROJECTS_WITHOUT_ME neq NULL}
-            <div class="pagination pagination-right">
-                {$MEMBER_PROJECTS_PAGINATOR}
-            </div>
-            <table class="projects_table">
+            <table class="table table-bordered table-striped">
                 <thead> 
                     <tr>
                         <th><a href="{$MEMBER_PROJECTS_ORDERER.ProjectName.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.ProjectName.order eq true}class="sort"{/if}>Проект</a></th>
@@ -103,6 +100,11 @@
                     {/foreach}
                 </tbody>
             </table>
+            <div class="span12">
+                <div class="pagination pagination-right pagination-custom">
+                    {$MEMBER_PROJECTS_PAGINATOR}
+                </div>
+            </div>
         {else}
             <div class="alert alert-info">
                 <a class="close" data-dismiss="alert" href="#">&times;</a>
