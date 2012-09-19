@@ -7,6 +7,12 @@ require_once 'engine/classes/CommentsController.php';
 
 require_once 'engine/classes/CheckParams.php';
 
+
+
+function functionName($param) {
+    return 5;
+}
+
 $vv = new CheckParams();
 $paramArray["userID"] = 1;
 $paramArray["projectID"] = 1; 
