@@ -17,8 +17,8 @@ class UserAuth extends DBConnector
 		{
 			throw new Exception("Вы уже вошли в систему");
 		}
-		$login=stripcslashes($login);
-		$this->_sql->selAllWhere(self::$authTableName,"NICK='$login'");
+		$slashedLogin = addslashes($login);
+		$this->_sql->selAllWhere(self::$authTableName,"NICK='$slashedLogin'");
 		$res=$this->_sql->getResultRows();
 		if ($res!=NULL)
 		{
