@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Tarakaning</title>
+		<!--<link rel="shortcut icon" href="images/quki.ico" />-->
+		<meta http-equiv="Content-Type" content="text/html; charset=windows-1251" />
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<link href="custom-theme/jquery-ui-1.8.9.custom.css" rel="stylesheet" type="text/css"/>
+		<script type="text/javascript" src="../js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript" src="../js/jquery-ui-1.8.5.custom.min.js"></script>
+		<script type="text/javascript">
+		/* <![CDATA[ */
+			$(document).ready(function() {
+				$("#tabs").tabs();
+				$("input:button, input:submit, button, .groupier a, .groupier li span").button();
+			});
+		/* ]]>*/
+		</script>
+	</head>
+	<body>
+		<div id="header">
+			<img id="img_logo" src="images/logotype.png" alt="Tarakaning" />
+			<div id="logo">
+				<h1>Tarakaning</h1>
+				<span>Багтреккер и управление проектами</span>
+			</div>
+		</div>
+		<div id="main_menu">
+			<ul>
+				<li><a href="my_reports_with_checkboxes.html">Мои отчёты</a></li>
+				<li><a href="reports_with_checkboxes.html">Отчёты проекта</a></li>
+				<li><a href="projects.html">Мои проекты</a></li>
+				<li><a href="subscribes.html">Мои заявки</a></li>
+			<li><a href="find.html">Поиск</a></li>
+			<li><a href="user_info.html">Профиль</a></li>
+			</ul>
+		</div>
+		<div id="content_body">
+			<div>
+				<div class="groupier">
+
+					<ul>
+						<li><a href="#">&lt;&lt;</a></li>
+						<li><a href="#">&lt;</a></li>
+						<li><a href="#">6</a></li>
+						<li><span style="font-weight: bold; color: #a88; border-color: #a80; background: #d5d597 !important;">7</span></li>
+						<li><a href="#">8</a></li>
+						<li><a href="#">9</a></li>
+						<li><a href="#">10</a></li>
+						<li><a href="#">&gt;</a></li>
+						<li><a href="#">&gt;&gt;</a></li>						
+					</ul>
+				</div>
+				<form action="#" method="post">
+					<table class="report_table">
+						<col width="23" />
+						<col span="3" />
+						<col width="50" span="2" />
+						<col width="250" />
+						<thead>
+							<tr>
+								<th><input name="del_all" type="checkbox" title=""/></th>
+								<th><a href="#" class="sort">ID &uarr;</a></th>
+								<th><a href="#">Логин</a></th>
+								<th><a href="#">ФИО</a></th>
+								<th><a href="#">Активен</a></th>
+								<th><a href="#">Админ</a></th>
+								<th><a href="#">Дата регистрации</a></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="even">
+							    <td><input name="del1" type="checkbox" /></td>
+								<td>56</td>
+								<td><a href="#">Sudo777</a></td>
+								<td>Юсупзянов Тимур Фархатович</td>
+								<td><input name="active[]" type="checkbox" title=""/></td>
+								<td><input name="admin[]" type="checkbox" title=""/></td>
+								<td>6 февраля 2007 12:56</td>
+							</tr>
+							<tr class="odd">
+							    <td><input name="del2" type="checkbox" /></td>
+								<td>57</td>
+								<td><a href="#">EntityFX</a></td>
+								<td>Солопий Артём Валерьевич</td>
+								<td><input name="active[]" type="checkbox" title=""/></td>
+								<td><input name="admin[]" type="checkbox" title=""/></td>
+								<td>7 октября 2011 07:48</td>
+							</tr>
+							<tr class="even">
+							    <td><input name="del3" type="checkbox" /></td>
+								<td>2348</td>
+								<td><a href="#">Flood</a></td>
+								<td>Флуд Спамер Атакович</td>
+								<td><input name="active[]" type="checkbox" title=""/></td>
+								<td><input name="admin[]" type="checkbox" title=""/></td>
+								<td>23 февраля 1989 11:34</td>
+							</tr>
+							<tr class="odd">
+							    <td><input name="del3" type="checkbox" /></td>
+								<td>4867</td>
+								<td><a href="#">Laxx</a></td>
+								<td>Крикашина Лена Кусочкова</td>
+								<td><input name="active[]" type="checkbox" title="" checked="checked" /></td>
+								<td><input name="admin[]" type="checkbox" title=""/></td>
+								<td>7 июля 2008 22:37</td>
+							</tr>
+							<tr class="even">
+							    <td><input name="del3" type="checkbox" /></td>
+								<td>5096</td>
+								<td><a href="#">Ignatyy</a></td>
+								<td>Васильев Игнатий Романович</td>
+								<td><input name="active[]" type="checkbox" title=""/></td>
+								<td><input name="admin[]" type="checkbox" title=""/></td>
+								<td>7 июля 2008 22:37</td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="groupier">
+						<input type="submit" value="Удалить выделенные" title="Удалить выделенные" name="del" />
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

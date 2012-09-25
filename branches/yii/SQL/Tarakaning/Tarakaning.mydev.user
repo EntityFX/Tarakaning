@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), the Project Options File -->
+<!-- Modifying this generated file will probably render it invalid -->
+<Options Version="3.0">
+  <Documents>
+    <Document Moniker="..\..\..\..\..\..\Users\Артём\Desktop\Tarakaning.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="..\database\migration\1\views\1_view_ItemFullInfo.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" Active="True" />
+    <Document Moniker="..\database\migration\1\views\1_view_ProjectCommentsCount.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="..\database\migration\1\views\1_view_ProjectSubscribeRequests.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="..\database\migration\1\views\1_view_ProjectUsersAndSubscribes.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="..\database\migration\1\views\1_view_SubscribesUserNick.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="..\database\stored_procedures\AcceptRequest.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="..\database\stored_procedures\AddItem.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+    <Document Moniker="..\database\migration\1\tables\1_ITEM.sql" ActiveView="Code" Factory="{3586cc08-aeb7-47f4-a38f-1700741266f6}" />
+  </Documents>
+  <Services>
+    <Service GUID="{e86507ae-fc27-47e0-925b-3c3e655520d4}">
+      <Persist>
+        <Configurations>
+          <Active>По умолчанию</Active>
+        </Configurations>
+      </Persist>
+    </Service>
+    <Service GUID="{811fba21-97c2-44b6-8c1c-eae1f1315f2d}">
+      <Persist />
+    </Service>
+  </Services>
+</Options>
