@@ -1,0 +1,6 @@
+<?  
+    interface IPageController
+    {
+        function initializePages();
+    }
+?>
