@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <xs:schema id="Root" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="Root" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Table">
+            <xs:complexType>
+              <xs:attribute name="ProjectID" type="xs:int" />
+              <xs:attribute name="Name" type="xs:string" />
+              <xs:attribute name="UserID" type="xs:long" />
+              <xs:attribute name="NickName" type="xs:string" />
+              <xs:attribute name="My" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <Table ProjectID="1" Name="Quki" UserID="13" NickName="Artem" My="1" />
+  <Table ProjectID="2" Name="Tarakaning" UserID="13" NickName="Artem" My="1" />
+  <Table ProjectID="3" Name="Fuck" UserID="10" NickName="Misha" My="1" />
+  <Table ProjectID="4" Name="Siyfat" UserID="11" NickName="edf" My="1" />
+  <Table ProjectID="5" Name="Spektr-kzn" My="1" />
+  <Table ProjectID="6" Name="IMG" UserID="14" NickName="Kolya" My="1" />
+  <Table ProjectID="7" Name="VSOOO" UserID="3" NickName="Vasiliy" My="1" />
+  <Table ProjectID="8" Name="Test" UserID="8" NickName="Dmitry" My="1" />
+  <Table ProjectID="9" Name="Lustres" My="1" />
+  <Table ProjectID="10" Name="Basa16" My="1" />
+  <Table ProjectID="11" Name="Nocker" UserID="13" NickName="Artem" My="1" />
+  <Table ProjectID="12" Name="bfgn" UserID="9" NickName="Ivan" My="1" />
+  <Table ProjectID="13" Name="bfgnfghh" My="1" />
+  <Table ProjectID="14" Name="bfgnfghhfbfghgfh" My="1" />
+  <Table ProjectID="16" Name="Beaty Wave" UserID="13" NickName="Artem" My="1" />
+  <Table ProjectID="17" Name="Beaty Wave1" UserID="13" NickName="Artem" My="1" />
+  <Table ProjectID="18" Name="nbgnhgnh" UserID="13" NickName="Artem" My="1" />
+  <Table ProjectID="19" Name="qwe" UserID="13" NickName="Artem" My="1" />
+  <Table ProjectID="20" Name="qwe1" UserID="13" NickName="Artem" My="1" />
+  <Table ProjectID="21" Name="Huawei IDEOS X5 U8800" UserID="13" NickName="Artem" My="1" />
+  <Table ProjectID="24" Name="Gaphy Gaph" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="47" Name="проект" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="48" Name="Tarakaning" UserID="1" NickName="EntityFX" My="1" />
+  <Table ProjectID="49" Name="Тестовый проект от имени Тимура" UserID="18" NickName="Timur" My="1" />
+  <Table ProjectID="50" Name="ммарпрпвапрпа" UserID="18" NickName="Timur" My="1" />
+  <Table ProjectID="96" Name="сортир" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="95" Name="Захватить мир" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="94" Name="EdekaAF" UserID="1" NickName="EntityFX" My="1" />
+  <Table ProjectID="93" Name="'" UserID="1" NickName="EntityFX" My="1" />
+  <Table ProjectID="91" Name="o_______x" UserID="1" NickName="EntityFX" My="1" />
+  <Table ProjectID="92" Name="DROP TABLE `Users`;" UserID="1" NickName="EntityFX" My="1" />
+  <Table ProjectID="62" Name="прол" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="63" Name="прае" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="64" Name="проц" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="65" Name="прога" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="66" Name="прпрпр" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="67" Name="прачечная" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="68" Name="прикол" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="69" Name="прилип" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="70" Name="прокакал" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="71" Name="Вася" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="72" Name="Коля" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="73" Name="Приеол" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="74" Name="приятно" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="75" Name="Привет" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="76" Name="Приходи" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="77" Name="прохуй" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="78" Name="Приспичило" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="79" Name="Прощай" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="80" Name="Призма" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="81" Name="Проект" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="82" Name="hgjhgj" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="83" Name="Кошак" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="85" Name="Fotograd.org" UserID="15" NickName="Android" My="1" />
+  <Table ProjectID="3" Name="Fuck" UserID="1" NickName="EntityFX" My="0" />
+  <Table ProjectID="6" Name="IMG" UserID="1" NickName="EntityFX" My="0" />
+  <Table ProjectID="47" Name="проект" UserID="1" NickName="EntityFX" My="0" />
+  <Table ProjectID="95" Name="Захватить мир" UserID="1" NickName="EntityFX" My="0" />
+  <Table ProjectID="1" Name="Quki" UserID="3" NickName="Vasiliy" My="0" />
+  <Table ProjectID="2" Name="Tarakaning" UserID="3" NickName="Vasiliy" My="0" />
+  <Table ProjectID="6" Name="IMG" UserID="3" NickName="Vasiliy" My="0" />
+  <Table ProjectID="1" Name="Quki" UserID="6" NickName="Oliya" My="0" />
+  <Table ProjectID="3" Name="Fuck" UserID="9" NickName="Ivan" My="0" />
+  <Table ProjectID="3" Name="Fuck" UserID="13" NickName="Artem" My="0" />
+  <Table ProjectID="5" Name="Spektr-kzn" UserID="13" NickName="Artem" My="0" />
+  <Table ProjectID="6" Name="IMG" UserID="15" NickName="Android" My="0" />
+  <Table ProjectID="48" Name="Tarakaning" UserID="15" NickName="Android" My="0" />
+  <Table ProjectID="48" Name="Tarakaning" UserID="18" NickName="Timur" My="0" />
+  <Table ProjectID="48" Name="Tarakaning" UserID="20" NickName="GreenDragon" My="0" />
+</Root>
