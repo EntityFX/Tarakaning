@@ -1,13 +1,13 @@
 Options -Indexes +FollowSymLinks
 RewriteEngine on
 
+# if a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^[^\.]+$ index.php [L]
 
-ErrorDocument 404 /error/404/
-ErrorDocument 403 /error/403/
-ErrorDocument 500 /error/500/
+# otherwise forward it to index.php
+RewriteRule . index.php
 
-AddDefaultCharset win-1251
+AddDefaultCharset utf-8
 php_flag display_errors on
 php_flag display_startup_errors on
