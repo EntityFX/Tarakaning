@@ -41,31 +41,4 @@ class SiteController extends ControllerBase {
         $this->render('index', array('model' => $model));
     }
 
-    /**
-     * Displays the login page
-     */
-    public function actionLogin() {
-        $model = new LoginForm;
-        
-        $formData = $this->request->getPost('LoginForm');
-
-        if (isset($formData)) {
-            $model->attributes = $formData;
-
-            if ($model->validate() && $model->login()) {
-                $this->redirect($application->user->returnUrl);
-            }
-        }
-
-        $this->render('index', array('model' => $model));
-    }
-
-    /**
-     * Logs out the current user and redirect to homepage.
-     */
-    public function actionLogout() {
-        Yii::app()->user->logout();
-        $this->redirect(Yii::app()->homeUrl);
-    }
-
 }
