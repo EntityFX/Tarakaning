@@ -1,23 +1,17 @@
 {*
 Masterpage template
 *}
-{extends file="../layouts/master.tpl"}
+{extends file="../layouts/main.master.tpl"}
 
 {block name=body}
 <div class="container">
     <header id="headmain">
         <div class="inner">
-            <h1>Tarakaning</h1>
-            <p>Система управления проектами, задачами и дефектами</p>
+            <h1>EntityFX</h1>
+            <p>* Projects and bugs tracking system</p>
         </div>
     </header>
     <div class="row" id="userForm" >
-        {if $ERROR neq ""}
-            <div class="alert alert-error">
-                <a class="close" data-dismiss="alert" href="#">&times;</a>
-                {$ERROR}
-            </div>
-        {/if}
         {if $GOOD eq TRUE}
             <div class="alert alert-success">
                 <a class="close" data-dismiss="alert" href="#">&times;</a>
@@ -43,13 +37,13 @@ Masterpage template
                     ],
                     'method' => 'post',
                     'action' => CHtml::normalizeUrl(
-                        ['login']
+                        ['auth/login']
                     )
                 ]
             )
         }
             <fieldset>
-                <legend>Войти в Tarakaning</legend>
+                <legend>* Enter to EntityFX</legend>
                 <div class="control-group">
                     {$form->label($model,'username',['class' => 'control-label'])}
                     <div class="controls">
@@ -65,17 +59,15 @@ Masterpage template
                 <div class="control-group">
                     <div class="controls">
                         <label class="checkbox">
-                            {$form->checkBox($model,'rememberMe')} Запомнить меня
+                            {$form->checkBox($model,'rememberMe')} {$model->getAttributeLabel('rememberMe')}
                         </label>
                     </div>
                 </div>
                 <div class="form-actions">
-                    {CHtml::submitButton('Войти',['class' => 'btn btn-large btn-primary'])}
+                    {CHtml::submitButton('*Sign In',['class' => 'btn btn-large btn-primary'])}
                     {CHtml::link(
-                        'Регистрация',
-                        CHtml::normalizeUrl(
-                            ['registration']
-                        ),
+                        '*Sign up',
+                        ['auth/register'],
                         ['class' => 'btn btn-large btn-success']
                     )}
                 </div>

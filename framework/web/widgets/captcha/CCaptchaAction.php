@@ -254,6 +254,7 @@ class CCaptchaAction extends CAction
 			$fontSize = (int)(rand(26,32) * $scale * 0.8);
 			$angle = rand(-10,10);
 			$letter = $code[$i];
+            $foreColor = rand(0, 0xEFFFFF);
 			$box = imagettftext($image,$fontSize,$angle,$x,$y,$foreColor,$this->fontFile,$letter);
 			$x = $box[2] + $this->offset;
 		}
