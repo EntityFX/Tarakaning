@@ -5032,3 +5032,100 @@ in Z:\home\tarakaning.ru\www\index.php (15)
 2012/09/27 10:59:59 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
 in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
 in Z:\home\tarakaning.ru\www\index.php (15)
+2012/09/27 19:52:07 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "favicon.ico".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('favicon.ico')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---
+2012/09/27 19:52:13 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "favicon.ico".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('favicon.ico')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---
+2012/09/27 19:52:19 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "favicon.ico".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('favicon.ico')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---
+2012/09/27 19:52:22 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "favicon.ico".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('favicon.ico')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---
+2012/09/27 19:52:24 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/09/27 19:52:24 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "favicon.ico".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('favicon.ico')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---
+2012/09/27 19:52:25 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "favicon.ico".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('favicon.ico')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---
+2012/09/27 19:52:28 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "favicon.ico".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('favicon.ico')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---
+2012/09/27 19:52:30 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "favicon.ico".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('favicon.ico')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---
+2012/09/27 19:52:31 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/09/27 19:52:32 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "favicon.ico".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('favicon.ico')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---
+2012/09/27 19:54:58 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/09/27 19:54:58 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "favicon.ico".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('favicon.ico')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---
+2012/09/27 19:55:00 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "favicon.ico".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('favicon.ico')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/favicon.ico
+---
