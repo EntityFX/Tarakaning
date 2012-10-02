@@ -17,7 +17,7 @@ class ProfileShowPage extends InfoBasePage
 		{
 			$iUserId = (int)$this->_parameters[0];
 			
-			$user = new UsersOperation();
+			$user = new UserService();
 			$this->_arUserInfo = $user->getById($iUserId);
 			if($this->_arUserInfo == null)
 			{

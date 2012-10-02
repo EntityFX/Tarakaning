@@ -1,0 +1,64 @@
+{% extends "views/auth/auth.master.twig" %}
+
+{% block authForm %}
+    {{ C.Html.errorSummary(model,
+                '<div class="alert alert-error">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <h4>Ошибка!</h4>',
+                '</div>'
+            )
+    }}
+    {% set form = this.beginWidget(
+        'CActiveForm',
+        {
+            'id' : 'register-form',
+            'enableClientValidation' : true,
+            'enableAjaxValidation' : false,
+            'clientOptions' : {
+                'validateOnSubmit' : true
+            },
+            'htmlOptions' : {
+                'class' : 'well form-horizontal'
+            },
+            'method' : 'post',
+            'action' : C.Html.normalizeUrl(
+                ['login']
+            ),
+            'errorMessageCssClass' : 'error'
+        }
+    )
+    %}
+        <fieldset>
+            <legend>Войти в Tarakaning</legend>
+            <div class="control-group">
+                {{ form.label(model,'username',{'class' : 'control-label'}) }}
+                <div class="controls">
+                    {{ form.textField(model,'username',{'class' : 'input-xlarge'}) }}
+                </div>
+            </div>
+            <div class="control-group">
+                {{ form.label(model,'password',{'class' : 'control-label'}) }}
+                <div class="controls">
+                    {{ form.passwordField(model,'password',{'class' : 'input-xlarge'}) }}
+                    {{ form.error(model,'email',{'class' : 'help-inline error'}) }}
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox">
+                        {{form.checkBox(model,'rememberMe')}} {{model.getAttributeLabel('rememberMe')}}
+                    </label>
+                </div>
+            </div>
+            <div class="form-actions">
+                {{ C.Html.submitButton('Войти',{'class' : 'btn btn-large btn-primary'}) }}
+                {{ C.Html.link(
+                        'Регистрация',
+                        ['auth/register'],
+                        {'class' : 'btn btn-large btn-success'}
+                    )
+                }}
+            </div>
+        </fieldset>
+        {% do this.endWidget() %}
+{% endblock %}
