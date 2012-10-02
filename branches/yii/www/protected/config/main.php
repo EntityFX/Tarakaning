@@ -14,6 +14,10 @@ return array(
     'import' => array(
         'application.models.*',
         'application.components.*',
+        'application.components.captcha.*',
+        'application.components.widgets.*',
+        'application.components.services.*',
+        'application.components.services.user.*',
         'application.controllers.*',
     ),
     'modules' => array(
@@ -48,18 +52,12 @@ return array(
             'showScriptName' => false
         ),
         'db' => array(
-            'connectionString' => 'sqlite:' . dirname(__FILE__) . '/../data/testdrive.db',
+            'connectionString' => 'mysql:host=localhost;dbname=Tarakaning',
+            'emulatePrepare' => true,
+            'username' => 'root',
+            'password' => '',
+            'charset' => 'utf8',
         ),
-        // uncomment the following to use a MySQL database
-        /*
-          'db'=>array(
-          'connectionString' => 'mysql:host=localhost;dbname=testdrive',
-          'emulatePrepare' => true,
-          'username' => 'root',
-          'password' => '',
-          'charset' => 'utf8',
-          ),
-         */
         'errorHandler' => array(
             // use 'site/error' action to display errors
             'errorAction' => 'site/error',
@@ -80,16 +78,32 @@ return array(
             ),
         ),
         'viewRenderer' => array(
-            'class' => 'application.extensions.yiiext.renderers.smarty.ESmartyViewRenderer',
-            'fileExtension' => '.tpl',
-        'pluginsDir' => 'application.extensions.yiiext.renderers.smarty.plugins',
-        //'configDir' => 'application.smartyConfig',
-        //'prefilters' => array(array('MyClass','filterMethod')),
-        //'postfilters' => array(),
-        //'config'=>array(
-        //    'force_compile' => YII_DEBUG,
-        //   ... any Smarty object parameter
-        ),
+            'class' => 'application.extensions.yiiext.renderers.twig.ETwigViewRenderer',
+            // All parameters below are optional, change them to your needs
+            'fileExtension' => '.twig',
+            'options' => array(
+                'autoescape' => false,
+            ),
+            'extensions' => array(
+            //'My_Twig_Extension',
+            ),
+            'globals' => array(
+                'html' => 'CHtml',
+                'yii' => 'YiiBase'
+            ),
+            'functions' => array(
+                'rot13' => 'str_rot13',
+            ),
+            'filters' => array(
+                'jencode' => 'CJSON::encode',
+            ),
+        // Change template syntax to Smarty-like (not recommended)
+        /* 'lexerOptions' => array(
+          'tag_comment' => array('{*', '*}'),
+          'tag_block' => array('{', '}'),
+          'tag_variable' => array('{$', '}')
+          ) */
+        )
     ),
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']

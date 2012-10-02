@@ -1,0 +1,15 @@
+{% extends "views/layouts/main.master.twig" %}
+
+{% block body %}
+    <div class="container">
+        <header id="headmain">
+            <div class="inner">
+                <h1>Tarakaning</h1>
+                <p>Система управления проектами, задачами и дефектами</p>
+            </div>
+        </header>
+        <div class="row" id="userForm" >
+            {% block authForm %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

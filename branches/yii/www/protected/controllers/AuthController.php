@@ -16,9 +16,11 @@ class AuthController extends ControllerBase {
      * Displays the login page and performs login
      */
     public function actionLogin() {
+        $userService = new UserService();
+        var_dump($userService->getById(1),$userService->getByIdentity("GreenDragon"),$userService->existsByIdentity("GreenDragon"));
         $model = new LoginForm();
 
-        $formData = $this->request->getPost('LoginForm');
+        $formData = $this->request->getPost("LoginForm");
 
         if (isset($formData)) {
             $model->attributes = $formData;
@@ -58,11 +60,13 @@ class AuthController extends ControllerBase {
     public function actions() {
         return array(
             'captcha' => array(
-                'class' => 'CCaptchaAction',
+                'class' => 'EntityFxCaptchaAction',
                 'minLength' => 6,
                 'maxLength' => 6,
-                'height' => 50,
-                'width' => 100
+                'height' => 80,
+                'width' => 170,
+                'transparent' => true,
+                'fontFile' => YII::app()->getBasePath() .'/components/captcha/verdana.TTF'
             ),
         );
     }
