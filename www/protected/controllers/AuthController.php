@@ -16,8 +16,6 @@ class AuthController extends ControllerBase {
      * Displays the login page and performs login
      */
     public function actionLogin() {
-        $userService = new UserService();
-        var_dump($userService->getById(1),$userService->getByIdentity("GreenDragon"),$userService->existsByIdentity("GreenDragon"));
         $model = new LoginForm();
 
         $formData = $this->request->getPost("LoginForm");

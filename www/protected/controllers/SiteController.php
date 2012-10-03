@@ -41,4 +41,21 @@ class SiteController extends ControllerBase {
         $this->render('index', array('model' => $model));
     }
 
+    public function actionTest() {
+        $userService = new UserService();
+        var_dump(
+            /*$userService->getById(1), 
+            $userService->getByIdentity("GreenDragon"), 
+            $userService->existsByIdentity("GreenDragon"),
+            $userService->deleteById(16),
+            $userService->getAll(),
+            $userService->changeUserType(15, true),
+            $userService->diactivateById(15),*/
+            //$userService->getAllByFirstLetter('v')
+            //$userService->updateDataById(15, 'Hrenov', 'Hren', "Hrenovich", 'tym_s@mail.ru')
+            //$userService->setRandomPasswordById(15,9),
+            //$userService->changePassword(15,'5BLM7iorC','asdfgaa')
+        );
+    }
+
 }
