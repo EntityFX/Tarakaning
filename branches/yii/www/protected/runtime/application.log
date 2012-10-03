@@ -7343,3 +7343,145 @@ in Z:\home\tarakaning.ru\www\index.php (15)
 2012/10/03 03:24:04 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
 in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (26)
 in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/03 14:58:11 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "img/honeycomb_background.png".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('img/honeycomb_b...')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/img/honeycomb_background.png
+HTTP_REFERER=http://www.tarakaning.ru/css/ui.custom.css
+---
+2012/10/03 15:37:08 [error] [system.db.CDbCommand] Не удалось выполнить CDbCommand::execute(): SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens. Выполнявшийся SQL-запрос: UPDATE `USER` SET `USR_TYP`=:USR_TYP WHERE USER_ID = :id.
+in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php (103)
+in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php (77)
+in Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php (52)
+2012/10/03 15:37:08 [error] [exception.CDbException] exception 'CDbException' with message 'CDbCommand не удалось исполнить SQL-запрос: SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens. The SQL statement executed was: UPDATE `USER` SET `USR_TYP`=:USR_TYP WHERE USER_ID = :id' in Z:\home\tarakaning.ru\framework\db\CDbCommand.php:354
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\db\CDbCommand.php(1212): CDbCommand->execute(Array)
+#1 Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php(103): CDbCommand->update('USER', Array, 'USER_ID = :id', Array)
+#2 Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php(77): UserService->changeBoolFieldForId(15, false, 'USR_TYP')
+#3 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(52): UserService->changeUserType(15, false)
+#4 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#5 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#6 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#7 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#8 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#9 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#10 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#11 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#12 {main}
+REQUEST_URI=/site/test
+---
+2012/10/03 19:29:48 [error] [exception.CException] exception 'CException' with message 'Неверный формат почты' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:245
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(55): UserService->changeData(15, 'Hrenov', 'Hren', 'Hrenovich', '$email')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/03 19:30:19 [error] [exception.ServiceException] exception 'ServiceException' with message 'Неверный формат почты' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:245
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(55): UserService->changeData(15, 'Hrenov', 'Hren', 'Hrenovich', '$email')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/03 20:22:23 [error] [exception.ServiceException] exception 'ServiceException' with message 'Пароль должен быть не менее 7 символов (для безопасности)' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:200
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(57): UserService->changePassword(15, 'zzz', 'asdfg')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/03 20:22:33 [error] [exception.ServiceException] exception 'ServiceException' with message 'Старый пароль неверный' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:206
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(57): UserService->changePassword(15, 'zzz', 'asdfgaa')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/03 20:22:43 [error] [exception.ServiceException] exception 'ServiceException' with message 'Старый пароль неверный' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:206
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(57): UserService->changePassword(15, 'zzz', 'asdfgaa')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/03 20:22:44 [error] [exception.ServiceException] exception 'ServiceException' with message 'Старый пароль неверный' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:206
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(57): UserService->changePassword(15, 'zzz', 'asdfgaa')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/03 20:22:52 [error] [exception.ServiceException] exception 'ServiceException' with message 'Старый пароль неверный' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:206
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(57): UserService->changePassword(15, 'zzz', 'asdfgaa')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/03 20:23:51 [error] [exception.ServiceException] exception 'ServiceException' with message 'Старый пароль неверный' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:206
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(57): UserService->changePassword(15, '5BLM7iorC', 'asdfgaa')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
