@@ -2,6 +2,8 @@
 
 class UserService extends Service {
 
+    const HASH_SALT = 'MOTPWBAH';
+
     private static $authTableName = 'USER';
 
     public function __construct() {
@@ -9,94 +11,114 @@ class UserService extends Service {
         self::$authTableName = UserService::$authTableName;
     }
 
-    public function createUser($login, $password, $type = 0, $name = "", $surname = "", $secondName = "", $email = "") {
+    /**
+     *
+     * @param type $userIdentity
+     * @param type $password
+     * @param type $type
+     * @param type $name
+     * @param type $surname
+     * @param type $secondName
+     * @param type $email
+     * @return type
+     * @throws ServiceException 
+     */
+    public function create($userIdentity, $password, $type = 0, $name = "", $surname = "", $secondName = "", $email = "") {
         $hash = "";
-        $fields = new ArrayObject(array(
-                    "NICK",
-                    "PASSW_HASH",
-                    "USR_TYP",
-                    "FRST_NM",
-                    "LAST_NM",
-                    "SECND_NM",
-                    "EMAIL"
-                ));
-        if (preg_match("/^[a-zA-Z][a-zA-Z0-9_\-\.]*$/", $login) != 1) {
-            throw new Exception("Логин не должен содержать спецсимволы или быть пустым", 0);
+        if (preg_match("/^[a-zA-Z][a-zA-Z0-9_\-\.]*$/", $userIdentity) != 1) {
+            throw new ServiceException("Логин не должен содержать спецсимволы или быть пустым", 0);
         }
-        if ($this->existsByIdentity($login)) {
-            throw new Exception("Пользователь уже существует", 0);
+        if ($this->existsByIdentity($userIdentity)) {
+            throw new ServiceException("Пользователь уже существует", 0);
         }
         if ($email != "") {
             if (!self::checkMail($email)) {
-                throw new Exception("Неверный формат почты", 1);
+                throw new ServiceException("Неверный формат почты", 1);
             }
         }
         if (!self::checkPassword($password)) {
-            throw new Exception("Пароль должен быть не менее 7 символов (для безопасности)", 2);
+            throw new ServiceException("Пароль должен быть не менее 7 символов (для безопасности)", 2);
         }
-        $val = new ArrayObject(array(
-                    $login,
-                    md5(md5($password) . "MOTPWBAH"),
-                    $type,
-                    htmlspecialchars($name, ENT_QUOTES),
-                    htmlspecialchars($surname, ENT_QUOTES),
-                    htmlspecialchars($secondName, ENT_QUOTES),
-                    $email
-                ));
-        $this->_sql->insert(self::$authTableName, $val, $fields);
-        $resource = $this->_sql->query("SELECT LAST_INSERT_ID() as ID ");
-        $res = $this->_sql->GetRows($resource);
-        return (int) $res[0]["ID"];
+        $this->db->createCommand()
+                ->insert(
+                        self::$authTableName, array(
+                            "NICK"          => $userIdentity,
+                            "PASSW_HASH"    => $this->generatePasswordHash($password),
+                            "USR_TYP"       => $type,
+                            "FRST_NM"       => htmlspecialchars($name, ENT_QUOTES),
+                            "LAST_NM"       => htmlspecialchars($surname, ENT_QUOTES),
+                            "SECND_NM"      => htmlspecialchars($secondName, ENT_QUOTES),
+                            "EMAIL"         => $email
+                        )
+        );
+        return $this->db
+                ->queryScalar("SELECT LAST_INSERT_ID() as ID ");
     }
 
-    public function deleteUser($id) {
+    /**
+     * Deletes user by Id
+     * 
+     * @param int $id User id
+     * @throws ServiceException If user is admin
+     */
+    public function deleteById($id) {
         $id = (int) $id;
         $usr = $this->getById($id);
         if ($usr != null) {
             if ($usr["NICK"] != "admin") {
-                $this->_sql->delete(self::$authTableName, "USER_ID=$id");
+                $this->db->createCommand()->delete(
+                        self::$authTableName, 'USER_ID = :id', array(
+                    ':id' => $id
+                        )
+                );
             } else {
-                throw new Exception("Can't delete admin");
+                throw new ServiceException("Can't delete admin");
             }
         }
     }
 
     public function changeUserType($id, $type) {
-        $this->changeField($id, $type, 'USR_TYP');
+        $this->changeBoolFieldForId($id, $type, 'USR_TYP');
     }
 
-    public function activateUser($id) {
-        $this->changeField($id, true, 'ACTIVE');
+    public function activateById($id) {
+        $this->changeBoolFieldForId($id, true, 'ACTIVE');
     }
 
-    public function diactivateUser($id) {
-        $this->changeField($id, false, 'ACTIVE');
+    public function diactivateById($id) {
+        $this->changeBoolFieldForId($id, false, 'ACTIVE');
     }
 
-    private function changeField($id, $type, $fieldName) {
+    private function changeBoolFieldForId($id, $type, $fieldName) {
         $id = (int) $id;
         $type = (bool) $type;
-        if ($this->checkIfExsist($id)) {
-            $this->_sql->update(self::$authTableName, "USER_ID=$id", new ArrayObject(array(
-                        $fieldName => $type
-                    ))
+
+        if ($this->existsById($id)) {
+            $this->db->createCommand()->update(
+                    self::$authTableName, array(
+                $fieldName => $type
+                    ), 'USER_ID = :id', array(
+                ':id' => $id
+                    )
             );
         }
     }
 
-    public function getAllUsers() {
-        $this->_sql->setOrder(
-                new UsersOrderFields(UsersOrderFields::NICK_NAME), new MySQLOrderENUM(MySQLOrderENUM::ASC)
-        );
-        $this->_sql->selAll(self::$authTableName);
-        $this->_sql->clearOrder();
-        return $this->_sql->getResultRows();
+    public function getAll() {
+        return $this->db->createCommand()->select()
+                        ->from(self::$authTableName)
+                        ->order(UsersOrderFields::NICK_NAME)
+                        ->queryAll();
     }
 
-    public function getAllByFirstLetter($letter) {
-        $letter = (string) $letter[0];
-        $this->_sql->selAllWhere(self::$authTableName, "NICK Like '$letter%'");
-        return $this->_sql->getResultRows();
+    public function getAllByFirstLetter($token) {
+        $secureToken = strtr($token, array('%' => '\%', '_' => '\_'));
+        return $this->db->createCommand()->select()
+                        ->from(self::$authTableName)
+                        ->where(
+                                array('like', 'NICK', "$secureToken%")
+                        )
+                        ->queryAll();
     }
 
     public function getById($id) {
@@ -133,15 +155,18 @@ class UserService extends Service {
     }
 
     /**
-     * Проверить существование лпо ID
+     * Проверить существование по ID
      *
      * @param int $name ID пользователя
      * @return bool
      */
-    public function checkIfExsist($id) {
+    public function existsById($id) {
         $id = (int) $id;
-        $countGroups = $this->_sql->countQuery(self::$authTableName, "USER_ID=$id");
-        return (Boolean) $countGroups;
+        return $this->db->createCommand()
+                        ->select('USER_ID')
+                        ->from(self::$authTableName)
+                        ->where('USER_ID=:id', array('id' => $id))
+                        ->queryScalar() !== false ? true : false;
     }
 
     /**
@@ -165,28 +190,47 @@ class UserService extends Service {
         }
     }
 
+    /**
+     * Changes old password with new for user and returns its hash
+     * 
+     * @param int $id User identificator 
+     * @param string $oldPassword old user's password
+     * @param string $newPassword new password
+     * @return string
+     * @throws ServiceException Wrong old password or length of new one
+     */
     public function changePassword($id, $oldPassword, $newPassword) {
         if (!self::checkPassword($newPassword)) {
-            throw new Exception("Пароль должен быть не менее 7 символов (для безопасности)", 2);
+            throw new ServiceException("Пароль должен быть не менее 7 символов (для безопасности)", 2);
         }
-        $newPasswordHash = md5(md5($newPassword) . "MOTPWBAH");
+        $newPasswordHash = $this->generatePasswordHash($newPassword);
         $usr = $this->getById($id);
         if ($usr != null) {
-            if (md5(md5($oldPassword) . "MOTPWBAH") != $usr["PASSW_HASH"]) {
-                throw new Exception("Старый пароль неверный", 2);
+            if ($this->generatePasswordHash($oldPassword) != $usr["PASSW_HASH"]) {
+                throw new ServiceException("Старый пароль неверный", 2);
             } else {
                 $id = (int) $id;
-                $this->_sql->update(
-                        self::$authTableName, "USER_ID=$id", new ArrayObject(array(
-                            "PASSW_HASH" => $newPasswordHash
-                        ))
+                $this->db->createCommand()
+                        ->update(
+                                self::$authTableName, array(
+                            'PASSW_HASH' => $newPasswordHash
+                                ), 'USER_ID = :id', array(
+                            ':id' => $id
+                                )
                 );
             }
         }
         return $newPasswordHash;
     }
 
-    public function setRandomPassword($id, $length) {
+    /**
+     * Changes old password for user and returns a new random password
+     * 
+     * @param int $id User identificator
+     * @param int $length Password length for new random password
+     * @return string 
+     */
+    public function setRandomPasswordById($id, $length) {
         $usr = $this->getById($id);
         if ($usr != null) {
             $newPassword = "";
@@ -204,32 +248,57 @@ class UserService extends Service {
                         break;
                 }
             }
-            $newPasswordHash = md5(md5($newPassword) . "MOTPWBAH");
+            $newPasswordHash = $this->generatePasswordHash($newPassword);
             $id = (int) $id;
-            $this->_sql->update(
-                    self::$authTableName, "USER_ID=$id", new ArrayObject(array(
-                        "PASSW_HASH" => $newPasswordHash
-                    ))
+            $this->db->createCommand()
+                    ->update(
+                            self::$authTableName, array(
+                        'PASSW_HASH' => $newPasswordHash
+                            ), 'USER_ID = :id', array(
+                        ':id' => $id
+                            )
             );
         }
         return $newPassword;
     }
 
-    public function changeData($id, $name, $surname, $secondName, $email) {
+    /**
+     * Generates md5 hash with salt
+     * 
+     * @param string Password to hash
+     * @return string 
+     */
+    private function generatePasswordHash($newPassword) {
+        return md5(md5($newPassword) . self::HASH_SALT);
+    }
+
+    /**
+     * Updates information about user
+     * 
+     * @param int $id User unique identificator
+     * @param string $name User name
+     * @param string $surname User surname
+     * @param string $secondName User second name
+     * @param string $email Correct user e-mail
+     * @throws ServiceException If wrong mail name
+     */
+    public function updateDataById($id, $name, $surname, $secondName, $email) {
         if ($email != "") {
             if (!self::checkMail($email)) {
-                throw new Exception("Неверный формат почты", 1);
+                throw new ServiceException("Неверный формат почты", 1);
             }
         }
         $id = (int) $id;
-        $this->_sql->update(
-                self::$authTableName, "USER_ID=$id", new ArrayObject(array
-                    (
-                    "FRST_NM" => htmlspecialchars($name),
-                    "LAST_NM" => htmlspecialchars($surname),
-                    "SECND_NM" => htmlspecialchars($secondName),
-                    "EMAIL" => htmlspecialchars($email)
-                ))
+        $this->db->createCommand()->
+                update(
+                        self::$authTableName, array(
+                    'FRST_NM' => htmlspecialchars($name),
+                    'LAST_NM' => htmlspecialchars($surname),
+                    'SECND_NM' => htmlspecialchars($secondName),
+                    'EMAIL' => htmlspecialchars($email)
+                        ), 'USER_ID = :id', array(
+                    ':id' => $id
+                        )
         );
     }
 
