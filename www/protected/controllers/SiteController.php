@@ -1,6 +1,6 @@
 <?php
 
-class SiteController extends ControllerBase {
+class SiteController extends EntityFxControllerBase {
 
     /**
      * Declares class-based actions.
@@ -53,8 +53,9 @@ class SiteController extends ControllerBase {
             $userService->diactivateById(15),*/
             //$userService->getAllByFirstLetter('v')
             //$userService->updateDataById(15, 'Hrenov', 'Hren', "Hrenovich", 'tym_s@mail.ru')
-            //$userService->setRandomPasswordById(15,9),
+            //$userService->setRandomPasswordById(15,9)
             //$userService->changePassword(15,'5BLM7iorC','asdfgaa')
+            $userService->create('fg@w.ru', '1234567',1,'132','sdfd','fthfgh','hgfh@sfgf.ty')
         );
     }
 

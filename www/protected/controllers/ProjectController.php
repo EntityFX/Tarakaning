@@ -10,8 +10,12 @@
  *
  * @author EntityFX
  */
-class ProjectController {
-    //put your code here
+class ProjectController extends EntityFxControllerBase {
+
+    public function actionIndex() {
+        return $this->render('projects', array('projectsList' => null));
+    }
+
 }
 
 ?>
