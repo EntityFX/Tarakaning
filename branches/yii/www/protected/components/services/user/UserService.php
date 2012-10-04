@@ -12,32 +12,35 @@ class UserService extends Service {
     }
 
     /**
+     * Creates a new user and returns his id
      *
-     * @param type $userIdentity
-     * @param type $password
-     * @param type $type
-     * @param type $name
-     * @param type $surname
-     * @param type $secondName
-     * @param type $email
-     * @return type
+     * @param string $userIdentity User Identity (e-mail account)
+     * @param string $password
+     * @param int $type
+     * @param string $name
+     * @param string $surname
+     * @param string $secondName
+     * @param string $email
+     * @return int
      * @throws ServiceException 
      */
     public function create($userIdentity, $password, $type = 0, $name = "", $surname = "", $secondName = "", $email = "") {
         $hash = "";
-        if (preg_match("/^[a-zA-Z][a-zA-Z0-9_\-\.]*$/", $userIdentity) != 1) {
-            throw new ServiceException("Логин не должен содержать спецсимволы или быть пустым", 0);
+        if ($userIdentity != "") {
+            if (!self::checkMail($userIdentity)) {
+                throw new ServiceException("Неверный формат почты", 1);
+            }
         }
         if ($this->existsByIdentity($userIdentity)) {
             throw new ServiceException("Пользователь уже существует", 0);
+        }
+        if (!self::checkPassword($password)) {
+            throw new ServiceException("Пароль должен быть не менее 7 символов (для безопасности)", 2);
         }
         if ($email != "") {
             if (!self::checkMail($email)) {
                 throw new ServiceException("Неверный формат почты", 1);
             }
-        }
-        if (!self::checkPassword($password)) {
-            throw new ServiceException("Пароль должен быть не менее 7 символов (для безопасности)", 2);
         }
         $this->db->createCommand()
                 ->insert(
@@ -51,8 +54,7 @@ class UserService extends Service {
                             "EMAIL"         => $email
                         )
         );
-        return $this->db
-                ->queryScalar("SELECT LAST_INSERT_ID() as ID ");
+        return (int)$this->db->getLastInsertID();
     }
 
     /**
