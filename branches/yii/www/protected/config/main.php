@@ -18,6 +18,7 @@ return array(
         'application.components.widgets.*',
         'application.components.services.*',
         'application.components.services.user.*',
+        'application.components.services.locale.*',
         'application.controllers.*',
     ),
     'modules' => array(
@@ -45,6 +46,7 @@ return array(
                 '/' => 'site/index',
                 'login' => 'auth/login',
                 'registration' => 'auth/register',
+                'projects' => 'project/index',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',

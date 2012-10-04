@@ -7485,3 +7485,779 @@ Stack trace:
 #9 {main}
 REQUEST_URI=/site/test
 ---
+2012/10/03 23:07:51 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 01:17:42 [error] [exception.ServiceException] exception 'ServiceException' with message 'Логин не должен содержать спецсимволы или быть пустым' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:29
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(58): UserService->create('1234', '1234567')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/04 01:18:40 [error] [exception.ServiceException] exception 'ServiceException' with message 'Неверный формат почты' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:30
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(58): UserService->create('1234', '1234567')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/04 01:18:55 [error] [exception.ServiceException] exception 'ServiceException' with message 'Неверный формат почты' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:30
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(58): UserService->create('1234@z.ru', '1234567')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/04 01:18:56 [error] [exception.ServiceException] exception 'ServiceException' with message 'Неверный формат почты' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:30
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(58): UserService->create('1234@z.ru', '1234567')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/04 01:19:01 [error] [exception.ServiceException] exception 'ServiceException' with message 'Неверный формат почты' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:30
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(58): UserService->create('a1234@z.ru', '1234567')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/04 01:19:07 [error] [exception.ServiceException] exception 'ServiceException' with message 'Неверный формат почты' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:30
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(58): UserService->create('a1234@za.ru', '1234567')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/04 01:19:32 [error] [exception.CException] exception 'CException' with message 'В классе CDbConnection и его поведениях не найден метод или замыкание с именем "queryScalar".' in Z:\home\tarakaning.ru\framework\base\CComponent.php:266
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php(52): CComponent->__call('queryScalar', Array)
+#1 Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php(52): CDbConnection->queryScalar('SELECT LAST_INS...')
+#2 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(58): UserService->create('a1234@za.ru', '1234567')
+#3 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#5 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#6 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#8 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#9 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#10 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#11 {main}
+REQUEST_URI=/site/test
+---
+2012/10/04 01:19:47 [error] [exception.ServiceException] exception 'ServiceException' with message 'Пользователь уже существует' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:34
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(58): UserService->create('a1234@za.ru', '1234567')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/04 01:20:15 [error] [php] array_merge() [<a href='function.array-merge'>function.array-merge</a>]: Argument #2 is not an array (Z:\home\tarakaning.ru\framework\db\CDbCommand.php:461)
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php(52): CDbCommand->queryScalar()
+#1 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(58): UserService->create()
+#2 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams()
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(287): SiteController->runAction()
+#5 Z:\home\tarakaning.ru\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): SiteController->run()
+#7 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#8 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#9 Z:\home\tarakaning.ru\www\index.php(15): CWebApplication->run()
+REQUEST_URI=/site/test
+in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php (52)
+in Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php (58)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 01:21:19 [error] [exception.CDbException] exception 'CDbException' with message 'Запрос к БД должен содержать "from".' in Z:\home\tarakaning.ru\framework\db\CDbCommand.php:550
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\db\CDbCommand.php(161): CDbCommand->buildQuery(Array)
+#1 Z:\home\tarakaning.ru\framework\db\CDbCommand.php(473): CDbCommand->getText()
+#2 Z:\home\tarakaning.ru\framework\db\CDbCommand.php(425): CDbCommand->queryInternal('fetchColumn', 0, Array)
+#3 Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php(53): CDbCommand->queryScalar()
+#4 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(58): UserService->create('1a3451234@za.ru', '1234567')
+#5 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#6 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#7 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#8 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#9 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#10 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#11 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#12 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#13 {main}
+REQUEST_URI=/site/test
+---
+2012/10/04 01:48:49 [error] [exception.ServiceException] exception 'ServiceException' with message 'Неверный формат почты' in Z:\home\tarakaning.ru\www\protected\components\services\user\UserService.php:41
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(58): UserService->create('fg@w.ru', '1234567', 1, '132', 'sdfd', 'fthfgh', 'hgfh')
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('test')
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/test')
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#9 {main}
+REQUEST_URI=/site/test
+---
+2012/10/04 01:57:59 [error] [php] Wrong parameter count for var_dump() (Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php:59)
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams()
+#1 Z:\home\tarakaning.ru\framework\web\CController.php(287): SiteController->runAction()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#3 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): SiteController->run()
+#4 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#5 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#6 Z:\home\tarakaning.ru\www\index.php(15): CWebApplication->run()
+REQUEST_URI=/site/test
+in Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php (59)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 02:07:19 [error] [php] Invalid argument supplied for foreach() (Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php:62)
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CController.php(287): SiteController->runAction()
+#1 Z:\home\tarakaning.ru\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#2 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): SiteController->run()
+#3 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#4 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#5 Z:\home\tarakaning.ru\www\index.php(15): CWebApplication->run()
+REQUEST_URI=/site/test
+in Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php (62)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 02:19:48 [error] [php] include(LocaleService.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (Z:\home\tarakaning.ru\framework\YiiBase.php:423)
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php(60): spl_autoload_call()
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): SiteController->actionTest()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams()
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): SiteController->runAction()
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): SiteController->runActionWithFilters()
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): SiteController->run()
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CWebApplication->run()
+REQUEST_URI=/site/test
+in Z:\home\tarakaning.ru\www\protected\controllers\SiteController.php (60)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 02:43:58 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "register".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('register')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/register
+HTTP_REFERER=http://www.tarakaning.ru/
+---
+2012/10/04 02:46:02 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Системе не удалось найти запрашиваемое действие "login".' in Z:\home\tarakaning.ru\framework\web\CController.php:484
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CController.php(271): CController->missingAction('login')
+#1 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('login')
+#2 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/login')
+#3 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#5 {main}
+REQUEST_URI=/site/login
+HTTP_REFERER=http://www.tarakaning.ru/
+---
+2012/10/04 02:46:08 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Системе не удалось найти запрашиваемое действие "login".' in Z:\home\tarakaning.ru\framework\web\CController.php:484
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CController.php(271): CController->missingAction('login')
+#1 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('login')
+#2 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/login')
+#3 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#5 {main}
+REQUEST_URI=/site/login
+HTTP_REFERER=http://www.tarakaning.ru/
+---
+2012/10/04 02:46:22 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:13:14 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:13:17 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:13:25 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:13:33 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:16:18 [error] [php] include(ControllerBase.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (Z:\home\tarakaning.ru\framework\YiiBase.php:423)
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php(13): spl_autoload_call()
+#1 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(355): require()
+#2 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(277): CWebApplication->createController()
+#3 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#4 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#5 Z:\home\tarakaning.ru\www\index.php(15): CWebApplication->run()
+REQUEST_URI=/login
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (13)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:17:24 [error] [php] include(ControllerBase.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (Z:\home\tarakaning.ru\framework\YiiBase.php:423)
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php(13): spl_autoload_call()
+#1 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(355): require()
+#2 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(277): CWebApplication->createController()
+#3 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#4 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#5 Z:\home\tarakaning.ru\www\index.php(15): CWebApplication->run()
+REQUEST_URI=/login
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (13)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:18:19 [error] [php] include(ControllerBase.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (Z:\home\tarakaning.ru\framework\YiiBase.php:423)
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php(13): spl_autoload_call()
+#1 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(355): require()
+#2 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(277): CWebApplication->createController()
+#3 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#4 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#5 Z:\home\tarakaning.ru\www\index.php(15): CWebApplication->run()
+REQUEST_URI=/login
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (13)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:18:22 [error] [php] include(ControllerBase.php) [<a href='function.include'>function.include</a>]: failed to open stream: No such file or directory (Z:\home\tarakaning.ru\framework\YiiBase.php:423)
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php(13): spl_autoload_call()
+#1 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(355): require()
+#2 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(277): CWebApplication->createController()
+#3 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#4 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#5 Z:\home\tarakaning.ru\www\index.php(15): CWebApplication->run()
+REQUEST_URI=/login
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (13)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:18:32 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:18:34 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:18:39 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:18:46 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:19:13 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:19:40 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (24)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:21:14 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (23)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:21:37 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (23)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:21:42 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (23)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:21:49 [warning] [application] Не удалось присвоить небезопасный атрибут "username" класса "LoginForm".
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (23)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:23:01 [error] [php] session_regenerate_id() [<a href='function.session-regenerate-id'>function.session-regenerate-id</a>]: Cannot regenerate session id - headers already sent (Z:\home\tarakaning.ru\framework\web\CHttpSession.php:182)
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\auth\CWebUser.php(228): CWebUser->changeIdentity()
+#1 Z:\home\tarakaning.ru\www\protected\models\LoginForm.php(65): CWebUser->login()
+#2 Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php(25): LoginForm->login()
+#3 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): AuthController->actionLogin()
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams()
+#5 Z:\home\tarakaning.ru\framework\web\CController.php(287): AuthController->runAction()
+#6 Z:\home\tarakaning.ru\framework\web\CController.php(266): AuthController->runActionWithFilters()
+#7 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): AuthController->run()
+#8 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#9 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#10 Z:\home\tarakaning.ru\www\index.php(15): CWebApplication->run()
+REQUEST_URI=/login
+in Z:\home\tarakaning.ru\www\protected\models\LoginForm.php (65)
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (25)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:24:26 [error] [php] Cannot modify header information - headers already sent by (output started at Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php:27) (Z:\home\tarakaning.ru\framework\web\CHttpRequest.php:763)
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php(28): AuthController->redirect()
+#1 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): AuthController->actionLogin()
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams()
+#3 Z:\home\tarakaning.ru\framework\web\CController.php(287): AuthController->runAction()
+#4 Z:\home\tarakaning.ru\framework\web\CController.php(266): AuthController->runActionWithFilters()
+#5 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): AuthController->run()
+#6 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#7 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#8 Z:\home\tarakaning.ru\www\index.php(15): CWebApplication->run()
+REQUEST_URI=/login
+in Z:\home\tarakaning.ru\www\protected\controllers\AuthController.php (28)
+in Z:\home\tarakaning.ru\www\index.php (15)
+2012/10/04 03:26:24 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Системе не удалось найти запрашиваемое действие "projects".' in Z:\home\tarakaning.ru\framework\web\CController.php:484
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CController.php(271): CController->missingAction('projects')
+#1 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('projects')
+#2 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('auth/projects')
+#3 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#5 {main}
+REQUEST_URI=/auth/projects?0=index
+HTTP_REFERER=http://www.tarakaning.ru/login
+---
+2012/10/04 03:26:35 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Системе не удалось найти запрашиваемое действие "projects".' in Z:\home\tarakaning.ru\framework\web\CController.php:484
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CController.php(271): CController->missingAction('projects')
+#1 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('projects')
+#2 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('auth/projects')
+#3 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#5 {main}
+REQUEST_URI=/auth/projects?0=index
+HTTP_REFERER=http://www.tarakaning.ru/login
+---
+2012/10/04 03:26:40 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "projects/index".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('projects/index')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/projects?0=index
+HTTP_REFERER=http://www.tarakaning.ru/login
+---
+2012/10/04 03:27:03 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "projects/index".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('projects/index')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/projects/index
+HTTP_REFERER=http://www.tarakaning.ru/login
+---
+2012/10/04 03:46:44 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "projects/index".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('projects/index')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/projects/index
+HTTP_REFERER=http://www.tarakaning.ru/login
+---
+2012/10/04 03:47:13 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "projects/index".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('projects/index')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/projects/index
+HTTP_REFERER=http://www.tarakaning.ru/login
+---
+2012/10/04 03:47:52 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "projects/index".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('projects/index')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/projects/index
+HTTP_REFERER=http://www.tarakaning.ru/login
+---
+2012/10/04 03:47:53 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "projects/index".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('projects/index')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/projects/index
+HTTP_REFERER=http://www.tarakaning.ru/login
+---
+2012/10/04 03:48:15 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "projects/index".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('projects/index')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/projects
+---
+2012/10/04 03:48:59 [error] [exception.Twig_Error_Syntax] exception 'Twig_Error_Syntax' with message 'Unexpected "}" in "\views\project\projects.twig" at line 1' in Z:\home\tarakaning.ru\www\protected\vendors\twig\Lexer.php:260
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\vendors\twig\Lexer.php(206): Twig_Lexer->lexExpression()
+#1 Z:\home\tarakaning.ru\www\protected\vendors\twig\Lexer.php(114): Twig_Lexer->lexBlock()
+#2 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(450): Twig_Lexer->tokenize('{% extends "vie...', '\views\project\...')
+#3 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(536): Twig_Environment->tokenize('{% extends "vie...', '\views\project\...')
+#4 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(330): Twig_Environment->compileSource('{% extends "vie...', '\views\project\...')
+#5 Z:\home\tarakaning.ru\www\protected\extensions\yiiext\renderers\twig\ETwigViewRenderer.php(146): Twig_Environment->loadTemplate('\views\project\...')
+#6 Z:\home\tarakaning.ru\framework\web\CBaseController.php(94): ETwigViewRenderer->renderFile(Object(ProjectController), 'Z:\home\tarakan...', NULL, true)
+#7 Z:\home\tarakaning.ru\framework\web\CController.php(870): CBaseController->renderFile('Z:\home\tarakan...', NULL, true)
+#8 Z:\home\tarakaning.ru\framework\web\CController.php(783): CController->renderPartial('projects', NULL, true)
+#9 Z:\home\tarakaning.ru\www\protected\controllers\ProjectController.php(16): CController->render('projects')
+#10 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): ProjectController->actionIndex()
+#11 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#12 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#13 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#14 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('index')
+#15 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('project/index')
+#16 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#17 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#18 {main}
+REQUEST_URI=/projects
+---
+2012/10/04 03:49:16 [error] [exception.Twig_Error_Syntax] exception 'Twig_Error_Syntax' with message 'Unexpected token "operator" of value "=" ("end of print statement" expected) in "views/layouts/content.master.twig" at line 30' in Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenStream.php:77
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(138): Twig_TokenStream->expect(4)
+#1 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\If.php(40): Twig_Parser->subparse(Array)
+#2 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_If->parse(Object(Twig_Token))
+#3 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\Block.php(47): Twig_Parser->subparse(Array, true)
+#4 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(95): Twig_Parser->subparse(NULL, false)
+#6 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(486): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(536): Twig_Environment->parse(Object(Twig_TokenStream))
+#8 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(330): Twig_Environment->compileSource('{% extends "vie...', 'views/layouts/c...')
+#9 Z:\home\tarakaning.ru\www\protected\runtime\twig_cache\e8\ca\fa26c575dd2e36ffd0546d989a1c.php(10): Twig_Environment->loadTemplate('views/layouts/c...')
+#10 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(341): __TwigTemplate_e8cafa26c575dd2e36ffd0546d989a1c->__construct(Object(Twig_Environment))
+#11 Z:\home\tarakaning.ru\www\protected\extensions\yiiext\renderers\twig\ETwigViewRenderer.php(146): Twig_Environment->loadTemplate('\views\project\...')
+#12 Z:\home\tarakaning.ru\framework\web\CBaseController.php(94): ETwigViewRenderer->renderFile(Object(ProjectController), 'Z:\home\tarakan...', NULL, true)
+#13 Z:\home\tarakaning.ru\framework\web\CController.php(870): CBaseController->renderFile('Z:\home\tarakan...', NULL, true)
+#14 Z:\home\tarakaning.ru\framework\web\CController.php(783): CController->renderPartial('projects', NULL, true)
+#15 Z:\home\tarakaning.ru\www\protected\controllers\ProjectController.php(16): CController->render('projects')
+#16 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): ProjectController->actionIndex()
+#17 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#18 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#19 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#20 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('index')
+#21 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('project/index')
+#22 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#23 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#24 {main}
+REQUEST_URI=/projects
+---
+2012/10/04 03:50:01 [error] [exception.Twig_Error_Syntax] exception 'Twig_Error_Syntax' with message 'Unexpected token "operator" of value "=" ("end of print statement" expected) in "views/layouts/content.master.twig" at line 30' in Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenStream.php:77
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(138): Twig_TokenStream->expect(4)
+#1 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\If.php(40): Twig_Parser->subparse(Array)
+#2 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_If->parse(Object(Twig_Token))
+#3 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\Block.php(47): Twig_Parser->subparse(Array, true)
+#4 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(95): Twig_Parser->subparse(NULL, false)
+#6 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(486): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(536): Twig_Environment->parse(Object(Twig_TokenStream))
+#8 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(330): Twig_Environment->compileSource('{% extends "vie...', 'views/layouts/c...')
+#9 Z:\home\tarakaning.ru\www\protected\runtime\twig_cache\e8\ca\fa26c575dd2e36ffd0546d989a1c.php(10): Twig_Environment->loadTemplate('views/layouts/c...')
+#10 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(341): __TwigTemplate_e8cafa26c575dd2e36ffd0546d989a1c->__construct(Object(Twig_Environment))
+#11 Z:\home\tarakaning.ru\www\protected\extensions\yiiext\renderers\twig\ETwigViewRenderer.php(146): Twig_Environment->loadTemplate('\views\project\...')
+#12 Z:\home\tarakaning.ru\framework\web\CBaseController.php(94): ETwigViewRenderer->renderFile(Object(ProjectController), 'Z:\home\tarakan...', NULL, true)
+#13 Z:\home\tarakaning.ru\framework\web\CController.php(870): CBaseController->renderFile('Z:\home\tarakan...', NULL, true)
+#14 Z:\home\tarakaning.ru\framework\web\CController.php(783): CController->renderPartial('projects', NULL, true)
+#15 Z:\home\tarakaning.ru\www\protected\controllers\ProjectController.php(16): CController->render('projects')
+#16 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): ProjectController->actionIndex()
+#17 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#18 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#19 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#20 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('index')
+#21 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('project/index')
+#22 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#23 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#24 {main}
+REQUEST_URI=/projects
+---
+2012/10/04 03:50:02 [error] [exception.Twig_Error_Syntax] exception 'Twig_Error_Syntax' with message 'Unexpected token "operator" of value "=" ("end of print statement" expected) in "views/layouts/content.master.twig" at line 30' in Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenStream.php:77
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(138): Twig_TokenStream->expect(4)
+#1 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\If.php(40): Twig_Parser->subparse(Array)
+#2 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_If->parse(Object(Twig_Token))
+#3 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\Block.php(47): Twig_Parser->subparse(Array, true)
+#4 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(95): Twig_Parser->subparse(NULL, false)
+#6 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(486): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(536): Twig_Environment->parse(Object(Twig_TokenStream))
+#8 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(330): Twig_Environment->compileSource('{% extends "vie...', 'views/layouts/c...')
+#9 Z:\home\tarakaning.ru\www\protected\runtime\twig_cache\e8\ca\fa26c575dd2e36ffd0546d989a1c.php(10): Twig_Environment->loadTemplate('views/layouts/c...')
+#10 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(341): __TwigTemplate_e8cafa26c575dd2e36ffd0546d989a1c->__construct(Object(Twig_Environment))
+#11 Z:\home\tarakaning.ru\www\protected\extensions\yiiext\renderers\twig\ETwigViewRenderer.php(146): Twig_Environment->loadTemplate('\views\project\...')
+#12 Z:\home\tarakaning.ru\framework\web\CBaseController.php(94): ETwigViewRenderer->renderFile(Object(ProjectController), 'Z:\home\tarakan...', NULL, true)
+#13 Z:\home\tarakaning.ru\framework\web\CController.php(870): CBaseController->renderFile('Z:\home\tarakan...', NULL, true)
+#14 Z:\home\tarakaning.ru\framework\web\CController.php(783): CController->renderPartial('projects', NULL, true)
+#15 Z:\home\tarakaning.ru\www\protected\controllers\ProjectController.php(16): CController->render('projects')
+#16 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): ProjectController->actionIndex()
+#17 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#18 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#19 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#20 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('index')
+#21 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('project/index')
+#22 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#23 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#24 {main}
+REQUEST_URI=/projects
+---
+2012/10/04 03:52:47 [error] [exception.Twig_Error_Syntax] exception 'Twig_Error_Syntax' with message 'Unexpected token "operator" of value "=" ("end of print statement" expected) in "views/layouts/content.master.twig" at line 30' in Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenStream.php:77
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(138): Twig_TokenStream->expect(4)
+#1 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\If.php(40): Twig_Parser->subparse(Array)
+#2 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_If->parse(Object(Twig_Token))
+#3 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\Block.php(47): Twig_Parser->subparse(Array, true)
+#4 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(95): Twig_Parser->subparse(NULL, false)
+#6 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(486): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(536): Twig_Environment->parse(Object(Twig_TokenStream))
+#8 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(330): Twig_Environment->compileSource('{% extends "vie...', 'views/layouts/c...')
+#9 Z:\home\tarakaning.ru\www\protected\runtime\twig_cache\e8\ca\fa26c575dd2e36ffd0546d989a1c.php(10): Twig_Environment->loadTemplate('views/layouts/c...')
+#10 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(341): __TwigTemplate_e8cafa26c575dd2e36ffd0546d989a1c->__construct(Object(Twig_Environment))
+#11 Z:\home\tarakaning.ru\www\protected\extensions\yiiext\renderers\twig\ETwigViewRenderer.php(146): Twig_Environment->loadTemplate('\views\project\...')
+#12 Z:\home\tarakaning.ru\framework\web\CBaseController.php(94): ETwigViewRenderer->renderFile(Object(ProjectController), 'Z:\home\tarakan...', Array, true)
+#13 Z:\home\tarakaning.ru\framework\web\CController.php(870): CBaseController->renderFile('Z:\home\tarakan...', Array, true)
+#14 Z:\home\tarakaning.ru\framework\web\CController.php(783): CController->renderPartial('projects', Array, true)
+#15 Z:\home\tarakaning.ru\www\protected\controllers\ProjectController.php(16): CController->render('projects', Array)
+#16 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): ProjectController->actionIndex()
+#17 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#18 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#19 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#20 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('index')
+#21 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('project/index')
+#22 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#23 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#24 {main}
+REQUEST_URI=/projects
+---
+2012/10/04 03:52:48 [error] [exception.Twig_Error_Syntax] exception 'Twig_Error_Syntax' with message 'Unexpected token "operator" of value "=" ("end of print statement" expected) in "views/layouts/content.master.twig" at line 30' in Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenStream.php:77
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(138): Twig_TokenStream->expect(4)
+#1 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\If.php(40): Twig_Parser->subparse(Array)
+#2 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_If->parse(Object(Twig_Token))
+#3 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\Block.php(47): Twig_Parser->subparse(Array, true)
+#4 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(95): Twig_Parser->subparse(NULL, false)
+#6 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(486): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(536): Twig_Environment->parse(Object(Twig_TokenStream))
+#8 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(330): Twig_Environment->compileSource('{% extends "vie...', 'views/layouts/c...')
+#9 Z:\home\tarakaning.ru\www\protected\runtime\twig_cache\e8\ca\fa26c575dd2e36ffd0546d989a1c.php(10): Twig_Environment->loadTemplate('views/layouts/c...')
+#10 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(341): __TwigTemplate_e8cafa26c575dd2e36ffd0546d989a1c->__construct(Object(Twig_Environment))
+#11 Z:\home\tarakaning.ru\www\protected\extensions\yiiext\renderers\twig\ETwigViewRenderer.php(146): Twig_Environment->loadTemplate('\views\project\...')
+#12 Z:\home\tarakaning.ru\framework\web\CBaseController.php(94): ETwigViewRenderer->renderFile(Object(ProjectController), 'Z:\home\tarakan...', Array, true)
+#13 Z:\home\tarakaning.ru\framework\web\CController.php(870): CBaseController->renderFile('Z:\home\tarakan...', Array, true)
+#14 Z:\home\tarakaning.ru\framework\web\CController.php(783): CController->renderPartial('projects', Array, true)
+#15 Z:\home\tarakaning.ru\www\protected\controllers\ProjectController.php(16): CController->render('projects', Array)
+#16 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): ProjectController->actionIndex()
+#17 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#18 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#19 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#20 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('index')
+#21 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('project/index')
+#22 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#23 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#24 {main}
+REQUEST_URI=/projects
+---
+2012/10/04 03:53:04 [error] [exception.Twig_Error_Syntax] exception 'Twig_Error_Syntax' with message 'Unexpected token "operator" of value "=" ("end of statement block" expected) in "views/layouts/content.master.twig" at line 30' in Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenStream.php:77
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\If.php(39): Twig_TokenStream->expect(3)
+#1 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_If->parse(Object(Twig_Token))
+#2 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\Block.php(47): Twig_Parser->subparse(Array, true)
+#3 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#4 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(95): Twig_Parser->subparse(NULL, false)
+#5 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(486): Twig_Parser->parse(Object(Twig_TokenStream))
+#6 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(536): Twig_Environment->parse(Object(Twig_TokenStream))
+#7 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(330): Twig_Environment->compileSource('{% extends "vie...', 'views/layouts/c...')
+#8 Z:\home\tarakaning.ru\www\protected\runtime\twig_cache\e8\ca\fa26c575dd2e36ffd0546d989a1c.php(10): Twig_Environment->loadTemplate('views/layouts/c...')
+#9 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(341): __TwigTemplate_e8cafa26c575dd2e36ffd0546d989a1c->__construct(Object(Twig_Environment))
+#10 Z:\home\tarakaning.ru\www\protected\extensions\yiiext\renderers\twig\ETwigViewRenderer.php(146): Twig_Environment->loadTemplate('\views\project\...')
+#11 Z:\home\tarakaning.ru\framework\web\CBaseController.php(94): ETwigViewRenderer->renderFile(Object(ProjectController), 'Z:\home\tarakan...', Array, true)
+#12 Z:\home\tarakaning.ru\framework\web\CController.php(870): CBaseController->renderFile('Z:\home\tarakan...', Array, true)
+#13 Z:\home\tarakaning.ru\framework\web\CController.php(783): CController->renderPartial('projects', Array, true)
+#14 Z:\home\tarakaning.ru\www\protected\controllers\ProjectController.php(16): CController->render('projects', Array)
+#15 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): ProjectController->actionIndex()
+#16 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#17 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#18 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#19 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('index')
+#20 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('project/index')
+#21 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#22 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#23 {main}
+REQUEST_URI=/projects
+---
+2012/10/04 03:54:52 [error] [exception.Twig_Error_Syntax] exception 'Twig_Error_Syntax' with message 'Unexpected token "operator" of value "=" ("end of print statement" expected) in "views/layouts/content.master.twig" at line 30' in Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenStream.php:77
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(138): Twig_TokenStream->expect(4)
+#1 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\If.php(40): Twig_Parser->subparse(Array)
+#2 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_If->parse(Object(Twig_Token))
+#3 Z:\home\tarakaning.ru\www\protected\vendors\twig\TokenParser\Block.php(47): Twig_Parser->subparse(Array, true)
+#4 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(183): Twig_TokenParser_Block->parse(Object(Twig_Token))
+#5 Z:\home\tarakaning.ru\www\protected\vendors\twig\Parser.php(95): Twig_Parser->subparse(NULL, false)
+#6 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(486): Twig_Parser->parse(Object(Twig_TokenStream))
+#7 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(536): Twig_Environment->parse(Object(Twig_TokenStream))
+#8 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(330): Twig_Environment->compileSource('{% extends "vie...', 'views/layouts/c...')
+#9 Z:\home\tarakaning.ru\www\protected\runtime\twig_cache\e8\ca\fa26c575dd2e36ffd0546d989a1c.php(10): Twig_Environment->loadTemplate('views/layouts/c...')
+#10 Z:\home\tarakaning.ru\www\protected\vendors\twig\Environment.php(341): __TwigTemplate_e8cafa26c575dd2e36ffd0546d989a1c->__construct(Object(Twig_Environment))
+#11 Z:\home\tarakaning.ru\www\protected\extensions\yiiext\renderers\twig\ETwigViewRenderer.php(146): Twig_Environment->loadTemplate('\views\project\...')
+#12 Z:\home\tarakaning.ru\framework\web\CBaseController.php(94): ETwigViewRenderer->renderFile(Object(ProjectController), 'Z:\home\tarakan...', Array, true)
+#13 Z:\home\tarakaning.ru\framework\web\CController.php(870): CBaseController->renderFile('Z:\home\tarakan...', Array, true)
+#14 Z:\home\tarakaning.ru\framework\web\CController.php(783): CController->renderPartial('projects', Array, true)
+#15 Z:\home\tarakaning.ru\www\protected\controllers\ProjectController.php(16): CController->render('projects', Array)
+#16 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): ProjectController->actionIndex()
+#17 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams(Array)
+#18 Z:\home\tarakaning.ru\framework\web\CController.php(287): CController->runAction(Object(CInlineAction))
+#19 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#20 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('index')
+#21 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('project/index')
+#22 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#23 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#24 {main}
+REQUEST_URI=/projects
+---
+2012/10/04 03:55:49 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "my/project/new".' in Z:\home\tarakaning.ru\framework\web\CWebApplication.php:287
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('my/project/new')
+#1 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#2 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#3 {main}
+REQUEST_URI=/my/project/new/
+HTTP_REFERER=http://www.tarakaning.ru/projects
+---
+2012/10/04 03:59:04 [error] [php] Object of class CWebUser could not be converted to string (Z:\home\tarakaning.ru\www\protected\runtime\twig_cache\32\2c\4802c1fd9a50648715161d78de80.php:137)
+Stack trace:
+#0 Z:\home\tarakaning.ru\www\protected\runtime\twig_cache\4b\3a\c1b4ee7b9e32753435b03986dfaf.php(49): __TwigTemplate_4b3ac1b4ee7b9e32753435b03986dfaf->displayBlock()
+#1 Z:\home\tarakaning.ru\www\protected\vendors\twig\Template.php(265): __TwigTemplate_4b3ac1b4ee7b9e32753435b03986dfaf->doDisplay()
+#2 Z:\home\tarakaning.ru\www\protected\vendors\twig\Template.php(239): __TwigTemplate_4b3ac1b4ee7b9e32753435b03986dfaf->displayWithErrorHandling()
+#3 Z:\home\tarakaning.ru\www\protected\runtime\twig_cache\32\2c\4802c1fd9a50648715161d78de80.php(26): __TwigTemplate_4b3ac1b4ee7b9e32753435b03986dfaf->display()
+#4 Z:\home\tarakaning.ru\www\protected\vendors\twig\Template.php(265): __TwigTemplate_322c4802c1fd9a50648715161d78de80->doDisplay()
+#5 Z:\home\tarakaning.ru\www\protected\vendors\twig\Template.php(239): __TwigTemplate_322c4802c1fd9a50648715161d78de80->displayWithErrorHandling()
+#6 Z:\home\tarakaning.ru\www\protected\runtime\twig_cache\e8\ca\fa26c575dd2e36ffd0546d989a1c.php(24): __TwigTemplate_322c4802c1fd9a50648715161d78de80->display()
+#7 Z:\home\tarakaning.ru\www\protected\vendors\twig\Template.php(265): __TwigTemplate_e8cafa26c575dd2e36ffd0546d989a1c->doDisplay()
+#8 Z:\home\tarakaning.ru\www\protected\vendors\twig\Template.php(239): __TwigTemplate_e8cafa26c575dd2e36ffd0546d989a1c->displayWithErrorHandling()
+#9 Z:\home\tarakaning.ru\www\protected\vendors\twig\Template.php(250): __TwigTemplate_e8cafa26c575dd2e36ffd0546d989a1c->display()
+#10 Z:\home\tarakaning.ru\www\protected\extensions\yiiext\renderers\twig\ETwigViewRenderer.php(146): __TwigTemplate_e8cafa26c575dd2e36ffd0546d989a1c->render()
+#11 Z:\home\tarakaning.ru\framework\web\CBaseController.php(94): ETwigViewRenderer->renderFile()
+#12 Z:\home\tarakaning.ru\framework\web\CController.php(870): ProjectController->renderFile()
+#13 Z:\home\tarakaning.ru\framework\web\CController.php(783): ProjectController->renderPartial()
+#14 Z:\home\tarakaning.ru\www\protected\controllers\ProjectController.php(16): ProjectController->render()
+#15 Z:\home\tarakaning.ru\framework\web\actions\CInlineAction.php(50): ProjectController->actionIndex()
+#16 Z:\home\tarakaning.ru\framework\web\CController.php(309): CInlineAction->runWithParams()
+#17 Z:\home\tarakaning.ru\framework\web\CController.php(287): ProjectController->runAction()
+#18 Z:\home\tarakaning.ru\framework\web\CController.php(266): ProjectController->runActionWithFilters()
+#19 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): ProjectController->run()
+#20 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController()
+#21 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#22 Z:\home\tarakaning.ru\www\index.php(15): CWebApplication->run()
+REQUEST_URI=/projects
+in Z:\home\tarakaning.ru\www\protected\runtime\twig_cache\32\2c\4802c1fd9a50648715161d78de80.php (137)
+in Z:\home\tarakaning.ru\www\protected\vendors\twig\Template.php (134)
+in Z:\home\tarakaning.ru\www\protected\runtime\twig_cache\4b\3a\c1b4ee7b9e32753435b03986dfaf.php (49)
+2012/10/04 04:01:41 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Системе не удалось найти запрашиваемое действие "login".' in Z:\home\tarakaning.ru\framework\web\CController.php:484
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\CController.php(271): CController->missingAction('login')
+#1 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('login')
+#2 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('site/login')
+#3 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#4 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#5 {main}
+REQUEST_URI=/site/login
+HTTP_REFERER=http://www.tarakaning.ru/
+---
+2012/10/04 04:09:44 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'У вас недостаточно прав для выполнения указанного действия.' in Z:\home\tarakaning.ru\framework\web\auth\CAccessControlFilter.php:170
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\auth\CAccessControlFilter.php(133): CAccessControlFilter->accessDenied(Object(CWebUser), '?? ?????? ?????...')
+#1 Z:\home\tarakaning.ru\framework\web\filters\CFilter.php(39): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#3 Z:\home\tarakaning.ru\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#4 Z:\home\tarakaning.ru\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#5 Z:\home\tarakaning.ru\framework\web\CController.php(292): CFilterChain->run()
+#6 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('login')
+#8 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('auth/login')
+#9 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#10 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#11 {main}
+REQUEST_URI=/login/
+---
+2012/10/04 04:10:30 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'У вас недостаточно прав для выполнения указанного действия.' in Z:\home\tarakaning.ru\framework\web\auth\CAccessControlFilter.php:170
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\auth\CAccessControlFilter.php(133): CAccessControlFilter->accessDenied(Object(CWebUser), '?? ?????? ?????...')
+#1 Z:\home\tarakaning.ru\framework\web\filters\CFilter.php(39): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#3 Z:\home\tarakaning.ru\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#4 Z:\home\tarakaning.ru\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#5 Z:\home\tarakaning.ru\framework\web\CController.php(292): CFilterChain->run()
+#6 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('login')
+#8 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('auth/login')
+#9 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#10 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#11 {main}
+REQUEST_URI=/login/
+---
+2012/10/04 04:12:44 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'У вас недостаточно прав для выполнения указанного действия.' in Z:\home\tarakaning.ru\framework\web\auth\CAccessControlFilter.php:170
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\auth\CAccessControlFilter.php(133): CAccessControlFilter->accessDenied(Object(CWebUser), '?? ?????? ?????...')
+#1 Z:\home\tarakaning.ru\framework\web\filters\CFilter.php(39): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#3 Z:\home\tarakaning.ru\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#4 Z:\home\tarakaning.ru\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#5 Z:\home\tarakaning.ru\framework\web\CController.php(292): CFilterChain->run()
+#6 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('login')
+#8 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('auth/login')
+#9 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#10 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#11 {main}
+REQUEST_URI=/login/
+---
+2012/10/04 04:14:03 [error] [exception.CHttpException.403] exception 'CHttpException' with message 'У вас недостаточно прав для выполнения указанного действия.' in Z:\home\tarakaning.ru\framework\web\auth\CAccessControlFilter.php:170
+Stack trace:
+#0 Z:\home\tarakaning.ru\framework\web\auth\CAccessControlFilter.php(133): CAccessControlFilter->accessDenied(Object(CWebUser), '?? ?????? ?????...')
+#1 Z:\home\tarakaning.ru\framework\web\filters\CFilter.php(39): CAccessControlFilter->preFilter(Object(CFilterChain))
+#2 Z:\home\tarakaning.ru\framework\web\CController.php(1146): CFilter->filter(Object(CFilterChain))
+#3 Z:\home\tarakaning.ru\framework\web\filters\CInlineFilter.php(59): CController->filterAccessControl(Object(CFilterChain))
+#4 Z:\home\tarakaning.ru\framework\web\filters\CFilterChain.php(131): CInlineFilter->filter(Object(CFilterChain))
+#5 Z:\home\tarakaning.ru\framework\web\CController.php(292): CFilterChain->run()
+#6 Z:\home\tarakaning.ru\framework\web\CController.php(266): CController->runActionWithFilters(Object(CInlineAction), Array)
+#7 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(283): CController->run('register')
+#8 Z:\home\tarakaning.ru\framework\web\CWebApplication.php(142): CWebApplication->runController('auth/register')
+#9 Z:\home\tarakaning.ru\framework\base\CApplication.php(162): CWebApplication->processRequest()
+#10 Z:\home\tarakaning.ru\www\index.php(15): CApplication->run()
+#11 {main}
+REQUEST_URI=/registration
+HTTP_REFERER=http://www.tarakaning.ru/
+---
