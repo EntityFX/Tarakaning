@@ -13,7 +13,7 @@ class ItemsModel extends DBConnector
     {
         parent::__construct();
         $concreteUser=new ConcreteUser();
-        $projectsController=new ProjectsModel();
+        $projectsController=new ProjectService();
         if ($projectID==NULL)
         {
             $this->_itemOwnerID=$concreteUser->id;
@@ -40,7 +40,7 @@ class ItemsModel extends DBConnector
                     }
                     else
                     {
-                        throw new Exception("Пользователь не существует. Нельзя несуществующему пользователю отставлять отчёт об ошибках");
+                        throw new Exception("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚. РќРµР»СЊР·СЏ РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРјСѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ РѕС‚СЃС‚Р°РІР»СЏС‚СЊ РѕС‚С‡С‘С‚ РѕР± РѕС€РёР±РєР°С…");
                     }
                 }
                 if ($request->isSubscribed($this->_itemOwnerID,(int)$projectID) || $this->_itemOwnerID==$projectsController->getOwnerID((int)$projectID))
@@ -49,27 +49,27 @@ class ItemsModel extends DBConnector
                 }
                 else
                 {
-                    throw new Exception("Пользователь №".$this->_itemOwnerID." не подписан на проект $projectID или не является его владельцем");
+                    throw new Exception("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ в„–".$this->_itemOwnerID." РЅРµ РїРѕРґРїРёСЃР°РЅ РЅР° РїСЂРѕРµРєС‚ $projectID РёР»Рё РЅРµ СЏРІР»СЏРµС‚СЃСЏ РµРіРѕ РІР»Р°РґРµР»СЊС†РµРј");
                 }
             }
             else
             {
-                throw new Exception("Проект не существует. Нельзя присвоить несуществующему проекту отчёты об ошибках");
+                throw new Exception("РџСЂРѕРµРєС‚ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚. РќРµР»СЊР·СЏ РїСЂРёСЃРІРѕРёС‚СЊ РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРјСѓ РїСЂРѕРµРєС‚Сѓ РѕС‚С‡С‘С‚С‹ РѕР± РѕС€РёР±РєР°С…");
             }
         }
     }
 
 	/**
-	* @var ItemDBKindENUM тип элемента
-	* @var ErrorPriorityENUM приоритет элемента
-	* @var ErrorStatusENUM статус элемента
+	* @var ItemDBKindENUM С‚РёРї СЌР»РµРјРµРЅС‚Р°
+	* @var ErrorPriorityENUM РїСЂРёРѕСЂРёС‚РµС‚ СЌР»РµРјРµРЅС‚Р°
+	* @var ErrorStatusENUM СЃС‚Р°С‚СѓСЃ СЌР»РµРјРµРЅС‚Р°
 	*/
     public function addReport(ItemDBKindENUM $kind, ErrorPriorityENUM $priority, ErrorTypeEnum $type, $title, $hoursRequired, $description="", $steps="", $assignedTo=null)
     {
         $title=htmlspecialchars($title);
         if ($title=="")
         {
-            throw new Exception("Заголовок не должен быть пустым");
+            throw new Exception("Р—Р°РіРѕР»РѕРІРѕРє РЅРµ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РїСѓСЃС‚С‹Рј");
         }
         if ($kind->check())
         {
@@ -77,7 +77,7 @@ class ItemsModel extends DBConnector
         }
         else
         {
-            throw  new Exception("Неверный тип ошибки");
+            throw  new Exception("РќРµРІРµСЂРЅС‹Р№ С‚РёРї РѕС€РёР±РєРё");
         }
         if ($priority->check())
         {
@@ -85,7 +85,7 @@ class ItemsModel extends DBConnector
         }
         else
         {
-            throw new Exception("Неверный приоритет ошибки");
+            throw new Exception("РќРµРІРµСЂРЅС‹Р№ РїСЂРёРѕСЂРёС‚РµС‚ РѕС€РёР±РєРё");
         }
         if ($type->check())
         {
@@ -93,7 +93,7 @@ class ItemsModel extends DBConnector
         }
         else
         {
-            throw new Exception("Неверный формат ошибки");
+            throw new Exception("РќРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚ РѕС€РёР±РєРё");
         }
         $description=htmlspecialchars($description);
         $steps=htmlspecialchars($steps);
@@ -144,10 +144,10 @@ class ItemsModel extends DBConnector
 
     /**
      *
-     * Редактировать статус задачи
-     * @param $reportID int ID отчёта
-     * @param $errorStatusErrorStatusENUM Новый статус
-     * @param $userID int Текущий юзер
+     * Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ СЃС‚Р°С‚СѓСЃ Р·Р°РґР°С‡Рё
+     * @param $reportID int ID РѕС‚С‡С‘С‚Р°
+     * @param $errorStatusErrorStatusENUM РќРѕРІС‹Р№ СЃС‚Р°С‚СѓСЃ
+     * @param $userID int РўРµРєСѓС‰РёР№ СЋР·РµСЂ
      */
     public function editItem($reportID, $userID, $projectID, $title, $hoursRequired, $addHours,ErrorStatusENUM $newStatus,ErrorPriorityENUM $priority, ErrorTypeEnum $type, $description="", $steps="", $assignedTo=null)
     {
@@ -157,7 +157,7 @@ class ItemsModel extends DBConnector
         }
         else
         {
-            throw new Exception("Неверный статус ошибки");
+            throw new Exception("РќРµРІРµСЂРЅС‹Р№ СЃС‚Р°С‚СѓСЃ РѕС€РёР±РєРё");
         }
 		$report=$this->getReportByID($reportID);
 		$hoursRequired=(int)$hoursRequired;
@@ -202,7 +202,7 @@ class ItemsModel extends DBConnector
                 	}
                 	else
                 	{
-                		if ($title=='') throw new Exception("Заголовок не должен быть пустым");
+                		if ($title=='') throw new Exception("Р—Р°РіРѕР»РѕРІРѕРє РЅРµ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РїСѓСЃС‚С‹Рј");
                         $this->_sql->call(
 	                		"EditItem",
 	                		new ArrayObject(array(
@@ -226,9 +226,9 @@ class ItemsModel extends DBConnector
     }
 
     /**
-    * Получиить владельца отчёта
+    * РџРѕР»СѓС‡РёРёС‚СЊ РІР»Р°РґРµР»СЊС†Р° РѕС‚С‡С‘С‚Р°
     *
-    * @param int $reportID ID отчёта
+    * @param int $reportID ID РѕС‚С‡С‘С‚Р°
     * @return int
     */
     private function getReportOwner($reportID)
@@ -296,14 +296,14 @@ class ItemsModel extends DBConnector
         }
         else
         {
-            $pc=new ProjectsModel();
+            $pc=new ProjectService();
             if ($pc->isProjectExists((int)$projectID))
             {
                 $projectID=(int)$projectID;
             }
             else
             {
-                throw new Exception("Проект не существует. Нельзя получить список ошибок по несуществующему проекту");
+                throw new Exception("РџСЂРѕРµРєС‚ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚. РќРµР»СЊР·СЏ РїРѕР»СѓС‡РёС‚СЊ СЃРїРёСЃРѕРє РѕС€РёР±РѕРє РїРѕ РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРјСѓ РїСЂРѕРµРєС‚Сѓ");
             }
         }
     }
@@ -350,7 +350,7 @@ class ItemsModel extends DBConnector
             }
             else
             {
-                throw new Exception("Пользователь не существует.");
+                throw new Exception("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
             }
         }
         if ($projectID==NULL)
@@ -401,7 +401,7 @@ class ItemsModel extends DBConnector
             }
             else
             {
-                throw new Exception("Пользователь не существует.");
+                throw new Exception("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.");
             }
         }
         if ($projectID==NULL)
@@ -510,7 +510,7 @@ class ItemsModel extends DBConnector
     private function chekProjectOwnerOrReportOwner($reportID)
     {
         $id=(int)$id;
-        $pC=new ProjectsModel();
+        $pC=new ProjectService();
         return ($this->_itemOwnerID==$this->getReportOwner($reportID) || $this->_itemOwnerID==$pC->isOwner($this->_itemOwnerID,$this->_projectOwnerID));
     }
 
@@ -520,7 +520,7 @@ class ItemsModel extends DBConnector
         $projectID=(int)$projectID;
         $user=$this->_itemOwnerID;
         $isOwnerORAssigned=$this->_sql->countQuery(self::TABLE_ITEM,"ITEM_ID=$reportID AND (USER_ID=$user OR ASSGN_TO=$user)");
-        $pC=new ProjectsModel();
+        $pC=new ProjectService();
         return ($isOwnerORAssigned !=0) || $this->_itemOwnerID==$pC->isOwner($user,$projectID);
     }
 
@@ -534,57 +534,57 @@ class ItemsModel extends DBConnector
 
     /**
      *
-     * Нормализует информацию отчёта об ошибке
+     * РќРѕСЂРјР°Р»РёР·СѓРµС‚ РёРЅС„РѕСЂРјР°С†РёСЋ РѕС‚С‡С‘С‚Р° РѕР± РѕС€РёР±РєРµ
      */
     private function normalizeBugReport(&$reportData)
     {
         switch ($reportData["PriorityLevel"])
         {
         	case ErrorPriorityENUM::MINIMAL:
-        		$reportData["PriorityLevelN"]="Низкий"; break;
+        		$reportData["PriorityLevelN"]="РќРёР·РєРёР№"; break;
         	case ErrorPriorityENUM::NORMAL:
-        		$reportData["PriorityLevelN"]="Обычный"; break;
+        		$reportData["PriorityLevelN"]="РћР±С‹С‡РЅС‹Р№"; break;
          	case ErrorPriorityENUM::HIGH:
-        		$reportData["PriorityLevelN"]="Важный"; break;
+        		$reportData["PriorityLevelN"]="Р’Р°Р¶РЅС‹Р№"; break;
         }
         switch ($reportData["Kind"])
         {
         	case ItemKindENUM::DEFECT:
-        		$reportData["KindN"]="Дефект"; break;
+        		$reportData["KindN"]="Р”РµС„РµРєС‚"; break;
         	case ItemKindENUM::TASK:
-        		$reportData["KindN"]="Задача"; break;
+        		$reportData["KindN"]="Р—Р°РґР°С‡Р°"; break;
         }
         switch ($reportData["ErrorType"])
         {
         	case ErrorTypeENUM::BLOCK:
-        		$reportData["ErrorTypeN"]="Блокирующая"; break;
+        		$reportData["ErrorTypeN"]="Р‘Р»РѕРєРёСЂСѓСЋС‰Р°СЏ"; break;
         	case ErrorTypeENUM::COSMETIC:
-        		$reportData["ErrorTypeN"]="Косметическая"; break;
+        		$reportData["ErrorTypeN"]="РљРѕСЃРјРµС‚РёС‡РµСЃРєР°СЏ"; break;
         	case ErrorTypeENUM::CRASH:
-        		$reportData["ErrorTypeN"]="Крах"; break;
+        		$reportData["ErrorTypeN"]="РљСЂР°С…"; break;
         	case ErrorTypeENUM::ERROR_HANDLE:
-        		$reportData["ErrorTypeN"]="Исключение"; break;
+        		$reportData["ErrorTypeN"]="РСЃРєР»СЋС‡РµРЅРёРµ"; break;
         	case ErrorTypeENUM::FUNCTIONAL:
-        		$reportData["ErrorTypeN"]="Функциональня"; break;
+        		$reportData["ErrorTypeN"]="Р¤СѓРЅРєС†РёРѕРЅР°Р»СЊРЅСЏ"; break;
         	case ErrorTypeENUM::MAJOR:
-        		$reportData["ErrorTypeN"]="Значительная"; break;
+        		$reportData["ErrorTypeN"]="Р—РЅР°С‡РёС‚РµР»СЊРЅР°СЏ"; break;
         	case ErrorTypeENUM::MINOR:
-        		$reportData["ErrorTypeN"]="Неначительная"; break;
+        		$reportData["ErrorTypeN"]="РќРµРЅР°С‡РёС‚РµР»СЊРЅР°СЏ"; break;
         	case ErrorTypeENUM::SETUP:
-        		$reportData["ErrorTypeN"]="Ошибка инсталляции"; break;
+        		$reportData["ErrorTypeN"]="РћС€РёР±РєР° РёРЅСЃС‚Р°Р»Р»СЏС†РёРё"; break;
         }
         switch ($reportData["Status"])
         {
         	case ErrorStatusENUM::IS_NEW:
-        		$reportData["StatusN"]="Новый"; break;
+        		$reportData["StatusN"]="РќРѕРІС‹Р№"; break;
         	case ErrorStatusENUM::IDENTIFIED:
-        		$reportData["StatusN"]="Идентифицирован"; break;
+        		$reportData["StatusN"]="РРґРµРЅС‚РёС„РёС†РёСЂРѕРІР°РЅ"; break;
         	case ErrorStatusENUM::ASSESSED:
-        		$reportData["StatusN"]="В процессе"; break;
+        		$reportData["StatusN"]="Р’ РїСЂРѕС†РµСЃСЃРµ"; break;
         	case ErrorStatusENUM::RESOLVED:
-        		$reportData["StatusN"]="Решён"; break;
+        		$reportData["StatusN"]="Р РµС€С‘РЅ"; break;
         	case ErrorStatusENUM::CLOSED:
-        		$reportData["StatusN"]="Закрыт"; break;
+        		$reportData["StatusN"]="Р—Р°РєСЂС‹С‚"; break;
         }
     }
 }
