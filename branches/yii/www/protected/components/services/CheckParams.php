@@ -11,13 +11,13 @@ require_once 'ReportHistoryController.php';
 			{
 				if ($key == "projectID") 
 				{
-					$p = new ProjectsModel();
+					$p = new ProjectService();
 					$value = (int)$value;
-					if(!$p->isProjectExists($value)) throw new Exception("Проект не существует.",101);
+					if(!$p->isProjectExists($value)) throw new Exception("РџСЂРѕРµРєС‚ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.",101);
 					
 				}
 				/*
-				 * тут проверка на существование юзера. именно тут.
+				 * С‚СѓС‚ РїСЂРѕРІРµСЂРєР° РЅР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ СЋР·РµСЂР°. РёРјРµРЅРЅРѕ С‚СѓС‚.
 				 */
 				
 				
@@ -26,9 +26,9 @@ require_once 'ReportHistoryController.php';
 					$h = new ReportHistory();
 					$value = (int)$value;
 					$d = $h->isOwner($paramArray["userID"], $value, $paramArray["projectID"]);
-					if(!$d) throw new Exception("Вы не являетесь автором или админом.", 901);
+					if(!$d) throw new Exception("Р’С‹ РЅРµ СЏРІР»СЏРµС‚РµСЃСЊ Р°РІС‚РѕСЂРѕРј РёР»Рё Р°РґРјРёРЅРѕРј.", 901);
 					
-					if(!$h->isHistoryIdExists($value)) throw new Exception("Элемента с таким номером нет.", 902);
+					if(!$h->isHistoryIdExists($value)) throw new Exception("Р­Р»РµРјРµРЅС‚Р° СЃ С‚Р°РєРёРј РЅРѕРјРµСЂРѕРј РЅРµС‚.", 902);
 				}
 			}
 			

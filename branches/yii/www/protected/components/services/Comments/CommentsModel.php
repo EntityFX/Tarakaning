@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Класс управления комментариями к ошибкам.
+ * РљР»Р°СЃСЃ СѓРїСЂР°РІР»РµРЅРёСЏ РєРѕРјРјРµРЅС‚Р°СЂРёСЏРјРё Рє РѕС€РёР±РєР°Рј.
  * @author timur 29.01.2011
  *
  */
@@ -18,25 +18,25 @@ class CommentsModel extends DBConnector
 		
 		
 		/**
-		 * Функция для комментирования отчета об ошибке.
+		 * Р¤СѓРЅРєС†РёСЏ РґР»СЏ РєРѕРјРјРµРЅС‚РёСЂРѕРІР°РЅРёСЏ РѕС‚С‡РµС‚Р° РѕР± РѕС€РёР±РєРµ.
 		 * @param unknown_type $projectID
 		 * @param unknown_type $userID
 		 * @param unknown_type $reportID
 		 * @param unknown_type $comment
 		 * 
-		 * @todo 1) добавить проверку на существование отчета об ошибке. <br />
-		 * 2) добавить проверку на существование данного пользователя.
+		 * @todo 1) РґРѕР±Р°РІРёС‚СЊ РїСЂРѕРІРµСЂРєСѓ РЅР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ РѕС‚С‡РµС‚Р° РѕР± РѕС€РёР±РєРµ. <br />
+		 * 2) РґРѕР±Р°РІРёС‚СЊ РїСЂРѕРІРµСЂРєСѓ РЅР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ РґР°РЅРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ.
 		 */
 		public function setReportComment($projectID, $userID, $reportID, $comment)
 		{
 			/*
-			 * сперва проверить существование проекта
-			 * потом - пользователя
-			 * потом является ли подписанным или хозяином
-			 * еще проверить существует ли отчет
+			 * СЃРїРµСЂРІР° РїСЂРѕРІРµСЂРёС‚СЊ СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёРµ РїСЂРѕРµРєС‚Р°
+			 * РїРѕС‚РѕРј - РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+			 * РїРѕС‚РѕРј СЏРІР»СЏРµС‚СЃСЏ Р»Рё РїРѕРґРїРёСЃР°РЅРЅС‹Рј РёР»Рё С…РѕР·СЏРёРЅРѕРј
+			 * РµС‰Рµ РїСЂРѕРІРµСЂРёС‚СЊ СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»Рё РѕС‚С‡РµС‚
 			 */
 			$projectID = (int)$projectID;
-			$p = new ProjectsModel();
+			$p = new ProjectService();
 			if($p->isProjectExists($projectID))
 			{	
 				$r = new RequestModel();
@@ -66,18 +66,18 @@ class CommentsModel extends DBConnector
 				}
 				else 
 				{
-					throw new Exception("Вы не являетесь участником проекта.", 602);
+					throw new Exception("Р’С‹ РЅРµ СЏРІР»СЏРµС‚РµСЃСЊ СѓС‡Р°СЃС‚РЅРёРєРѕРј РїСЂРѕРµРєС‚Р°.", 602);
 				}
 				
 			}
 			else 
 			{
-				throw new Exception("Проект не существует.",101);
+				throw new Exception("РџСЂРѕРµРєС‚ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.",101);
 			}
 		}
 		
 		/**
-		 * Удаление комментария к отчету об ошибке.
+		 * РЈРґР°Р»РµРЅРёРµ РєРѕРјРјРµРЅС‚Р°СЂРёСЏ Рє РѕС‚С‡РµС‚Сѓ РѕР± РѕС€РёР±РєРµ.
 		 * @param unknown_type $projectID
 		 * @param unknown_type $userID
 		 * @param unknown_type $commentID
@@ -87,7 +87,7 @@ class CommentsModel extends DBConnector
 		{
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;
-			$p = new ProjectsModel();
+			$p = new ProjectService();
 			if($p->isProjectExists($projectID))
 			{
 				if ($this->isCommentExist($commentID))
@@ -102,31 +102,31 @@ class CommentsModel extends DBConnector
 						}
 						else 
 						{
-							throw new Exception("Вы не являетесь автором комментария или проекта", 1002);
+							throw new Exception("Р’С‹ РЅРµ СЏРІР»СЏРµС‚РµСЃСЊ Р°РІС‚РѕСЂРѕРј РєРѕРјРјРµРЅС‚Р°СЂРёСЏ РёР»Рё РїСЂРѕРµРєС‚Р°", 1002);
 						}
 					}
 					else 
 					{
-						throw new Exception("Вы не являетесь участником проекта.", 602);
+						throw new Exception("Р’С‹ РЅРµ СЏРІР»СЏРµС‚РµСЃСЊ СѓС‡Р°СЃС‚РЅРёРєРѕРј РїСЂРѕРµРєС‚Р°.", 602);
 					}
 				}
 				else 
 				{
-					throw new Exception("Комментария не существует.", 1001);
+					throw new Exception("РљРѕРјРјРµРЅС‚Р°СЂРёСЏ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.", 1001);
 				}
 			}
 			else 
 			{
-				throw new Exception("Проект не существует.",101);
+				throw new Exception("РџСЂРѕРµРєС‚ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.",101);
 			}
 			
 		}
 		
 		/**
 		 * 
-		 * Удаляет проекты заданного пользователя
-		 * @param int $userID Идентификатор пользователя
-		 * @param array $projectsList Список проектов на удаление (ключ - идентификатор)
+		 * РЈРґР°Р»СЏРµС‚ РїСЂРѕРµРєС‚С‹ Р·Р°РґР°РЅРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+		 * @param int $userID РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+		 * @param array $projectsList РЎРїРёСЃРѕРє РїСЂРѕРµРєС‚РѕРІ РЅР° СѓРґР°Р»РµРЅРёРµ (РєР»СЋС‡ - РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ)
 		 */
 		public function deleteCommentsFromList($userID,$commentsList)
 		{
@@ -146,7 +146,7 @@ class CommentsModel extends DBConnector
 		}
 		
 		/**
-		 * Получение списка комментариев к проекту.
+		 * РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ Рє РїСЂРѕРµРєС‚Сѓ.
 		 * @param unknown_type $projectID
 		 * @param unknown_type $userID
 		 * @throws Exception
@@ -155,27 +155,27 @@ class CommentsModel extends DBConnector
 		{
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;
-			$p = new ProjectsModel();
+			$p = new ProjectService();
 			if($p->isProjectExists($projectID))
 			{
 				$r = new RequestModel();
 				if ($r->isSubscribed($userID, $projectID))  
 				{
-					//$this->_sql->query("");  			какой запрос тут надо????
+					//$this->_sql->query("");  			РєР°РєРѕР№ Р·Р°РїСЂРѕСЃ С‚СѓС‚ РЅР°РґРѕ????
 				}
 				else 
 				{
-					throw new Exception("Вы не являетесь участником проекта.", 602);
+					throw new Exception("Р’С‹ РЅРµ СЏРІР»СЏРµС‚РµСЃСЊ СѓС‡Р°СЃС‚РЅРёРєРѕРј РїСЂРѕРµРєС‚Р°.", 602);
 				}
 			}
 			else 
 			{
-				throw new Exception("Проект не существует.",101);
+				throw new Exception("РџСЂРѕРµРєС‚ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.",101);
 			}
 		}		
 
 		/**
-		 * Получение списка комментариев к отчету об ошибке.
+		 * РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ Рє РѕС‚С‡РµС‚Сѓ РѕР± РѕС€РёР±РєРµ.
 		 * @param unknown_type $projectID
 		 * @param unknown_type $reportID
 		 * @param unknown_type $userID
@@ -187,7 +187,7 @@ class CommentsModel extends DBConnector
 			$reportID = (int)$reportID;
 			$startIndex = (int)$startIndex;
 			$maxCount = (int)$maxCount;
-			$p = new ProjectsModel();
+			$p = new ProjectService();
 			if($p->isProjectExists($projectID))
 			{
 				$r = new RequestModel();
@@ -202,19 +202,19 @@ class CommentsModel extends DBConnector
 				}
 				else 
 				{
-					throw new Exception("Вы не являетесь участником проекта.", 602);
+					throw new Exception("Р’С‹ РЅРµ СЏРІР»СЏРµС‚РµСЃСЊ СѓС‡Р°СЃС‚РЅРёРєРѕРј РїСЂРѕРµРєС‚Р°.", 602);
 				}
 			}
 			else 
 			{
-				throw new Exception("Проект не существует.",101);
+				throw new Exception("РџСЂРѕРµРєС‚ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.",101);
 			}
 		}
 		
 		/**
 		 * 
-		 * Возвращает число комментариев к данному айтему
-		 * @param int $reportID Идентификатор отчёта
+		 * Р’РѕР·РІСЂР°С‰Р°РµС‚ С‡РёСЃР»Рѕ РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ Рє РґР°РЅРЅРѕРјСѓ Р°Р№С‚РµРјСѓ
+		 * @param int $reportID РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РѕС‚С‡С‘С‚Р°
 		 */
 		public function getReportCommentsCount($reportID)
 		{
@@ -223,7 +223,7 @@ class CommentsModel extends DBConnector
 		}
 		
 		/**
-		 * Проверка существования комментария.
+		 * РџСЂРѕРІРµСЂРєР° СЃСѓС‰РµСЃС‚РІРѕРІР°РЅРёСЏ РєРѕРјРјРµРЅС‚Р°СЂРёСЏ.
 		 * @param unknown_type $commentID
 		 */
 		public function isCommentExist($commentID)
@@ -232,7 +232,7 @@ class CommentsModel extends DBConnector
 		}
 		
 		/**
-		 * Получение id пользователя по id комментария.
+		 * РџРѕР»СѓС‡РµРЅРёРµ id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РїРѕ id РєРѕРјРјРµРЅС‚Р°СЂРёСЏ.
 		 * @param unknown_type $commentID
 		 */
 		public function getUserIDbyCommentID($commentID) 
@@ -244,7 +244,7 @@ class CommentsModel extends DBConnector
 		}
 		
 		/**
-		 * Проверяет является ли данный пользователь автором данного комментария.
+		 * РџСЂРѕРІРµСЂСЏРµС‚ СЏРІР»СЏРµС‚СЃСЏ Р»Рё РґР°РЅРЅС‹Р№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ Р°РІС‚РѕСЂРѕРј РґР°РЅРЅРѕРіРѕ РєРѕРјРјРµРЅС‚Р°СЂРёСЏ.
 		 * @param unknown_type $commentID
 		 * @param unknown_type $userID
 		 */
@@ -254,7 +254,7 @@ class CommentsModel extends DBConnector
 			$commentID = (int)$commentID;
             $this->_sql->selAllWhere(self::TABLE_ITEM_COMMENT,"ITEM_CMMENT_ID=$commentID");
             $res=$this->_sql->getResultRows();
-			$p = new ProjectsModel();
+			$p = new ProjectService();
 			$s = $p->isOwner($userID, $projectID);
 			return  $res[0]["UserID"] == $userID || $s ? TRUE : FALSE;
 		}

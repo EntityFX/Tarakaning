@@ -1,6 +1,6 @@
 <?php
 /**
- * Класс подтверждения/отклонения на подписку.
+ * РљР»Р°СЃСЃ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ/РѕС‚РєР»РѕРЅРµРЅРёСЏ РЅР° РїРѕРґРїРёСЃРєСѓ.
  * @author timur 28.01.2011
  *
  */
@@ -14,23 +14,23 @@ class RequestModel extends DBConnector
 	}
 	
 	/*
-	 * 1) подтвердить заявку (взять из таблицы SubscribesRequest, записать в таблицу UsersInProjects)
-	 * 2) отклонить заявку (удалить из таблицы SubscribesRequest)
-	 * 3) показать список всех заявок (получить из SubscribesRequest)
+	 * 1) РїРѕРґС‚РІРµСЂРґРёС‚СЊ Р·Р°СЏРІРєСѓ (РІР·СЏС‚СЊ РёР· С‚Р°Р±Р»РёС†С‹ SubscribesRequest, Р·Р°РїРёСЃР°С‚СЊ РІ С‚Р°Р±Р»РёС†Сѓ UsersInProjects)
+	 * 2) РѕС‚РєР»РѕРЅРёС‚СЊ Р·Р°СЏРІРєСѓ (СѓРґР°Р»РёС‚СЊ РёР· С‚Р°Р±Р»РёС†С‹ SubscribesRequest)
+	 * 3) РїРѕРєР°Р·Р°С‚СЊ СЃРїРёСЃРѕРє РІСЃРµС… Р·Р°СЏРІРѕРє (РїРѕР»СѓС‡РёС‚СЊ РёР· SubscribesRequest)
 	 */
 	
 	/**
-	 * Подтверждение запроса на подписку.
-	 * @param int $keysList - список запросов.
-	 * @param int $ownerID - id автора проекта.
-	 * @param int $projectID - id проекта.
+	 * РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ Р·Р°РїСЂРѕСЃР° РЅР° РїРѕРґРїРёСЃРєСѓ.
+	 * @param int $keysList - СЃРїРёСЃРѕРє Р·Р°РїСЂРѕСЃРѕРІ.
+	 * @param int $ownerID - id Р°РІС‚РѕСЂР° РїСЂРѕРµРєС‚Р°.
+	 * @param int $projectID - id РїСЂРѕРµРєС‚Р°.
 	 */
 	public function acceptRequest($keysList,$ownerID,$projectID) 
 	{
 		$ownerID = (int)$ownerID;
 		$projectID = (int)$projectID;
 		
-		$projectsController=new ProjectsModel();
+		$projectsController=new ProjectService();
 		if ($projectsController->isOwner($ownerID, $projectID))
 		{
 			var_dump($keysList);
@@ -45,9 +45,9 @@ class RequestModel extends DBConnector
 	}
 	
 	/**
-	 * Проверяется подписан ли данный пользователь в данном проекте.
-	 * @param int $userID - id пользователя.
-	 * @param int $projectID - id проекта.
+	 * РџСЂРѕРІРµСЂСЏРµС‚СЃСЏ РїРѕРґРїРёСЃР°РЅ Р»Рё РґР°РЅРЅС‹Р№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІ РґР°РЅРЅРѕРј РїСЂРѕРµРєС‚Рµ.
+	 * @param int $userID - id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ.
+	 * @param int $projectID - id РїСЂРѕРµРєС‚Р°.
 	 */
 	public function isSubscribed($userID, $projectID) 
 	{
@@ -58,11 +58,11 @@ class RequestModel extends DBConnector
 	}
 	
 	/**
-	 * Отклонение заявки.
-	 * @param int $requestID - id запроса.
-	 * @param int $userID - id пользователя, пославшего запрос.
-	 * @param int $projectID - id проекта.
-	 * @param int $ownerID - id автора проекта.
+	 * РћС‚РєР»РѕРЅРµРЅРёРµ Р·Р°СЏРІРєРё.
+	 * @param int $requestID - id Р·Р°РїСЂРѕСЃР°.
+	 * @param int $userID - id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ, РїРѕСЃР»Р°РІС€РµРіРѕ Р·Р°РїСЂРѕСЃ.
+	 * @param int $projectID - id РїСЂРѕРµРєС‚Р°.
+	 * @param int $ownerID - id Р°РІС‚РѕСЂР° РїСЂРѕРµРєС‚Р°.
 	 */
 	public function declineRequest($requestID, $userID, $projectID, $ownerID) 
 	{
@@ -77,7 +77,7 @@ class RequestModel extends DBConnector
 			{
 				if($this->isSubscribed($userID, $projectID))
 				{
-					throw new Exception("Пользователь уже участвует в проекте.",601);
+					throw new Exception("РџРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓР¶Рµ СѓС‡Р°СЃС‚РІСѓРµС‚ РІ РїСЂРѕРµРєС‚Рµ.",601);
 				}
 				else 
 				{
@@ -87,17 +87,17 @@ class RequestModel extends DBConnector
 			}
 			else 
 			{
-				throw new Exception("Не Вы являетесь Создателем проекта.",102);  
+				throw new Exception("РќРµ Р’С‹ СЏРІР»СЏРµС‚РµСЃСЊ РЎРѕР·РґР°С‚РµР»РµРј РїСЂРѕРµРєС‚Р°.",102);  
 			}
 		}
 		else 
 		{
-			throw new Exception("Проект не существует.",101);
+			throw new Exception("РџСЂРѕРµРєС‚ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.",101);
 		}
 	}
 	
 	/**
-	 * Получение списка заявок для данного проекта.
+	 * РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° Р·Р°СЏРІРѕРє РґР»СЏ РґР°РЅРЅРѕРіРѕ РїСЂРѕРµРєС‚Р°.
 	 * @param unknown_type $userID
 	 * @param unknown_type $projectID
 	 * @param unknown_type $startIndex
@@ -119,12 +119,12 @@ class RequestModel extends DBConnector
 			}
 			else 
 			{
-				throw new Exception("Не Вы являетесь Создателем проекта.",102); 
+				throw new Exception("РќРµ Р’С‹ СЏРІР»СЏРµС‚РµСЃСЊ РЎРѕР·РґР°С‚РµР»РµРј РїСЂРѕРµРєС‚Р°.",102); 
 			}
 		}
 		else 
 		{
-			throw new Exception("Проект не существует.",101);
+			throw new Exception("РџСЂРѕРµРєС‚ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.",101);
 		}
 	}
 }
