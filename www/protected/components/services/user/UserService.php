@@ -1,6 +1,6 @@
 <?php
 
-class UserService extends Service {
+class UserService extends Service implements IUserService {
 
     const HASH_SALT = 'MOTPWBAH';
 
@@ -109,7 +109,7 @@ class UserService extends Service {
     public function getAll() {
         return $this->db->createCommand()->select()
                         ->from(self::$authTableName)
-                        ->order(UsersOrderFields::NICK_NAME)
+                        ->order(UsersOrderFieldsEnum::NICK_NAME)
                         ->queryAll();
     }
 
@@ -306,7 +306,7 @@ class UserService extends Service {
 
 }
 
-class UsersOrderFields extends AEnum {
+class UsersOrderFieldsEnum extends AEnum {
 
     const NICK_NAME = "NICK";
 

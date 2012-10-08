@@ -7,7 +7,7 @@ class ProjectsFacade
 	private $_count=0;
 	private $_paginator;
 	
-	public function __construct(ProjectsModel $projectsController, UserAuth $auth)
+	public function __construct(ProjectService $projectsController, UserAuth $auth)
 	{
 		$this->_projectsController=$projectsController;
 		$this->_auth=$auth;
@@ -22,7 +22,7 @@ class ProjectsFacade
 	
 	public function deleteProject($projectID) 
 	{
-		$this->_projectsController->deleteProject($this->_userInfo["USER_ID"], $projectID);
+		$this->_projectsController->deleteById($this->_userInfo["USER_ID"], $projectID);
 	}
 	
 	public function deleteProjectsFromList($userID,$projectsList)
@@ -36,7 +36,7 @@ class ProjectsFacade
 	
 	public function setProjectName($projectID,$projectNewName, $newDescription)
 	{
-		$this->_projectsController->setProjectName($projectID, $this->_userInfo["USER_ID"], $projectNewName, $newDescription);
+		$this->_projectsController->updateProjectDataById($projectID, $this->_userInfo["USER_ID"], $projectNewName, $newDescription);
 	}
 	
 	public function searchProject($query)

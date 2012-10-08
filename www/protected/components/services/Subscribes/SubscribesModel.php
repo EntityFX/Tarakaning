@@ -3,16 +3,16 @@
 	require_once 'SubscribesDetailENUM.php';
 
 /**
- * Класс управления подписками на проект.
+ * РљР»Р°СЃСЃ СѓРїСЂР°РІР»РµРЅРёСЏ РїРѕРґРїРёСЃРєР°РјРё РЅР° РїСЂРѕРµРєС‚.
  * @author timur 28.01.2011
  *
  */
 	class SubscribesModel extends DBConnector
 	{
 /*
- *  1) получить список проектов, в которых участвует пользователь (для меня минимум) (из таблицы UsersInProjects)
-	2) прервать участие в данном проекте (удаление записи из таблицы UsersInProjects)
-	3) подать заявку на проект (запись в таблицу SubscribesRequest)
+ *  1) РїРѕР»СѓС‡РёС‚СЊ СЃРїРёСЃРѕРє РїСЂРѕРµРєС‚РѕРІ, РІ РєРѕС‚РѕСЂС‹С… СѓС‡Р°СЃС‚РІСѓРµС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ (РґР»СЏ РјРµРЅСЏ РјРёРЅРёРјСѓРј) (РёР· С‚Р°Р±Р»РёС†С‹ UsersInProjects)
+	2) РїСЂРµСЂРІР°С‚СЊ СѓС‡Р°СЃС‚РёРµ РІ РґР°РЅРЅРѕРј РїСЂРѕРµРєС‚Рµ (СѓРґР°Р»РµРЅРёРµ Р·Р°РїРёСЃРё РёР· С‚Р°Р±Р»РёС†С‹ UsersInProjects)
+	3) РїРѕРґР°С‚СЊ Р·Р°СЏРІРєСѓ РЅР° РїСЂРѕРµРєС‚ (Р·Р°РїРёСЃСЊ РІ С‚Р°Р±Р»РёС†Сѓ SubscribesRequest)
  */
 
 		const TABLE_SUBSCR_RQST 		= 'SUBSCR_RQST';
@@ -26,10 +26,10 @@
 			
 			
 			/**
-			 * Подача заявки на проект.
-			 * @param int $userID - id пользователя, подавшего заявку.
-			 * @param int $projectID - id проекта, на который пользователь подал заявку.
-			 * @return bool - результат подачи заявки.
+			 * РџРѕРґР°С‡Р° Р·Р°СЏРІРєРё РЅР° РїСЂРѕРµРєС‚.
+			 * @param int $userID - id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ, РїРѕРґР°РІС€РµРіРѕ Р·Р°СЏРІРєСѓ.
+			 * @param int $projectID - id РїСЂРѕРµРєС‚Р°, РЅР° РєРѕС‚РѕСЂС‹Р№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РїРѕРґР°Р» Р·Р°СЏРІРєСѓ.
+			 * @return bool - СЂРµР·СѓР»СЊС‚Р°С‚ РїРѕРґР°С‡Рё Р·Р°СЏРІРєРё.
 			 */
 			public function sendRequest($userID, $projectID)
 			{
@@ -54,16 +54,16 @@
 			}
 			
 			/**
-			 * Проверяется есть ли нерассмотренная заявка от данного пользователя на данный проект.
-			 * @param int $userID - id пользователя, подавшего заявку.
-			 * @param int $projectID - id проекта, на который пользователь подал заявку.
-			 * @return bool - результат проверки.
+			 * РџСЂРѕРІРµСЂСЏРµС‚СЃСЏ РµСЃС‚СЊ Р»Рё РЅРµСЂР°СЃСЃРјРѕС‚СЂРµРЅРЅР°СЏ Р·Р°СЏРІРєР° РѕС‚ РґР°РЅРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РЅР° РґР°РЅРЅС‹Р№ РїСЂРѕРµРєС‚.
+			 * @param int $userID - id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ, РїРѕРґР°РІС€РµРіРѕ Р·Р°СЏРІРєСѓ.
+			 * @param int $projectID - id РїСЂРѕРµРєС‚Р°, РЅР° РєРѕС‚РѕСЂС‹Р№ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РїРѕРґР°Р» Р·Р°СЏРІРєСѓ.
+			 * @return bool - СЂРµР·СѓР»СЊС‚Р°С‚ РїСЂРѕРІРµСЂРєРё.
 			 */
 			public function isRequestExists($userID, $projectID) 
 			{
 				$userID = (int)$userID;
 				$projectID = (int)$projectID;
-				$p = new ProjectsModel();
+				$p = new ProjectService();
 				if($p->isProjectExists($projectID))
 				{
 					$count=$this->_sql->countQuery(self::TABLE_SUBSCR_RQST,"USER_ID = '$userID' AND PROJ_ID = '$projectID'");
@@ -71,13 +71,13 @@
 				}
 				else 
 				{
-					throw new Exception("Проект не существует.", 101);
+					throw new Exception("РџСЂРѕРµРєС‚ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.", 101);
 				}
 			}
 
 			/**
-			 * Получение списка проектов, на которые подписан пользователь.
-			 * @param int $userID - id пользователя, подавшего заявку.
+			 * РџРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РїСЂРѕРµРєС‚РѕРІ, РЅР° РєРѕС‚РѕСЂС‹Рµ РїРѕРґРїРёСЃР°РЅ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ.
+			 * @param int $userID - id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ, РїРѕРґР°РІС€РµРіРѕ Р·Р°СЏРІРєСѓ.
 			 */
 			public function getUserSubscribes($userID,Orderer $orderer,ListPager $paginator)
 			{
@@ -116,7 +116,7 @@
 			
 			/**
 			 * 
-			 * Возвращает количество заявок на проект
+			 * Р’РѕР·РІСЂР°С‰Р°РµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°СЏРІРѕРє РЅР° РїСЂРѕРµРєС‚
 			 * @param unknown_type $projectID
 			 */
 			public function getProjectSubscribesCount($projectID)
@@ -132,35 +132,35 @@
 	        }
 			
 			/**
-			 * Удаление данного пользователя из списка участников проекта.
-			 * @param int $userID - id пользователя.
-			 * @param int $projectID - id проекта, из которого пользователь удаляется.
+			 * РЈРґР°Р»РµРЅРёРµ РґР°РЅРЅРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ РёР· СЃРїРёСЃРєР° СѓС‡Р°СЃС‚РЅРёРєРѕРІ РїСЂРѕРµРєС‚Р°.
+			 * @param int $userID - id РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ.
+			 * @param int $projectID - id РїСЂРѕРµРєС‚Р°, РёР· РєРѕС‚РѕСЂРѕРіРѕ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ СѓРґР°Р»СЏРµС‚СЃСЏ.
 			 */
 			public function removeSubscribe($userID, $projectID)
 			{
 				$userID = (int)$userID;
-				$projectID = (int)$projectID;//если проект не существует, то вернет ошибку.
+				$projectID = (int)$projectID;//РµСЃР»Рё РїСЂРѕРµРєС‚ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚, С‚Рѕ РІРµСЂРЅРµС‚ РѕС€РёР±РєСѓ.
 				if ($this->isRequestExists($userID, $projectID))
 				{
 					return $this->_sql->query("DELETE FROM `UsersInProjects` WHERE `OwnerID` = '$userID' AND `ProjectID` = '$projectID' LIMIT 1");
 				}
 				else 
 				{
-					throw new Exception("Вы не являетесь участником проекта.", 501);
+					throw new Exception("Р’С‹ РЅРµ СЏРІР»СЏРµС‚РµСЃСЊ СѓС‡Р°СЃС‚РЅРёРєРѕРј РїСЂРѕРµРєС‚Р°.", 501);
 				}
 			}
 			
 			/**
 			 * 
-			 * Удаляет участников проекта
-			 * @param array $keysList Список идентификаторов участников
-			 * @param int $projectID ID проекта
+			 * РЈРґР°Р»СЏРµС‚ СѓС‡Р°СЃС‚РЅРёРєРѕРІ РїСЂРѕРµРєС‚Р°
+			 * @param array $keysList РЎРїРёСЃРѕРє РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂРѕРІ СѓС‡Р°СЃС‚РЅРёРєРѕРІ
+			 * @param int $projectID ID РїСЂРѕРµРєС‚Р°
 			 */
 			public function deleteProjectMembers($keysList,$ownerID,$projectID)
 			{
 				$ownerID = (int)$ownerID;
 				$projectID = (int)$projectID;
-				$projectOperation=new ProjectsModel();
+				$projectOperation=new ProjectService();
 	        	if ($projectOperation->isOwner($ownerID, $projectID) && $keysList!='')
 	        	{
 	        		$this->_sql->call(
@@ -175,7 +175,7 @@
 			
 			public function getProjectUsers($projectID) 
 			{
-				$p = new ProjectsModel();
+				$p = new ProjectService();
 				$projectID = (int)$projectID;
 				if($p->isProjectExists($projectID))
 				{
@@ -187,14 +187,14 @@
 				}
 				else 
 				{
-					throw new Exception("Проект не существует.", 101);
+					throw new Exception("РџСЂРѕРµРєС‚ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.", 101);
 				}
 			}
 			
 			public function getProjectUsersPaged($projectID, $startIndex = 0, $maxCount = 30)
 			{
 				$projectID = (int)$projectID;
-				$p = new ProjectsModel();
+				$p = new ProjectService();
 				if($p->isProjectExists($projectID))
 				{
 					$ownerID = $p->getOwnerID($projectID);
@@ -207,7 +207,7 @@
 				}
 				else 
 				{
-					throw new Exception("Проект не существует.", 101);
+					throw new Exception("РџСЂРѕРµРєС‚ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚.", 101);
 				}	
 			}
 		}
