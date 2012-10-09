@@ -24,7 +24,7 @@ class ItemsModel extends DBConnector
         }
         else
         {
-            if ($projectsController->isProjectExists((int)$projectID))
+            if ($projectsController->existsById((int)$projectID))
             {
                 $request=new RequestModel();
                 if ($ownerID==NULL)
@@ -297,7 +297,7 @@ class ItemsModel extends DBConnector
         else
         {
             $pc=new ProjectService();
-            if ($pc->isProjectExists((int)$projectID))
+            if ($pc->existsById((int)$projectID))
             {
                 $projectID=(int)$projectID;
             }

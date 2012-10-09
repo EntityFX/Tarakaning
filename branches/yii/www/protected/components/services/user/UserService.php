@@ -1,6 +1,6 @@
 <?php
 
-class UserService extends Service implements IUserService {
+class UserService extends ServiceBase implements IUserService {
 
     const HASH_SALT = 'MOTPWBAH';
 
