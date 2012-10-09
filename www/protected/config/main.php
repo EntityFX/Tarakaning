@@ -18,6 +18,7 @@ return array(
         'application.components.widgets.*',
         'application.components.services.*',
         'application.components.services.user.*',
+        'application.components.services.project.*',
         'application.components.services.locale.*',
         'application.controllers.*',
     ),
@@ -59,6 +60,7 @@ return array(
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',
+            'enableProfiling' => true
         ),
         'errorHandler' => array(
             // use 'site/error' action to display errors
@@ -71,12 +73,18 @@ return array(
                     'class' => 'CFileLogRoute',
                     'levels' => 'error, warning',
                 ),
-            // uncomment the following to show log messages on web pages
-            /*
-              array(
-              'class'=>'CWebLogRoute',
-              ),
-             */
+                // uncomment the following to show log messages on web pages
+
+                array(
+                    'class' => 'CWebLogRoute',
+                    'levels' => 'error, warning'
+                ),
+                
+                array(
+                    'class' => 'CWebLogRoute',
+                    'levels' => 'profile',
+                    'categories' => 'system.db.CDbCommand.*'
+                ),
             ),
         ),
         'viewRenderer' => array(

@@ -13,7 +13,7 @@ require_once 'ReportHistoryController.php';
 				{
 					$p = new ProjectService();
 					$value = (int)$value;
-					if(!$p->isProjectExists($value)) throw new Exception("Проект не существует.",101);
+					if(!$p->existsById($value)) throw new Exception("Проект не существует.",101);
 					
 				}
 				/*

@@ -2,7 +2,7 @@
 
 Loader::LoadModel('UserAuth', 'Auth');
 
-class ProfileService extends Service {
+class ProfileService extends ServiceBase {
 
     public $login;
     public $name;
@@ -36,7 +36,7 @@ class ProfileService extends Service {
             $projectID = (int) $projectID;
         }
         $pContr = new ProjectService();
-        if ($pContr->isProjectExists($projectID)) {
+        if ($pContr->existsById($projectID)) {
             $u = new RequestModel();
             if ($u->isSubscribed($this->id, $projectID) || $pContr->getOwnerID($projectID) == $this->id) {
                 $this->_sql->update(
