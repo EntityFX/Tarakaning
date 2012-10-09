@@ -42,8 +42,8 @@ class SiteController extends EntityFxControllerBase {
     }
 
     public function actionTest() {
-        $userService = new UserService();
-        var_dump(
+        //$userService = new UserService();
+        //var_dump(
             /*$userService->getById(1), 
             $userService->getByIdentity("GreenDragon"), 
             $userService->existsByIdentity("GreenDragon"),
@@ -55,8 +55,15 @@ class SiteController extends EntityFxControllerBase {
             //$userService->updateDataById(15, 'Hrenov', 'Hren', "Hrenovich", 'tym_s@mail.ru')
             //$userService->setRandomPasswordById(15,9)
             //$userService->changePassword(15,'5BLM7iorC','asdfgaa')
-            $userService->create('fg@w.ru', '1234567',1,'132','sdfd','fthfgh','hgfh@sfgf.ty')
-        );
+            //$userService->create('fg@w.ru', '1234567',1,'132','sdfd','fthfgh','hgfh@sfgf.ty')
+        //);
+        
+        $projectService = new ProjectService();
+        //var_dump($projectService->addProject(1, 'Hi', 'Hello'));
+        //var_dump($projectService->addProject(1, '<b>fuck</b>', 'Hello'));
+        //var_dump($projectService->deleteById(2, 9));
+        //var_dump($projectService->deleteProjectsFromList(1, array(10, 11)));
+        //CVarDumper::dump($projectService->existsById(3),10,true);
     }
 
 }

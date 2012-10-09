@@ -5,7 +5,7 @@
  * @author timur 27.01.2011
  *
  */
-class ProjectService extends Service {
+class ProjectService extends ServiceBase {
 
     const VIEW_ALL_USER_PROJECTS = 'view_AllUserProjects';
     const VIEW_PROJECT_AND_ERRORS = 'view_ProjectAndErrors';
@@ -74,7 +74,7 @@ class ProjectService extends Service {
     public function updateProjectDataById($projectID, $userID, $projectNewName, $newDescription) {
         $userID = (int) $userID;
         $projectID = (int) $projectID;
-        if ($this->isProjectExists($projectID)) {
+        if ($this->existsById($projectID)) {
             if ($projectNewName == '') {
                 throw new ServiceException("Имя проекта не должно быть пустым");
             }
@@ -137,7 +137,7 @@ class ProjectService extends Service {
     public function deleteById($userID, $projectID) {
         $userID = (int) $userID;
         $projectID = (int) $projectID;
-        if ($this->isProjectExists($projectID)) {
+        if ($this->existsById($projectID)) {
             if ($this->isOwner($userID, $projectID)) {
                 $this->db->createCommand()
                         ->delete(
@@ -164,8 +164,9 @@ class ProjectService extends Service {
     public function deleteProjectsFromList($userID, $projectsList) {
         $userID = (int) $userID;
         if ($projectsList != null) {
-            $projectListSerialized = Serialize::SerializeForStoredProcedure($projectsList);
-            $query = 'CALL DeleteProjects :userId, :projectsList';
+            $projectListSerialized = SerializeHelper::SerializeForStoredProcedure($projectsList);
+            $query = 'CALL DeleteProjects(:userId, :projectsList)';
+            CVarDumper::dump($projectsList);
             $deleteCommand = $this->db->createCommand($query);
             $deleteCommand->bindParam(':userId', $userID);
             $deleteCommand->bindParam(':projectsList', $projectListSerialized);
@@ -175,25 +176,30 @@ class ProjectService extends Service {
 
     /**
      * Получение списка всех проектов. Создано 28.01.2011.
+     * 
      * @param int $startIndex - индекс с которого нужно показывать результаты поиска.
      * @param int $maxCount - максимальное количество результатов поиска.
+     * @return array 
      */
     public function getAll() {
-        $this->_sql->selFields(self::TABLE_PROJ, "PROJ_ID", "PROJ_NM", "DESCR", "USER_ID");
-        $ret = $this->_sql->getResultRows();
-        return $ret;
+        return $this->db->createCommand()
+                ->select(array("PROJ_ID", "PROJ_NM", "DESCR", "USER_ID"))
+                ->from(self::TABLE_PROJ)
+                ->queryAll();
     }
 
     /**
-     * 
      * Возвращает проект по его идентификатору
+     * 
      * @param int $projectID
+     * @return array
      */
     public function getProjectById($projectID) {
-        $projectID = (int) $projectID;
-        $this->_sql->selAllWhere(self::VIEW_PROJECT_AND_OWNER_NICK, "ProjectID=$projectID");
-        $data = $this->_sql->getResultRows();
-        return $data[0];
+        return $this->db->createCommand()
+                ->select(array("PROJ_ID", "PROJ_NM", "DESCR", "USER_ID"))
+                ->from(self::VIEW_PROJECT_AND_OWNER_NICK)
+                ->where('ProjectID=:projectID',array(':projectID' => (int) $projectID))
+                ->queryRow();
     }
 
     /**
@@ -202,10 +208,13 @@ class ProjectService extends Service {
      * @param array $projectIDList
      */
     public function getProjectsByList($projectIDList) {
-        $projectsListStatement = Serialize::serializeForINStatement($projectIDList);
+        $projectsListStatement = SerializeHelper::serializeForINStatement($projectIDList);
         if ($projectsListStatement != '') {
-            $this->_sql->selAllWhere(self::VIEW_PROJECT_AND_OWNER_NICK, "ProjectID IN $projectsListStatement");
-            return $this->_sql->getResultRows();
+        return $this->db->createCommand()
+                ->select()
+                ->from(self::VIEW_PROJECT_AND_OWNER_NICK)
+                ->where(array('in','ProjectID',$projectIDList))
+                ->queryRow();
         } else {
             return null;
         }
@@ -216,23 +225,27 @@ class ProjectService extends Service {
      * Возращает проекты по списку идентификаторов
      * @param array $projectIDList
      */
-    public function getProjectsByListWithSubscribes($userID, $projectIDList) {
-        $projectsListStatement = Serialize::serializeForINStatement($projectIDList);
+    public function getProjectsWithSubscribesByList($userID, $projectIDList) {
+        $projectsListStatement = SerializeHelper::serializeForINStatement($projectIDList);
         if ($projectsListStatement != '') {
             $userID = (int) $userID;
-            $query = sprintf('SELECT 
-    								`P`.*,
-    								CASE 
-        								WHEN `P`.OwnerID=%1$d THEN 2
-        								WHEN `UP`.UserID IS null THEN 0
-        								ELSE 1
-    								END AS ProjectRelation
-								FROM 
-    								`projectswithusername` `P`
-    							LEFT JOIN USER_IN_PROJ UP ON
-        							`P`.ProjectID=`UP`.ProjectID AND `UP`.UserID=%1$d
-								WHERE `P`.ProjectID IN %2$s', $userID, $projectsListStatement);
-            return $this->_sql->GetRows();
+            $query =    "SELECT 
+                            `P`.*,
+                            CASE 
+                                    WHEN `P`.OwnerID=:ownerId THEN 2
+                                    WHEN `UP`.UserID IS null THEN 0
+                                    ELSE 1
+                            END AS ProjectRelation
+                        FROM 
+                                `projectswithusername` `P`
+                        LEFT JOIN USER_IN_PROJ UP ON
+                                `P`.ProjectID=`UP`.ProjectID AND `UP`.UserID=%:userId
+                        WHERE 
+                                `P`.ProjectID IN :projectsList'";
+            $selectCommand = $this->db->createCommand($query);
+            $selectCommand->bindParam(':ownerId', $userID);
+            $selectCommand->bindParam(':projectsList', $projectIDList);
+            return $selectCommand->queryAll();
         } else {
             return null;
         }
@@ -240,69 +253,115 @@ class ProjectService extends Service {
 
     public function searchProjectsUsingLikeCount($userID, $query) {
         $query = addslashes($query);
-        return $this->_sql->countQuery(self::TABLE_PROJ, "`PROJ_NM` LIKE '%$query%' OR DESCR LIKE '%$query%'");
+        return $this->db->createCommand()
+                ->select('COUNT(*)')
+                ->from(self::TABLE_PROJ)
+                ->where(
+                        array(
+                            'or',
+                            array(
+                                'like',
+                                'PROJ_NM',
+                                '%$query%'
+                            ),
+                            array(
+                                'like',
+                                'DESCR',
+                                '%$query%'
+                            )
+                        )
+                 )
+                ->queryScalar();
     }
 
-    public function searchProjectsUsingLike($userID, $query, ListPager $paginator) {
+    public function searchProjectsUsingLike($userID, $pattern, ListPager $paginator) {
         $userID = (int) $userID;
-        //$this->_sql->setLimit($paginator->getOffset(), $paginator->getSize());
-        $query = addslashes($query);
-        $query = sprintf('SELECT 
-							    P.*,
-							    CASE 
-							    	WHEN P.USER_ID=%1$d THEN 2
-							    	WHEN UP.USER_ID IS null THEN 0
-							    	ELSE 1
-							    END AS ProjectRelation,
-                                U.NICK AS NickName
-							FROM 
-							    %5$s P
-							    LEFT JOIN USER_IN_PROJ UP 
-                                    ON P.PROJ_ID=UP.PROJ_ID AND UP.USER_ID=%1$d
-                                LEFT JOIN USER U
-                                    ON U.USER_ID=P.USER_ID
-							WHERE 
-							    PROJ_NM LIKE \'%%%2$s%%\' OR DESCR LIKE \'%%%2$s%%\'
-							LIMIT %3$d,%4$d'
-                , $userID, $query, $paginator->getOffset(), $paginator->getSize(), self::TABLE_PROJ);
-        $this->_sql->query($query);
-        return $this->_sql->GetRows();
+        $pattern = addslashes($pattern);
+        $userID = (int) $userID;
+        $query =    "SELECT 
+                        P.*,
+                        CASE 
+                            WHEN P.USER_ID=%1$d THEN 2
+                            WHEN UP.USER_ID IS null THEN 0
+                            ELSE 1
+                        END AS ProjectRelation,
+                        U.NICK AS NickName
+                    FROM 
+                        :projectTable P
+                        LEFT JOIN USER_IN_PROJ UP 
+                            ON P.PROJ_ID=UP.PROJ_ID AND UP.USER_ID=:userId
+                        LEFT JOIN USER U
+                            ON U.USER_ID=P.USER_ID
+                    WHERE 
+                        PROJ_NM LIKE ':pattern' OR DESCR LIKE ':pattern'
+                    LIMIT :offset,:size";
+        $selectCommand = $this->db->createCommand($query);
+        $selectCommand->bindParam(':userId', $userID);
+        $selectCommand->bindParam(':projectTable', self::TABLE_PROJ);
+        $selectCommand->bindParam(':offset', $paginator->getOffset());
+        $selectCommand->bindParam(':size', $paginator->getSize());
+        $selectCommand->bindParam(':pattern', $pattern);
+        return $selectCommand->queryAll();
     }
 
     public function getUserProjectsInfo($userId, MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction, $page = 1, $size = 10) {
         $userId = (int) $userId;
-        $this->_sql->setLimit($page, $size);
-        $this->_sql->setOrder($orderField, $direction);
-        $resource = $this->_sql->selAllWhere(self::VIEW_PROJECT_AND_ERRORS, "ProjectOwnerID=$userId");
-        $this->_sql->clearLimit();
-        $this->_sql->clearOrder();
-        return $this->_sql->getResultRows();
+        return $this->db->createCommand()
+                ->select()
+                ->from(self::VIEW_PROJECT_AND_ERRORS)
+                ->where('ProjectOwnerID = :userId',array(':userId' => $userId))
+                ->order($this->order($orderField,$direction))
+                ->limit($page,$size)
+                ->queryAll();
     }
 
-    public function countUserProjectsInfo($userId) {
+    public function userProjectsInfoCount($userId) {
         $userId = (int) $userId;
-        return $this->_sql->countQuery(self::VIEW_PROJECT_AND_ERRORS, "ProjectOwnerID=$userId");
+        return $this->db->createCommand()
+                ->select('COUNT(*)')
+                ->from(self::VIEW_PROJECT_AND_ERRORS)
+                ->where(
+                        'ProjectOwnerID=',
+                        array(
+                            ':userId' => $userId
+                        )
+                 )
+                ->queryScalar();
     }
 
     public function getMemberProjects($userId, MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction, $page = 1, $size = 10) {
         $userId = (int) $userId;
-        $this->_sql->setLimit($page, $size);
-        $this->_sql->setOrder($orderField, $direction);
-        $resource = $this->_sql->selAllWhere(self::VIEW_PROJECT_INFO_WITHOUT_OWNER, "UserID=$userId");
-        $this->_sql->clearLimit();
-        $this->_sql->clearOrder();
-        return $this->_sql->getResultRows();
+        return $this->db->createCommand()
+                ->select()
+                ->from(self::VIEW_PROJECT_INFO_WITHOUT_OWNER)
+                ->where('UserID = :userId',array(':userId' => $userId))
+                ->order($this->order($orderField,$direction))
+                ->limit($page,$size)
+                ->queryAll();
     }
 
-    public function countMemberProjects($userId) {
+    public function getMemberProjectsCount($userId) {
         $userId = (int) $userId;
-        return $this->_sql->countQuery(self::VIEW_PROJECT_INFO_WITHOUT_OWNER, "UserID=$userId");
+        return $this->getCount(
+                self::VIEW_PROJECT_INFO_WITHOUT_OWNER, 
+                'UserID = :userId', 
+                array(':userId' => $userId)
+        );
     }
 
+    /**
+     * Returns total information about users
+     * 
+     * @param int $projectID Project identificator
+     * @return array Information list about users 
+     */
     public function getProjectUsersInfo($projectID) {
         $projectID = (int) $projectID;
-        $this->_sql->selAllWhere(self::VIEW_USER_IN_PROJ_ERROR_AND_COMM, "ProjectID=$projectID");
-        return $this->_sql->getResultRows();
+        return $this->db->createCommand()
+                ->select()
+                ->from(self::VIEW_USER_IN_PROJ_ERROR_AND_COMM)
+                ->where('ProjectID = :projectId',array(':projectId' => $projectID))
+                ->queryAll();
     }
 
     /**
@@ -313,22 +372,30 @@ class ProjectService extends Service {
      */
     public function getProjectUsersInfoCount($projectID) {
         $projectID = (int) $projectID;
-        return $this->_sql->countQuery(self::VIEW_USER_IN_PROJ_ERROR_AND_COMM, "ProjectID=$projectID");
+        return $this->getCount(
+                self::VIEW_USER_IN_PROJ_ERROR_AND_COMM, 
+                'ProjectID = :projectId', 
+                array(':projectId' => $projectID)
+        );
     }
 
     public function getProjectsUsersInfoPagOrd($projectID, ProjectFieldsUsersInfoENUM $orderField, MySQLOrderEnum $direction, $page = 1, $size = 15) {
-        $this->_sql->setLimit($from, $size);
-        $this->_sql->setOrder($orderField, $direction);
-        $res = $this->getProjectUsersInfo($projectID);
-        $this->_sql->clearLimit();
-        $this->_sql->clearOrder();
-        return $res;
+        return $this->db->createCommand()
+                ->select()
+                ->from(self::VIEW_USER_IN_PROJ_ERROR_AND_COMM)
+                ->where('ProjectID = :projectId',array(':projectId' => (int)$projectID))
+                ->order($this->order($orderField,$direction))
+                ->limit($page,$size)
+                ->queryAll();
     }
 
     public function getUserProjects($userId) {
         $userId = (int) $userId;
-        $this->_sql->selFieldsWhere(self::VIEW_ALL_USER_PROJECTS, "UserID=$userId", 'ProjectID', 'Name');
-        return $this->_sql->getResultRows();
+        return $this->db->createCommand()
+                ->select(array('ProjectID', 'Name'))
+                ->from(self::VIEW_ALL_USER_PROJECTS)
+                ->where('UserID = :userId',array(':userId' => $userId))
+                ->queryAll();
     }
 
     /**
@@ -338,12 +405,17 @@ class ProjectService extends Service {
      */
     public function getProjectUsers($projectID) {
         $projectID = (int) $projectID;
-        $this->_sql->setOrder(
-                new ProjectFieldsUsersInfoENUM(ProjectFieldsUsersInfoENUM::NICK_NAME), new MySQLOrderENUM(MySQLOrderENUM::ASC)
-        );
-        $this->_sql->selFieldsWhere(self::VIEW_ALL_USER_PROJECTS, "ProjectID=$projectID", 'UserID', 'NickName');
-        $this->_sql->clearOrder();
-        return $this->_sql->getResultRows();
+        return $this->db->createCommand()
+                ->select()
+                ->from(self::VIEW_USER_IN_PROJ_ERROR_AND_COMM)
+                ->where('ProjectID = :projectId',array(':projectId' => $projectID))
+                ->order(
+                        $this->order(
+                            new ProjectFieldsUsersInfoENUM(ProjectFieldsUsersInfoENUM::NICK_NAME), 
+                            new MySQLOrderENUM(MySQLOrderENUM::ASC)
+                        )
+                )
+                ->queryAll();
     }
 
     /**
@@ -359,42 +431,45 @@ class ProjectService extends Service {
         switch ($sortType) {
             case "date":
                 $sorting = "CreateDate";
-                $type = $ask ? "ASC" : "DESC";
                 break;
 
             case "name":
                 $sorting = "Name";
-                $type = $ask ? "ASC" : "DESC";
                 break;
 
             default:
                 return FALSE;
                 break;
         }
-        $q = "SELECT * FROM `Projects` ORDER BY `$sorting` $type LIMIT $startIndex, $maxCount";
-        //die($q);
-        $res = $this->_sql->query($q);
-        $ret = $this->_sql->GetRows($res);
-        return $ret;
+        $type = $ask ? "ASC" : "DESC";
+        return $this->db->createCommand()
+                ->select()
+                ->from(self::TABLE_PROJ)
+                ->limit($startIndex, $maxCount)
+                ->order($sorting.' '.$type)
+                ->queryAll();
     }
 
     /**
      * Проверка существования проекта.
      * @param int $projectID - id проекта.
      */
-    public function isProjectExists($projectID) {
+    public function existsById($projectID) {
         $projectID = (int) $projectID;
-        $this->_sql->selAllWhere(self::TABLE_PROJ, "PROJ_ID = $projectID");
-        $tmp = $this->_sql->getResultRows();
-        return $tmp == null ? FALSE : TRUE;
+        return $this->db->createCommand()
+                ->select('PROJ_ID')
+                ->from(self::TABLE_PROJ)
+                ->where('PROJ_ID = :projectId',array(':projectId' => $projectID))
+                ->queryScalar() !== false ? true : false;
     }
 
     public function getOwnerID($projectID) {
         $projectID = (int) $projectID;
-        $this->_sql->selFieldsWhereA(self::TABLE_PROJ, array('USER_ID'), "PROJ_ID = $projectID");
-        $tmp = $this->_sql->getResultRows();
-        $tmp = $tmp[0];
-        return (int) $tmp["USER_ID"];
+        return $this->db->createCommand()
+                ->select('USER_ID')
+                ->from(self::TABLE_PROJ)
+                ->where('PROJ_ID = :projectId',array(':projectId' => $projectID))
+                ->queryScalar();
     }
 
 }

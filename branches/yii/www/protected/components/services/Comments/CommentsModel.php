@@ -37,7 +37,7 @@ class CommentsModel extends DBConnector
 			 */
 			$projectID = (int)$projectID;
 			$p = new ProjectService();
-			if($p->isProjectExists($projectID))
+			if($p->existsById($projectID))
 			{	
 				$r = new RequestModel();
 				$userID = (int)$userID;
@@ -88,7 +88,7 @@ class CommentsModel extends DBConnector
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;
 			$p = new ProjectService();
-			if($p->isProjectExists($projectID))
+			if($p->existsById($projectID))
 			{
 				if ($this->isCommentExist($commentID))
 				{
@@ -133,7 +133,7 @@ class CommentsModel extends DBConnector
 			$userID = (int)$userID;
 			if ($commentsList!=null)
 	        {
-	        	$commentsListSerialized=Serialize::SerializeForStoredProcedure($commentsList);
+	        	$commentsListSerialized=SerializeHelper::SerializeForStoredProcedure($commentsList);
 	        	var_dump($userID);
                 $this->_sql->call(
 	        		'DeleteCommentsFromList',
@@ -156,7 +156,7 @@ class CommentsModel extends DBConnector
 			$userID = (int)$userID;
 			$projectID = (int)$projectID;
 			$p = new ProjectService();
-			if($p->isProjectExists($projectID))
+			if($p->existsById($projectID))
 			{
 				$r = new RequestModel();
 				if ($r->isSubscribed($userID, $projectID))  
@@ -188,7 +188,7 @@ class CommentsModel extends DBConnector
 			$startIndex = (int)$startIndex;
 			$maxCount = (int)$maxCount;
 			$p = new ProjectService();
-			if($p->isProjectExists($projectID))
+			if($p->existsById($projectID))
 			{
 				$r = new RequestModel();
 				if ($r->isSubscribed($userID, $projectID) || $p->isOwner($userID, $projectID))  

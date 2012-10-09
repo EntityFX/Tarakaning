@@ -64,7 +64,7 @@
 				$userID = (int)$userID;
 				$projectID = (int)$projectID;
 				$p = new ProjectService();
-				if($p->isProjectExists($projectID))
+				if($p->existsById($projectID))
 				{
 					$count=$this->_sql->countQuery(self::TABLE_SUBSCR_RQST,"USER_ID = '$userID' AND PROJ_ID = '$projectID'");
 					return $count==0 ? false : true;
@@ -177,7 +177,7 @@
 			{
 				$p = new ProjectService();
 				$projectID = (int)$projectID;
-				if($p->isProjectExists($projectID))
+				if($p->existsById($projectID))
 				{
 					$ownerID = $p->getOwnerID($projectID);
 					$res = $this->_sql->query("SELECT `UserID` FROM `UsersInProjects` WHERE `ProjectID` = '$projectID'"); 
@@ -195,7 +195,7 @@
 			{
 				$projectID = (int)$projectID;
 				$p = new ProjectService();
-				if($p->isProjectExists($projectID))
+				if($p->existsById($projectID))
 				{
 					$ownerID = $p->getOwnerID($projectID);
 					$startIndex = (int)$startIndex;
