@@ -38,7 +38,7 @@
 				foreach($array as $key => $value)
 				{
 					$str.=$value;
-					if ($key<$indexMax) $str.=',';
+					if ($key<$indexMax) $str.=', ';
 				}
 				$str.=')';
 			}
