@@ -5,7 +5,7 @@
  * @author timur 27.01.2011
  *
  */
-class ProjectService extends ServiceBase {
+class ProjectService extends ServiceBase implements IProjectService {
 
     const VIEW_ALL_USER_PROJECTS = 'view_AllUserProjects';
     const VIEW_PROJECT_AND_ERRORS = 'view_ProjectAndErrors';
@@ -49,16 +49,16 @@ class ProjectService extends ServiceBase {
      * @param string $name
      */
     public function existsByName($name) {
-        $this->db->createCommand()
+        return $this->db->createCommand()
                         ->select('PROJ_NM')
                         ->from(self::TABLE_PROJ)
                         ->where(
-                                'PROJ_NM=:projectName', 
+                                'PROJ_NM = :projectName', 
                                 array(
                                     ':projectName' => $name
                                 )
                         )
-                        ->queryScalar() !== false ? true : false;
+                        ->queryScalar() !== false;
     }
 
     /**
@@ -83,15 +83,15 @@ class ProjectService extends ServiceBase {
                         ->update(
                                 self::TABLE_PROJ, 
                                 array(
-                                    'PROJ_NM' => $projectNewName,
-                                    'DESCR'   => $newDescription,
+                                    'PROJ_NM' => htmlspecialchars($projectNewName),
+                                    'DESCR'   => htmlspecialchars($newDescription),
                                     'PROJ_ID' => $projectID,
                                     'USER_ID' => $userID
                                 ),
                                 array(
                                     'and',
-                                    'PROJ_ID' => ':projectId',
-                                    'USER_ID' => ':userId'
+                                    'PROJ_ID = :projectId',
+                                    'USER_ID = :userId'
                                 ),
                                 array(
                                     ':projectId'    => $projectID,
@@ -196,7 +196,7 @@ class ProjectService extends ServiceBase {
      */
     public function getProjectById($projectID) {
         return $this->db->createCommand()
-                ->select(array("PROJ_ID", "PROJ_NM", "DESCR", "USER_ID"))
+                ->select()
                 ->from(self::VIEW_PROJECT_AND_OWNER_NICK)
                 ->where('ProjectID=:projectID',array(':projectID' => (int) $projectID))
                 ->queryRow();
@@ -214,7 +214,7 @@ class ProjectService extends ServiceBase {
                 ->select()
                 ->from(self::VIEW_PROJECT_AND_OWNER_NICK)
                 ->where(array('in','ProjectID',$projectIDList))
-                ->queryRow();
+                ->queryAll();
         } else {
             return null;
         }
@@ -229,114 +229,99 @@ class ProjectService extends ServiceBase {
         $projectsListStatement = SerializeHelper::serializeForINStatement($projectIDList);
         if ($projectsListStatement != '') {
             $userID = (int) $userID;
+            $table = self::VIEW_PROJECT_AND_OWNER_NICK;
             $query =    "SELECT 
                             `P`.*,
                             CASE 
                                     WHEN `P`.OwnerID=:ownerId THEN 2
-                                    WHEN `UP`.UserID IS null THEN 0
+                                    WHEN `UP`.USER_ID IS null THEN 0
                                     ELSE 1
                             END AS ProjectRelation
                         FROM 
-                                `projectswithusername` `P`
+                                $table `P`
                         LEFT JOIN USER_IN_PROJ UP ON
-                                `P`.ProjectID=`UP`.ProjectID AND `UP`.UserID=%:userId
+                                `P`.ProjectID=`UP`.PROJ_ID AND `UP`.USER_ID=:ownerId
                         WHERE 
-                                `P`.ProjectID IN :projectsList'";
+                                `P`.ProjectID IN $projectsListStatement";
             $selectCommand = $this->db->createCommand($query);
             $selectCommand->bindParam(':ownerId', $userID);
-            $selectCommand->bindParam(':projectsList', $projectIDList);
             return $selectCommand->queryAll();
         } else {
             return null;
         }
     }
 
-    public function searchProjectsUsingLikeCount($userID, $query) {
-        $query = addslashes($query);
-        return $this->db->createCommand()
-                ->select('COUNT(*)')
-                ->from(self::TABLE_PROJ)
-                ->where(
-                        array(
-                            'or',
-                            array(
-                                'like',
-                                'PROJ_NM',
-                                '%$query%'
-                            ),
-                            array(
-                                'like',
-                                'DESCR',
-                                '%$query%'
-                            )
-                        )
-                 )
-                ->queryScalar();
+    public function searchProjectsUsingLikeCount($pattern) {
+        $pattern = addslashes($pattern) . "%";
+        return $this->getCount(self::TABLE_PROJ, array(
+                    'or',
+                    'PROJ_NM LIKE :query',
+                    'DESCR LIKE :query'
+                        ), array(
+                    ':query' => $pattern
+                ));
     }
 
-    public function searchProjectsUsingLike($userID, $pattern, ListPager $paginator) {
+    public function searchProjectsUsingLike($userID, $pattern, $page = 0 , $size = 10) {
         $userID = (int) $userID;
-        $pattern = addslashes($pattern);
+        $pattern = addslashes($pattern) . "%";
         $userID = (int) $userID;
+        $table = self::TABLE_PROJ;
         $query =    "SELECT 
                         P.*,
                         CASE 
-                            WHEN P.USER_ID=%1$d THEN 2
+                            WHEN P.USER_ID=:userId THEN 2
                             WHEN UP.USER_ID IS null THEN 0
                             ELSE 1
                         END AS ProjectRelation,
                         U.NICK AS NickName
                     FROM 
-                        :projectTable P
+                        $table P
                         LEFT JOIN USER_IN_PROJ UP 
                             ON P.PROJ_ID=UP.PROJ_ID AND UP.USER_ID=:userId
                         LEFT JOIN USER U
                             ON U.USER_ID=P.USER_ID
                     WHERE 
-                        PROJ_NM LIKE ':pattern' OR DESCR LIKE ':pattern'
+                        PROJ_NM LIKE :pattern OR DESCR LIKE :pattern
                     LIMIT :offset,:size";
         $selectCommand = $this->db->createCommand($query);
         $selectCommand->bindParam(':userId', $userID);
-        $selectCommand->bindParam(':projectTable', self::TABLE_PROJ);
-        $selectCommand->bindParam(':offset', $paginator->getOffset());
-        $selectCommand->bindParam(':size', $paginator->getSize());
+        $selectCommand->bindParam(':offset', $page);
+        $selectCommand->bindParam(':size', $size);
         $selectCommand->bindParam(':pattern', $pattern);
         return $selectCommand->queryAll();
     }
 
-    public function getUserProjectsInfo($userId, MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction, $page = 1, $size = 10) {
+    public function getUserProjectsInfo($userId, MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction, $page = 0, $size = 10) {
         $userId = (int) $userId;
         return $this->db->createCommand()
                 ->select()
                 ->from(self::VIEW_PROJECT_AND_ERRORS)
                 ->where('ProjectOwnerID = :userId',array(':userId' => $userId))
                 ->order($this->order($orderField,$direction))
-                ->limit($page,$size)
+                ->limit($size, $page)
                 ->queryAll();
     }
 
-    public function userProjectsInfoCount($userId) {
+    public function getUserProjectsInfoCount($userId) {
         $userId = (int) $userId;
-        return $this->db->createCommand()
-                ->select('COUNT(*)')
-                ->from(self::VIEW_PROJECT_AND_ERRORS)
-                ->where(
-                        'ProjectOwnerID=',
-                        array(
-                            ':userId' => $userId
-                        )
-                 )
-                ->queryScalar();
+        return $this->getCount(
+                self::VIEW_PROJECT_AND_ERRORS, 
+                'ProjectOwnerID = :userId', 
+                array(
+                    ':userId' => $userId
+                )
+            );
     }
 
-    public function getMemberProjects($userId, MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction, $page = 1, $size = 10) {
+    public function getMemberProjects($userId, MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction, $page = 0, $size = 10) {
         $userId = (int) $userId;
         return $this->db->createCommand()
                 ->select()
                 ->from(self::VIEW_PROJECT_INFO_WITHOUT_OWNER)
                 ->where('UserID = :userId',array(':userId' => $userId))
                 ->order($this->order($orderField,$direction))
-                ->limit($page,$size)
+                ->limit($size,$page)
                 ->queryAll();
     }
 
@@ -379,13 +364,13 @@ class ProjectService extends ServiceBase {
         );
     }
 
-    public function getProjectsUsersInfoPagOrd($projectID, ProjectFieldsUsersInfoENUM $orderField, MySQLOrderEnum $direction, $page = 1, $size = 15) {
+    public function getProjectsUsersInfoPagOrd($projectID, ProjectFieldsUsersInfoENUM $orderField, MySQLOrderEnum $direction, $page = 0, $size = 15) {
         return $this->db->createCommand()
                 ->select()
                 ->from(self::VIEW_USER_IN_PROJ_ERROR_AND_COMM)
                 ->where('ProjectID = :projectId',array(':projectId' => (int)$projectID))
                 ->order($this->order($orderField,$direction))
-                ->limit($page,$size)
+                ->limit($size,$page)
                 ->queryAll();
     }
 
@@ -430,11 +415,11 @@ class ProjectService extends ServiceBase {
         $maxCount = (int) $maxCount;
         switch ($sortType) {
             case "date":
-                $sorting = "CreateDate";
+                $sorting = "CRT_TM";
                 break;
 
             case "name":
-                $sorting = "Name";
+                $sorting = "PROJ_NM";
                 break;
 
             default:
@@ -445,7 +430,7 @@ class ProjectService extends ServiceBase {
         return $this->db->createCommand()
                 ->select()
                 ->from(self::TABLE_PROJ)
-                ->limit($startIndex, $maxCount)
+                ->limit($maxCount, $startIndex)
                 ->order($sorting.' '.$type)
                 ->queryAll();
     }
@@ -465,7 +450,7 @@ class ProjectService extends ServiceBase {
 
     public function getOwnerID($projectID) {
         $projectID = (int) $projectID;
-        return $this->db->createCommand()
+        return (int)$this->db->createCommand()
                 ->select('USER_ID')
                 ->from(self::TABLE_PROJ)
                 ->where('PROJ_ID = :projectId',array(':projectId' => $projectID))

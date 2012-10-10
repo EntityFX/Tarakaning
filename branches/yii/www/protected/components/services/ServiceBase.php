@@ -42,7 +42,7 @@ abstract class ServiceBase {
      * @return int Count items 
      */
     protected function getCount($table, $where, array $params) {
-        return $this->db->createCommand()
+        return (int) $this->db->createCommand()
                         ->select('COUNT(*)')
                         ->from($table)
                         ->where($where, $params)
