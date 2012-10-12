@@ -118,14 +118,14 @@ class SiteController extends EntityFxControllerBase {
         //CVarDumper::dump($subscribeService->isRequestExists(1, 99),10,true);
         //CVarDumper::dump($subscribeService->removeSubscribe(20, 4),10,true); //N
         //CVarDumper::dump($subscribeService->sendRequest(22, 3),10,true); //N
-        CVarDumper::dump($subscribeService->isSubscribed(22, 3),10,true);
+        //CVarDumper::dump($subscribeService->isSubscribed(22, 3),10,true);
         
         
         $requestService = new RequestService();
         //$requestService->acceptRequest(array(2), 1, 4);
         //$requestService->declineRequest(3, 22, 7, 1);
         //CVarDumper::dump($requestService->getRequests(22, 3),10,true);
-        $requestService->sendRequest(1, 3);
+        //$requestService->sendRequest(1, 3);
     }
 
 }
