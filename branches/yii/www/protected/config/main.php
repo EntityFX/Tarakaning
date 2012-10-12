@@ -22,6 +22,7 @@ return array(
         'application.components.services.locale.*',
         'application.components.services.subscribe.*',
         'application.components.services.request.*',
+        'application.components.services.item.*',
         'application.controllers.*',
     ),
     'modules' => array(
