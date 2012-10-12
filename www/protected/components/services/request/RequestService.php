@@ -123,8 +123,8 @@ class RequestService extends ServiceBase {
     public function sendRequest($userID, $projectID) {
         $userID = (int) $userID;
         $projectID = (int) $projectID;
-
-        if (!$this->isRequestExists($userID, $projectID)) {
+        $subscribeService = new SubscribeService();
+        if (!$subscribeService->isRequestExists($userID, $projectID)) {
             $this->db->createCommand()
                     ->insert(
                             self::TABLE_SUBSCRIBES_REQUEST, 
