@@ -39,7 +39,7 @@ class CommentsModel extends DBConnector
 			$p = new ProjectService();
 			if($p->existsById($projectID))
 			{	
-				$r = new RequestModel();
+				$r = new RequestService();
 				$userID = (int)$userID;
 				if ($r->isSubscribed($userID, $projectID) || $p->isOwner($userID, $projectID)) 
 				{
@@ -92,7 +92,7 @@ class CommentsModel extends DBConnector
 			{
 				if ($this->isCommentExist($commentID))
 				{
-					$r = new RequestModel();
+					$r = new RequestService();
 					if ($r->isSubscribed($userID, $projectID))  
 					{
 						if ($this->isCommentOwner($commentID, $userID, $projectID))
@@ -158,7 +158,7 @@ class CommentsModel extends DBConnector
 			$p = new ProjectService();
 			if($p->existsById($projectID))
 			{
-				$r = new RequestModel();
+				$r = new RequestService();
 				if ($r->isSubscribed($userID, $projectID))  
 				{
 					//$this->_sql->query("");  			какой запрос тут надо????
@@ -190,7 +190,7 @@ class CommentsModel extends DBConnector
 			$p = new ProjectService();
 			if($p->existsById($projectID))
 			{
-				$r = new RequestModel();
+				$r = new RequestService();
 				if ($r->isSubscribed($userID, $projectID) || $p->isOwner($userID, $projectID))  
 				{
 					$this->_sql->setLimit($page, $size);

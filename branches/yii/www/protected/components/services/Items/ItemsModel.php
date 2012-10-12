@@ -26,7 +26,7 @@ class ItemsModel extends DBConnector
         {
             if ($projectsController->existsById((int)$projectID))
             {
-                $request=new RequestModel();
+                $request=new RequestService();
                 if ($ownerID==NULL)
                 {
                     $this->_itemOwnerID=$concreteUser->id;
