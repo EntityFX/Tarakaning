@@ -166,7 +166,6 @@ class ProjectService extends ServiceBase implements IProjectService {
         if ($projectsList != null) {
             $projectListSerialized = SerializeHelper::SerializeForStoredProcedure($projectsList);
             $query = 'CALL DeleteProjects(:userId, :projectsList)';
-            CVarDumper::dump($projectsList);
             $deleteCommand = $this->db->createCommand($query);
             $deleteCommand->bindParam(':userId', $userID);
             $deleteCommand->bindParam(':projectsList', $projectListSerialized);
