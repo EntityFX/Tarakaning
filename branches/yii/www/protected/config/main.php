@@ -20,6 +20,8 @@ return array(
         'application.components.services.user.*',
         'application.components.services.project.*',
         'application.components.services.locale.*',
+        'application.components.services.subscribe.*',
+        'application.components.services.request.*',
         'application.controllers.*',
     ),
     'modules' => array(

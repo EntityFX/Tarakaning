@@ -58,7 +58,7 @@ class SiteController extends EntityFxControllerBase {
         //$userService->create('fg@w.ru', '1234567',1,'132','sdfd','fthfgh','hgfh@sfgf.ty')
         //);
 
-        $projectService = new ProjectService();
+        //$projectService = new ProjectService();
         //var_dump($projectService->addProject(1, 'Hi', 'Hello'));
         //var_dump($projectService->addProject(1, '<b>fuck</b>', 'Hello'));
         //var_dump($projectService->deleteById(2, 9));
@@ -98,6 +98,34 @@ class SiteController extends EntityFxControllerBase {
         //CVarDumper::dump($projectService->searchProjectsUsingLike(1, 'T'), 10, true);
         //CVarDumper::dump($projectService->searchProjectsUsingLikeCount(1, 'T'), 10, true);
         //CVarDumper::dump($projectService->updateProjectDataById(3, 22, 'GGG', 'GGG'), 10, true);
+        
+        $subscribeService = new SubscribeService();
+        //$subscribeService->deleteProjectMembers(array(20,24), 1, 4); //N
+        /*CVarDumper::dump($subscribeService->getProjectSubscribes(
+                3, 
+                new ProjectSubscribesDetailENUM(), 
+                new MySQLOrderENUM()
+        ),10,true);*/
+        //CVarDumper::dump($subscribeService->getProjectSubscribesCount(3),10,true);
+        //CVarDumper::dump($subscribeService->getProjectUsers(3),10,true); //N
+        //CVarDumper::dump($subscribeService->getProjectUsersPaged(3),10,true); 
+        //CVarDumper::dump($subscribeService->getSubscribesCount(24),10,true); 
+        /*CVarDumper::dump($subscribeService->getUserSubscribes(
+                1, 
+                new SubscribesDetailENUM(), 
+                new MySQLOrderENUM()
+        ),10,true);*/ 
+        //CVarDumper::dump($subscribeService->isRequestExists(1, 99),10,true);
+        //CVarDumper::dump($subscribeService->removeSubscribe(20, 4),10,true); //N
+        //CVarDumper::dump($subscribeService->sendRequest(22, 3),10,true); //N
+        CVarDumper::dump($subscribeService->isSubscribed(22, 3),10,true);
+        
+        
+        $requestService = new RequestService();
+        //$requestService->acceptRequest(array(2), 1, 4);
+        //$requestService->declineRequest(3, 22, 7, 1);
+        //CVarDumper::dump($requestService->getRequests(22, 3),10,true);
+        $requestService->sendRequest(1, 3);
     }
 
 }
