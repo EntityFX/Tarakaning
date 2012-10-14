@@ -1,42 +1,68 @@
 <?php
 
-class ItemService extends DBConnector {
+class ItemService extends ServiceBase {
 
     const VIEW_ITEM_FULL_INFO = 'view_ItemFullInfo';
     const TABLE_ITEM = 'ITEM';
 
-    private $_itemOwnerID;
-    private $_projectOwnerID;
+    private $_defaultUserId;
+    private $_defaultProjectId;
 
-    public function __construct(Profile $profile, $projectID = NULL, $ownerID = NULL) {
+    public function __construct($projectId = null, $userId = null) {
         parent::__construct();
-        $projectsController = new ProjectService();
-        if ($projectID == NULL) {
-            $this->_itemOwnerID = $profile->id;
-            if ($profile->defaultProjectID != NULL) {
-                $this->_projectOwnerID = $profile->defaultProjectID;
-            }
+        
+        if ($projectId !=null)
+        {
+            $this->setDefaultProjectId($projectId);
+        }
+        
+        if ($userId !==null)
+        {
+            $this->setDefaultUserId($userId);
+        }
+        
+        if ($this->_defaultUserId !== null 
+                && $this->_defaultUserId !=null)
+        {
+            $this->tryCheckIsSubscribedOrOwner();
+        }
+        
+    }
+    
+    private function isMember()
+    {
+        $subscribeService = new SubscribeService();
+        $projectService = new ProjectService();
+        return $subscribeService->isSubscribed($this->_defaultUserId, $this->_defaultProjectId) 
+               || $this->_defaultUserId == $projectService->getOwnerID($this->_defaultProjectId);
+    }
+    
+    private function tryCheckIsSubscribedOrOwner()
+    {
+        if (!$this->isMember()) {
+            throw new ServiceException("Пользователь №" . $this->_defaultUserId . " не подписан на проект $this->_defaultProjectId или не является его владельцем");
+        }
+    }
+    
+    public function setDefaultUserId($userId)
+    {
+        $userId = (int) $userId;
+        $userService = new UserService();
+        if ($userService->existsById($userId)) {
+            $this->_defaultUserId = (int) $userId;
         } else {
-            if ($projectsController->existsById((int) $projectID)) {
-                $requestService = new RequestService();
-                if ($ownerID == NULL) {
-                    $this->_itemOwnerID = $profile->id;
-                } else {
-                    $userService = new UserService();
-                    if ($userService->checkIfExsist((int) $ownerID)) {
-                        $this->_itemOwnerID = (int) $ownerID;
-                    } else {
-                        throw new ServiceException("Пользователь не существует. Нельзя несуществующему пользователю отставлять отчёт об ошибках");
-                    }
-                }
-                if ($requestService->isSubscribed($this->_itemOwnerID, (int) $projectID) || $this->_itemOwnerID == $projectsController->getOwnerID((int) $projectID)) {
-                    $this->_projectOwnerID = (int) $projectID;
-                } else {
-                    throw new ServiceException("Пользователь №" . $this->_itemOwnerID . " не подписан на проект $projectID или не является его владельцем");
-                }
-            } else {
-                throw new ServiceException("Проект не существует. Нельзя присвоить несуществующему проекту отчёты об ошибках");
-            }
+            throw new ServiceException("Пользователь не существует. Нельзя несуществующему пользователю отставлять отчёт об ошибках");
+        }
+    }
+    
+    public function setDefaultProjectId($projectId)
+    {
+        $projectId = (int) $projectId;
+        $projectService = new ProjectService();
+        if ($projectService->existsById($projectId)) {
+            $this->_defaultProjectId = $projectId;
+        } else {
+            throw new ServiceException("Проект не существует. Нельзя присвоить несуществующему проекту отчёты об ошибках");
         }
     }
 
@@ -71,8 +97,8 @@ class ItemService extends DBConnector {
         $assignedTo = $assignedTo == ' ' ? null : (int) $assignedTo;
         $this->_sql->call(
                 'AddItem', new ArrayObject(array(
-                    $this->_itemOwnerID,
-                    $this->_projectOwnerID,
+                    $this->_defaultUserId,
+                    $this->_defaultProjectId,
                     $assignedTo,
                     $priorityValue,
                     new ErrorStatusENUM(),
@@ -94,8 +120,8 @@ class ItemService extends DBConnector {
     }
 
     public function deleteReportsFromList($keysList, $userID = null, $projectID = null) {
-        $userID = $userID == null ? $this->_itemOwnerID : (int) $userID;
-        $projectID = $projectID == null ? $this->_projectOwnerID : (int) $projectID;
+        $userID = $userID == null ? $this->_defaultUserId : (int) $userID;
+        $projectID = $projectID == null ? $this->_defaultProjectId : (int) $projectID;
         if ($keysList != '') {
             $this->_sql->call(
                     'DeleteItemsFromList', new ArrayObject(array(
@@ -192,7 +218,7 @@ class ItemService extends DBConnector {
         $this->_sql->selFieldsWhere(self::TABLE_ITEM, "ITEM_ID=$reportID", "PROJ_ID");
         $projectID = $this->_sql->getResultRows();
         $projectID = $projectID[0]["ProjectID"];
-        return $projectID == $this->_projectOwnerID;
+        return $projectID == $this->_defaultProjectId;
     }
 
     public function checkIsExsist($reportId) {
@@ -230,7 +256,7 @@ class ItemService extends DBConnector {
 
     private function checkProject(&$projectID) {
         if ($projectID == NULL) {
-            $projectID = $this->_projectOwnerID;
+            $projectID = $this->_defaultProjectId;
         } else {
             $pc = new ProjectService();
             if ($pc->existsById((int) $projectID)) {
@@ -242,8 +268,8 @@ class ItemService extends DBConnector {
     }
 
     public function countReports(ItemKindENUM $kind) {
-        $userID = $this->_itemOwnerID;
-        $projectID = $this->_projectOwnerID;
+        $userID = $this->_defaultUserId;
+        $projectID = $this->_defaultProjectId;
         $itemKind = $kind->getValue();
         if ($itemKind <> ItemKindENUM::ALL) {
             $kindExpression = "AND Kind='$itemKind'";
@@ -252,8 +278,8 @@ class ItemService extends DBConnector {
     }
 
     public function countAssignedReports(ItemKindENUM $kind) {
-        $userID = $this->_itemOwnerID;
-        $projectID = $this->_projectOwnerID;
+        $userID = $this->_defaultUserId;
+        $projectID = $this->_defaultProjectId;
         $itemKind = $kind->getValue();
         if ($itemKind <> ItemKindENUM::ALL) {
             $kindExpression = "AND Kind='$itemKind'";
@@ -265,7 +291,7 @@ class ItemService extends DBConnector {
         $res = NULL;
 
         if ($userID == NULL) {
-            $userID = $this->_itemOwnerID;
+            $userID = $this->_defaultUserId;
         } else {
             $userID = (int) $userID;
             $uc = new UsersController();
@@ -276,7 +302,7 @@ class ItemService extends DBConnector {
             }
         }
         if ($projectID == NULL) {
-            $projectID = $this->_projectOwnerID;
+            $projectID = $this->_defaultProjectId;
         }
         $itemKind = $kind->getValue();
         if ($itemKind <> ItemKindENUM::ALL) {
@@ -304,7 +330,7 @@ class ItemService extends DBConnector {
         $this->_sql->setOrder($field, $direction);
         $this->_sql->setLimit($page, $size);
         if ($userID == NULL) {
-            $userID = $this->_itemOwnerID;
+            $userID = $this->_defaultUserId;
         } else {
             $userID = (int) $userID;
             $uc = new UsersController();
@@ -315,7 +341,7 @@ class ItemService extends DBConnector {
             }
         }
         if ($projectID == NULL) {
-            $projectID = $this->_projectOwnerID;
+            $projectID = $this->_defaultProjectId;
         }
         $itemKind = $kind->getValue();
         if ($itemKind <> ItemKindENUM::ALL) {
@@ -380,7 +406,7 @@ class ItemService extends DBConnector {
     }
 
     public function getPreviousItemID($itemID, $projectID = null) {
-        $projectID = $projectID == null ? $this->_projectOwnerID : (int) $projectID;
+        $projectID = $projectID == null ? $this->_defaultProjectId : (int) $projectID;
         $itemID = (int) $itemID;
         $this->_sql->setLimit(0, 1);
         $this->_sql->setOrder(new ItemTableFieldsENUM(), new MySQLOrderENUM(MySQLOrderENUM::DESC));
@@ -392,7 +418,7 @@ class ItemService extends DBConnector {
     }
 
     public function getNextItemID($itemID, $projectID = null) {
-        $projectID = $projectID == null ? $this->_projectOwnerID : (int) $projectID;
+        $projectID = $projectID == null ? $this->_defaultProjectId : (int) $projectID;
         $itemID = (int) $itemID;
         $this->_sql->setLimit(0, 1);
         $this->_sql->setOrder(new ItemTableFieldsENUM(), new MySQLOrderENUM(MySQLOrderENUM::ASC));
@@ -406,16 +432,16 @@ class ItemService extends DBConnector {
     private function chekProjectOwnerOrReportOwner($reportID) {
         $id = (int) $id;
         $pC = new ProjectService();
-        return ($this->_itemOwnerID == $this->getReportOwner($reportID) || $this->_itemOwnerID == $pC->isOwner($this->_itemOwnerID, $this->_projectOwnerID));
+        return ($this->_defaultUserId == $this->getReportOwner($reportID) || $this->_defaultUserId == $pC->isOwner($this->_defaultUserId, $this->_defaultProjectId));
     }
 
     public function canEditStatus($reportID, $projectID) {
         $reportID = (int) $reportID;
         $projectID = (int) $projectID;
-        $user = $this->_itemOwnerID;
+        $user = $this->_defaultUserId;
         $isOwnerORAssigned = $this->_sql->countQuery(self::TABLE_ITEM, "ITEM_ID=$reportID AND (USER_ID=$user OR ASSGN_TO=$user)");
         $pC = new ProjectService();
-        return ($isOwnerORAssigned != 0) || $this->_itemOwnerID == $pC->isOwner($user, $projectID);
+        return ($isOwnerORAssigned != 0) || $this->_defaultUserId == $pC->isOwner($user, $projectID);
     }
 
     public function canEditData($reportID, $projectID) {

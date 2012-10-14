@@ -35,9 +35,6 @@ interface IProjectService {
      * @param string $projectNewName - новое название проекта.
      * @param int $projectID - id проекта, подлежащего изменению названия.
      * 
-     * @todo при изменении названия проекта происходить должно: <br /> 
-     * добавление в таблицу истории проекта (-) <br />
-     * и обновление в таблице проектов (+) <br />
      */
     public function updateProjectDataById($projectID, $userID, $projectNewName, $newDescription);
 

@@ -99,7 +99,7 @@ class SiteController extends EntityFxControllerBase {
         //CVarDumper::dump($projectService->searchProjectsUsingLikeCount(1, 'T'), 10, true);
         //CVarDumper::dump($projectService->updateProjectDataById(3, 22, 'GGG', 'GGG'), 10, true);
         
-        $subscribeService = new SubscribeService();
+        //$subscribeService = new SubscribeService();
         //$subscribeService->deleteProjectMembers(array(20,24), 1, 4); //N
         /*CVarDumper::dump($subscribeService->getProjectSubscribes(
                 3, 
@@ -121,11 +121,13 @@ class SiteController extends EntityFxControllerBase {
         //CVarDumper::dump($subscribeService->isSubscribed(22, 3),10,true);
         
         
-        $requestService = new RequestService();
+        //$requestService = new RequestService();
         //$requestService->acceptRequest(array(2), 1, 4);
         //$requestService->declineRequest(3, 22, 7, 1);
         //CVarDumper::dump($requestService->getRequests(22, 3),10,true);
         //$requestService->sendRequest(1, 3);
+        
+        $itemService = new ItemService(3, 21);
     }
 
 }
