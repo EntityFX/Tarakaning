@@ -10,42 +10,35 @@ class ItemService extends ServiceBase {
 
     public function __construct($projectId = null, $userId = null) {
         parent::__construct();
-        
-        if ($projectId !=null)
-        {
+
+        if ($projectId != null) {
             $this->setDefaultProjectId($projectId);
         }
-        
-        if ($userId !==null)
-        {
+
+        if ($userId !== null) {
             $this->setDefaultUserId($userId);
         }
-        
-        if ($this->_defaultUserId !== null 
-                && $this->_defaultUserId !=null)
-        {
+
+        if ($this->_defaultUserId !== null
+                && $this->_defaultUserId != null) {
             $this->tryCheckIsSubscribedOrOwner();
         }
-        
     }
-    
-    private function isMember()
-    {
+
+    private function isMember() {
         $subscribeService = new SubscribeService();
         $projectService = new ProjectService();
-        return $subscribeService->isSubscribed($this->_defaultUserId, $this->_defaultProjectId) 
-               || $this->_defaultUserId == $projectService->getOwnerID($this->_defaultProjectId);
+        return $subscribeService->isSubscribed($this->_defaultUserId, $this->_defaultProjectId)
+                || $this->_defaultUserId == $projectService->getOwnerID($this->_defaultProjectId);
     }
-    
-    private function tryCheckIsSubscribedOrOwner()
-    {
+
+    private function tryCheckIsSubscribedOrOwner() {
         if (!$this->isMember()) {
             throw new ServiceException("Пользователь №" . $this->_defaultUserId . " не подписан на проект $this->_defaultProjectId или не является его владельцем");
         }
     }
-    
-    public function setDefaultUserId($userId)
-    {
+
+    public function setDefaultUserId($userId) {
         $userId = (int) $userId;
         $userService = new UserService();
         if ($userService->existsById($userId)) {
@@ -54,9 +47,8 @@ class ItemService extends ServiceBase {
             throw new ServiceException("Пользователь не существует. Нельзя несуществующему пользователю отставлять отчёт об ошибках");
         }
     }
-    
-    public function setDefaultProjectId($projectId)
-    {
+
+    public function setDefaultProjectId($projectId) {
         $projectId = (int) $projectId;
         $projectService = new ProjectService();
         if ($projectService->existsById($projectId)) {
@@ -95,58 +87,77 @@ class ItemService extends ServiceBase {
         $steps = htmlspecialchars($steps);
         $hoursRequired = (int) $hoursRequired;
         $assignedTo = $assignedTo == ' ' ? null : (int) $assignedTo;
-        $this->_sql->call(
-                'AddItem', new ArrayObject(array(
-                    $this->_defaultUserId,
-                    $this->_defaultProjectId,
-                    $assignedTo,
-                    $priorityValue,
-                    new ErrorStatusENUM(),
-                    date("Y-m-d H:i:s"),
-                    $title,
-                    $kindValue,
-                    $hoursRequired,
-                    $description,
-                    $typeValue,
-                    $steps
-                ))
-        );
+        $query = 'CALL DeleteProjects(
+                    :UserId, 
+                    :ProjectId, 
+                    :AssignedTo, 
+                    :PriorityLevel, 
+                    :Status, 
+                    :CreateDateTime, 
+                    :Title, 
+                    :Kind,
+                    :Description,
+                    :ItemType,
+                    :StepsText
+                 )';
+        $addCommand = $this->db->createCommand($query);
+        $addCommand->bindParam(':UserId', $this->_defaultUserId);
+        $addCommand->bindParam(':ProjectId', $this->_defaultProjectId);
+        $addCommand->bindParam(':AssignedTo', $assignedTo);
+        $addCommand->bindParam(':PriorityLevel', $priorityValue);
+        $addCommand->bindParam(':Status', new ErrorStatusENUM());
+        $addCommand->bindParam(':CreateDateTime', date("Y-m-d H:i:s"));
+        $addCommand->bindParam(':Title', $title);
+        $addCommand->bindParam(':Kind', $kindValue);
+        $addCommand->bindParam(':HoursRequired', $hoursRequired);
+        $addCommand->bindParam(':Description', $description);
+        $addCommand->bindParam(':ItemType', $typeValue);
+        $addCommand->bindParam(':StepsText', $steps);
+        $addCommand->execute();
         return $this->_sql->getLastID();
     }
 
-    public function deleteReport($reportID) {
+    public function deleteItem($reportID) {
         $id = (int) $reportID;
-        $this->_sql->delete(self::TABLE_ITEM, "ITEM_ID=$id");
+        $this->db->createCommand()
+                ->delete(
+                        self::TABLE_ITEM, 'ITEM_ID=:itemId', array(
+                    ':itemId' => $id
+                        )
+        );
     }
 
     public function deleteReportsFromList($keysList, $userID = null, $projectID = null) {
         $userID = $userID == null ? $this->_defaultUserId : (int) $userID;
         $projectID = $projectID == null ? $this->_defaultProjectId : (int) $projectID;
         if ($keysList != '') {
-            $this->_sql->call(
-                    'DeleteItemsFromList', new ArrayObject(array(
-                        $userID,
-                        $projectID,
-                        $keysList
-                    ))
-            );
+            $query = 'CALL DeleteItemsFromList(
+                        :UserId, 
+                        :ProjectId, 
+                        :ItemsList, 
+                    )';
+            $deleteCommand = $this->db->createCommand($query);
+            $deleteCommand->bindParam(':UserId', $userID);
+            $deleteCommand->bindParam(':ProjectId', $projectID);
+            $deleteCommand->bindParam(':ItemsList', $keysList);
+            $deleteCommand->execute();
         }
     }
 
     /**
      *
      * Редактировать статус задачи
-     * @param $reportID int ID отчёта
+     * @param $itemID int ID отчёта
      * @param $errorStatusErrorStatusENUM Новый статус
      * @param $userID int Текущий юзер
      */
-    public function editItem($reportID, $userID, $projectID, $title, $hoursRequired, $addHours, ErrorStatusENUM $newStatus, ErrorPriorityENUM $priority, ErrorTypeEnum $type, $description = "", $steps = "", $assignedTo = null) {
+    public function editItem($itemID, $userID, $projectID, $title, $hoursRequired, $addHours, ErrorStatusENUM $newStatus, ErrorPriorityENUM $priority, ErrorTypeEnum $type, $description = "", $steps = "", $assignedTo = null) {
         if ($newStatus->check()) {
             $newStatusValue = $newStatus->getValue();
         } else {
             throw new ServiceException("Неверный статус ошибки");
         }
-        $report = $this->getReportByID($reportID);
+        $report = $this->getReportByID($itemID);
         $hoursRequired = (int) $hoursRequired;
         $addHours = (int) $addHours;
         if ($report != null) {
@@ -154,9 +165,9 @@ class ItemService extends ServiceBase {
             $statusesArray = $newStatus->getNumberedKeys();
             $currentValueKey = array_search($currentStatusValue, $statusesArray);
             $newValueKey = array_search($newStatusValue, $statusesArray);
-            if ($this->canEditStatus($reportID, $projectID) && ($newValueKey - $currentValueKey) <= 1) {
+            if ($this->canEditStatus($itemID, $projectID) && ($newValueKey - $currentValueKey) <= 1) {
                 $editStatusFlag = false;
-                $canEditData = $this->canEditData($reportID, $projectID);
+                $canEditData = $this->canEditData($itemID, $projectID);
                 if ($currentStatusValue != ErrorStatusENUM::CLOSED) {
                     if ($currentStatusValue == ErrorStatusENUM::RESOLVED) {
                         $editStatusFlag = $newStatusValue != ErrorStatusENUM::CLOSED ? true : $canEditData;
@@ -170,29 +181,36 @@ class ItemService extends ServiceBase {
                     if (!$canEditData) {
                         if ($currentStatusValue == $newStatusValue)
                             return false;
-                        $this->_sql->update(
-                                self::TABLE_ITEM, "ITEM_ID=$reportID", new ArrayObject(array(
-                                    "STAT" => $newStatusValue
-                                ))
-                        );
                     }
                     else {
+                        $title = htmlspecialchars($title);
+                        $description = htmlspecialchars($description);
                         if ($title == '')
                             throw new ServiceException("Заголовок не должен быть пустым");
-                        $this->_sql->call(
-                                "EditItem", new ArrayObject(array(
-                                    (int) $reportID,
-                                    $title,
-                                    (int) $priority->getValue(),
-                                    $newStatusValue,
-                                    (int) $assignedTo,
-                                    $hoursRequired,
-                                    $addHours,
-                                    $description,
-                                    $type->getValue(),
-                                    $steps
-                                ))
-                        );
+                        $query = 'CALL EditItem(
+                                    :ItemId, 
+                                    :Title, 
+                                    :PriorityLevel, 
+                                    :StatusValue, 
+                                    :AssignedTo, 
+                                    :HoursRequired,
+                                    :AddHours,
+                                    :Description,
+                                    :DefectType,
+                                    :StepsText
+                                )';
+                        $editCommand = $this->db->createCommand($query);
+                        $editCommand->bindParam(':ItemId', $itemID);
+                        $editCommand->bindParam(':Title', $title);
+                        $editCommand->bindParam(':PriorityLevel', (int) $priority->getValue());
+                        $editCommand->bindParam(':StatusValue', $newStatusValue);
+                        $editCommand->bindParam(':AssignedTo', (int) $assignedTo);
+                        $editCommand->bindParam(':HoursRequired', $hoursRequired);
+                        $editCommand->bindParam(':AddHours', $addHours);
+                        $editCommand->bindParam(':Description', $description);
+                        $editCommand->bindParam(':DefectType', $type->getValue());
+                        $editCommand->bindParam(':StepsText', $steps);
+                        $editCommand->execute();
                     }
                     return true;
                 }
@@ -203,39 +221,66 @@ class ItemService extends ServiceBase {
     /**
      * Получиить владельца отчёта
      *
-     * @param int $reportID ID отчёта
+     * @param int $itemId ID отчёта
      * @return int
      */
-    private function getReportOwner($reportID) {
-        $reportID = (int) $reportID;
-        $this->_sql->selFieldsWhere(self::TABLE_ITEM, "ITEM_ID=$reportID", "USER_ID");
-        $res = $this->_sql->getResultRows();
-        return (int) $res[0]["UserID"];
+    private function getReportOwner($itemId) {
+        $itemId = (int) $itemId;
+        return (int) $this->db->createCommand()
+                        ->select(array("USER_ID"))
+                        ->from(self::TABLE_ITEM)
+                        ->where('ITEM_ID = :itemId', array(':itemId' => $itemId))
+                        ->queryScalar();
     }
 
-    private function checkIsProjectError($reportID) {
-        $reportID = (int) $reportID;
-        $this->_sql->selFieldsWhere(self::TABLE_ITEM, "ITEM_ID=$reportID", "PROJ_ID");
-        $projectID = $this->_sql->getResultRows();
-        $projectID = $projectID[0]["ProjectID"];
+    private function isDefaultProjectItem($itemId) {
+        $itemId = (int) $itemId;
+        $projectID = $this->db->createCommand()
+                ->select(array("PROJ_ID"))
+                ->from(self::TABLE_ITEM)
+                ->where('ITEM_ID = :itemId', array(':itemId' => $itemId))
+                ->queryScalar();
         return $projectID == $this->_defaultProjectId;
     }
 
-    public function checkIsExsist($reportId) {
-        $id = (int) $reportId;
-        $countGroups = $this->_sql->countQuery(self::TABLE_ITEM, "ITEM_ID=$id");
-        return (Boolean) $countGroups;
+    public function existsById($itemId) {
+        $id = (int) $itemId;
+        return $this->db->createCommand()
+                        ->select('PROJ_ID')
+                        ->from(self::TABLE_ITEM)
+                        ->where('ITEM_ID = :itemId', array(':itemId' => $id))
+                        ->queryScalar() !== false;
+    }
+
+    private function getWhereTokenForItemKind(ItemKindENUM $kind, $projectId) {
+        $token = null;
+        $itemKind = $kind->getValue();
+        if ($itemKind <> ItemKindENUM::ALL) {
+            $token = array(
+                'where' => array('and', 'ProjectID = :projectId', 'Kind = :kind'),
+                'params' => array(
+                    ':projectId' => (int) $projectId,
+                    ':kind' => $itemKind
+                )
+            );
+        } else {
+            $token = array(
+                'where' => 'ProjectID = :projectId',
+                'params' => array(':projectId' => (int) $projectId)
+            );
+        }
+        return $token;
     }
 
     public function getReportsByProject($projectID, ItemKindENUM $kind, $from, $size) {
-        $this->checkProject($projectID);
+        $this->tryCheckProject($projectID);
         $this->useLimit($from, $size);
-        $itemKind = $kind->getValue();
-        if ($itemKind <> ItemKindENUM::ALL) {
-            $kindExpression = "AND Kind='$itemKind'";
-        }
-        $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO, "ProjectID=$projectID $kindExpression");
-        $res = $this->_sql->getResultRows();
+        $token = $this->getWhereTokenForItemKind($kind, $projectID);
+        $res = $this->db->createCommand()
+                ->select('PROJ_ID')
+                ->from(self::VIEW_ITEM_FULL_INFO)
+                ->where($token['where'], $token['params'])
+                ->queryAll();
         if ($res != null) {
             foreach ($res as $index => $report) {
                 $this->normalizeBugReport(&$report);
@@ -246,15 +291,14 @@ class ItemService extends ServiceBase {
     }
 
     public function countReportsByProject($projectID, ItemKindENUM $kind) {
-        $this->checkProject($projectID);
-        $itemKind = $kind->getValue();
-        if ($itemKind <> ItemKindENUM::ALL) {
-            $kindExpression = "AND Kind='$itemKind'";
-        }
-        return $this->_sql->countQuery(self::VIEW_ITEM_FULL_INFO, "ProjectID=$projectID $kindExpression");
+        $this->tryCheckProject($projectID);
+        $token = $this->getWhereTokenForItemKind($kind, $projectID);
+        return $this->getCount(
+                        self::VIEW_ITEM_FULL_INFO, $token['where'], $token['params']
+        );
     }
 
-    private function checkProject(&$projectID) {
+    private function tryCheckProject(&$projectID) {
         if ($projectID == NULL) {
             $projectID = $this->_defaultProjectId;
         } else {
@@ -272,9 +316,35 @@ class ItemService extends ServiceBase {
         $projectID = $this->_defaultProjectId;
         $itemKind = $kind->getValue();
         if ($itemKind <> ItemKindENUM::ALL) {
-            $kindExpression = "AND Kind='$itemKind'";
+            $token = array(
+                'where' => array(
+                    'and', 
+                    'ProjectID = :projectId', 
+                    'Kind = :kind',
+                    'UserID = :userId'
+                ),
+                'params' => array(
+                    ':projectId' => (int) $projectID,
+                    ':kind' => $itemKind,
+                    ':userId' => $userID
+                )
+            );
+        } else {
+            $token = array(
+                'where' => array(
+                    'and', 
+                    'ProjectID = :projectId', 
+                    'UserID = :userId'
+                ),
+                'params' => array(
+                    ':projectId' => (int) $projectID,
+                    ':userId' => $userID
+                )
+            );
         }
-        return $this->_sql->countQuery(self::VIEW_ITEM_FULL_INFO, "UserID=$userID AND ProjectID=$projectID $kindExpression");
+        return $this->getCount(
+                        self::VIEW_ITEM_FULL_INFO, $token['where'], $token['params']
+        );
     }
 
     public function countAssignedReports(ItemKindENUM $kind) {
@@ -282,151 +352,237 @@ class ItemService extends ServiceBase {
         $projectID = $this->_defaultProjectId;
         $itemKind = $kind->getValue();
         if ($itemKind <> ItemKindENUM::ALL) {
-            $kindExpression = "AND Kind='$itemKind'";
+            $token = array(
+                'where' => array(
+                    'and', 
+                    'ProjectID = :projectId', 
+                    'Kind = :kind',
+                    'AssignedTo = :userId'
+                ),
+                'params' => array(
+                    ':projectId' => (int) $projectID,
+                    ':kind' => $itemKind,
+                    ':userId' => $userID
+                )
+            );
+        } else {
+            $token = array(
+                'where' => array(
+                    'and', 
+                    'ProjectID = :projectId', 
+                    'AssignedTo = :userId'
+                ),
+                'params' => array(
+                    ':projectId' => (int) $projectID,
+                    ':userId' => $userID
+                )
+            );
         }
-        return $this->_sql->countQuery(self::VIEW_ITEM_FULL_INFO, "AssignedTo=$userID AND ProjectID=$projectID $kindExpression");
+        return $this->getCount(
+                        self::VIEW_ITEM_FULL_INFO, $token['where'], $token['params']
+        );
+    }
+    
+    /**
+     * Returns CDbCommand instance for query reports
+     * 
+     * @param string $field
+     * @param ItemKindENUM $kind
+     * @param type $page
+     * @param type $size
+     * @param type $userID
+     * @param type $projectID
+     * @return CDbCommand 
+     */
+    private function createDbCommandForReports($field, ItemKindENUM $kind, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
+        $itemKind = $kind->getValue();
+        if ($itemKind <> ItemKindENUM::ALL) {
+            $token = array(
+                'where' => array(
+                    'and', 
+                    'ProjectID = :projectId', 
+                    'Kind = :kind',
+                    "$field = :userId"
+                ),
+                'params' => array(
+                    ':projectId' => (int) $projectID,
+                    ':kind' => $itemKind,
+                    ':userId' => $userID
+                )
+            );
+        } else {
+            $token = array(
+                'where' => array(
+                    'and', 
+                    'ProjectID = :projectId', 
+                    'UserID = :userId'
+                ),
+                'params' => array(
+                    ':projectId' => (int) $projectID,
+                    "$field = :userId"
+                )
+            );
+        }
+        return $this->db->createCommand()
+                ->select('PROJ_ID')
+                ->from(self::VIEW_ITEM_FULL_INFO)
+                ->where($token['where'], $token['params'])
+                ->limit($size, $page);
+        
+    }
+    
+    /**
+     * Checks user id and project id for existance
+     * 
+     * @param int $userID
+     * @param int $projectID
+     * @return array
+     * @throws ServiceException 
+     */
+    private function tryCheckUserAndProject($userID, $projectID) {
+        $result = null;
+        
+        if ($userID == NULL) {
+            $result['userID'] = $this->_defaultUserId;
+        } else {
+            $result['userID'] = (int) $userID;
+            $uc = new UserService();
+            if (!$uc->existsById($result['userID'])) {
+                throw new ServiceException("Пользователь не существует.");
+            }
+        }
+        
+        if ($projectID == NULL) {
+            $result['$projectID'] = $this->_defaultProjectId;
+        }
+        else {
+            $result['$projectID'] = (int) $projectID;
+            $this->tryCheckProject($result['$projectID']);    
+        }
+        return $result;
     }
 
     public function getReports(ItemKindENUM $kind, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
-        $res = NULL;
-
-        if ($userID == NULL) {
-            $userID = $this->_defaultUserId;
-        } else {
-            $userID = (int) $userID;
-            $uc = new UsersController();
-            if ($uc->checkIfExsist($userID)) {
-                $this->checkProject($projectID);
-            } else {
-                throw new ServiceException("Пользователь не существует.");
-            }
-        }
-        if ($projectID == NULL) {
-            $projectID = $this->_defaultProjectId;
-        }
-        $itemKind = $kind->getValue();
-        if ($itemKind <> ItemKindENUM::ALL) {
-            $kindExpression = "AND Kind='$itemKind'";
-        }
-        $this->_sql->setLimit($page, $size);
-        $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO, "UserID=$userID AND ProjectID=$projectID $kindExpression");
-        $this->_sql->clearLimit();
-        $res = $this->_sql->getResultRows();
-        if ($res != null) {
-            foreach ($res as $index => $report) {
-                $this->normalizeBugReport(&$report);
-                $res[$index] = $report;
-            }
-        }
-        return $res;
+        $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
+        $getCommand = $this->createDbCommandForReports('UserID', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
+        $res = $getCommand->queryAll();
+        return $this->normalizeItemsFromList($res);
     }
 
     public function getMyOrdered(ItemKindENUM $kind, ErrorFieldsENUM $field, MySQLOrderEnum $direction, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
-        $this->useOrder($field, $direction);
-        return $this->getReports($kind, $page, $size, $userID = NULL, $projectID = NULL);
+        $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
+        $getCommand = $this->createDbCommandForReports('UserID', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
+        $res = $getCommand
+                ->order($this->order($field, $direction))
+                ->queryAll();
+        return $this->normalizeItemsFromList($res);
     }
 
     public function getAssignedToMe(ItemKindENUM $kind, ErrorFieldsENUM $field, MySQLOrderEnum $direction, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
-        $this->_sql->setOrder($field, $direction);
-        $this->_sql->setLimit($page, $size);
-        if ($userID == NULL) {
-            $userID = $this->_defaultUserId;
-        } else {
-            $userID = (int) $userID;
-            $uc = new UsersController();
-            if ($uc->checkIfExsist($userID)) {
-                $this->checkProject($projectID);
-            } else {
-                throw new ServiceException("Пользователь не существует.");
-            }
-        }
-        if ($projectID == NULL) {
-            $projectID = $this->_defaultProjectId;
-        }
-        $itemKind = $kind->getValue();
-        if ($itemKind <> ItemKindENUM::ALL) {
-            $kindExpression = "AND Kind='$itemKind'";
-        }
-        $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO, "AssignedTo=$userID AND ProjectID=$projectID $kindExpression");
-        $this->_sql->clearOrder();
-        $this->_sql->clearLimit();
-        $res = $this->_sql->getResultRows();
-        if ($res != null) {
-            foreach ($res as $index => $report) {
-                $this->normalizeBugReport(&$report);
-                $res[$index] = $report;
-            }
-        }
-        return $res;
+        $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
+        $getCommand = $this->createDbCommandForReports('AssignedTo', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
+        $res = $getCommand
+                ->order($this->order($field, $direction))
+                ->queryAll();
+        return $this->normalizeItemsFromList($res);
     }
 
-    public function getProjectOrdered($projectID, ItemKindENUM $kind, ErrorFieldsENUM $field, MySQLOrderEnum $direction, $from, $size) {
-        $this->checkProject($projectID);
-        $this->useOrder($field, $direction);
-        $this->useLimit($from, $size);
+    public function getProjectOrdered($projectID, ItemKindENUM $kind, ErrorFieldsENUM $field, MySQLOrderEnum $direction, $page, $size) {
+        $this->tryCheckProject($projectID);
         $itemKind = $kind->getValue();
         if ($itemKind <> ItemKindENUM::ALL) {
-            $kindExpression = "AND Kind='$itemKind'";
+            $token = array(
+                'where' => array(
+                    'and', 
+                    'ProjectID = :projectId', 
+                    'Kind = :kind',
+                ),
+                'params' => array(
+                    ':projectId' => (int) $projectID,
+                    ':kind' => $itemKind,
+                )
+            );
+        } else {
+            $token = array(
+                'where' => 'ProjectID = :projectId', 
+                'params' => array(
+                    ':projectId' => (int) $projectID,
+                )
+            );
         }
-        $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO, "ProjectID=$projectID $kindExpression");
-        $this->_sql->clearLimit();
-        $this->_sql->clearOrder();
-        $res = $this->_sql->getResultRows();
-        if ($res != null) {
-            foreach ($res as $index => $report) {
-                $this->normalizeBugReport(&$report);
-                $res[$index] = $report;
-            }
-        }
-        return $res;
+        $res = $this->db->createCommand()
+                ->select('PROJ_ID')
+                ->from(self::VIEW_ITEM_FULL_INFO)
+                ->where($token['where'], $token['params'])
+                ->limit($size, $page)
+                ->order($this->order($field, $direction))
+                ->queryAll();
+        return $this->normalizeItemsFromList($res);
     }
 
     public function getAllReports() {
-        $this->_sql->selAll(self::TABLE_ITEM);
-        return $this->_sql->getResultRows();
+        return $this->db->createCommand()
+                ->select()
+                ->from(self::TABLE_ITEM)
+                ->queryAll();
     }
 
     public function getReport($reportID) {
-        return
-                $report = $this->getReportByID($reportID);
-        if ($report != null) {
-            
-        }
+        return $report = $this->getReportByID($reportID);
     }
 
-    private function getReportByID($reportID) {
-        $reportID = (int) $reportID;
-        $this->_sql->selAllWhere(self::VIEW_ITEM_FULL_INFO, "ID=$reportID");
-        $arr = $this->_sql->getResultRows();
-        if ($arr == null) {
+    private function getReportByID($itemId) {
+        $itemId = (int) $itemId;
+        $res = $this->db->createCommand()
+                ->select('PROJ_ID')
+                ->from(self::VIEW_ITEM_FULL_INFO)
+                ->where('ID = :itemId', array('itemId' => $itemId))
+                ->limit($size, $page)
+                ->order($this->order($field, $direction))
+                ->queryRow();
+        if ($res == null) {
             return null;
         }
-        $this->normalizeBugReport($arr[0]);
-        return $arr[0];
+        $this->normalizeBugReport($res);
+        return $res;
     }
 
-    public function getPreviousItemID($itemID, $projectID = null) {
+    public function getPreviousItemID($itemId, $projectID = null) {
         $projectID = $projectID == null ? $this->_defaultProjectId : (int) $projectID;
-        $itemID = (int) $itemID;
-        $this->_sql->setLimit(0, 1);
-        $this->_sql->setOrder(new ItemTableFieldsENUM(), new MySQLOrderENUM(MySQLOrderENUM::DESC));
-        $this->_sql->selFieldsWhere(self::TABLE_ITEM, "ITEM_ID < $itemID AND PROJ_ID = $projectID", "ITEM_ID");
-        $this->_sql->clearOrder();
-        $this->_sql->clearLimit();
-        $result = $this->_sql->getResultRows();
-        return (int) $result[0]["ITEM_ID"];
+        $itemId = (int) $itemId;
+        return (int) $this->db->createCommand()
+                ->select('ITEM_ID')
+                ->from(self::VIEW_ITEM_FULL_INFO)
+                ->where(
+                    array(
+                        'and',
+                        'ITEM_ID < :itemId', 
+                        'PROJ_ID = :projectId'
+                    ),
+                    array('itemId' => $itemId)
+                )
+                ->limit(1, 0)
+                ->order($this->order(new ItemTableFieldsENUM(), new MySQLOrderENUM(MySQLOrderENUM::DESC)))
+                ->queryScalar();
     }
 
     public function getNextItemID($itemID, $projectID = null) {
         $projectID = $projectID == null ? $this->_defaultProjectId : (int) $projectID;
         $itemID = (int) $itemID;
-        $this->_sql->setLimit(0, 1);
-        $this->_sql->setOrder(new ItemTableFieldsENUM(), new MySQLOrderENUM(MySQLOrderENUM::ASC));
-        $this->_sql->selFieldsWhere(self::TABLE_ITEM, "ITEM_ID > $itemID AND PROJ_ID = $projectID", "ITEM_ID");
-        $this->_sql->clearOrder();
-        $this->_sql->clearLimit();
-        $result = $this->_sql->getResultRows();
-        return (int) $result[0]["ITEM_ID"];
+        return (int) $this->db->createCommand()
+                ->select('ITEM_ID')
+                ->from(self::VIEW_ITEM_FULL_INFO)
+                ->where(
+                    array(
+                        'and',
+                        'ITEM_ID > :itemId', 
+                        'PROJ_ID = :projectId'
+                    ),
+                    array('itemId' => $itemId)
+                )
+                ->limit(1, 0)
+                ->order($this->order(new ItemTableFieldsENUM(), new MySQLOrderENUM(MySQLOrderENUM::ASC)))
+                ->queryScalar();
     }
 
     private function chekProjectOwnerOrReportOwner($reportID) {
@@ -450,6 +606,17 @@ class ItemService extends ServiceBase {
           return $this->_itemOwnerID==$this->getReportOwner($reportID) || $this->_itemOwnerID==$pC->isOwner($this->_itemOwnerID,$projectID); */
         return $this->canEditStatus($reportID, $projectID);
     }
+    
+    private function normalizeItemsFromList(array $items) {
+        if ($items != null) {
+            foreach ($items as $index => $item) {
+                $this->normalizeBugReport(&$item);
+                $items[$index] = $item;
+            }
+        }
+        return $items;
+    }
+            
 
     /**
      *
