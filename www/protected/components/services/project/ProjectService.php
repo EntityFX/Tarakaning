@@ -444,7 +444,7 @@ class ProjectService extends ServiceBase implements IProjectService {
                 ->select('PROJ_ID')
                 ->from(self::TABLE_PROJ)
                 ->where('PROJ_ID = :projectId',array(':projectId' => $projectID))
-                ->queryScalar() !== false ? true : false;
+                ->queryScalar() !== false;
     }
 
     public function getOwnerID($projectID) {
