@@ -9,13 +9,13 @@ class ItemAssignment extends DBConnector
         parent::__construct();
         $this->_errorReportID=(int)$errorReportID;
         $errController=new ItemsModel();
-        if ($errController->checkIsExsist($errorReportID))
+        if ($errController->existsById($errorReportID))
         {
             
         }
         else
         {
-            throw new Exception("Нельзя назначать для несуществующей ошибки");
+            throw new Exception("РќРµР»СЊР·СЏ РЅР°Р·РЅР°С‡Р°С‚СЊ РґР»СЏ РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰РµР№ РѕС€РёР±РєРё");
         }
     }
     
@@ -45,7 +45,7 @@ class ItemAssignment extends DBConnector
         }
         else
         {
-            throw new Exception("Нельзя назначать ошибку несуществующему пользователю");
+            throw new Exception("РќРµР»СЊР·СЏ РЅР°Р·РЅР°С‡Р°С‚СЊ РѕС€РёР±РєСѓ РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰РµРјСѓ РїРѕР»СЊР·РѕРІР°С‚РµР»СЋ");
         }
     }
     

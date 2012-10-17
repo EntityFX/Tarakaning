@@ -127,7 +127,8 @@ class SiteController extends EntityFxControllerBase {
         //CVarDumper::dump($requestService->getRequests(22, 3),10,true);
         //$requestService->sendRequest(1, 3);
         
-        $itemService = new ItemService(3, 21);
+        $itemService = new ItemService(3, 22);
+        //$itemService->addReport($kind, $priority, $type, $title, $hoursRequired)
     }
 
 }
