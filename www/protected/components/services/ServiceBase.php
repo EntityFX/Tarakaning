@@ -48,6 +48,12 @@ abstract class ServiceBase {
                         ->where($where, $params)
                         ->queryScalar();
     }
+    
+    protected function lastInsertId()
+    {
+        return (int)$this->db->createCommand('SELECT LAST_INSERT_ID()')
+                ->queryScalar();
+    }
 
 }
 

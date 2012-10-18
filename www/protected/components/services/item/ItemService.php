@@ -60,10 +60,10 @@ class ItemService extends ServiceBase {
 
     /**
      * @var ItemDBKindENUM тип элемента
-     * @var ErrorPriorityENUM приоритет элемента
-     * @var ErrorStatusENUM статус элемента
+     * @var ItemPriorityENUM приоритет элемента
+     * @var ItemStatusENUM статус элемента
      */
-    public function addReport(ItemDBKindENUM $kind, ErrorPriorityENUM $priority, ErrorTypeEnum $type, $title, $hoursRequired, $description = "", $steps = "", $assignedTo = null) {
+    public function addReport(ItemDBKindENUM $kind, ItemPriorityENUM $priority, ItemTypeENUM $type, $title, $hoursRequired, $description = "", $steps = "", $assignedTo = null) {
         $title = htmlspecialchars($title);
         if ($title == "") {
             throw new ServiceException("Заголовок не должен быть пустым");
@@ -87,7 +87,7 @@ class ItemService extends ServiceBase {
         $steps = htmlspecialchars($steps);
         $hoursRequired = (int) $hoursRequired;
         $assignedTo = $assignedTo == ' ' ? null : (int) $assignedTo;
-        $query = 'CALL DeleteProjects(
+        $query = 'CALL AddItem(
                     :UserId, 
                     :ProjectId, 
                     :AssignedTo, 
@@ -96,6 +96,7 @@ class ItemService extends ServiceBase {
                     :CreateDateTime, 
                     :Title, 
                     :Kind,
+                    :HourRequired,
                     :Description,
                     :ItemType,
                     :StepsText
@@ -105,16 +106,23 @@ class ItemService extends ServiceBase {
         $addCommand->bindParam(':ProjectId', $this->_defaultProjectId);
         $addCommand->bindParam(':AssignedTo', $assignedTo);
         $addCommand->bindParam(':PriorityLevel', $priorityValue);
-        $addCommand->bindParam(':Status', new ErrorStatusENUM());
-        $addCommand->bindParam(':CreateDateTime', date("Y-m-d H:i:s"));
+        $itemStatusEnum = new ItemStatusENUM();
+        $statusValue = $itemStatusEnum->getValue();
+        $addCommand->bindParam(':Status', $statusValue);
+        $dateValue = date("Y-m-d H:i:s");
+        $addCommand->bindParam(':CreateDateTime', $dateValue);
         $addCommand->bindParam(':Title', $title);
         $addCommand->bindParam(':Kind', $kindValue);
-        $addCommand->bindParam(':HoursRequired', $hoursRequired);
+        $addCommand->bindParam(':HourRequired', $hoursRequired);
         $addCommand->bindParam(':Description', $description);
         $addCommand->bindParam(':ItemType', $typeValue);
         $addCommand->bindParam(':StepsText', $steps);
+        
+        $addItemTransaction = $this->db->beginTransaction();
         $addCommand->execute();
-        return $this->_sql->getLastID();
+        $insertedItemId = $this->lastInsertId();
+        $addItemTransaction->commit();
+        return $insertedItemId;
     }
 
     public function deleteItem($reportID) {
@@ -127,14 +135,15 @@ class ItemService extends ServiceBase {
         );
     }
 
-    public function deleteReportsFromList($keysList, $userID = null, $projectID = null) {
+    public function deleteItemsFromList($keysList, $userID = null, $projectID = null) {
         $userID = $userID == null ? $this->_defaultUserId : (int) $userID;
         $projectID = $projectID == null ? $this->_defaultProjectId : (int) $projectID;
+        $keysList = SerializeHelper::SerializeForStoredProcedure($keysList);
         if ($keysList != '') {
             $query = 'CALL DeleteItemsFromList(
                         :UserId, 
                         :ProjectId, 
-                        :ItemsList, 
+                        :ItemsList 
                     )';
             $deleteCommand = $this->db->createCommand($query);
             $deleteCommand->bindParam(':UserId', $userID);
@@ -146,12 +155,22 @@ class ItemService extends ServiceBase {
 
     /**
      *
-     * Редактировать статус задачи
-     * @param $itemID int ID отчёта
-     * @param $errorStatusErrorStatusENUM Новый статус
-     * @param $userID int Текущий юзер
+     * @param type $itemID ID отчёта
+     * @param int $userID
+     * @param type $projectID
+     * @param type $title
+     * @param type $hoursRequired
+     * @param type $addHours
+     * @param ItemStatusENUM $newStatus Новый статус
+     * @param ItemPriorityENUM $priority
+     * @param ItemTypeENUM $type
+     * @param type $description
+     * @param type $steps
+     * @param type $assignedTo
+     * @return boolean
+     * @throws ServiceException 
      */
-    public function editItem($itemID, $userID, $projectID, $title, $hoursRequired, $addHours, ErrorStatusENUM $newStatus, ErrorPriorityENUM $priority, ErrorTypeEnum $type, $description = "", $steps = "", $assignedTo = null) {
+    public function editItem($itemID, $userID, $projectID, $title, $hoursRequired, $addHours, ItemStatusENUM $newStatus, ItemPriorityENUM $priority, ItemTypeENUM $type, $description = "", $steps = "", $assignedTo = null) {
         if ($newStatus->check()) {
             $newStatusValue = $newStatus->getValue();
         } else {
@@ -168,9 +187,9 @@ class ItemService extends ServiceBase {
             if ($this->canEditStatus($itemID, $projectID) && ($newValueKey - $currentValueKey) <= 1) {
                 $editStatusFlag = false;
                 $canEditData = $this->canEditData($itemID, $projectID);
-                if ($currentStatusValue != ErrorStatusENUM::CLOSED) {
-                    if ($currentStatusValue == ErrorStatusENUM::RESOLVED) {
-                        $editStatusFlag = $newStatusValue != ErrorStatusENUM::CLOSED ? true : $canEditData;
+                if ($currentStatusValue != ItemStatusENUM::CLOSED) {
+                    if ($currentStatusValue == ItemStatusENUM::RESOLVED) {
+                        $editStatusFlag = $newStatusValue != ItemStatusENUM::CLOSED ? true : $canEditData;
                     } else {
                         $editStatusFlag = true;
                     }
@@ -202,13 +221,16 @@ class ItemService extends ServiceBase {
                         $editCommand = $this->db->createCommand($query);
                         $editCommand->bindParam(':ItemId', $itemID);
                         $editCommand->bindParam(':Title', $title);
-                        $editCommand->bindParam(':PriorityLevel', (int) $priority->getValue());
+                        $priorityValue = (int) $priority->getValue();
+                        $editCommand->bindParam(':PriorityLevel', $priorityValue);
                         $editCommand->bindParam(':StatusValue', $newStatusValue);
-                        $editCommand->bindParam(':AssignedTo', (int) $assignedTo);
+                        $assignedValue = (int) $assignedTo;
+                        $editCommand->bindParam(':AssignedTo', $assignedValue);
                         $editCommand->bindParam(':HoursRequired', $hoursRequired);
                         $editCommand->bindParam(':AddHours', $addHours);
                         $editCommand->bindParam(':Description', $description);
-                        $editCommand->bindParam(':DefectType', $type->getValue());
+                        $defectTypeValue = $type->getValue();
+                        $editCommand->bindParam(':DefectType', $defectTypeValue);
                         $editCommand->bindParam(':StepsText', $steps);
                         $editCommand->execute();
                     }
@@ -469,7 +491,7 @@ class ItemService extends ServiceBase {
         return $this->normalizeItemsFromList($res);
     }
 
-    public function getMyOrdered(ItemKindENUM $kind, ErrorFieldsENUM $field, MySQLOrderEnum $direction, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
+    public function getMyOrdered(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
         $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
         $getCommand = $this->createDbCommandForReports('UserID', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
         $res = $getCommand
@@ -478,7 +500,18 @@ class ItemService extends ServiceBase {
         return $this->normalizeItemsFromList($res);
     }
 
-    public function getAssignedToMe(ItemKindENUM $kind, ErrorFieldsENUM $field, MySQLOrderEnum $direction, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
+    /**
+     *
+     * @param ItemKindENUM $kind
+     * @param ItemFieldsENUM $field
+     * @param MySQLOrderEnum $direction
+     * @param type $page
+     * @param type $size
+     * @param type $userID
+     * @param type $projectID
+     * @return type 
+     */
+    public function getAssignedToMe(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
         $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
         $getCommand = $this->createDbCommandForReports('AssignedTo', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
         $res = $getCommand
@@ -487,7 +520,7 @@ class ItemService extends ServiceBase {
         return $this->normalizeItemsFromList($res);
     }
 
-    public function getProjectOrdered($projectID, ItemKindENUM $kind, ErrorFieldsENUM $field, MySQLOrderEnum $direction, $page, $size) {
+    public function getProjectOrdered($projectID, ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page, $size) {
         $this->tryCheckProject($projectID);
         $itemKind = $kind->getValue();
         if ($itemKind <> ItemKindENUM::ALL) {
@@ -520,7 +553,7 @@ class ItemService extends ServiceBase {
         return $this->normalizeItemsFromList($res);
     }
 
-    public function getAllReports() {
+    public function getAll() {
         return $this->db->createCommand()
                 ->select()
                 ->from(self::TABLE_ITEM)
@@ -534,11 +567,9 @@ class ItemService extends ServiceBase {
     private function getReportByID($itemId) {
         $itemId = (int) $itemId;
         $res = $this->db->createCommand()
-                ->select('PROJ_ID')
+                ->select()
                 ->from(self::VIEW_ITEM_FULL_INFO)
                 ->where('ID = :itemId', array('itemId' => $itemId))
-                ->limit($size, $page)
-                ->order($this->order($field, $direction))
                 ->queryRow();
         if ($res == null) {
             return null;
@@ -591,20 +622,36 @@ class ItemService extends ServiceBase {
         return ($this->_defaultUserId == $this->getReportOwner($reportID) || $this->_defaultUserId == $pC->isOwner($this->_defaultUserId, $this->_defaultProjectId));
     }
 
-    public function canEditStatus($reportID, $projectID) {
-        $reportID = (int) $reportID;
+    public function canEditStatus($itemId, $projectID) {
+        $itemId = (int) $itemId;
         $projectID = (int) $projectID;
         $user = $this->_defaultUserId;
-        $isOwnerORAssigned = $this->_sql->countQuery(self::TABLE_ITEM, "ITEM_ID=$reportID AND (USER_ID=$user OR ASSGN_TO=$user)");
+        $isOwnerORAssigned = $this->getCount(
+                self::TABLE_ITEM, 
+                array(
+                    'and',
+                    'ITEM_ID = :itemId',
+                    array(
+                        'or',
+                        'USER_ID = :userId',
+                        'ASSGN_TO = :assignedTo'
+                    )
+                ), 
+                array(
+                    ':itemId' => $itemId,
+                    ':userId' => $user,
+                    ':assignedTo' => $user
+                )
+        );
         $pC = new ProjectService();
         return ($isOwnerORAssigned != 0) || $this->_defaultUserId == $pC->isOwner($user, $projectID);
     }
 
-    public function canEditData($reportID, $projectID) {
+    public function canEditData($itemId, $projectID) {
         /* $projectID=(int)$projectID;
           $pC=new ProjectsModel();
           return $this->_itemOwnerID==$this->getReportOwner($reportID) || $this->_itemOwnerID==$pC->isOwner($this->_itemOwnerID,$projectID); */
-        return $this->canEditStatus($reportID, $projectID);
+        return $this->canEditStatus($itemId, $projectID);
     }
     
     private function normalizeItemsFromList(array $items) {
@@ -624,13 +671,13 @@ class ItemService extends ServiceBase {
      */
     private function normalizeBugReport(&$reportData) {
         switch ($reportData["PriorityLevel"]) {
-            case ErrorPriorityENUM::MINIMAL:
+            case ItemPriorityENUM::MINIMAL:
                 $reportData["PriorityLevelN"] = "Низкий";
                 break;
-            case ErrorPriorityENUM::NORMAL:
+            case ItemPriorityENUM::NORMAL:
                 $reportData["PriorityLevelN"] = "Обычный";
                 break;
-            case ErrorPriorityENUM::HIGH:
+            case ItemPriorityENUM::HIGH:
                 $reportData["PriorityLevelN"] = "Важный";
                 break;
         }
@@ -643,45 +690,45 @@ class ItemService extends ServiceBase {
                 break;
         }
         switch ($reportData["ErrorType"]) {
-            case ErrorTypeENUM::BLOCK:
+            case ItemTypeENUM::BLOCK:
                 $reportData["ErrorTypeN"] = "Блокирующая";
                 break;
-            case ErrorTypeENUM::COSMETIC:
+            case ItemTypeENUM::COSMETIC:
                 $reportData["ErrorTypeN"] = "Косметическая";
                 break;
-            case ErrorTypeENUM::CRASH:
+            case ItemTypeENUM::CRASH:
                 $reportData["ErrorTypeN"] = "Крах";
                 break;
-            case ErrorTypeENUM::ERROR_HANDLE:
+            case ItemTypeENUM::ERROR_HANDLE:
                 $reportData["ErrorTypeN"] = "Исключение";
                 break;
-            case ErrorTypeENUM::FUNCTIONAL:
+            case ItemTypeENUM::FUNCTIONAL:
                 $reportData["ErrorTypeN"] = "Функциональня";
                 break;
-            case ErrorTypeENUM::MAJOR:
+            case ItemTypeENUM::MAJOR:
                 $reportData["ErrorTypeN"] = "Значительная";
                 break;
-            case ErrorTypeENUM::MINOR:
+            case ItemTypeENUM::MINOR:
                 $reportData["ErrorTypeN"] = "Неначительная";
                 break;
-            case ErrorTypeENUM::SETUP:
+            case ItemTypeENUM::SETUP:
                 $reportData["ErrorTypeN"] = "Ошибка инсталляции";
                 break;
         }
         switch ($reportData["Status"]) {
-            case ErrorStatusENUM::IS_NEW:
+            case ItemStatusENUM::IS_NEW:
                 $reportData["StatusN"] = "Новый";
                 break;
-            case ErrorStatusENUM::IDENTIFIED:
+            case ItemStatusENUM::IDENTIFIED:
                 $reportData["StatusN"] = "Идентифицирован";
                 break;
-            case ErrorStatusENUM::ASSESSED:
+            case ItemStatusENUM::ASSESSED:
                 $reportData["StatusN"] = "В процессе";
                 break;
-            case ErrorStatusENUM::RESOLVED:
+            case ItemStatusENUM::RESOLVED:
                 $reportData["StatusN"] = "Решён";
                 break;
-            case ErrorStatusENUM::CLOSED:
+            case ItemStatusENUM::CLOSED:
                 $reportData["StatusN"] = "Закрыт";
                 break;
         }

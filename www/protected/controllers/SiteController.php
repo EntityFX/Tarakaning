@@ -128,7 +128,53 @@ class SiteController extends EntityFxControllerBase {
         //$requestService->sendRequest(1, 3);
         
         $itemService = new ItemService(3, 22);
-        //$itemService->addReport($kind, $priority, $type, $title, $hoursRequired)
+        /*CVarDumper::dump($itemService->addReport(
+                new ItemDBKindENUM(ItemDBKindENUM::DEFECT), 
+                new ErrorPriorityENUM(ErrorPriorityENUM::HIGH), 
+                new ErrorTypeEnum(ErrorTypeEnum::CRASH), 
+                '<b>Новый</b>', 
+                0, 
+                'Просто новый элемент', 
+                '1 - *'
+        ),10,true);*/
+        //CVarDumper::dump($itemService->canEditData(36, 3),10,true);
+        //CVarDumper::dump($itemService->canEditStatus(36, 3),10,true);
+        //CVarDumper::dump($itemService->countAssignedReports(new ItemKindENUM(ItemKindENUM::ALL)),10,true);
+        //CVarDumper::dump($itemService->countReports(new ItemKindENUM(ItemKindENUM::TASK)),10,true);
+        //CVarDumper::dump($itemService->countReportsByProject(3, new ItemKindENUM(ItemKindENUM::DEFECT)),10,true);
+        //CVarDumper::dump($itemService->deleteItem(31),10,true);
+        //CVarDumper::dump($itemService->deleteItemsFromList(array(35, 36)),10,true);
+        /*CVarDumper::dump($itemService->editItem(
+                30, 
+                22, 
+                3, 
+                '$title', 
+                55, 
+                7, 
+                new ErrorStatusENUM(ErrorStatusENUM::IDENTIFIED), 
+                new ErrorPriorityENUM(ErrorPriorityENUM::HIGH), 
+                new ErrorTypeENUM(ErrorTypeENUM::ERROR_HANDLE), 
+                'hren!'
+        ),10,true);*/
+        //CVarDumper::dump($itemService->existsById(30),10,true);
+        //CVarDumper::dump($itemService->getAll(),10,true);
+        /*CVarDumper::dump($itemService->editItem(
+                30, 
+                22, 
+                3, 
+                '$title', 
+                55, 
+                7, 
+                new ItemStatusENUM(ItemStatusENUM::IDENTIFIED), 
+                new ItemPriorityENUM(ItemPriorityENUM::HIGH), 
+                new ItemTypeENUM(ItemTypeENUM::ERROR_HANDLE), 
+                'hren!'
+        ),10,true);*/
+        CVarDumper::dump($itemService->getAssignedToMe(
+                new ItemKindENUM(ItemKindENUM::TASK), 
+                new ItemFieldsENUM(), 
+                new MySQLOrderENUM()
+        ),10,true);
     }
 
 }
