@@ -293,6 +293,41 @@ class ItemService extends ServiceBase {
         }
         return $token;
     }
+    
+    public function readyP(ItemKindENUM $kind, $field, $projectId, $userId)
+    {
+        $token = array(
+            'where' => array(
+                'and', 
+                'ProjectID = :projectId', 
+                "$field = :userId"
+            ),
+            'params' => array(
+                ':projectId' => (int) $projectId,
+                ':userId' => $userId
+            )
+        );
+        $this->prepareWhereTokenForItemKind($kind, $token);
+        CVarDumper::dump($token, 10, true);
+    }
+    
+    private function prepareWhereTokenForItemKind(ItemKindENUM $kind, array &$token)
+    {
+        $itemKind = $kind->getValue();
+        if ($itemKind <> ItemKindENUM::ALL) {
+            if (is_string($token['where'])) {
+                $token['where'] = array(
+                    'and',
+                    $token['where'],
+                    'Kind = :kind'
+                );
+            }
+            else {
+                $token['where'][] = 'Kind = :kind';
+            }
+            $token['params'][':kind'] = $itemKind;
+        }
+    }
 
     public function getReportsByProject($projectID, ItemKindENUM $kind, $from, $size) {
         $this->tryCheckProject($projectID);
@@ -416,7 +451,7 @@ class ItemService extends ServiceBase {
      * @param type $projectID
      * @return CDbCommand 
      */
-    private function createDbCommandForReports($field, ItemKindENUM $kind, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
+    private function createDbCommandForReadItems($field, ItemKindENUM $kind, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
         $itemKind = $kind->getValue();
         if ($itemKind <> ItemKindENUM::ALL) {
             $token = array(
@@ -486,14 +521,14 @@ class ItemService extends ServiceBase {
 
     public function getReports(ItemKindENUM $kind, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
         $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
-        $getCommand = $this->createDbCommandForReports('UserID', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
+        $getCommand = $this->createDbCommandForReadItems('UserID', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
         $res = $getCommand->queryAll();
         return $this->normalizeItemsFromList($res);
     }
 
     public function getMyOrdered(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
         $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
-        $getCommand = $this->createDbCommandForReports('UserID', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
+        $getCommand = $this->createDbCommandForReadItems('UserID', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
         $res = $getCommand
                 ->order($this->order($field, $direction))
                 ->queryAll();
@@ -513,7 +548,7 @@ class ItemService extends ServiceBase {
      */
     public function getAssignedToMe(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
         $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
-        $getCommand = $this->createDbCommandForReports('AssignedTo', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
+        $getCommand = $this->createDbCommandForReadItems('AssignedTo', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
         $res = $getCommand
                 ->order($this->order($field, $direction))
                 ->queryAll();

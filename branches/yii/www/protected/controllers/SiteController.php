@@ -170,11 +170,12 @@ class SiteController extends EntityFxControllerBase {
                 new ItemTypeENUM(ItemTypeENUM::ERROR_HANDLE), 
                 'hren!'
         ),10,true);*/
-        CVarDumper::dump($itemService->getAssignedToMe(
+        /*CVarDumper::dump($itemService->getAssignedToMe(
                 new ItemKindENUM(ItemKindENUM::TASK), 
                 new ItemFieldsENUM(), 
                 new MySQLOrderENUM()
-        ),10,true);
+        ),10,true);*/
+        $itemService->readyP(new ItemKindENUM(ItemKindENUM::TASK), 'USER_ID', 45, 12);
     }
 
 }
