@@ -266,12 +266,14 @@ class ETwigViewRendererStaticClassProxy
 
     public function __get($property)
     {
-        return ${$this->_staticClassName}::$property;
+        $className = ${$this->_staticClassName};
+		return $className::$property;
     }
 
     public function __set($property, $value)
     {
-        return (${$this->_staticClassName}::$property = $value);
+        $className = ${$this->_staticClassName};
+		return (${$this->_staticClassName}::$property = $value);
     }
 
     public function __call($method, $arguments)
