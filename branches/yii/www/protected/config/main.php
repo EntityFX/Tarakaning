@@ -58,7 +58,7 @@ return array(
             'showScriptName' => false
         ),
         'db' => array(
-            'connectionString' => 'mysql:host=localhost;dbname=Tarakaning',
+            'connectionString' => 'mysql:host=127.0.0.1;dbname=Tarakaning',
             'emulatePrepare' => true,
             'username' => 'root',
             'password' => '',

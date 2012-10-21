@@ -860,7 +860,7 @@ DELIMITER $$
 --
 -- Процедуры
 --
-CREATE DEFINER=`entityfx616`@`%` PROCEDURE `AcceptRequest`(IN _ProjectID INT, IN ItemsList TEXT)
+CREATE  PROCEDURE `AcceptRequest`(IN _ProjectID INT, IN ItemsList TEXT)
 BEGIN
     DECLARE SymbolPosition INT;
     DECLARE ItemString     INT;
@@ -944,7 +944,7 @@ BEGIN
 
 END$$
 
-CREATE DEFINER=`entityfx616`@`%` PROCEDURE `AddItem`(IN UserID INT, IN ProjectID INT, IN AssignedTo INT, IN PriorityLevel VARCHAR(1), IN StatusValue VARCHAR(50), IN `CreateDateTime` DATETIME, IN Title VARCHAR(255), IN Kind VARCHAR(50), IN Description TEXT, IN ItemType VARCHAR(50), IN StepsText TEXT)
+CREATE  PROCEDURE `AddItem`(IN UserID INT, IN ProjectID INT, IN AssignedTo INT, IN PriorityLevel VARCHAR(1), IN StatusValue VARCHAR(50), IN `CreateDateTime` DATETIME, IN Title VARCHAR(255), IN Kind VARCHAR(50), IN Description TEXT, IN ItemType VARCHAR(50), IN StepsText TEXT)
 BEGIN
     DECLARE LAST_ID INT;
     INSERT INTO ITEM 
@@ -980,7 +980,7 @@ BEGIN
     END IF; 
 END$$
 
-CREATE DEFINER=`entityfx616`@`%` PROCEDURE `DeleteCommentsFromList`(IN _UserID INT, IN ItemsList TEXT)
+CREATE  PROCEDURE `DeleteCommentsFromList`(IN _UserID INT, IN ItemsList TEXT)
 BEGIN
     DECLARE SymbolPosition INT;
     DECLARE ItemString INT;
@@ -1018,7 +1018,7 @@ BEGIN
 
 END$$
 
-CREATE DEFINER=`entityfx616`@`%` PROCEDURE `DeleteItemsFromList`(IN _UserID INT, IN _ProjectID INT, IN ItemsList TEXT)
+CREATE  PROCEDURE `DeleteItemsFromList`(IN _UserID INT, IN _ProjectID INT, IN ItemsList TEXT)
 BEGIN
     DECLARE SymbolPosition INT;
     DECLARE ItemString INT;
@@ -1076,7 +1076,7 @@ BEGIN
 
 END$$
 
-CREATE DEFINER=`entityfx616`@`%` PROCEDURE `DeleteProjects`(IN _UserID INT, IN ItemsList TEXT)
+CREATE  PROCEDURE `DeleteProjects`(IN _UserID INT, IN ItemsList TEXT)
 BEGIN
     DECLARE SymbolPosition INT;
     DECLARE ItemString INT;
@@ -1114,7 +1114,7 @@ BEGIN
 
 END$$
 
-CREATE DEFINER=`entityfx616`@`%` PROCEDURE `EditItem`(IN _ItemID INT, IN _Title VARCHAR(255), IN _PriorityLevel VARCHAR(1), IN _StatusValue VARCHAR(50), IN _AssignedTo INT, IN _Description TEXT, IN _DefectType VARCHAR(50), IN _StepsText TEXT)
+CREATE  PROCEDURE `EditItem`(IN _ItemID INT, IN _Title VARCHAR(255), IN _PriorityLevel VARCHAR(1), IN _StatusValue VARCHAR(50), IN _AssignedTo INT, IN _Description TEXT, IN _DefectType VARCHAR(50), IN _StepsText TEXT)
 BEGIN
     DECLARE ItemProjectID INT;
     DECLARE ItemKind VARCHAR(50);
