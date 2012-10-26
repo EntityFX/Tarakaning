@@ -140,8 +140,8 @@ class SiteController extends EntityFxControllerBase {
         //CVarDumper::dump($itemService->canEditData(36, 3),10,true);
         //CVarDumper::dump($itemService->canEditStatus(36, 3),10,true);
         //CVarDumper::dump($itemService->countAssignedReports(new ItemKindENUM(ItemKindENUM::ALL)),10,true);
-        //CVarDumper::dump($itemService->countReports(new ItemKindENUM(ItemKindENUM::TASK)),10,true);
-        //CVarDumper::dump($itemService->countReportsByProject(3, new ItemKindENUM(ItemKindENUM::DEFECT)),10,true);
+        //CVarDumper::dump($itemService->countReports(new ItemKindENUM(ItemKindENUM::ALL)),10,true);
+        //CVarDumper::dump($itemService->countReportsByProject(3, new ItemKindENUM(ItemKindENUM::TASK)),10,true);
         //CVarDumper::dump($itemService->deleteItem(31),10,true);
         //CVarDumper::dump($itemService->deleteItemsFromList(array(35, 36)),10,true);
         /*CVarDumper::dump($itemService->editItem(
@@ -175,7 +175,11 @@ class SiteController extends EntityFxControllerBase {
                 new ItemFieldsENUM(), 
                 new MySQLOrderENUM()
         ),10,true);*/
-        $itemService->readyP(new ItemKindENUM(ItemKindENUM::TASK), 'USER_ID', 45, 12);
+        var_dump($itemService->getMyOrdered(
+                new ItemKindENUM(ItemKindENUM::TASK),
+                new ItemFieldsENUM(),
+                new MySQLOrderENUM())
+        );
     }
 
 }
