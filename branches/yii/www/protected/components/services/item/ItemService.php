@@ -294,24 +294,7 @@ class ItemService extends ServiceBase {
         return $token;
     }
     
-    public function readyP(ItemKindENUM $kind, $field, $projectId, $userId)
-    {
-        $token = array(
-            'where' => array(
-                'and', 
-                'ProjectID = :projectId', 
-                "$field = :userId"
-            ),
-            'params' => array(
-                ':projectId' => (int) $projectId,
-                ':userId' => $userId
-            )
-        );
-        $this->prepareWhereTokenForItemKind($kind, $token);
-        CVarDumper::dump($token, 10, true);
-    }
-    
-    private function prepareWhereTokenForItemKind(ItemKindENUM $kind, array &$token)
+    private function prepareWhereArrayForItemKind(ItemKindENUM $kind, array &$token)
     {
         $itemKind = $kind->getValue();
         if ($itemKind <> ItemKindENUM::ALL) {
@@ -349,9 +332,10 @@ class ItemService extends ServiceBase {
 
     public function countReportsByProject($projectID, ItemKindENUM $kind) {
         $this->tryCheckProject($projectID);
-        $token = $this->getWhereTokenForItemKind($kind, $projectID);
+        $whereArray = $this->getWhereTokenForItemKind($kind, $projectID);
+        var_dump($whereArray);
         return $this->getCount(
-                        self::VIEW_ITEM_FULL_INFO, $token['where'], $token['params']
+                        self::VIEW_ITEM_FULL_INFO, $whereArray['where'], $whereArray['params']
         );
     }
 
@@ -368,75 +352,49 @@ class ItemService extends ServiceBase {
         }
     }
 
+    /**
+     *
+     *
+     * @param ItemKindENUM $kind
+     * @return type
+     */
     public function countReports(ItemKindENUM $kind) {
-        $userID = $this->_defaultUserId;
-        $projectID = $this->_defaultProjectId;
-        $itemKind = $kind->getValue();
-        if ($itemKind <> ItemKindENUM::ALL) {
-            $token = array(
-                'where' => array(
-                    'and', 
-                    'ProjectID = :projectId', 
-                    'Kind = :kind',
-                    'UserID = :userId'
-                ),
-                'params' => array(
-                    ':projectId' => (int) $projectID,
-                    ':kind' => $itemKind,
-                    ':userId' => $userID
-                )
-            );
-        } else {
-            $token = array(
-                'where' => array(
-                    'and', 
-                    'ProjectID = :projectId', 
-                    'UserID = :userId'
-                ),
-                'params' => array(
-                    ':projectId' => (int) $projectID,
-                    ':userId' => $userID
-                )
-            );
-        }
+        $userId = $this->_defaultUserId;
+        $projectId = $this->_defaultProjectId;
+        $whereArray = $this->createWhereArrayForReadItems('UserID', $projectId, $userId);
+        $this->prepareWhereArrayForItemKind($kind, $whereArray);
         return $this->getCount(
-                        self::VIEW_ITEM_FULL_INFO, $token['where'], $token['params']
+                        self::VIEW_ITEM_FULL_INFO, $whereArray['where'], $whereArray['params']
         );
     }
 
     public function countAssignedReports(ItemKindENUM $kind) {
-        $userID = $this->_defaultUserId;
-        $projectID = $this->_defaultProjectId;
-        $itemKind = $kind->getValue();
-        if ($itemKind <> ItemKindENUM::ALL) {
-            $token = array(
-                'where' => array(
-                    'and', 
-                    'ProjectID = :projectId', 
-                    'Kind = :kind',
-                    'AssignedTo = :userId'
-                ),
-                'params' => array(
-                    ':projectId' => (int) $projectID,
-                    ':kind' => $itemKind,
-                    ':userId' => $userID
-                )
-            );
-        } else {
-            $token = array(
-                'where' => array(
-                    'and', 
-                    'ProjectID = :projectId', 
-                    'AssignedTo = :userId'
-                ),
-                'params' => array(
-                    ':projectId' => (int) $projectID,
-                    ':userId' => $userID
-                )
-            );
-        }
+        $userId = $this->_defaultUserId;
+        $projectId = $this->_defaultProjectId;
+        $whereArray = $this->createWhereArrayForReadItems('AssignedTo', $projectId, $userId);
+        $this->prepareWhereArrayForItemKind($kind, $whereArray);
         return $this->getCount(
-                        self::VIEW_ITEM_FULL_INFO, $token['where'], $token['params']
+                        self::VIEW_ITEM_FULL_INFO, $whereArray['where'], $whereArray['params']
+        );
+    }
+
+    /**
+     * Creates array with 'where' and 'param' keys for query
+     *
+     * @param string $field Database field name
+     * @return array
+     */
+    private function createWhereArrayForReadItems($field, $projectId, $userId) {
+        return array(
+            'where' => array(
+                'and',
+                'ProjectID = :projectId',
+                "$field = :userId"
+            ),
+            'params' => array(
+                ':projectId' => (int) $projectId,
+                ':userId' => $userId
+            )
         );
     }
     
@@ -448,42 +406,17 @@ class ItemService extends ServiceBase {
      * @param type $page
      * @param type $size
      * @param type $userID
-     * @param type $projectID
+     * @param type $projectId
      * @return CDbCommand 
      */
-    private function createDbCommandForReadItems($field, ItemKindENUM $kind, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
-        $itemKind = $kind->getValue();
-        if ($itemKind <> ItemKindENUM::ALL) {
-            $token = array(
-                'where' => array(
-                    'and', 
-                    'ProjectID = :projectId', 
-                    'Kind = :kind',
-                    "$field = :userId"
-                ),
-                'params' => array(
-                    ':projectId' => (int) $projectID,
-                    ':kind' => $itemKind,
-                    ':userId' => $userID
-                )
-            );
-        } else {
-            $token = array(
-                'where' => array(
-                    'and', 
-                    'ProjectID = :projectId', 
-                    'UserID = :userId'
-                ),
-                'params' => array(
-                    ':projectId' => (int) $projectID,
-                    "$field = :userId"
-                )
-            );
-        }
+    private function createDbCommandForReadItems($field, ItemKindENUM $kind, $page = 1, $size = 15, $userId = NULL, $projectId = NULL) {
+        $whereArray = $this->createWhereArrayForReadItems($field, $projectId, $userId);
+        var_dump($whereArray);
+        $this->prepareWhereArrayForItemKind($kind, $whereArray);
         return $this->db->createCommand()
-                ->select('PROJ_ID')
+                ->select()
                 ->from(self::VIEW_ITEM_FULL_INFO)
-                ->where($token['where'], $token['params'])
+                ->where($whereArray['where'], $whereArray['params'])
                 ->limit($size, $page);
         
     }
@@ -532,6 +465,7 @@ class ItemService extends ServiceBase {
         $res = $getCommand
                 ->order($this->order($field, $direction))
                 ->queryAll();
+        var_dump($getCommand);
         return $this->normalizeItemsFromList($res);
     }
 
@@ -557,31 +491,17 @@ class ItemService extends ServiceBase {
 
     public function getProjectOrdered($projectID, ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page, $size) {
         $this->tryCheckProject($projectID);
-        $itemKind = $kind->getValue();
-        if ($itemKind <> ItemKindENUM::ALL) {
-            $token = array(
-                'where' => array(
-                    'and', 
-                    'ProjectID = :projectId', 
-                    'Kind = :kind',
-                ),
-                'params' => array(
-                    ':projectId' => (int) $projectID,
-                    ':kind' => $itemKind,
-                )
-            );
-        } else {
-            $token = array(
-                'where' => 'ProjectID = :projectId', 
-                'params' => array(
-                    ':projectId' => (int) $projectID,
-                )
-            );
-        }
+        $whereArray = array(
+            'where' => 'ProjectID = :projectId', 
+            'params' => array(
+                ':projectId' => (int) $projectID,
+            )
+        );
+        $this->prepareWhereArrayForItemKind($kind, $whereArray);
         $res = $this->db->createCommand()
                 ->select('PROJ_ID')
                 ->from(self::VIEW_ITEM_FULL_INFO)
-                ->where($token['where'], $token['params'])
+                ->where($whereArray['where'], $whereArray['params'])
                 ->limit($size, $page)
                 ->order($this->order($field, $direction))
                 ->queryAll();
