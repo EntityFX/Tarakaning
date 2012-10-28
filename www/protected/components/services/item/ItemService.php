@@ -1,6 +1,6 @@
 <?php
 
-class ItemService extends ServiceBase {
+class ItemService extends ServiceBase implements IItemService {
 
     const VIEW_ITEM_FULL_INFO = 'view_ItemFullInfo';
     const TABLE_ITEM = 'ITEM';
@@ -312,22 +312,25 @@ class ItemService extends ServiceBase {
         }
     }
 
-    public function getReportsByProject($projectID, ItemKindENUM $kind, $from, $size) {
+    /**
+     * Returns all items from project
+     *
+     * @param int $projectID Project Id
+     * @param ItemKindENUM $kind
+     * @param int $from
+     * @param int $size
+     * @return array
+     */
+    public function getReportsByProject($projectID, ItemKindENUM $kind, $from = 0, $size = 15) {
         $this->tryCheckProject($projectID);
-        $this->useLimit($from, $size);
         $token = $this->getWhereTokenForItemKind($kind, $projectID);
         $res = $this->db->createCommand()
-                ->select('PROJ_ID')
+                ->select()
                 ->from(self::VIEW_ITEM_FULL_INFO)
                 ->where($token['where'], $token['params'])
+                ->limit($size, $from)
                 ->queryAll();
-        if ($res != null) {
-            foreach ($res as $index => $report) {
-                $this->normalizeBugReport(&$report);
-                $res[$index] = $report;
-            }
-        }
-        return $res;
+        return $this->normalizeItemsFromList($res);
     }
 
     public function countReportsByProject($projectID, ItemKindENUM $kind) {
@@ -409,16 +412,14 @@ class ItemService extends ServiceBase {
      * @param type $projectId
      * @return CDbCommand 
      */
-    private function createDbCommandForReadItems($field, ItemKindENUM $kind, $page = 1, $size = 15, $userId = NULL, $projectId = NULL) {
+    private function createDbCommandForReadItems($field, ItemKindENUM $kind, $page, $size, $userId = NULL, $projectId = NULL) {
         $whereArray = $this->createWhereArrayForReadItems($field, $projectId, $userId);
-        var_dump($whereArray);
         $this->prepareWhereArrayForItemKind($kind, $whereArray);
         return $this->db->createCommand()
                 ->select()
                 ->from(self::VIEW_ITEM_FULL_INFO)
                 ->where($whereArray['where'], $whereArray['params'])
                 ->limit($size, $page);
-        
     }
     
     /**
@@ -443,29 +444,28 @@ class ItemService extends ServiceBase {
         }
         
         if ($projectID == NULL) {
-            $result['$projectID'] = $this->_defaultProjectId;
+            $result['projectID'] = $this->_defaultProjectId;
         }
         else {
-            $result['$projectID'] = (int) $projectID;
-            $this->tryCheckProject($result['$projectID']);    
+            $result['projectID'] = (int) $projectID;
+            $this->tryCheckProject($result['projectID']);    
         }
         return $result;
     }
 
-    public function getReports(ItemKindENUM $kind, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
+    public function getReports(ItemKindENUM $kind, $page = 0, $size = 15, $userID = NULL, $projectID = NULL) {
         $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
         $getCommand = $this->createDbCommandForReadItems('UserID', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
         $res = $getCommand->queryAll();
         return $this->normalizeItemsFromList($res);
     }
 
-    public function getMyOrdered(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
+    public function getMyOrdered(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL) {
         $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
         $getCommand = $this->createDbCommandForReadItems('UserID', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
         $res = $getCommand
                 ->order($this->order($field, $direction))
                 ->queryAll();
-        var_dump($getCommand);
         return $this->normalizeItemsFromList($res);
     }
 
@@ -480,7 +480,7 @@ class ItemService extends ServiceBase {
      * @param type $projectID
      * @return type 
      */
-    public function getAssignedToMe(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 1, $size = 15, $userID = NULL, $projectID = NULL) {
+    public function getAssignedToMe(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL) {
         $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
         $getCommand = $this->createDbCommandForReadItems('AssignedTo', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
         $res = $getCommand
@@ -489,7 +489,7 @@ class ItemService extends ServiceBase {
         return $this->normalizeItemsFromList($res);
     }
 
-    public function getProjectOrdered($projectID, ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page, $size) {
+    public function getProjectOrdered($projectID, ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 0, $size = 15) {
         $this->tryCheckProject($projectID);
         $whereArray = array(
             'where' => 'ProjectID = :projectId', 
@@ -499,7 +499,7 @@ class ItemService extends ServiceBase {
         );
         $this->prepareWhereArrayForItemKind($kind, $whereArray);
         $res = $this->db->createCommand()
-                ->select('PROJ_ID')
+                ->select()
                 ->from(self::VIEW_ITEM_FULL_INFO)
                 ->where($whereArray['where'], $whereArray['params'])
                 ->limit($size, $page)
@@ -533,42 +533,67 @@ class ItemService extends ServiceBase {
         return $res;
     }
 
-    public function getPreviousItemID($itemId, $projectID = null) {
-        $projectID = $projectID == null ? $this->_defaultProjectId : (int) $projectID;
-        $itemId = (int) $itemId;
-        return (int) $this->db->createCommand()
-                ->select('ITEM_ID')
-                ->from(self::VIEW_ITEM_FULL_INFO)
-                ->where(
-                    array(
-                        'and',
-                        'ITEM_ID < :itemId', 
-                        'PROJ_ID = :projectId'
-                    ),
-                    array('itemId' => $itemId)
-                )
-                ->limit(1, 0)
-                ->order($this->order(new ItemTableFieldsENUM(), new MySQLOrderENUM(MySQLOrderENUM::DESC)))
-                ->queryScalar();
+    /**
+     * Returns previous or next value by sign
+     *
+     * @param string $sign '<' or '>'
+     * @param int $itemId Near neighbor item
+     * @param int $projectID Project id
+     * @return int value or NULL
+     */
+    private function getPreviousOrNextItemIdBySign($sign, $itemId, $projectID) {
+        if ($sign === '<' || $sign === '>') {
+            $projectID = $projectID == null ? $this->_defaultProjectId : (int) $projectID;
+            $itemId = (int) $itemId;
+            $res = $this->db->createCommand()
+                    ->select('ITEM_ID')
+                    ->from(self::TABLE_ITEM)
+                    ->where(
+                        array(
+                            'and',
+                            "ITEM_ID {$sign} :itemId",
+                            'PROJ_ID = :projectId'
+                        ),
+                        array(
+                            ':itemId' => $itemId,
+                            ':projectId' => $projectID
+                        )
+                    )
+                    ->limit(1, 0)
+                    ->order($this->order(
+                            new ItemTableFieldsENUM(),
+                            $sign === '>' ?
+                                new MySQLOrderENUM(MySQLOrderENUM::ASC) :
+                                new MySQLOrderENUM(MySQLOrderENUM::DESC)
+                        )
+                    )
+                    ->queryScalar();
+            return !$res ? null : (int) $res;
+        } else {
+            return null;
+        }
     }
 
-    public function getNextItemID($itemID, $projectID = null) {
-        $projectID = $projectID == null ? $this->_defaultProjectId : (int) $projectID;
-        $itemID = (int) $itemID;
-        return (int) $this->db->createCommand()
-                ->select('ITEM_ID')
-                ->from(self::VIEW_ITEM_FULL_INFO)
-                ->where(
-                    array(
-                        'and',
-                        'ITEM_ID > :itemId', 
-                        'PROJ_ID = :projectId'
-                    ),
-                    array('itemId' => $itemId)
-                )
-                ->limit(1, 0)
-                ->order($this->order(new ItemTableFieldsENUM(), new MySQLOrderENUM(MySQLOrderENUM::ASC)))
-                ->queryScalar();
+    /**
+     * Returns next item going after given item in the current project or returns null
+     *
+     * @param int $itemId Item is going left near neighbour
+     * @param int $projectID Project to return from
+     * @return int Next item id after given (nullable)
+     */
+    public function getPreviousItemID($itemId, $projectID = null) {
+        return $this->getPreviousOrNextItemIdBySign('<', $itemId, $projectID);
+    }
+
+    /**
+     * Returns next item going after given item in the current project or returns null
+     *
+     * @param int $itemId Item is going left near neighbour
+     * @param int $projectID Project to return from
+     * @return int Next item id after given (nullable)
+     */
+    public function getNextItemID($itemId, $projectID = null) {
+        return $this->getPreviousOrNextItemIdBySign('>', $itemId, $projectID);
     }
 
     private function chekProjectOwnerOrReportOwner($reportID) {
