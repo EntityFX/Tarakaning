@@ -175,11 +175,38 @@ class SiteController extends EntityFxControllerBase {
                 new ItemFieldsENUM(), 
                 new MySQLOrderENUM()
         ),10,true);*/
-        var_dump($itemService->getMyOrdered(
+        /*var_dump($itemService->getMyOrdered(
                 new ItemKindENUM(ItemKindENUM::TASK),
                 new ItemFieldsENUM(),
                 new MySQLOrderENUM())
-        );
+        );*/
+        //var_dump($itemService->getNextItemID(3)); //OK
+        //var_dump($itemService->getNextItemID(9)); //OK
+        //var_dump($itemService->getPreviousItemID(4)); //OK
+        //var_dump($itemService->getPreviousItemID(24, 4)); //OK
+        /*var_dump($itemService->getProjectOrdered(
+                4,
+                new ItemKindENUM(ItemKindENUM::ALL),
+                new ItemFieldsENUM(),
+                new MySQLOrderENUM
+            )
+        );*/ //OK
+        /*var_dump($itemService->getProjectOrdered(
+                4,
+                new ItemKindENUM(ItemKindENUM::ALL),
+                new ItemFieldsENUM(),
+                new MySQLOrderENUM
+            )
+        );*/ //OK
+        //var_dump($itemService->getReport(24)); //OK
+        //var_dump($itemService->getReports(new ItemKindENUM(ItemKindENUM::ALL))); //OK
+        /*var_dump($itemService->getReportsByProject(
+                4,
+                new ItemKindENUM(ItemKindENUM::ALL)
+            )
+        );*/ //OK
+        //var_dump($itemService->setDefaultProjectId(37)); //OK
+        //var_dump($itemService->setDefaultProjectId(37)); //OK
     }
 
 }
