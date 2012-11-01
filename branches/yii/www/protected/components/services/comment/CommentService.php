@@ -36,7 +36,7 @@ class CommentService extends ServiceBase {
         if ($projectService->existsById($projectID)) {
             $requestService = new RequestService();
             $userID = (int) $userID;
-            if ($requestService->isSubscribed($userID, $projectID) || $projectService->isOwner($userID, $projectID)) {
+            if ($this->isOwnerOrSubscribed($userID, $projectID)) {
                 $comment = htmlspecialchars($comment);
                 $comment = mysql_escape_string($comment);
                 $reportID = (int) $reportID;
@@ -58,6 +58,12 @@ class CommentService extends ServiceBase {
             throw new ServiceException("Проект не существует.", 101);
         }
     }
+    
+    private function isOwnerOrSubscribed($userID, $projectID) {
+        $projectService = new ProjectService();
+        $subscribeService = new SubscribeService();
+        return $subscribeService->isSubscribed($userID, $projectID) || $projectService->isOwner($userID, $projectID);
+    }
 
     /**
      * Удаление комментария к отчету об ошибке.
@@ -72,8 +78,8 @@ class CommentService extends ServiceBase {
         $p = new ProjectService();
         if ($p->existsById($projectID)) {
             if ($this->isCommentExist($commentId)) {
-                $r = new RequestService();
-                if ($r->isSubscribed($userID, $projectID)) {
+                $subscribeService = new SubscribeService();
+                if ($this->isOwnerOrSubscribed($userID, $projectID)) {
                     if ($this->isCommentOwner($commentId, $userID, $projectID)) {
                         $this->db->createCommand()
                                 ->delete(
@@ -109,7 +115,7 @@ class CommentService extends ServiceBase {
             $commentsListSerialized = SerializeHelper::SerializeForStoredProcedure($commentsList);
             $query = 'CALL DeleteCommentsFromList(
                         :UserId,
-                        :CommentsList,
+                        :CommentsList
                     )';
             $deleteCommand = $this->db->createCommand($query);
             $deleteCommand->bindParam(':UserId', $userID);
@@ -129,9 +135,21 @@ class CommentService extends ServiceBase {
         $projectID = (int) $projectID;
         $p = new ProjectService();
         if ($p->existsById($projectID)) {
-            $r = new RequestService();
-            if ($r->isSubscribed($userID, $projectID)) {
-                //$this->_sql->query("");  			какой запрос тут надо????
+            if ($this->isOwnerOrSubscribed($userID, $projectID)) {
+                return $this->db->createCommand()
+                        ->select('C.*')
+                        ->from(self::TABLE_ITEM_COMMENT.' C')
+                        ->join(
+                                ItemService::TABLE_ITEM.' I', 
+                                'C.ITEM_ID = I.ITEM_ID'
+                        )
+                        ->where(
+                                'I.PROJ_ID = :projectId',
+                                array(
+                                    ':projectId' => $projectID
+                                )
+                        )
+                        ->queryAll();
             } else {
                 throw new ServiceException("Вы не являетесь участником проекта.", 602);
             }
@@ -154,8 +172,7 @@ class CommentService extends ServiceBase {
         $maxCount = (int) $maxCount;
         $p = new ProjectService();
         if ($p->existsById($projectID)) {
-            $r = new RequestService();
-            if ($r->isSubscribed($userID, $projectID) || $p->isOwner($userID, $projectID)) {
+            if ($this->isOwnerOrSubscribed($userID, $projectID)) {
                 return $this->db->createCommand()
                     ->select()
                     ->from(self::VIEW_COMMENTS_DETAIL)
@@ -217,15 +234,10 @@ class CommentService extends ServiceBase {
      * @param unknown_type $commentID
      * @param unknown_type $userID
      */
-    public function isCommentOwner($commentID, $userID, $projectID) {
+    public function isCommentOwner($commentID, $userID) {
         $userID = (int) $userID;
         $commentID = (int) $commentID;
-        $this->_sql->selAllWhere(self::TABLE_ITEM_COMMENT, "ITEM_CMMENT_ID=$commentID");
-        $res = $this->_sql->getResultRows();
-        $commentUserId = $this->getUserIDbyCommentID($commentID);
-        $p = new ProjectService();
-        $s = $p->isOwner($userID, $projectID);
-        return $res[0]["UserID"] == $userID || $s ? TRUE : FALSE;
+        return $this->getUserIDbyCommentID($commentID) == $userID;
     }
 
 }
