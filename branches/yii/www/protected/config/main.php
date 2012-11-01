@@ -23,6 +23,7 @@ return array(
         'application.components.services.subscribe.*',
         'application.components.services.request.*',
         'application.components.services.item.*',
+        'application.components.services.comment.*',
         'application.controllers.*',
     ),
     'modules' => array(

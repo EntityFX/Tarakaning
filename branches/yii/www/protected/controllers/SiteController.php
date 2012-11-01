@@ -207,6 +207,21 @@ class SiteController extends EntityFxControllerBase {
         );*/ //OK
         //var_dump($itemService->setDefaultProjectId(37)); //OK
         //var_dump($itemService->setDefaultProjectId(37)); //OK
+        
+        $commentService = new CommentService();
+        //var_dump($commentService->deleteComment(3, 22, 3)); //OK
+        //var_dump($commentService->deleteComment(88, 22, 3)); //OK
+        //var_dump($commentService->deleteComment(3, 22, 777)); //OK
+        //var_dump($commentService->deleteComment(3, 26, 4)); //OK
+        //$commentService->deleteCommentsFromList(1, array(17, 18)); //N
+        //var_dump($commentService->getProjectComments(4, 1)); //OK
+        /*var_dump($commentService->getReportComments(4, 6, 1, 
+                new ItemCommentsENUM(), new MySQLOrderENUM()));*/ //OK
+        //var_dump($commentService->isCommentExist(4)); //OK
+        //var_dump($commentService->isCommentExist(777)); //OK
+        //var_dump($commentService->isCommentOwner(4, 22)); //OK
+        //$commentService->setReportComment(4, 1, 6, 'GA-GA'); //OK
+        
     }
 
 }
