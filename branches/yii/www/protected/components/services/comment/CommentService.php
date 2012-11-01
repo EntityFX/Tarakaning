@@ -5,7 +5,7 @@
  * @author timur 29.01.2011
  *
  */
-class CommentService extends ServiceBase {
+class CommentService extends ServiceBase implements ICommentService {
 
     const TABLE_ITEM_COMMENT = 'ITEM_CMMENT';
     const VIEW_COMMENTS_DETAIL = 'view_CommentsDetail';
