@@ -127,7 +127,7 @@ class SiteController extends EntityFxControllerBase {
         //CVarDumper::dump($requestService->getRequests(22, 3),10,true);
         //$requestService->sendRequest(1, 3);
         
-        $itemService = new ItemService(3, 22);
+        //$itemService = new ItemService(3, 22);
         /*CVarDumper::dump($itemService->addReport(
                 new ItemDBKindENUM(ItemDBKindENUM::DEFECT), 
                 new ErrorPriorityENUM(ErrorPriorityENUM::HIGH), 
@@ -221,6 +221,12 @@ class SiteController extends EntityFxControllerBase {
         //var_dump($commentService->isCommentExist(777)); //OK
         //var_dump($commentService->isCommentOwner(4, 22)); //OK
         //$commentService->setReportComment(4, 1, 6, 'GA-GA'); //OK
+        
+        /**
+         * @var IProjectService
+         */
+        $project = ServiceFactory::getService('Project');
+        CVarDumper::dump(($project->getAll()),10,true);
         
     }
 

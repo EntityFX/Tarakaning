@@ -5,7 +5,7 @@
  * @author EntityFX
  *
  */
-class SubscribeService extends ServiceBase {
+class SubscribeService extends ServiceBase implements ISubscribeService {
     /*
      *  1) получить список проектов, в которых участвует пользователь (для меня минимум) (из таблицы UsersInProjects)
       2) прервать участие в данном проекте (удаление записи из таблицы UsersInProjects)
