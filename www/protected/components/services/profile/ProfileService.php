@@ -1,7 +1,14 @@
 <?php
 
-class ProfileService extends ServiceBase {
+class ProfileService extends ServiceBase implements IProfileService{
 
+    /**
+     * Set default project for current user
+     * 
+     * @param int $userId
+     * @param int $projectID
+     * @throws Exception 
+     */
     public function setDefaultProject($userId, $projectID = NULL) {
         if ($projectID != NULL) {
             $projectID = (int) $projectID;
@@ -13,10 +20,10 @@ class ProfileService extends ServiceBase {
             if ($requestService->isSubscribed($userId, $projectID) || $projectService->getOwnerID($projectID) == $userId) {
                 $this->update($userId, $projectID);
             } else {
-                throw new Exception("Пользователь не подписан на проект");
+                throw new ServiceException("Пользователь не подписан на проект");
             }
         } else {
-            throw new Exception("Проект не существует. Зверский хак!", 4);
+            throw new ServiceException("Проект не существует. Зверский хак!", 4);
         }
     }
 

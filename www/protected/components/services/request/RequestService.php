@@ -6,7 +6,7 @@
  * @author entityfx
  *
  */
-class RequestService extends ServiceBase {
+class RequestService extends ServiceBase implements IRequestService {
     
     const TABLE_SUBSCRIBES_REQUEST = 'SUBSCR_RQST';
 
