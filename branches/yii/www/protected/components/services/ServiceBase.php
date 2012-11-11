@@ -17,9 +17,17 @@ abstract class ServiceBase {
      * @var CDbConnection
      */
     protected $db;
+    
+    /**
+     * ioc container
+     * 
+     * @var Phemto 
+     */
+    protected $ioc;
 
     public function __construct() {
         $this->db = Yii::app()->db;
+        $this->ioc = Ioc::create();
     }
 
     /**

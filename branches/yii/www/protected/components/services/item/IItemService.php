@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 /**
  *
  * @author EntityFX
@@ -36,7 +41,7 @@ interface IItemService {
      * @param type $steps
      * @param type $assignedTo
      * @return boolean
-     * @throws ServiceException 
+     * @throws ServiceException
      */
     function editItem($itemID, $userID, $projectID, $title, $hoursRequired, $addHours, ItemStatusENUM $newStatus, ItemPriorityENUM $priority, ItemTypeENUM $type, $description = "", $steps = "", $assignedTo = null);
 
@@ -66,8 +71,9 @@ interface IItemService {
     function countAssignedReports(ItemKindENUM $kind);
 
     function getReports(ItemKindENUM $kind, $page = 0, $size = 15, $userID = NULL, $projectID = NULL);
-    
+
     function getMyOrdered(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL);
+
     /**
      *
      * @param ItemKindENUM $kind
@@ -77,7 +83,7 @@ interface IItemService {
      * @param type $size
      * @param type $userID
      * @param type $projectID
-     * @return type 
+     * @return type
      */
     function getAssignedToMe(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL);
 
@@ -108,11 +114,6 @@ interface IItemService {
     function canEditStatus($itemId, $projectID);
 
     function canEditData($itemId, $projectID);
-    
-
-}
-
-?>
 }
 
 ?>

@@ -30,8 +30,8 @@ class SubscribeService extends ServiceBase implements ISubscribeService {
     public function isRequestExists($userID, $projectID) {
         $userID = (int) $userID;
         $projectID = (int) $projectID;
-        $p = new ProjectService();
-        if ($p->existsById($projectID)) {
+        $projectService = $this->ioc->create('IProjectService');
+        if ($projectService->existsById($projectID)) {
             return $this->db->createCommand()
                             ->select('SUBSCR_RQST_ID')
                             ->from(self::TABLE_SUBSCR_RQST)
@@ -128,8 +128,8 @@ class SubscribeService extends ServiceBase implements ISubscribeService {
     public function deleteProjectMembers($keysList, $ownerID, $projectID) {
         $ownerID = (int) $ownerID;
         $projectID = (int) $projectID;
-        $projectOperation = new ProjectService();
-        if ($projectOperation->isOwner($ownerID, $projectID) && $keysList != '') {
+        $projectService = $this->ioc->create('IProjectService');
+        if ($projectService->isOwner($ownerID, $projectID) && $keysList != '') {
             $keysListSerialized = SerializeHelper::SerializeForStoredProcedure($keysList);
             $query = 'CALL DeleteUsersFromProject(:projectId, :keysList)';
             $deleteCommand = $this->db->createCommand($query);
@@ -143,10 +143,10 @@ class SubscribeService extends ServiceBase implements ISubscribeService {
     }
 
     public function getProjectUsers($projectID) {
-        $p = new ProjectService();
+        $projectService = $this->ioc->create('IProjectService');
         $projectID = (int) $projectID;
-        if ($p->existsById($projectID)) {
-            $ownerID = $p->getOwnerID($projectID);
+        if ($projectService->existsById($projectID)) {
+            $ownerID = $projectService->getOwnerID($projectID);
             $tmp = $this->db->createCommand()
                     ->select('USER_ID')
                     ->from(self::TABLE_USER_IN_PROJ)
@@ -166,9 +166,9 @@ class SubscribeService extends ServiceBase implements ISubscribeService {
 
     public function getProjectUsersPaged($projectID, $page = 0, $size = 30) {
         $projectID = (int) $projectID;
-        $p = new ProjectService();
-        if ($p->existsById($projectID)) {
-            $ownerID = $p->getOwnerID($projectID);
+        $projectService = $this->ioc->create('IProjectService');
+        if ($projectService->existsById($projectID)) {
+            $ownerID = $projectService->getOwnerID($projectID);
             $startIndex = (int) $startIndex;
             $maxCount = (int) $maxCount;
             $tmp = $this->db->createCommand()

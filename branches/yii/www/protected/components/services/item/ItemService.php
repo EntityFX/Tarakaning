@@ -26,8 +26,9 @@ class ItemService extends ServiceBase implements IItemService {
     }
 
     private function isMember() {
-        $subscribeService = new SubscribeService();
-        $projectService = new ProjectService();
+        
+        $subscribeService = $this->ioc->create('ISubscribeService');
+        $projectService = $this->ioc->create('IProjectService');
         return $subscribeService->isSubscribed($this->_defaultUserId, $this->_defaultProjectId)
                 || $this->_defaultUserId == $projectService->getOwnerID($this->_defaultProjectId);
     }
@@ -40,7 +41,7 @@ class ItemService extends ServiceBase implements IItemService {
 
     public function setDefaultUserId($userId) {
         $userId = (int) $userId;
-        $userService = new UserService();
+        $userService = $this->ioc->create('IUserService');
         if ($userService->existsById($userId)) {
             $this->_defaultUserId = (int) $userId;
         } else {
@@ -50,7 +51,7 @@ class ItemService extends ServiceBase implements IItemService {
 
     public function setDefaultProjectId($projectId) {
         $projectId = (int) $projectId;
-        $projectService = new ProjectService();
+        $projectService = $this->ioc->create('IProjectService');
         if ($projectService->existsById($projectId)) {
             $this->_defaultProjectId = $projectId;
         } else {
@@ -129,9 +130,9 @@ class ItemService extends ServiceBase implements IItemService {
         $id = (int) $reportID;
         $this->db->createCommand()
                 ->delete(
-                        self::TABLE_ITEM, 'ITEM_ID=:itemId', array(
-                    ':itemId' => $id
-                        )
+                    ItemTable::NAME, ItemTable::ITEM_ID_FIELD . ' =:itemId', array(
+                        ':itemId' => $id
+                    )
         );
     }
 
@@ -249,18 +250,18 @@ class ItemService extends ServiceBase implements IItemService {
     private function getReportOwner($itemId) {
         $itemId = (int) $itemId;
         return (int) $this->db->createCommand()
-                        ->select(array("USER_ID"))
-                        ->from(self::TABLE_ITEM)
-                        ->where('ITEM_ID = :itemId', array(':itemId' => $itemId))
+                        ->select(ItemTable::USER_ID_FIELD)
+                        ->from(ItemTable::NAME)
+                        ->where(ItemTable::ITEM_ID_FIELD . '= :itemId', array(':itemId' => $itemId))
                         ->queryScalar();
     }
 
     private function isDefaultProjectItem($itemId) {
         $itemId = (int) $itemId;
         $projectID = $this->db->createCommand()
-                ->select(array("PROJ_ID"))
-                ->from(self::TABLE_ITEM)
-                ->where('ITEM_ID = :itemId', array(':itemId' => $itemId))
+                ->select(array(ItemTable::PROJ_ID_FIELD))
+                ->from(ItemTable::NAME)
+                ->where(ItemTable::ITEM_ID_FIELD . '= :itemId', array(':itemId' => $itemId))
                 ->queryScalar();
         return $projectID == $this->_defaultProjectId;
     }
@@ -268,9 +269,9 @@ class ItemService extends ServiceBase implements IItemService {
     public function existsById($itemId) {
         $id = (int) $itemId;
         return $this->db->createCommand()
-                        ->select('PROJ_ID')
-                        ->from(self::TABLE_ITEM)
-                        ->where('ITEM_ID = :itemId', array(':itemId' => $id))
+                        ->select(ItemTable::PROJ_ID_FIELD)
+                        ->from(ItemTable::NAME)
+                        ->where(ItemTable::ITEM_ID_FIELD . '= :itemId', array(':itemId' => $id))
                         ->queryScalar() !== false;
     }
 
@@ -279,7 +280,7 @@ class ItemService extends ServiceBase implements IItemService {
         $itemKind = $kind->getValue();
         if ($itemKind <> ItemKindENUM::ALL) {
             $token = array(
-                'where' => array('and', 'ProjectID = :projectId', 'Kind = :kind'),
+                'where' => array('and', ItemFullInfoView::PROJECT_ID_FIELD . '= :projectId', ItemFullInfoView::KIND_FIELD . '= :kind'),
                 'params' => array(
                     ':projectId' => (int) $projectId,
                     ':kind' => $itemKind
@@ -287,7 +288,7 @@ class ItemService extends ServiceBase implements IItemService {
             );
         } else {
             $token = array(
-                'where' => 'ProjectID = :projectId',
+                'where' => ItemFullInfoView::PROJECT_ID_FIELD . '= :projectId',
                 'params' => array(':projectId' => (int) $projectId)
             );
         }
@@ -302,11 +303,11 @@ class ItemService extends ServiceBase implements IItemService {
                 $token['where'] = array(
                     'and',
                     $token['where'],
-                    'Kind = :kind'
+                    ItemFullInfoView::KIND_FIELD . '= :kind'
                 );
             }
             else {
-                $token['where'][] = 'Kind = :kind';
+                $token['where'][] = ItemFullInfoView::KIND_FIELD . '= :kind';
             }
             $token['params'][':kind'] = $itemKind;
         }
@@ -326,7 +327,7 @@ class ItemService extends ServiceBase implements IItemService {
         $token = $this->getWhereTokenForItemKind($kind, $projectID);
         $res = $this->db->createCommand()
                 ->select()
-                ->from(self::VIEW_ITEM_FULL_INFO)
+                ->from(ItemFullInfoView::NAME)
                 ->where($token['where'], $token['params'])
                 ->limit($size, $from)
                 ->queryAll();
@@ -338,7 +339,7 @@ class ItemService extends ServiceBase implements IItemService {
         $whereArray = $this->getWhereTokenForItemKind($kind, $projectID);
         var_dump($whereArray);
         return $this->getCount(
-                        self::VIEW_ITEM_FULL_INFO, $whereArray['where'], $whereArray['params']
+                        ItemFullInfoView::NAME, $whereArray['where'], $whereArray['params']
         );
     }
 
@@ -346,7 +347,7 @@ class ItemService extends ServiceBase implements IItemService {
         if ($projectID == NULL) {
             $projectID = $this->_defaultProjectId;
         } else {
-            $pc = new ProjectService();
+            $pc = $this->ioc->create('IProjectService');
             if ($pc->existsById((int) $projectID)) {
                 $projectID = (int) $projectID;
             } else {
@@ -367,7 +368,7 @@ class ItemService extends ServiceBase implements IItemService {
         $whereArray = $this->createWhereArrayForReadItems('UserID', $projectId, $userId);
         $this->prepareWhereArrayForItemKind($kind, $whereArray);
         return $this->getCount(
-                        self::VIEW_ITEM_FULL_INFO, $whereArray['where'], $whereArray['params']
+                        ItemFullInfoView::NAME, $whereArray['where'], $whereArray['params']
         );
     }
 
@@ -377,7 +378,7 @@ class ItemService extends ServiceBase implements IItemService {
         $whereArray = $this->createWhereArrayForReadItems('AssignedTo', $projectId, $userId);
         $this->prepareWhereArrayForItemKind($kind, $whereArray);
         return $this->getCount(
-                        self::VIEW_ITEM_FULL_INFO, $whereArray['where'], $whereArray['params']
+                        ItemFullInfoView::NAME, $whereArray['where'], $whereArray['params']
         );
     }
 
@@ -417,7 +418,7 @@ class ItemService extends ServiceBase implements IItemService {
         $this->prepareWhereArrayForItemKind($kind, $whereArray);
         return $this->db->createCommand()
                 ->select()
-                ->from(self::VIEW_ITEM_FULL_INFO)
+                ->from(ItemFullInfoView::NAME)
                 ->where($whereArray['where'], $whereArray['params'])
                 ->limit($size, $page);
     }
@@ -437,7 +438,7 @@ class ItemService extends ServiceBase implements IItemService {
             $result['userID'] = $this->_defaultUserId;
         } else {
             $result['userID'] = (int) $userID;
-            $uc = new UserService();
+            $uc = $this->ioc->create('IUserService');
             if (!$uc->existsById($result['userID'])) {
                 throw new ServiceException("Пользователь не существует.");
             }
@@ -500,7 +501,7 @@ class ItemService extends ServiceBase implements IItemService {
         $this->prepareWhereArrayForItemKind($kind, $whereArray);
         $res = $this->db->createCommand()
                 ->select()
-                ->from(self::VIEW_ITEM_FULL_INFO)
+                ->from(ItemFullInfoView::NAME)
                 ->where($whereArray['where'], $whereArray['params'])
                 ->limit($size, $page)
                 ->order($this->order($field, $direction))
@@ -511,7 +512,7 @@ class ItemService extends ServiceBase implements IItemService {
     public function getAll() {
         return $this->db->createCommand()
                 ->select()
-                ->from(self::TABLE_ITEM)
+                ->from(ItemTable::NAME)
                 ->queryAll();
     }
 
@@ -523,7 +524,7 @@ class ItemService extends ServiceBase implements IItemService {
         $itemId = (int) $itemId;
         $res = $this->db->createCommand()
                 ->select()
-                ->from(self::VIEW_ITEM_FULL_INFO)
+                ->from(ItemFullInfoView::NAME)
                 ->where('ID = :itemId', array('itemId' => $itemId))
                 ->queryRow();
         if ($res == null) {
@@ -547,7 +548,7 @@ class ItemService extends ServiceBase implements IItemService {
             $itemId = (int) $itemId;
             $res = $this->db->createCommand()
                     ->select('ITEM_ID')
-                    ->from(self::TABLE_ITEM)
+                    ->from(ItemTable::NAME)
                     ->where(
                         array(
                             'and',
@@ -598,7 +599,7 @@ class ItemService extends ServiceBase implements IItemService {
 
     private function chekProjectOwnerOrReportOwner($reportID) {
         $id = (int) $id;
-        $pC = new ProjectService();
+        $pC = $this->ioc->create('IProjectService');
         return ($this->_defaultUserId == $this->getReportOwner($reportID) || $this->_defaultUserId == $pC->isOwner($this->_defaultUserId, $this->_defaultProjectId));
     }
 
@@ -607,10 +608,10 @@ class ItemService extends ServiceBase implements IItemService {
         $projectID = (int) $projectID;
         $user = $this->_defaultUserId;
         $isOwnerORAssigned = $this->getCount(
-                self::TABLE_ITEM, 
+                ItemTable::NAME, 
                 array(
                     'and',
-                    'ITEM_ID = :itemId',
+                    ItemTable::ITEM_ID_FIELD . '= :itemId',
                     array(
                         'or',
                         'USER_ID = :userId',
@@ -623,7 +624,7 @@ class ItemService extends ServiceBase implements IItemService {
                     ':assignedTo' => $user
                 )
         );
-        $pC = new ProjectService();
+        $pC = $this->ioc->create('IProjectService');
         return ($isOwnerORAssigned != 0) || $this->_defaultUserId == $pC->isOwner($user, $projectID);
     }
 
