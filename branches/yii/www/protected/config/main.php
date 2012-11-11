@@ -14,6 +14,7 @@ return array(
     'import' => array(
         'application.models.*',
         'application.components.*',
+        'application.components.ioc.*',
         'application.components.captcha.*',
         'application.components.widgets.*',
         'application.components.common.*',
@@ -22,6 +23,7 @@ return array(
         'application.components.common.helpers.*',
         'application.components.services.*',
         'application.components.services.user.*',
+        'application.components.services.profile.*',
         'application.components.services.project.*',
         'application.components.services.project.enum.*',
         'application.components.services.locale.*',
@@ -32,6 +34,8 @@ return array(
         'application.components.services.item.enum.*',
         'application.components.services.comment.*',
         'application.controllers.*',
+        
+        'application.vendors.phemto.Phemto'
     ),
     'modules' => array(
     // uncomment the following to enable the Gii tool

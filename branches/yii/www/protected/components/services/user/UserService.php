@@ -8,7 +8,7 @@ class UserService extends ServiceBase implements IUserService {
 
     public function __construct() {
         parent::__construct();
-        self::$authTableName = UserService::$authTableName;
+        self::$authTableName = UserTable::NAME;
     }
 
     /**
@@ -45,13 +45,13 @@ class UserService extends ServiceBase implements IUserService {
         $this->db->createCommand()
                 ->insert(
                         self::$authTableName, array(
-                            "NICK"          => $userIdentity,
-                            "PASSW_HASH"    => $this->generatePasswordHash($password),
-                            "USR_TYP"       => $type,
-                            "FRST_NM"       => htmlspecialchars($name, ENT_QUOTES),
-                            "LAST_NM"       => htmlspecialchars($surname, ENT_QUOTES),
-                            "SECND_NM"      => htmlspecialchars($secondName, ENT_QUOTES),
-                            "EMAIL"         => $email
+                            UserTable::NICK_FIELD          => $userIdentity,
+                            UserTable::PASSW_HASH_FIELD    => $this->generatePasswordHash($password),
+                            UserTable::USR_TYP_FIELD       => $type,
+                            UserTable::FRST_NM_FIELD       => htmlspecialchars($name, ENT_QUOTES),
+                            UserTable::LAST_NM_FIELD       => htmlspecialchars($surname, ENT_QUOTES),
+                            UserTable::SECND_NM_FIELD      => htmlspecialchars($secondName, ENT_QUOTES),
+                            UserTable::EMAIL_FIELD         => $email
                         )
         );
         return (int)$this->db->getLastInsertID();
@@ -67,10 +67,10 @@ class UserService extends ServiceBase implements IUserService {
         $id = (int) $id;
         $usr = $this->getById($id);
         if ($usr != null) {
-            if ($usr["NICK"] != "admin") {
+            if ($usr[UserTable::NICK_FIELD] != "admin") {
                 $this->db->createCommand()->delete(
-                        self::$authTableName, 'USER_ID = :id', array(
-                    ':id' => $id
+                        self::$authTableName, UserTable::USER_ID_FIELD . ' = :id', array(
+                            ':id' => $id
                         )
                 );
             } else {
@@ -80,15 +80,15 @@ class UserService extends ServiceBase implements IUserService {
     }
 
     public function changeUserType($id, $type) {
-        $this->changeBoolFieldForId($id, $type, 'USR_TYP');
+        $this->changeBoolFieldForId($id, $type, UserTable::USR_TYP_FIELD);
     }
 
     public function activateById($id) {
-        $this->changeBoolFieldForId($id, true, 'ACTIVE');
+        $this->changeBoolFieldForId($id, true, UserTable::ACTIVE_FIELD);
     }
 
     public function diactivateById($id) {
-        $this->changeBoolFieldForId($id, false, 'ACTIVE');
+        $this->changeBoolFieldForId($id, false, UserTable::ACTIVE_FIELD);
     }
 
     private function changeBoolFieldForId($id, $type, $fieldName) {
@@ -98,9 +98,9 @@ class UserService extends ServiceBase implements IUserService {
         if ($this->existsById($id)) {
             $this->db->createCommand()->update(
                     self::$authTableName, array(
-                $fieldName => $type
-                    ), 'USER_ID = :id', array(
-                ':id' => $id
+                        $fieldName => $type
+                    ), UserTable::USER_ID_FIELD . ' = :id', array(
+                        ':id' => $id
                     )
             );
         }
@@ -128,7 +128,7 @@ class UserService extends ServiceBase implements IUserService {
         return $this->db->createCommand()
                         ->select()
                         ->from(self::$authTableName)
-                        ->where('USER_ID=:id', array('id' => $id))
+                        ->where(UserTable::USER_ID_FIELD . '=:id', array('id' => $id))
                         ->queryRow();
     }
 
@@ -137,7 +137,7 @@ class UserService extends ServiceBase implements IUserService {
         return $this->db->createCommand()
                         ->select()
                         ->from(self::$authTableName)
-                        ->where('NICK=:user', array('user' => $user))
+                        ->where(UserTable::NICK_FIELD . '=:user', array('user' => $user))
                         ->queryRow();
     }
 
@@ -150,9 +150,9 @@ class UserService extends ServiceBase implements IUserService {
     public function existsByIdentity($user) {
         $user = (string) $user;
         return $this->db->createCommand()
-                        ->select('NICK')
+                        ->select(UserTable::NICK_FIELD)
                         ->from(self::$authTableName)
-                        ->where('NICK=:user', array('user' => $user))
+                        ->where(UserTable::NICK_FIELD . '=:user', array('user' => $user))
                         ->queryScalar() !== false ? true : false;
     }
 
@@ -165,9 +165,9 @@ class UserService extends ServiceBase implements IUserService {
     public function existsById($id) {
         $id = (int) $id;
         return $this->db->createCommand()
-                        ->select('USER_ID')
+                        ->select(UserTable::USER_ID_FIELD)
                         ->from(self::$authTableName)
-                        ->where('USER_ID=:id', array('id' => $id))
+                        ->where(UserTable::USER_ID_FIELD . '=:id', array('id' => $id))
                         ->queryScalar() !== false ? true : false;
     }
 
@@ -215,9 +215,9 @@ class UserService extends ServiceBase implements IUserService {
                 $this->db->createCommand()
                         ->update(
                                 self::$authTableName, array(
-                            'PASSW_HASH' => $newPasswordHash
-                                ), 'USER_ID = :id', array(
-                            ':id' => $id
+                                    UserTable::PASSW_HASH_FIELD => $newPasswordHash
+                                ), UserTable::USER_ID_FIELD . ' = :id', array(
+                                    ':id' => $id
                                 )
                 );
             }
@@ -255,9 +255,9 @@ class UserService extends ServiceBase implements IUserService {
             $this->db->createCommand()
                     ->update(
                             self::$authTableName, array(
-                        'PASSW_HASH' => $newPasswordHash
-                            ), 'USER_ID = :id', array(
-                        ':id' => $id
+                                UserTable::PASSW_HASH_FIELD => $newPasswordHash
+                            ), UserTable::USER_ID_FIELD . ' = :id', array(
+                                ':id' => $id
                             )
             );
         }
@@ -290,17 +290,18 @@ class UserService extends ServiceBase implements IUserService {
                 throw new ServiceException("Неверный формат почты", 1);
             }
         }
+        
         $id = (int) $id;
         $this->db->createCommand()->
                 update(
-                        self::$authTableName, array(
-                    'FRST_NM' => htmlspecialchars($name),
-                    'LAST_NM' => htmlspecialchars($surname),
-                    'SECND_NM' => htmlspecialchars($secondName),
-                    'EMAIL' => htmlspecialchars($email)
-                        ), 'USER_ID = :id', array(
-                    ':id' => $id
-                        )
+                    self::$authTableName, array(
+                        UserTable::FRST_NM_FIELD => htmlspecialchars($name),
+                        UserTable::LAST_NM_FIELD => htmlspecialchars($surname),
+                        UserTable::SECND_NM_FIELD => htmlspecialchars($secondName),
+                        UserTable::EMAIL_FIELD => htmlspecialchars($email)
+                    ), UserTable::USER_ID_FIELD . ' = :id', array(
+                        ':id' => $id
+                    )
         );
     }
 
@@ -308,7 +309,7 @@ class UserService extends ServiceBase implements IUserService {
 
 class UsersOrderFieldsEnum extends AEnum {
 
-    const NICK_NAME = "NICK";
+    const NICK_NAME = UserTable::NICK_FIELD;
 
 }
 

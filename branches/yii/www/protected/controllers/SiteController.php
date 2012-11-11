@@ -222,12 +222,6 @@ class SiteController extends EntityFxControllerBase {
         //var_dump($commentService->isCommentOwner(4, 22)); //OK
         //$commentService->setReportComment(4, 1, 6, 'GA-GA'); //OK
         
-        /**
-         * @var IProjectService
-         */
-        $project = ServiceFactory::getService('Project');
-        CVarDumper::dump(($project->getAll()),10,true);
-        
     }
 
 }
