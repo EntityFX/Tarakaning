@@ -13,9 +13,9 @@ class ProfileService extends ServiceBase implements IProfileService{
         if ($projectID != NULL) {
             $projectID = (int) $projectID;
         }
-        $projectService = new ProjectService();
+        $projectService = $this->ioc->create('IProjectService');
         if ($projectService->existsById($projectID)) {
-            $requestService = new RequestService();
+            $requestService = $this->ioc->create('IRequestService');
             $userId = (int) $userId;
             if ($requestService->isSubscribed($userId, $projectID) || $projectService->getOwnerID($projectID) == $userId) {
                 $this->update($userId, $projectID);

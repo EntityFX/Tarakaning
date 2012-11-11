@@ -32,9 +32,9 @@ class CommentService extends ServiceBase implements ICommentService {
          * еще проверить существует ли отчет
          */
         $projectID = (int) $projectID;
-        $projectService = new ProjectService();
+        $projectService = $this->ioc->create('IProjectService');
         if ($projectService->existsById($projectID)) {
-            $requestService = new RequestService();
+            $requestService = $this->ioc->create('IRequestService');
             $userID = (int) $userID;
             if ($this->isOwnerOrSubscribed($userID, $projectID)) {
                 $comment = htmlspecialchars($comment);
@@ -60,8 +60,8 @@ class CommentService extends ServiceBase implements ICommentService {
     }
     
     private function isOwnerOrSubscribed($userID, $projectID) {
-        $projectService = new ProjectService();
-        $subscribeService = new SubscribeService();
+        $projectService = $this->ioc->create('IProjectService');
+        $subscribeService = $this->ioc->create('ISubscribeService');
         return $subscribeService->isSubscribed($userID, $projectID) || $projectService->isOwner($userID, $projectID);
     }
 
@@ -75,10 +75,10 @@ class CommentService extends ServiceBase implements ICommentService {
     public function deleteComment($projectID, $userID, $commentId) {
         $userID = (int) $userID;
         $projectID = (int) $projectID;
-        $p = new ProjectService();
-        if ($p->existsById($projectID)) {
+        $projectService = $this->ioc->create('IProjectService');
+        if ($projectService->existsById($projectID)) {
             if ($this->isCommentExist($commentId)) {
-                $subscribeService = new SubscribeService();
+                $subscribeService = $this->ioc->create('ISubscribeService');
                 if ($this->isOwnerOrSubscribed($userID, $projectID)) {
                     if ($this->isCommentOwner($commentId, $userID, $projectID)) {
                         $this->db->createCommand()
@@ -133,8 +133,8 @@ class CommentService extends ServiceBase implements ICommentService {
     public function getProjectComments($projectID, $userID) {
         $userID = (int) $userID;
         $projectID = (int) $projectID;
-        $p = new ProjectService();
-        if ($p->existsById($projectID)) {
+        $projectService = $this->ioc->create('IProjectService');
+        if ($projectService->existsById($projectID)) {
             if ($this->isOwnerOrSubscribed($userID, $projectID)) {
                 return $this->db->createCommand()
                         ->select('C.*')
@@ -170,8 +170,8 @@ class CommentService extends ServiceBase implements ICommentService {
         $itemId = (int) $itemId;
         $startIndex = (int) $startIndex;
         $maxCount = (int) $maxCount;
-        $p = new ProjectService();
-        if ($p->existsById($projectID)) {
+        $projectService = $this->ioc->create('IProjectService');
+        if ($projectService->existsById($projectID)) {
             if ($this->isOwnerOrSubscribed($userID, $projectID)) {
                 return $this->db->createCommand()
                     ->select()

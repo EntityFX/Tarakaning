@@ -30,8 +30,8 @@ class RequestService extends ServiceBase implements IRequestService {
         $ownerID = (int) $ownerID;
         $projectID = (int) $projectID;
 
-        $projectsController = new ProjectService();
-        if ($projectsController->isOwner($ownerID, $projectID)) {
+        $projectService = $this->ioc->create('IProjectService');
+        if ($projectService->isOwner($ownerID, $projectID)) {
             $keysListSerialized = SerializeHelper::SerializeForStoredProcedure($keysList);
             $query = 'CALL AcceptRequest(:projectId, :keysList)';
             $deleteCommand = $this->db->createCommand($query);
@@ -51,13 +51,13 @@ class RequestService extends ServiceBase implements IRequestService {
     public function declineRequest($requestID, $userID, $projectID, $ownerID) {
         $userID = (int) $userID;
         $projectID = (int) $projectID;
-        $projectsController = new ProjectService();
-        if ($projectsController->existsById($projectID)) {
+        $projectsService = $this->ioc->create('IProjectService');
+        if ($projectsService->existsById($projectID)) {
             $requestID = (int) $requestID;
             $ownerID = (int) $ownerID;
 
-            if ($projectsController->isOwner($ownerID, $projectID)) {
-                $subscribeService = new SubscribeService();
+            if ($projectsService->isOwner($ownerID, $projectID)) {
+                $subscribeService = $this->ioc->create('ISubscribeService');
                 if ($subscribeService->isSubscribed($userID, $projectID)) {
                     throw new ServiceException("Пользователь уже участвует в проекте.", 601);
                 } else {
@@ -89,7 +89,7 @@ class RequestService extends ServiceBase implements IRequestService {
     public function getRequests($userID, $projectID, $page = 0, $size = 20) {
         $userID = (int) $userID;
         $projectID = (int) $projectID;
-        $projectService = new ProjectService();
+        $projectService = $this->ioc->create('IProjectService');
         if ($projectService->existsById($projectID)) {
             if ($projectService->isOwner($userID, $projectID)) {
                 $page = (int) $page;
@@ -123,7 +123,7 @@ class RequestService extends ServiceBase implements IRequestService {
     public function sendRequest($userID, $projectID) {
         $userID = (int) $userID;
         $projectID = (int) $projectID;
-        $subscribeService = new SubscribeService();
+        $subscribeService = $this->ioc->create('ISubscribeService');
         if (!$subscribeService->isRequestExists($userID, $projectID)) {
             $this->db->createCommand()
                     ->insert(
