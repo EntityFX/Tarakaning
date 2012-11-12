@@ -2,9 +2,6 @@
 
 class ItemService extends ServiceBase implements IItemService {
 
-    const VIEW_ITEM_FULL_INFO = 'view_ItemFullInfo';
-    const TABLE_ITEM = 'ITEM';
-
     private $_defaultUserId;
     private $_defaultProjectId;
 
@@ -88,7 +85,7 @@ class ItemService extends ServiceBase implements IItemService {
         $steps = htmlspecialchars($steps);
         $hoursRequired = (int) $hoursRequired;
         $assignedTo = $assignedTo == ' ' ? null : (int) $assignedTo;
-        $query = 'CALL AddItem(
+        $query = 'CALL ' .AddItemProcedure::NAME. '(
                     :UserId, 
                     :ProjectId, 
                     :AssignedTo, 
@@ -141,7 +138,7 @@ class ItemService extends ServiceBase implements IItemService {
         $projectID = $projectID == null ? $this->_defaultProjectId : (int) $projectID;
         $keysList = SerializeHelper::SerializeForStoredProcedure($keysList);
         if ($keysList != '') {
-            $query = 'CALL DeleteItemsFromList(
+            $query = 'CALL ' .DeleteItemsFromListProcedure::NAME .'(
                         :UserId, 
                         :ProjectId, 
                         :ItemsList 
@@ -207,7 +204,7 @@ class ItemService extends ServiceBase implements IItemService {
                         $description = htmlspecialchars($description);
                         if ($title == '')
                             throw new ServiceException("Заголовок не должен быть пустым");
-                        $query = 'CALL EditItem(
+                        $query = 'CALL ' .EditItemProcedure::NAME . '(
                                     :ItemId, 
                                     :Title, 
                                     :PriorityLevel, 
@@ -365,7 +362,7 @@ class ItemService extends ServiceBase implements IItemService {
     public function countReports(ItemKindENUM $kind) {
         $userId = $this->_defaultUserId;
         $projectId = $this->_defaultProjectId;
-        $whereArray = $this->createWhereArrayForReadItems('UserID', $projectId, $userId);
+        $whereArray = $this->createWhereArrayForReadItems(ItemFullInfoView::USER_ID_FIELD, $projectId, $userId);
         $this->prepareWhereArrayForItemKind($kind, $whereArray);
         return $this->getCount(
                         ItemFullInfoView::NAME, $whereArray['where'], $whereArray['params']
@@ -375,7 +372,7 @@ class ItemService extends ServiceBase implements IItemService {
     public function countAssignedReports(ItemKindENUM $kind) {
         $userId = $this->_defaultUserId;
         $projectId = $this->_defaultProjectId;
-        $whereArray = $this->createWhereArrayForReadItems('AssignedTo', $projectId, $userId);
+        $whereArray = $this->createWhereArrayForReadItems(ItemFullInfoView::ASSIGNED_TO_FIELD, $projectId, $userId);
         $this->prepareWhereArrayForItemKind($kind, $whereArray);
         return $this->getCount(
                         ItemFullInfoView::NAME, $whereArray['where'], $whereArray['params']
@@ -392,7 +389,7 @@ class ItemService extends ServiceBase implements IItemService {
         return array(
             'where' => array(
                 'and',
-                'ProjectID = :projectId',
+                ItemFullInfoView::PROJECT_ID_FIELD . '= :projectId',
                 "$field = :userId"
             ),
             'params' => array(
