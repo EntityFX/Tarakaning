@@ -7,8 +7,6 @@
  *
  */
 class RequestService extends ServiceBase implements IRequestService {
-    
-    const TABLE_SUBSCRIBES_REQUEST = 'SUBSCR_RQST';
 
     public function __construct() {
         parent::__construct();
@@ -63,8 +61,8 @@ class RequestService extends ServiceBase implements IRequestService {
                 } else {
                     $this->db->createCommand()
                             ->delete(
-                                self::TABLE_SUBSCRIBES_REQUEST, 
-                                'SUBSCR_RQST_ID=:id', 
+                                SubscribeRequestTable::NAME, 
+                                SubscribeRequestTable::SUBSCR_RQST_ID_FIELD . ' =:id', 
                                 array(
                                     ':id' => $requestID
                                 )
@@ -96,9 +94,9 @@ class RequestService extends ServiceBase implements IRequestService {
                 $size = (int) $size;
                 return $this->db->createCommand()
                         ->select()
-                        ->from(self::TABLE_SUBSCRIBES_REQUEST)
+                        ->from(SubscribeRequestTable::NAME)
                         ->where(
-                                'PROJ_ID = :projectId',
+                                SubscribeRequestTable::PROJ_ID_FIELD . ' = :projectId',
                                 array(
                                     ':projectId' => $projectID
                                 )
@@ -127,12 +125,12 @@ class RequestService extends ServiceBase implements IRequestService {
         if (!$subscribeService->isRequestExists($userID, $projectID)) {
             $this->db->createCommand()
                     ->insert(
-                            self::TABLE_SUBSCRIBES_REQUEST, 
+                            SubscribeRequestTable::NAME, 
                             array(
-                                'SUBSCR_RQST_ID' => 0,
-                                'USER_ID' => $userID,
-                                'PROJ_ID' => $projectID,
-                                'RQST_TM' => date("Y-m-d H:i:s")
+                                SubscribeRequestTable::SUBSCR_RQST_ID_FIELD => 0,
+                                SubscribeRequestTable::USER_ID_FIELD => $userID,
+                                SubscribeRequestTable::PROJ_ID_FIELD => $projectID,
+                                SubscribeRequestTable::RQST_TM_FIELD => date("Y-m-d H:i:s")
                             )
                     );
         }

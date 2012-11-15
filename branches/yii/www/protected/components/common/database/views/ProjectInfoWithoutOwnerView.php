@@ -20,6 +20,7 @@ final class ProjectInfoWithoutOwnerView {
     const ASSESSED_FIELD = 'ASSESSED';
     const RESOLVED_FIELD = 'RESOLVED';
     const CLOSED_FIELD = 'CLOSED';
+    const USER_ID_FIELD = 'UserId';
 }
 
 ?>
