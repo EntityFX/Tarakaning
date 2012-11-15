@@ -178,7 +178,7 @@ class ItemService extends ServiceBase implements IItemService {
         $hoursRequired = (int) $hoursRequired;
         $addHours = (int) $addHours;
         if ($report != null) {
-            $currentStatusValue = $report["Status"];
+            $currentStatusValue = $report[ItemFullInfoView::STATUS_FIELD];
             $statusesArray = $newStatus->getNumberedKeys();
             $currentValueKey = array_search($currentStatusValue, $statusesArray);
             $newValueKey = array_search($newStatusValue, $statusesArray);
@@ -191,7 +191,7 @@ class ItemService extends ServiceBase implements IItemService {
                     } else {
                         $editStatusFlag = true;
                     }
-                } else if ($userID == $report["UserID"]) {
+                } else if ($userID == $report[ItemFullInfoView::USER_ID_FIELD]) {
                     $editStatusFlag = true;
                 }
                 if ($editStatusFlag) {
@@ -453,14 +453,28 @@ class ItemService extends ServiceBase implements IItemService {
 
     public function getReports(ItemKindENUM $kind, $page = 0, $size = 15, $userID = NULL, $projectID = NULL) {
         $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
-        $getCommand = $this->createDbCommandForReadItems('UserID', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
+        $getCommand = $this->createDbCommandForReadItems(
+                ItemFullInfoView::USER_ID_FIELD, 
+                $kind, 
+                $page, 
+                $size, 
+                $userAndProjectArray[ItemFullInfoView::USER_ID_FIELD], 
+                $userAndProjectArray[ItemFullInfoView::PROJECT_ID_FIELD]
+        );
         $res = $getCommand->queryAll();
         return $this->normalizeItemsFromList($res);
     }
 
     public function getMyOrdered(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL) {
         $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
-        $getCommand = $this->createDbCommandForReadItems('UserID', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
+        $getCommand = $this->createDbCommandForReadItems(
+                ItemFullInfoView::USER_ID_FIELD, 
+                $kind, 
+                $page, 
+                $size, 
+                $userAndProjectArray[ItemFullInfoView::USER_ID_FIELD],
+                $userAndProjectArray[ItemFullInfoView::PROJECT_ID_FIELD]
+        );
         $res = $getCommand
                 ->order($this->order($field, $direction))
                 ->queryAll();
@@ -480,7 +494,7 @@ class ItemService extends ServiceBase implements IItemService {
      */
     public function getAssignedToMe(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL) {
         $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
-        $getCommand = $this->createDbCommandForReadItems('AssignedTo', $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
+        $getCommand = $this->createDbCommandForReadItems(ItemFullInfoView::ASSIGNED_TO_FIELD, $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
         $res = $getCommand
                 ->order($this->order($field, $direction))
                 ->queryAll();
@@ -522,7 +536,7 @@ class ItemService extends ServiceBase implements IItemService {
         $res = $this->db->createCommand()
                 ->select()
                 ->from(ItemFullInfoView::NAME)
-                ->where('ID = :itemId', array('itemId' => $itemId))
+                ->where(ItemFullInfoView::ITEM_ID_FIELD.'= :itemId', array('itemId' => $itemId))
                 ->queryRow();
         if ($res == null) {
             return null;
