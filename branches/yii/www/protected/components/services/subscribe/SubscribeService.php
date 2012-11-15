@@ -33,12 +33,12 @@ class SubscribeService extends ServiceBase implements ISubscribeService {
         $projectService = $this->ioc->create('IProjectService');
         if ($projectService->existsById($projectID)) {
             return $this->db->createCommand()
-                            ->select('SUBSCR_RQST_ID')
-                            ->from(self::TABLE_SUBSCR_RQST)
+                            ->select(SubscribeRequestTable::SUBSCR_RQST_ID_FIELD)
+                            ->from(SubscribeRequestTable::NAME)
                             ->where(
                                     array(
                                         'and',
-                                        'PROJ_ID = :projectId',
+                                        SubscribeRequestTable::PROJ_ID_FIELD . ' = :projectId',
                                         'USER_ID = :userId'
                                     )
                                     , array(

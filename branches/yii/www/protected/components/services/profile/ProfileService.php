@@ -34,7 +34,7 @@ class ProfileService extends ServiceBase implements IProfileService{
     private function update($userId, $value)
     {
         $this->db->createCommand()->update(
-                self::$authTableName, array('DFLT_PROJ_ID' => $value), 'USER_ID = :id', array(':id' => $userId)
+            UserTable::NAME, array(UserTable::DFLT_PROJ_ID_FIELD => $value), UserTable::USER_ID_FIELD . ' = :id', array(':id' => $userId)
         );
     }
 

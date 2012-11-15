@@ -118,7 +118,7 @@ class UserService extends ServiceBase implements IUserService {
         return $this->db->createCommand()->select()
                         ->from(self::$authTableName)
                         ->where(
-                                array('like', 'NICK', "$secureToken%")
+                                array('like', UserTable::NICK_FIELD, "$secureToken%")
                         )
                         ->queryAll();
     }
@@ -208,7 +208,7 @@ class UserService extends ServiceBase implements IUserService {
         $newPasswordHash = $this->generatePasswordHash($newPassword);
         $usr = $this->getById($id);
         if ($usr != null) {
-            if ($this->generatePasswordHash($oldPassword) != $usr["PASSW_HASH"]) {
+            if ($this->generatePasswordHash($oldPassword) != $usr[UserTable::PASSW_HASH_FIELD]) {
                 throw new ServiceException("Старый пароль неверный", 2);
             } else {
                 $id = (int) $id;
