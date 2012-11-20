@@ -13,6 +13,7 @@
 class ProjectController extends EntityFxControllerBase {
 
     public function actionIndex() {
+        //CVarDumper::dump(Yii::app()->user->getEmail(), 10, true);
         return $this->render('projects', array('projectsList' => null));
     }
 

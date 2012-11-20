@@ -25,7 +25,7 @@ class AuthController extends EntityFxControllerBase {
             if ($model->validate() && $model->login()) {
 
                 if ($application->user->returnUrl == null) {
-                    $this->redirect('projects/index');
+                    $this->redirect('project/index');
                 }
                 $this->redirect($application->user->returnUrl);
             }

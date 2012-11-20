@@ -12,6 +12,10 @@ final class Ioc {
      */
     private static $_instance;
 
+    /**
+     *
+     * @return Phemto 
+     */
     public static function create() {
         if (self::$_instance == null) {
             self::$_instance = new Phemto();
