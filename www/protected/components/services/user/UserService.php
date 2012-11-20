@@ -46,7 +46,7 @@ class UserService extends ServiceBase implements IUserService {
                 ->insert(
                         self::$authTableName, array(
                             UserTable::NICK_FIELD          => $userIdentity,
-                            UserTable::PASSW_HASH_FIELD    => $this->generatePasswordHash($password),
+                            UserTable::PASSW_HASH_FIELD    => self::generatePasswordHash($password),
                             UserTable::USR_TYP_FIELD       => $type,
                             UserTable::FRST_NM_FIELD       => htmlspecialchars($name, ENT_QUOTES),
                             UserTable::LAST_NM_FIELD       => htmlspecialchars($surname, ENT_QUOTES),
@@ -205,10 +205,10 @@ class UserService extends ServiceBase implements IUserService {
         if (!self::checkPassword($newPassword)) {
             throw new ServiceException("Пароль должен быть не менее 7 символов (для безопасности)", 2);
         }
-        $newPasswordHash = $this->generatePasswordHash($newPassword);
+        $newPasswordHash = self::generatePasswordHash($newPassword);
         $usr = $this->getById($id);
         if ($usr != null) {
-            if ($this->generatePasswordHash($oldPassword) != $usr[UserTable::PASSW_HASH_FIELD]) {
+            if (self::generatePasswordHash($oldPassword) != $usr[UserTable::PASSW_HASH_FIELD]) {
                 throw new ServiceException("Старый пароль неверный", 2);
             } else {
                 $id = (int) $id;
@@ -250,7 +250,7 @@ class UserService extends ServiceBase implements IUserService {
                         break;
                 }
             }
-            $newPasswordHash = $this->generatePasswordHash($newPassword);
+            $newPasswordHash = self::generatePasswordHash($newPassword);
             $id = (int) $id;
             $this->db->createCommand()
                     ->update(
@@ -270,7 +270,7 @@ class UserService extends ServiceBase implements IUserService {
      * @param string Password to hash
      * @return string 
      */
-    private function generatePasswordHash($newPassword) {
+    public static function generatePasswordHash($newPassword) {
         return md5(md5($newPassword) . self::HASH_SALT);
     }
 
