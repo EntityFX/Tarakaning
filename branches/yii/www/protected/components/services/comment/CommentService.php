@@ -13,15 +13,15 @@ class CommentService extends ServiceBase implements ICommentService {
 
     /**
      * Функция для комментирования отчета об ошибке.
-     * @param unknown_type $projectID
-     * @param unknown_type $userID
-     * @param unknown_type $reportID
-     * @param unknown_type $comment
+     * @param int $projectID
+     * @param int $userID
+     * @param int $reportID
+     * @param string $commentText
      *
      * @todo 1) добавить проверку на существование отчета об ошибке. <br />
      * 2) добавить проверку на существование данного пользователя.
      */
-    public function setReportComment($projectID, $userID, $reportID, $comment) {
+    public function setReportComment($projectID, $userID, $reportID, $commentText) {
         /*
          * сперва проверить существование проекта
          * потом - пользователя
@@ -33,8 +33,7 @@ class CommentService extends ServiceBase implements ICommentService {
         if ($projectService->existsById($projectID)) {
             $userID = (int) $userID;
             if ($this->isOwnerOrSubscribed($userID, $projectID)) {
-                $comment = htmlspecialchars($comment);
-                $comment = mysql_escape_string($comment);
+                $commentText = htmlspecialchars($commentText);
                 $reportID = (int) $reportID;
 
                 $this->db->createCommand()->insert(
@@ -43,7 +42,7 @@ class CommentService extends ServiceBase implements ICommentService {
                             ItemCommentTable::ITEM_ID_FIELD => $reportID,
                             ItemCommentTable::USER_ID_FIELD => $userID,
                             ItemCommentTable::CRT_TM_FIELD => date("Y-m-d H:i:s"),
-                            ItemCommentTable::CMMENT_FIELD => $comment
+                            ItemCommentTable::CMMENT_FIELD => $commentText
                         )
                 );
                 return $this->db->getLastInsertID();

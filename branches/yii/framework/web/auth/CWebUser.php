@@ -135,8 +135,9 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function __get($name)
 	{
-		if($this->hasState($name))
-			return $this->getState($name);
+		if($this->hasState($name)) {
+                    var_dump ($_SESSION);
+			return $this->getState($name); }
 		else
 			return parent::__get($name);
 	}

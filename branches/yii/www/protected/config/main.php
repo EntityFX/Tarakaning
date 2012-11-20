@@ -18,7 +18,9 @@ return array(
         'application.components.captcha.*',
         'application.components.widgets.*',
         'application.components.common.*',
-        'application.components.common.database.*',
+        'application.components.common.database.tables.*',
+        'application.components.common.database.views.*',
+        'application.components.common.database.storedProcedures.*',
         'application.components.common.enum.*',
         'application.components.common.helpers.*',
         'application.components.services.*',
@@ -34,7 +36,6 @@ return array(
         'application.components.services.item.enum.*',
         'application.components.services.comment.*',
         'application.controllers.*',
-        
         'application.vendors.phemto.Phemto'
     ),
     'modules' => array(
@@ -52,7 +53,7 @@ return array(
     'components' => array(
         'user' => array(
             // enable cookie-based authentication
-            'allowAutoLogin' => true,
+            'allowAutoLogin' => true
         ),
         // uncomment the following to enable URLs in path-format
 
@@ -61,6 +62,7 @@ return array(
             'rules' => array(
                 '/' => 'site/index',
                 'login' => 'auth/login',
+                'logout' => 'auth/logout',
                 'registration' => 'auth/register',
                 'projects' => 'project/index',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
@@ -94,7 +96,6 @@ return array(
                     'class' => 'CWebLogRoute',
                     'levels' => 'error, warning'
                 ),
-                
                 array(
                     'class' => 'CWebLogRoute',
                     'levels' => 'profile',
