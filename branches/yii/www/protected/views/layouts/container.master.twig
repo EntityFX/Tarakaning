@@ -1,0 +1,10 @@
+{% extends "views/layouts/main.master.twig" %}
+
+{% block container %}
+    <div class="row">
+        {% block info %}{% endblock %}
+    </div>
+    <div class="row" id="main_row">
+        {% block body %}{% endblock %}
+    </div>
+{% endblock %}

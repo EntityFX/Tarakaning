@@ -18,16 +18,9 @@
         {% block script %}{% endblock %}
     </head>
     <body lang="ru" data-offset="50" >
-        <div class="navbar navbar-fixed-top">
-            {% block menu %}{% endblock %}
-        </div>
+        {% block menu %}{% endblock %}    
         <div class="container">
-            <div class="row">
-                {% block info %}{% endblock %}
-            </div>
-            <div class="row" id="main_row">
-                {% block body %}{% endblock %}
-            </div>
+            {% block container %}{% endblock %}     
             <hr />
             <footer>
                 <p>&copy; EntityFX</p>    

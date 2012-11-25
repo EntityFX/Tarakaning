@@ -55,7 +55,6 @@ final class UserIdentity extends CUserIdentity {
         } else {
             $this->errorCode = self::ERROR_NONE;
             $this->password = null;
-            $this->setUserIdentityFields($userData);
             $this->setState('email', $userData[UserTable::EMAIL_FIELD]);
             $this->setState('surname', $userData[UserTable::SECND_NM_FIELD]);
             $this->setState('lastname', $userData[UserTable::LAST_NM_FIELD]);
