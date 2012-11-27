@@ -334,7 +334,6 @@ class ItemService extends ServiceBase implements IItemService {
     public function countReportsByProject($projectID, ItemKindENUM $kind) {
         $this->tryCheckProject($projectID);
         $whereArray = $this->getWhereTokenForItemKind($kind, $projectID);
-        var_dump($whereArray);
         return $this->getCount(
                         ItemFullInfoView::NAME, $whereArray['where'], $whereArray['params']
         );

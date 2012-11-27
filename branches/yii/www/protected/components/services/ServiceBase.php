@@ -57,6 +57,11 @@ abstract class ServiceBase {
                         ->queryScalar();
     }
     
+    /**
+     * Returns id of inserted record
+     * 
+     * @return int 
+     */
     protected function lastInsertId()
     {
         return (int)$this->db->createCommand('SELECT LAST_INSERT_ID()')

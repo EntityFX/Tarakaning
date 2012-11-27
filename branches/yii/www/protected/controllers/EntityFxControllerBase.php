@@ -29,6 +29,8 @@ abstract class EntityFxControllerBase extends CController {
      */
     protected $application;
     
+    protected $ioc;
+    
     /**
      *
      * @var CHttpRequest 
@@ -38,6 +40,7 @@ abstract class EntityFxControllerBase extends CController {
     public function init() {
         $this->application = YII::app();
         $this->request = $this->application->request;
+        $this->ioc = Ioc::create();
     }
 
     public function filters()
