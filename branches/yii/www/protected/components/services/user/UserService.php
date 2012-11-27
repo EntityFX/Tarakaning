@@ -128,7 +128,7 @@ class UserService extends ServiceBase implements IUserService {
         return $this->db->createCommand()
                         ->select()
                         ->from(self::$authTableName)
-                        ->where(UserTable::USER_ID_FIELD . '=:id', array('id' => $id))
+                        ->where(UserTable::USER_ID_FIELD . '=:id', array(':id' => $id))
                         ->queryRow();
     }
 
@@ -137,7 +137,7 @@ class UserService extends ServiceBase implements IUserService {
         return $this->db->createCommand()
                         ->select()
                         ->from(self::$authTableName)
-                        ->where(UserTable::NICK_FIELD . '=:user', array('user' => $user))
+                        ->where(UserTable::NICK_FIELD . '=:user', array(':user' => $user))
                         ->queryRow();
     }
 
@@ -290,19 +290,18 @@ class UserService extends ServiceBase implements IUserService {
                 throw new ServiceException("Неверный формат почты", 1);
             }
         }
-        
         $id = (int) $id;
         $this->db->createCommand()->
-                update(
-                    self::$authTableName, array(
-                        UserTable::FRST_NM_FIELD => htmlspecialchars($name),
-                        UserTable::LAST_NM_FIELD => htmlspecialchars($surname),
-                        UserTable::SECND_NM_FIELD => htmlspecialchars($secondName),
-                        UserTable::EMAIL_FIELD => htmlspecialchars($email)
-                    ), UserTable::USER_ID_FIELD . ' = :id', array(
-                        ':id' => $id
-                    )
-        );
+            update(
+                self::$authTableName, array(
+                    UserTable::FRST_NM_FIELD => htmlspecialchars($name),
+                    UserTable::LAST_NM_FIELD => htmlspecialchars($surname),
+                    UserTable::SECND_NM_FIELD => htmlspecialchars($secondName),
+                    UserTable::EMAIL_FIELD => htmlspecialchars($email)
+                ), UserTable::USER_ID_FIELD . ' = :id', array(
+                    ':id' => $id
+                )
+            );
     }
 
 }

@@ -10,13 +10,11 @@
  *
  * @author EntityFX
  */
-class ProjectController extends EntityFxControllerBase {
+class ProjectController extends ContentControllerBase {
 
     public function actionIndex() {
-        //CVarDumper::dump(Yii::app()->user->getEmail(), 10, true);
         return $this->render('projects', array('projectsList' => null));
     }
-
 }
 
 ?>

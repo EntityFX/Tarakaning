@@ -4,38 +4,14 @@
  * UserIdentity represents the data needed to identity a user.
  * It contains the authentication method that checks if the provided
  * data can identity the user.
+ * 
+ * @property int $id
+ * @property string $email 
+ * @property string $surname
+ * @property string $lastname 
+ * @property int $defaultProjectId
  */
 final class UserIdentity extends CUserIdentity {
-
-    /**
-     *
-     * @var int ID 
-     */
-    private $_userId;
-
-    /**
-     *
-     * @var string 
-     */
-    private $_surname;
-
-    /**
-     *
-     * @var string 
-     */
-    private $_lastName;
-
-    /**
-     *
-     * @var int Id of default project for current user 
-     */
-    private $_defaultProjectId;
-
-    /**
-     * 
-     * @var string E-mail address
-     */
-    private $_email;
 
     /**
      * Performs authentification
@@ -56,9 +32,11 @@ final class UserIdentity extends CUserIdentity {
             $this->errorCode = self::ERROR_NONE;
             $this->password = null;
             $this->setState('email', $userData[UserTable::EMAIL_FIELD]);
-            $this->setState('surname', $userData[UserTable::SECND_NM_FIELD]);
-            $this->setState('lastname', $userData[UserTable::LAST_NM_FIELD]);
+            $this->setState('firstname', $userData[UserTable::FRST_NM_FIELD]);
+            $this->setState('secondName', $userData[UserTable::SECND_NM_FIELD]);
+            $this->setState('lastName', $userData[UserTable::LAST_NM_FIELD]);
             $this->setState('defaultProjectId', (int) $userData[UserTable::DFLT_PROJ_ID_FIELD]);
+            $this->setState('id', (int) $userData[UserTable::USER_ID_FIELD]);
         }
         return !$this->errorCode;
     }
@@ -70,23 +48,7 @@ final class UserIdentity extends CUserIdentity {
      * @return string the unique identifier for the identity.
      */
     public function getId() {
-        return $this->_userId;
-    }
-
-    public function getSurname() {
-        return $this->_surname;
-    }
-
-    public function getLastName() {
-        return $this->_lastName;
-    }
-
-    public function getDefaultProjectId() {
-        return $this->_defaultProjectId;
-    }
-
-    public function getEmail() {
-        return $this->_email;
+        return $this->id;
     }
 
     public function getName() {
