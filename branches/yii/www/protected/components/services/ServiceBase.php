@@ -67,6 +67,34 @@ abstract class ServiceBase {
         return (int)$this->db->createCommand('SELECT LAST_INSERT_ID()')
                 ->queryScalar();
     }
+    
+    /**
+     * Checks if user subscibed to project
+     * 
+     * @param int $userId
+     * @param int $projectId
+     * @return bool 
+     */
+    protected function isMember($userId, $projectId) {
+        
+        $subscribeService = $this->ioc->create('ISubscribeService');
+        $projectService = $this->ioc->create('IProjectService');
+        return $subscribeService->isSubscribed($userId, $projectId)
+                || $userId == $projectService->getOwnerID($projectId);
+    }
+    
+    /**
+     * Checks if user subscibed to project or throw expetion
+     * 
+     * @param int $userId
+     * @param project $projectId
+     * @throws ServiceException 
+     */
+    protected function tryCheckIsSubscribedOrOwner($userId, $projectId) {
+        if (!$this->isMember($userId, $projectId)) {
+            throw new ServiceException("Пользователь №" . $userId . " не подписан на проект $projectId или не является его владельцем");
+        }
+    }
 
 }
 

@@ -29,6 +29,10 @@ abstract class EntityFxControllerBase extends CController {
      */
     protected $application;
     
+    /**
+     *
+     * @var Phemto 
+     */
     protected $ioc;
     
     /**
@@ -38,15 +42,43 @@ abstract class EntityFxControllerBase extends CController {
     protected $request;
 
     public function init() {
+        parent::init();
         $this->application = YII::app();
         $this->request = $this->application->request;
         $this->ioc = Ioc::create();
     }
+    
+    protected function updateModel(&$modelList) {
+        if ($this->request->isPostRequest) {
+            foreach ($modelList as $modelName => $item) {
+                $modelData = $this->request->getPost($modelName);
+                if (isset($modelData)) {
+                    $model = $item['model'];
+                    $model->attributes = $modelData;
 
+                    if ($model->validate()) {
+                        $performFunctionName = $item['performFunction'];
+
+                        $this->$performFunctionName($model);
+                    }
+                }
+            }
+        }
+    }
+    
     public function filters()
     {
         return array(
             'accessControl',
+        );
+    }
+    
+    public function accessRules() {
+        return array(
+            array(
+                'deny',
+                'users' => array('?')
+            )
         );
     }
 

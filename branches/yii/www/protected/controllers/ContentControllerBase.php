@@ -57,7 +57,7 @@ class ContentControllerBase extends EntityFxControllerBase {
      * @param array $userProjetsList
      * @return array 
      */
-    private static function prepareUserProjectsListData(array $userProjetsList) {
+    protected static function prepareUserProjectsListData(array $userProjetsList) {
         if ($userProjetsList == null) {
             return array();
         } else {

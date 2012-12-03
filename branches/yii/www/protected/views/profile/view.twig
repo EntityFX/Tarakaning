@@ -1,0 +1,30 @@
+{% extends "views/layouts/content.master.twig" %}
+
+{% block body %}
+<div class="span2">
+    <a class="thumbnail" href="examples/starter-template.html">
+        <img alt="" src="assets/img/examples/bootstrap-example-starter.jpg" width="150" height="200">
+    </a>
+</div>
+<div class="span10">
+    <div class="row">
+        <div class="span2"><h3>{{model.name}}</h3></div>
+    </div>
+    <div class="row">
+        <div class="span1">Имя</div>
+        <div class="span2"><strong>{{model.firstname}}</strong></div>
+    </div>
+    <div class="row">
+        <div class="span1">Фамилия</div>
+        <div class="span2"><strong>{{model.secondName}}</strong></div>
+    </div>
+    <div class="row">
+        <div class="span1">Отчество</div>
+        <div class="span2"><strong>{{model.lastName}}</strong></div>
+    </div>
+    <div class="row">
+        <div class="span1">e-mail</div>
+        <div class="span2">{{C.Html.link(model.email,'mailto:' ~ model.email)}}</div>
+    </div>
+</div>
+{% endblock %}
