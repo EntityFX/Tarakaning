@@ -11,13 +11,22 @@
  * @author EntityFX
  */
 class AuthController extends EntityFxControllerBase {
+    
+    public function accessRules() {
+        return array(
+            array(
+                'deny',
+                'users' => array('@'),
+                'actions'=>array('login','register'),
+            )
+        );
+    }
 
     /**
      * Displays the login page and performs login
      */
     public function actionLogin() {
         $model = new LoginForm();
-
         $formData = $this->request->getPost("LoginForm");
         if (isset($formData)) {
             $model->attributes = $formData;
@@ -69,15 +78,6 @@ class AuthController extends EntityFxControllerBase {
                 'transparent' => true,
                 'fontFile' => YII::app()->getBasePath() . '/components/captcha/verdana.TTF'
             ),
-        );
-    }
-
-    public function accessRules() {
-        return array(
-            array('deny',
-                'actions' => array('login','register'),
-                'users' => array('@'),
-            )
         );
     }
 

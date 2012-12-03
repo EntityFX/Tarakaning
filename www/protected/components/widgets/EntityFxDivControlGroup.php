@@ -22,9 +22,8 @@ class EntityFxDivControlGroup extends CWidget {
         $error = '';
         if ($this->model != null && $this->form != null) {
             $error = $this->model->hasErrors($this->attribute) ? ' '.$this->form->errorMessageCssClass : '';
+                    echo "<div class=\"$this->class$error\">";
         }
-
-        echo "<div class=\"$this->class$error\">";
     }
 
     public function run() {

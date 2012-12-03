@@ -12,7 +12,7 @@ interface IProfileService {
      * @param int $projectID
      * @throws Exception 
      */
-    function setDefaultProject($userId, $projectID = NULL);
+    function setDefaultProject($userId, $projectID);
 }
 
 ?>

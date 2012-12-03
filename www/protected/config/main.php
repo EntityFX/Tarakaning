@@ -9,7 +9,10 @@ return array(
     'name' => 'EntityFX',
     'language' => 'ru',
     // preloading 'log' component
-    'preload' => array('log'),
+    'preload' => array(
+        'log',
+        'bootstrap'
+    ),
     // autoloading model and component classes
     'import' => array(
         'application.models.*',
@@ -39,6 +42,7 @@ return array(
         'application.vendors.phemto.Phemto'
     ),
     'modules' => array(
+        
     // uncomment the following to enable the Gii tool
     /*
       'gii'=>array(
@@ -52,8 +56,8 @@ return array(
     // application components
     'components' => array(
         'user' => array(
-            // enable cookie-based authentication
-            'allowAutoLogin' => true
+            'allowAutoLogin' => true,
+            'loginUrl'=>array('auth/login')
         ),
         // uncomment the following to enable URLs in path-format
 
@@ -129,7 +133,11 @@ return array(
           'tag_block' => array('{', '}'),
           'tag_variable' => array('{$', '}')
           ) */
-        )
+        ),
+        'bootstrap' => array(
+	    'class' => 'ext.bootstrap.components.Bootstrap',
+	    'responsiveCss' => true,
+	),
     ),
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']

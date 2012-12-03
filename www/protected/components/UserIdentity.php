@@ -12,6 +12,8 @@
  * @property int $defaultProjectId
  */
 final class UserIdentity extends CUserIdentity {
+    
+    private $_id;
 
     /**
      * Performs authentification
@@ -36,7 +38,8 @@ final class UserIdentity extends CUserIdentity {
             $this->setState('secondName', $userData[UserTable::SECND_NM_FIELD]);
             $this->setState('lastName', $userData[UserTable::LAST_NM_FIELD]);
             $this->setState('defaultProjectId', (int) $userData[UserTable::DFLT_PROJ_ID_FIELD]);
-            $this->setState('id', (int) $userData[UserTable::USER_ID_FIELD]);
+            $this->_id = (int) $userData[UserTable::USER_ID_FIELD];
+            $this->setState('id', $this->_id);
         }
         return !$this->errorCode;
     }
@@ -48,7 +51,7 @@ final class UserIdentity extends CUserIdentity {
      * @return string the unique identifier for the identity.
      */
     public function getId() {
-        return $this->id;
+        return $this->_id;
     }
 
     public function getName() {
