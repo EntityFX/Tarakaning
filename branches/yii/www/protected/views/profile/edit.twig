@@ -8,7 +8,7 @@
 </ul>
 <div class="tab-content">
     <div class="tab-pane active" id="edit_info">
-        {{ C.Html.errorSummary(model,
+        {{ C.Html.errorSummary(model['ProfileForm'],
                 '<div class="alert alert-error">
                     <a class="close" data-dismiss="alert" href="#">&times;</a>',
                 '</div>'
@@ -40,15 +40,15 @@
                     {
                         'class' : 'control-group',
                         'form' : profileForm,
-                        'model' : model,
+                        'model' : model['ProfileForm'],
                         'attribute' : 'firstname'
                     }
                 )
             %}
-                {{ profileForm.label(model,'firstname',{'class' : 'control-label'}) }}
+                {{ profileForm.label(model['ProfileForm'],'firstname',{'class' : 'control-label'}) }}
                 <div class="controls">
-                    {{ profileForm.textField(model,'firstname',{'class' : 'input-large'}) }}
-                    {{ profileForm.error(model,'firstname',{'class' : 'help-inline'}) }}
+                    {{ profileForm.textField(model['ProfileForm'],'firstname',{'class' : 'input-large'}) }}
+                    {{ profileForm.error(model['ProfileForm'],'firstname',{'class' : 'help-inline'}) }}
                 </div>
             {% do this.endWidget() %}
             
@@ -57,15 +57,15 @@
                     {
                         'class' : 'control-group',
                         'form' : profileForm,
-                        'model' : model,
+                        'model' : model['ProfileForm'],
                         'attribute' : 'secondName'
                     }
                 )
             %}
-                {{ profileForm.label(model,'secondName',{'class' : 'control-label'}) }}
+                {{ profileForm.label(model['ProfileForm'],'secondName',{'class' : 'control-label'}) }}
                 <div class="controls">
-                    {{ profileForm.textField(model,'secondName',{'class' : 'input-large'}) }}
-                    {{ profileForm.error(model,'secondName',{'class' : 'help-inline'}) }}
+                    {{ profileForm.textField(model['ProfileForm'],'secondName',{'class' : 'input-large'}) }}
+                    {{ profileForm.error(model['ProfileForm'],'secondName',{'class' : 'help-inline'}) }}
                 </div>
             {% do this.endWidget() %}
             
@@ -74,15 +74,15 @@
                     {
                         'class' : 'control-group',
                         'form' : profileForm,
-                        'model' : model,
+                        'model' : model['ProfileForm'],
                         'attribute' : 'lastName'
                     }
                 )
             %}
-                {{ profileForm.label(model,'lastName',{'class' : 'control-label'}) }}
+                {{ profileForm.label(model['ProfileForm'],'lastName',{'class' : 'control-label'}) }}
                 <div class="controls">
-                    {{ profileForm.textField(model,'lastName',{'class' : 'input-large'}) }}
-                    {{ profileForm.error(model,'lastName',{'class' : 'help-inline'}) }}
+                    {{ profileForm.textField(model['ProfileForm'],'lastName',{'class' : 'input-large'}) }}
+                    {{ profileForm.error(model['ProfileForm'],'lastName',{'class' : 'help-inline'}) }}
                 </div>
             {% do this.endWidget() %}
 
@@ -91,15 +91,15 @@
                     {
                         'class' : 'control-group',
                         'form' : profileForm,
-                        'model' : model,
+                        'model' : model['ProfileForm'],
                         'attribute' : 'email'
                     }
                 )
             %}
-                {{ profileForm.label(model,'email',{'class' : 'control-label'}) }}
+                {{ profileForm.label(model['ProfileForm'],'email',{'class' : 'control-label'}) }}
                 <div class="controls">
-                    {{ profileForm.textField(model,'email',{'class' : 'input-large'}) }}
-                    {{ profileForm.error(model,'email',{'class' : 'help-inline'}) }}
+                    {{ profileForm.textField(model['ProfileForm'],'email',{'class' : 'input-large'}) }}
+                    {{ profileForm.error(model['ProfileForm'],'email',{'class' : 'help-inline'}) }}
                 </div>
             {% do this.endWidget() %}
             
@@ -112,58 +112,140 @@
         {% do this.endWidget() %}
     </div>
     <div class="tab-pane" id="pass_change">
-        <form class="form-horizontal" action="/profile/edit/newpass/" method="post">
+        {{ C.Html.errorSummary(model['ChangePasswordForm'],
+                '<div class="alert alert-error">
+                    <a class="close" data-dismiss="alert" href="#">&times;</a>',
+                '</div>'
+            )
+        }} 
+        
+       {% set changePasswordForm = this.beginWidget(
+                'CActiveForm',
+                {
+                    'enableClientValidation' : true,
+                    'enableAjaxValidation' : false,
+                    'clientOptions' : {
+                        'validateOnSubmit' : true
+                    },
+                    'htmlOptions' : {
+                        'class' : 'form-horizontal'
+                    },
+                    'method' : 'post',
+                    'errorMessageCssClass' : 'error'
+                }
+            )
+        %}
             <fieldset>
-                <legend>����� ������</legend>
+                <legend>Сменить пароль</legend>
             </fieldset>
-            <div class="control-group">
-                <label class="control-label" for="oldPassword">������ ������</label>
+            {% set div = this.beginWidget(
+                    'EntityFxDivControlGroup',
+                    {
+                        'class' : 'control-group',
+                        'form' : changePasswordForm,
+                        'model' : model['ChangePasswordForm'],
+                        'attribute' : 'oldPassword'
+                    }
+                )
+            %}
+                {{ changePasswordForm.label(model['ChangePasswordForm'],'oldPassword',{'class' : 'control-label'}) }}
                 <div class="controls">
-                    <input type="password" class="input-large" name="oldPassword" id="oldPassword" />
+                    {{ changePasswordForm.passwordField(model['ChangePasswordForm'],'oldPassword',{'class' : 'input-large'}) }}
+                    {{ changePasswordForm.error(model['ChangePasswordForm'],'oldPassword',{'class' : 'help-inline'}) }}
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="newPassword">����� ������</label>
+            {% do this.endWidget() %}
+            
+            {% set div = this.beginWidget(
+                    'EntityFxDivControlGroup',
+                    {
+                        'class' : 'control-group',
+                        'form' : changePasswordForm,
+                        'model' : model['ChangePasswordForm'],
+                        'attribute' : 'newPassword'
+                    }
+                )
+            %}
+                {{ changePasswordForm.label(model['ChangePasswordForm'],'newPassword',{'class' : 'control-label'}) }}
                 <div class="controls">
-                    <input type="password" class="input-large" name="newPassword" id="newPassword" />
+                    {{ changePasswordForm.passwordField(model['ChangePasswordForm'],'newPassword',{'class' : 'input-large'}) }}
+                    {{ changePasswordForm.error(model['ChangePasswordForm'],'newPassword',{'class' : 'help-inline'}) }}
                 </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label" for="newPasswordRepeat">������ ������ ������</label>
+            {% do this.endWidget() %}
+
+            {% set div = this.beginWidget(
+                    'EntityFxDivControlGroup',
+                    {
+                        'class' : 'control-group',
+                        'form' : changePasswordForm,
+                        'model' : model['ChangePasswordForm'],
+                        'attribute' : 'confirmPassword'
+                    }
+                )
+            %}
+                {{ changePasswordForm.label(model['ChangePasswordForm'],'confirmPassword',{'class' : 'control-label'}) }}
                 <div class="controls">
-                    <input type="password" class="input-large" name="newPasswordRepeat" id="newPasswordRepeat" />
+                    {{ changePasswordForm.passwordField(model['ChangePasswordForm'],'confirmPassword',{'class' : 'input-large'}) }}
+                    {{ changePasswordForm.error(model['ChangePasswordForm'],'confirmPassword',{'class' : 'help-inline'}) }}
                 </div>
-            </div>
+            {% do this.endWidget() %}
+            
             <div class="form-actions">
                 <button class="btn btn-primary" type="submit" name="save_btn">
                     <i class="icon-hdd icon-white"></i>
-                    ���������
+                    Сохранить
                 </button>
             </div>
-        </form>
+        {% do this.endWidget() %}
     </div>
     <div class="tab-pane" id="settings">
-        <form class="form-horizontal" action="/profile/edit/" method="post">
+       {% set changePasswordForm = this.beginWidget(
+                'CActiveForm',
+                {
+                    'enableClientValidation' : true,
+                    'enableAjaxValidation' : false,
+                    'clientOptions' : {
+                        'validateOnSubmit' : true
+                    },
+                    'htmlOptions' : {
+                        'class' : 'form-horizontal'
+                    },
+                    'method' : 'post',
+                    'errorMessageCssClass' : 'error'
+                }
+            )
+        %}
             <fieldset>
-                <legend>����� ���������</legend>
+                <legend>Проект по-умолчанию</legend>
             </fieldset>
-            <div class="control-group">
-                <label class="control-label" for="defaultProject">������ ��-���������</label>
+            {% set div = this.beginWidget(
+                    'EntityFxDivControlGroup',
+                    {
+                        'class' : 'control-group',
+                        'form' : changePasswordForm,
+                        'model' : model['ProfileDefaultProjectForm'],
+                        'attribute' : 'defaultProjectId'
+                    }
+                )
+            %}
+                {{ changePasswordForm.label(model['ProfileDefaultProjectForm'],'defaultProjectId',{'class' : 'control-label'}) }}
                 <div class="controls">
-                    <select id="defaultProject" name="defaultProject" {if $PROJECTS.PROJECTS_LIST eq NULL}disabled="disabled"{/if}>
-                        {if $PROJECTS.PROJECTS_LIST neq NULL}
-                            {html_options options=$PROJECTS.PROJECTS_LIST selected=$PROJECTS.selected}
-                        {/if}
-                    </select>
+                    {{ changePasswordForm.dropDownList(model['ProfileDefaultProjectForm'],'defaultProjectId', this.userProjectsListData, {'class' : 'input-large'}) }}
                 </div>
-            </div>
+            {% do this.endWidget() %}
             <div class="form-actions">
-                <button class="btn btn-primary" type="submit" name="save_project" {if $PROJECTS.PROJECTS_LIST eq NULL}disabled="disabled"{/if}>
-                    <i class="icon-hdd icon-white"></i>
-                    ���������
-                </button>
+                {{ C.Html.tag(
+                        'button',
+                        { 
+                            'class' : 'btn btn-primary', 
+                            'type' : 'submit', 
+                            'disabled' : this.userProjectsListData == none 
+                        }, 
+                        '<i class="icon-hdd icon-white"></i> Сохранить', 
+                        true 
+                    )
+                }}
             </div>
-        </form>
+        {% do this.endWidget() %}
     </div>
 </div>
 {% endblock %}

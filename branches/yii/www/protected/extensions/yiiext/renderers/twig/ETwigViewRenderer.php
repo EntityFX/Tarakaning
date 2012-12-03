@@ -124,6 +124,8 @@ class ETwigViewRenderer extends CApplicationComponent implements IViewRenderer
         if (!empty($this->lexerOptions)) {
             $this->setLexerOptions($this->lexerOptions);
         }
+        
+
 
         return parent::init();
     }

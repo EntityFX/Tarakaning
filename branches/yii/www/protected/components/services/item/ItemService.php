@@ -16,23 +16,9 @@ class ItemService extends ServiceBase implements IItemService {
             $this->setDefaultUserId($userId);
         }
 
-        if ($this->_defaultUserId !== null
+        if ($this->_defaultProjectId !== null
                 && $this->_defaultUserId != null) {
-            $this->tryCheckIsSubscribedOrOwner();
-        }
-    }
-
-    private function isMember() {
-        
-        $subscribeService = $this->ioc->create('ISubscribeService');
-        $projectService = $this->ioc->create('IProjectService');
-        return $subscribeService->isSubscribed($this->_defaultUserId, $this->_defaultProjectId)
-                || $this->_defaultUserId == $projectService->getOwnerID($this->_defaultProjectId);
-    }
-
-    private function tryCheckIsSubscribedOrOwner() {
-        if (!$this->isMember()) {
-            throw new ServiceException("Пользователь №" . $this->_defaultUserId . " не подписан на проект $this->_defaultProjectId или не является его владельцем");
+            $this->tryCheckIsSubscribedOrOwner($this->_defaultUserId, $this->_defaultProjectId);
         }
     }
 

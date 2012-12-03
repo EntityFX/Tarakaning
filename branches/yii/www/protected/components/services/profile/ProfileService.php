@@ -1,6 +1,6 @@
 <?php
 
-class ProfileService extends ServiceBase implements IProfileService{
+class ProfileService extends ServiceBase implements IProfileService {
 
     /**
      * Set default project for current user
@@ -9,7 +9,7 @@ class ProfileService extends ServiceBase implements IProfileService{
      * @param int $projectID
      * @throws Exception 
      */
-    public function setDefaultProject($userId, $projectID = NULL) {
+    public function setDefaultProject($userId, $projectID) {
         if ($projectID != NULL) {
             $projectID = (int) $projectID;
         }
@@ -17,11 +17,10 @@ class ProfileService extends ServiceBase implements IProfileService{
         if ($projectService->existsById($projectID)) {
             $requestService = $this->ioc->create('IRequestService');
             $userId = (int) $userId;
-            if ($requestService->isSubscribed($userId, $projectID) || $projectService->getOwnerID($projectID) == $userId) {
-                $this->update($userId, $projectID);
-            } else {
-                throw new ServiceException("Пользователь не подписан на проект");
-            }
+
+            $this->tryCheckIsSubscribedOrOwner($userId, $projectID);
+
+            $this->update($userId, $projectID);
         } else {
             throw new ServiceException("Проект не существует. Зверский хак!", 4);
         }
@@ -30,11 +29,13 @@ class ProfileService extends ServiceBase implements IProfileService{
     public function deleteDefaultProject($userId) {
         $this->update($userId, null);
     }
-    
-    private function update($userId, $value)
-    {
+
+    private function update($userId, $value) {
         $this->db->createCommand()->update(
-            UserTable::NAME, array(UserTable::DFLT_PROJ_ID_FIELD => $value), UserTable::USER_ID_FIELD . ' = :id', array(':id' => $userId)
+                UserTable::NAME, 
+                array(UserTable::DFLT_PROJ_ID_FIELD => $value), 
+                UserTable::USER_ID_FIELD . ' = :id', 
+                array(':id' => $userId)
         );
     }
 
