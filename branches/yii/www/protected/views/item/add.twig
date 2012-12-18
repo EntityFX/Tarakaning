@@ -1,0 +1,45 @@
+{% extends "views/layouts/content.master.twig" %}
+
+{% block body %}
+    {{ C.Html.errorSummary(model,
+                '<div class="alert alert-error">
+                    <a class="close" data-dismiss="alert" href="#">&times;</a>',
+                '</div>'
+            )
+    }}
+    {% set form = this.beginWidget(
+        'bootstrap.widgets.TbActiveForm',
+        {
+            'id' : 'register-form',
+            'enableClientValidation' : true,
+            'enableAjaxValidation' : false,
+            'clientOptions' : {
+                'validateOnSubmit' : true
+            },
+            'type' : 'horizontal',
+            'method' : 'post',
+            'action' : C.Html.normalizeUrl(
+                ['project/add']
+            ),
+            'errorMessageCssClass' : 'error'
+        }
+    )
+    %}
+        <fieldset>
+            <legend>Создание элемента</legend>
+            {{ form.dropDownListRow(model, 'projectId', model.projectsList) }}
+            {{ form.textFieldRow(model, 'title', {'class' : 'input-xlarge'}) }}
+            {{ form.dropDownListRow(model, 'itemKind', model.itemsTypeList, {'style' : 'font-weight: bold;'}) }}
+            {{ form.dropDownListRow(model, 'defectType', model.defectTypeList) }}
+            {{ form.dropDownListRow(model, 'priority', model.priorityList) }}
+            {{ form.dropDownListRow(model, 'assigned', model.projectUsersList) }}
+            {{ form.textFieldRow(model, 'hoursRequired', {'class' : 'input-mini align-right', 'append' : 'ч'}) }}
+            {{ form.textAreaRow(model, 'itemDescription', { 'class' : 'input-xxlarge', 'rows' : 7 }) }}
+            {{ form.textAreaRow(model, 'steps', { 'class' : 'input-xxlarge', 'rows' : 10 }) }}
+            <div class="form-actions">
+                {{ void(this.widget('bootstrap.widgets.TbButton', { 'buttonType' : 'submit', 'type' : 'primary', 'label' : 'Сохранить' })) }}
+                {{ void(this.widget('bootstrap.widgets.TbButton', { 'buttonType' : 'reset', 'label' : 'Сброс' })) }}
+            </div>
+        </fieldset>
+    {% do this.endWidget() %}
+{% endblock %}

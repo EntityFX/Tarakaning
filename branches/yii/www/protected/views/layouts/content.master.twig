@@ -40,9 +40,9 @@
     </div>
     <div class="btn-group">
         {% if this.userProjectsListData != none %}
-            <a class="btn btn-primary" href="/bug/add/" title="Создать новый дефкт/задачу">Создать элемент</a>
+            <a class="btn btn-primary" href="{{ this.createUrl("item/add") }}" title="Создать новый дефкт/задачу">Создать элемент</a>
         {% endif %}
-        <a class="btn btn-primary" href="/my/project/new/" title="Создать новый проект">Создать проект</a>
+        <a class="btn btn-primary" href="{{ this.createUrl("project/add") }}" title="Создать новый проект">Создать проект</a>
     </div>
     <div class="btn-group">
         <form class="form-inline" action="#">
@@ -90,7 +90,7 @@
             </div>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="/my/projects/">Проекты</a></li>
+                    <li><a href="{{ this.createUrl("project/index") }}">Проекты</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Элементы
                             <b class="caret"></b>

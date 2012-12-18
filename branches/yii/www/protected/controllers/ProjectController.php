@@ -37,19 +37,42 @@ class ProjectController extends ContentControllerBase {
                 new MySQLOrderEnum()
         );
         
-        $paginator = new CPagination();
-        $paginator->itemCount = 50;
-        $paginator->pageSize = 10;
-        
-        $widget = $this->beginWidget("CLinkPager", array('pages' => $paginator));
-        //var_dump(self::prepareProjectsDataProvider($projectsList));
         return $this->render(
                 'projects', 
                 array(
                     'userProjectsDataProvider' => self::prepareProjectsDataProvider($projectsList),
-                    'userProjectsPaginator' => $paginator
+                    'userProjectsPaginator' => null
                 )
         );
+    }
+    
+    /**
+     *
+     * @uses IProjectService
+     * @return type 
+     */
+    public function actionAdd() {
+        $model = new AddProjectForm();
+        
+        $formData = $this->request->getPost("AddProjectForm");
+        if (isset($formData)) {
+            $model->attributes = $formData;
+            if ($model->validate()) {
+                $projectSevice = $this->ioc->create('IProjectService');
+
+                $id = $projectSevice->addProject(
+                    Yii::app()->user->id,
+                    $model->projectName,
+                    $model->projectDescription
+                );
+                
+                //var_dump($id);
+                
+                $this->redirect(array('project/index'));
+            }
+        }
+        
+        return $this->render('add', array('model' => $model));
     }
     
     /**
@@ -58,10 +81,7 @@ class ProjectController extends ContentControllerBase {
      * @return IDataProvider
      */
     private static function prepareProjectsDataProvider(array &$projectsList) {
-        
-        $pagination = new CPagination(50);
-        $pagination->pageSize = 2;
-        return new CArrayDataProvider(
+        $projectsDataProvider = new CArrayDataProvider(
                 $projectsList == null ? array() : $projectsList,
                 array(
                     'id' => ProjectAndItemsView::PROJECT_ID_FIELD,
@@ -73,10 +93,12 @@ class ProjectController extends ContentControllerBase {
                             MyProjectsFieldsENUM::COUNT_USERS,
                             MyProjectsFieldsENUM::CREATE_DATE,
                         )
-                    ),
-                    'pagination'=>$pagination
+                    )
                 )
         );
+        
+        $projectsDataProvider->setTotalItemCount(5);
+        return $projectsDataProvider;
     }
 }
 

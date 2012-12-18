@@ -8,7 +8,7 @@
 <div class="tab-content">
     <div class="tab-pane active" id="my-projects">
         <form action="#" class="reports_form" method="post">
-            {% set userProjectsGridView = this.widget(
+            {{ void(this.widget(
                     'bootstrap.widgets.TbGridView', {
                         'dataProvider' : userProjectsDataProvider,
                         'type' : 'striped bordered condensed',
@@ -72,14 +72,15 @@
                         ],
                         'showTableOnEmpty' : false,
                         'enablePagination' : false,
+                        'template' : "{summary}\n{items}\n{pager}",
                         'emptyText' : '
                             <div class="alert alert-info">
                                 <a class="close" data-dismiss="alert" href="#">&times;</a>
                                 <span>Проектов нет</span>
                             </div>'
                     }
-                )
-            %}
+                ))
+            }}
             <div class="row"> 
                 <div class="span6">
                     <button class="btn btn-danger" type="submit" id="del" name="del" title="Удалить выделенные">
