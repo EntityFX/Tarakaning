@@ -39,7 +39,7 @@
         	{if $PROJECTS.PROJECTS_LIST neq NULL}
         	<a class="btn btn-primary" href="/bug/add/" title="Создать новый дефкт/задачу">Создать элемент</a>
         	{/if}
-        	<a class="btn btn-primary" href="/my/project/new/" title="Создать новый проект">Создать проект</a>
+        	<a class="btn btn-primary" href="{{ this.createUrl("project/add") }}" title="Создать новый проект">Создать проект</a>
         </div>
         <div class="divider"></div>
         <div class="main-toolbar-group">

@@ -167,11 +167,6 @@ form fieldset a.form-header-right {
     font-size: 13px;
 }
 
-.required {
-    color: red;
-    font-size: 36px;
-}
-
 .pagination-custom {
     margin: 0 !important;
     height: auto !important;
@@ -226,4 +221,9 @@ form table td:first-child {
 .control-group .controls.success select:focus,
 .control-group .controls.success textarea:focus {
     box-shadow: 0 0 6px #7ABA7B;
+}
+
+span.required {
+    color: red;
+    font-size: 30px;
 }
