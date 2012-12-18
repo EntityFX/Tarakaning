@@ -10,8 +10,21 @@
  *
  * @author EntityFX
  */
-class ItemController {
-    //put your code here
+class ItemController extends ContentControllerBase {
+    
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+    
+    public function actionAdd() {
+        
+        $model = new AddItemForm();
+        
+        return $this->render('add', array('model' => $model));
+    }
 }
 
 ?>
