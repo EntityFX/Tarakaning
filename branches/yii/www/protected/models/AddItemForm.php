@@ -8,6 +8,11 @@
 /**
  * Description of AddItemForm
  *
+ * @property array $projectsList 
+ * @property-read array $itemsTypeList 
+ * @property-read array $defectTypeList
+ * @property-read array $priorityList
+ * @property-read array $projectUsersList 
  * @author Artem
  */
 class AddItemForm extends CFormModel {
@@ -29,8 +34,14 @@ class AddItemForm extends CFormModel {
     
     public $steps;
     
+    private $_projectsList = array();
+    
     public function getProjectsList() {
-        return array();
+        return $this->_projectsList;
+    }
+    
+    public function setProjectsList(array $value) {
+        $this->_projectsList = $value;
     }
     
     public function getItemsTypeList() {
@@ -62,10 +73,9 @@ class AddItemForm extends CFormModel {
     }
     
     public function getProjectUsersList() {
-        return array(
-            
-        );
+        return array();
     }
+
 }
 
 ?>
