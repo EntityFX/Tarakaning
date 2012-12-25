@@ -81,5 +81,12 @@ abstract class EntityFxControllerBase extends CController {
             )
         );
     }
+    
+    protected function renderJson($data) {
+        $this->layout = false;
+        header('Content-type: application/json');
+        echo CJSON::encode($data);
+        Yii::app()->end();
+    }
 
 }
