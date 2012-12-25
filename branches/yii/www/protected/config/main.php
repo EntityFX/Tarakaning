@@ -20,6 +20,7 @@ return array(
         'application.components.ioc.*',
         'application.components.captcha.*',
         'application.components.widgets.*',
+        'application.components.widgets.entityfxBootstrap.*',
         'application.components.common.*',
         'application.components.common.database.tables.*',
         'application.components.common.database.views.*',

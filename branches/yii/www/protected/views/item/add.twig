@@ -1,6 +1,24 @@
 {% extends "views/layouts/content.master.twig" %}
 
 {% block body %}
+    {% do App.clientScript.registerScriptFile(App.baseUrl ~ '/js/addItemForm.js') %}
+
+    <script type="text/javascript">
+        {% set itemProjectId = C.Html.activeId(model, 'projectId') %}
+        {% set itemDefectKindId = C.Html.activeId(model, 'itemKind') %}
+        {% set projectUsersList = C.Html.activeId(model, 'assigned') %}
+        {% set subsribersUrl = C.Html.normalizeUrl(['item/subscribers']) %}
+            
+        $(document).ready(function() {
+            updateDefectItem('#{{itemDefectKindId}}','.for-defect');
+            updateProjectUsers('#{{projectUsersList}}',$('#{{itemProjectId}}').val(), '{{subsribersUrl}}');
+            $('#{{itemProjectId}}').change(function() {
+                var projectID=$(this).val();
+                updateProjectUsers('#{{projectUsersList}}', projectID, '{{subsribersUrl}}');
+            });
+        });
+    </script>
+        {{itedDefectKindId}}
     {{ C.Html.errorSummary(model,
                 '<div class="alert alert-error">
                     <a class="close" data-dismiss="alert" href="#">&times;</a>',
@@ -8,7 +26,7 @@
             )
     }}
     {% set form = this.beginWidget(
-        'bootstrap.widgets.TbActiveForm',
+        'EntityFxActiveForm',
         {
             'id' : 'register-form',
             'enableClientValidation' : true,
@@ -18,9 +36,6 @@
             },
             'type' : 'horizontal',
             'method' : 'post',
-            'action' : C.Html.normalizeUrl(
-                ['project/add']
-            ),
             'errorMessageCssClass' : 'error'
         }
     )
@@ -30,11 +45,11 @@
             {{ form.dropDownListRow(model, 'projectId', model.projectsList) }}
             {{ form.textFieldRow(model, 'title', {'class' : 'input-xlarge'}) }}
             {{ form.dropDownListRow(model, 'itemKind', model.itemsTypeList, {'style' : 'font-weight: bold;'}) }}
-            {{ form.dropDownListRow(model, 'defectType', model.defectTypeList) }}
+            {{ form.dropDownListRow(model, 'defectType', model.defectTypeList, {'containerCssClass' : 'for-defect'}) }}
             {{ form.dropDownListRow(model, 'priority', model.priorityList) }}
             {{ form.dropDownListRow(model, 'assigned', model.projectUsersList) }}
             {{ form.textFieldRow(model, 'hoursRequired', {'class' : 'input-mini align-right', 'append' : 'ч'}) }}
-            {{ form.textAreaRow(model, 'itemDescription', { 'class' : 'input-xxlarge', 'rows' : 7 }) }}
+            {{ form.textAreaRow(model, 'itemDescription', {'containerCssClass' : 'for-defect', 'class' : 'input-xxlarge', 'rows' : 7 }) }}
             {{ form.textAreaRow(model, 'steps', { 'class' : 'input-xxlarge', 'rows' : 10 }) }}
             <div class="form-actions">
                 {{ void(this.widget('bootstrap.widgets.TbButton', { 'buttonType' : 'submit', 'type' : 'primary', 'label' : 'Сохранить' })) }}
