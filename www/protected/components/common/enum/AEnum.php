@@ -10,7 +10,7 @@
             $this->__value=$value;
             if (!$this->check())
             {
-                throw new Exception("Элемент <strong style=\"color: blue; font-style: italic;\">$value</strong> не соответствует константам в списке");
+                throw new Exception("Constant $value is missing in ". get_class($this));
             }
         }
         

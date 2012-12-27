@@ -513,7 +513,7 @@ class ItemService extends ServiceBase implements IItemService {
     }
 
     public function getReport($reportID) {
-        return $report = $this->getReportByID($reportID);
+        return $this->getReportByID($reportID);
     }
 
     private function getReportByID($itemId) {
@@ -526,7 +526,6 @@ class ItemService extends ServiceBase implements IItemService {
         if ($res == null) {
             return null;
         }
-        $this->normalizeBugReport($res);
         return $res;
     }
 
@@ -631,86 +630,6 @@ class ItemService extends ServiceBase implements IItemService {
         return $this->canEditStatus($itemId, $projectID);
     }
     
-    private function normalizeItemsFromList(array $items) {
-        if ($items != null) {
-            foreach ($items as $index => $item) {
-                $this->normalizeBugReport(&$item);
-                $items[$index] = $item;
-            }
-        }
-        return $items;
-    }
-            
-
-    /**
-     *
-     * Нормализует информацию отчёта об ошибке
-     */
-    private function normalizeBugReport(&$reportData) {
-        switch ($reportData["PriorityLevel"]) {
-            case ItemPriorityENUM::MINIMAL:
-                $reportData["PriorityLevelN"] = "Низкий";
-                break;
-            case ItemPriorityENUM::NORMAL:
-                $reportData["PriorityLevelN"] = "Обычный";
-                break;
-            case ItemPriorityENUM::HIGH:
-                $reportData["PriorityLevelN"] = "Важный";
-                break;
-        }
-        switch ($reportData["Kind"]) {
-            case ItemKindENUM::DEFECT:
-                $reportData["KindN"] = "Дефект";
-                break;
-            case ItemKindENUM::TASK:
-                $reportData["KindN"] = "Задача";
-                break;
-        }
-        switch ($reportData["ErrorType"]) {
-            case ItemTypeENUM::BLOCK:
-                $reportData["ErrorTypeN"] = "Блокирующая";
-                break;
-            case ItemTypeENUM::COSMETIC:
-                $reportData["ErrorTypeN"] = "Косметическая";
-                break;
-            case ItemTypeENUM::CRASH:
-                $reportData["ErrorTypeN"] = "Крах";
-                break;
-            case ItemTypeENUM::ERROR_HANDLE:
-                $reportData["ErrorTypeN"] = "Исключение";
-                break;
-            case ItemTypeENUM::FUNCTIONAL:
-                $reportData["ErrorTypeN"] = "Функциональня";
-                break;
-            case ItemTypeENUM::MAJOR:
-                $reportData["ErrorTypeN"] = "Значительная";
-                break;
-            case ItemTypeENUM::MINOR:
-                $reportData["ErrorTypeN"] = "Неначительная";
-                break;
-            case ItemTypeENUM::SETUP:
-                $reportData["ErrorTypeN"] = "Ошибка инсталляции";
-                break;
-        }
-        switch ($reportData["Status"]) {
-            case ItemStatusENUM::IS_NEW:
-                $reportData["StatusN"] = "Новый";
-                break;
-            case ItemStatusENUM::IDENTIFIED:
-                $reportData["StatusN"] = "Идентифицирован";
-                break;
-            case ItemStatusENUM::ASSESSED:
-                $reportData["StatusN"] = "В процессе";
-                break;
-            case ItemStatusENUM::RESOLVED:
-                $reportData["StatusN"] = "Решён";
-                break;
-            case ItemStatusENUM::CLOSED:
-                $reportData["StatusN"] = "Закрыт";
-                break;
-        }
-    }
-
 }
 
 ?>

@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Get Ioc container and set parameters for him
  *
  * @author EntityFX
  */
 final class Ioc {
+
     /**
      * Phemto ioc container
      * 
@@ -23,10 +25,10 @@ final class Ioc {
         }
         return self::$_instance;
     }
-    
+
     private static function initIoc() {
         $ioc = self::$_instance;
-        $serviceList = array(
+        $singletonServiceList = array(
             'UserService',
             'ProfileService',
             'ProjectService',
@@ -35,10 +37,18 @@ final class Ioc {
             'SubscribeService',
             'CommentService'
         );
-        foreach ($serviceList as $serviceName) {
-             $ioc->willUse(new Reused($serviceName));
+        foreach ($singletonServiceList as $service) {
+            $ioc->willUse(new Reused($service));
         }
+        
+        $ioc->whenCreating('ItemService')
+            ->forVariable('projectId')
+            ->willUse(new Value(Yii::app()->user->defaultProjectId))
+            ->forVariable('userId')
+            ->willUse(new Value(Yii::app()->user->id));
+        
     }
+
 }
 
 ?>
