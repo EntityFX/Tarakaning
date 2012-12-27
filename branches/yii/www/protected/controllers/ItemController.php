@@ -20,9 +20,34 @@ class ItemController extends ContentControllerBase {
     }
     
     public function actionAdd() {
-        
         $model = new AddItemForm();
         
+        $formData = $this->request->getPost("AddItemForm");
+        if (isset($formData)) {
+            $model->attributes = $formData;
+            if ($model->validate()) {
+                try
+                {
+                    $itemSevice = $this->ioc->create('IItemService');
+                    
+                    $itemId = $itemSevice->addReport(
+                        new ItemDBKindENUM($model->itemKind), 
+                        new ItemPriorityENUM($model->priority), 
+                        new ItemTypeENUM($model->defectType), 
+                        $model->title, 
+                        $model->hoursRequired, 
+                        $model->itemDescription, 
+                        $model->steps,
+                        $model->assigned
+                    );
+                    
+                    $this->redirect(array('item/edit', 'id' => $itemId));
+                }
+                catch(ServiceException $exception) {
+                    $model->addError('projectId', $exception->getMessage());
+                }
+            }
+        }
         
         $model->projectsList = $this->userProjectsListData;
         $model->projectId = Yii::app()->user->defaultProjectId;
@@ -31,6 +56,19 @@ class ItemController extends ContentControllerBase {
                 'model' => $model,
             )
         );
+    }
+    
+    public function actionEdit($id) {
+        $itemSevice = $this->ioc->create('IItemService');
+        $itemServiceData = $itemSevice->getReport($id);
+        if ($itemServiceData != null) {
+            $model = AddItemForm::createByItemServiceData($itemServiceData);
+            CVarDumper::dump($model, 10, true);
+            CVarDumper::dump($model->priorityText, 10, true);
+            CVarDumper::dump($model->defectTypeText, 10, true);
+            CVarDumper::dump($model->itemKindText, 10, true);
+            CVarDumper::dump($model->statusText, 10, true);
+        }
     }
     
     public function actionSubscribers() {
@@ -43,16 +81,8 @@ class ItemController extends ContentControllerBase {
             } else {
                 $projectUsersList = $projectService->getProjectUsers($projectId);
             }
-            $normalizedrezultList = self::getUsers($projectUsersList);
-            $this->renderJson($normalizedrezultList);
+            $this->renderJson(UserWrapper::getUsers($projectUsersList));
         }
-    }
-    
-    private static function getUsers(array &$projectUsersList) {
-        foreach ($projectUsersList as $userItem) {
-            $result[(int)$userItem["UserID"]] = $userItem["NickName"];
-        }
-        return $result;
     }
 }
 

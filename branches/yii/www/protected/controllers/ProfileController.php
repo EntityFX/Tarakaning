@@ -38,18 +38,11 @@ class ProfileController extends ContentControllerBase {
 
         $this->updateModel($modelList);
 
-        return $this->render('edit', array('model' => $this->prepareModel($modelList)));
+        return $this->render('edit', array('model' => $this->prepareModelList($modelList)));
     }
     
     public function actionIndex() {
         return $this->render('view', array('model' => Yii::app()->user));
-    }
-    
-    private function prepareModel(&$modelList) {
-        foreach ($modelList as $modelName => $modelItem) {
-            $model[$modelName] = $modelItem['model'];
-        }
-        return $model;
     }
 
     protected function updatePasswordOperation(ChangePasswordForm $model) {
