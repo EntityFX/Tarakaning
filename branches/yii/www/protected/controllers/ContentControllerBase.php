@@ -33,7 +33,7 @@ class ContentControllerBase extends EntityFxControllerBase {
                 Yii::app()->user->defaultProjectId = $userProjectsList[0]['ProjectID'];
                 $this->currentProjectId = Yii::app()->user->defaultProjectId;
             }
-            $this->userProjectsListData = self::prepareUserProjectsListData(
+            $this->userProjectsListData = UserWrapper::prepareUserProjectsListData(
                 $userProjectsList
             );
         }
@@ -49,22 +49,6 @@ class ContentControllerBase extends EntityFxControllerBase {
             }
         }
         return false;
-    }
-
-    /**
-     * Prepares list with user projects for dropdown
-     * 
-     * @param array $userProjetsList
-     * @return array 
-     */
-    protected static function prepareUserProjectsListData(array $userProjetsList) {
-        if ($userProjetsList == null) {
-            return array();
-        } else {
-            return CHtml::listData(
-                            $userProjetsList, 'ProjectID', 'Name'
-            );
-        }
     }
 
 }

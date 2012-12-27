@@ -48,7 +48,14 @@ abstract class EntityFxControllerBase extends CController {
         $this->ioc = Ioc::create();
     }
     
-    protected function updateModel(&$modelList) {
+    protected function prepareModelList(array &$models) {
+        foreach ($models as $modelName => $modelItem) {
+            $model[$modelName] = $modelItem['model'];
+        }
+        return $model;
+    }
+    
+    protected function updateModel(array &$modelList) {
         if ($this->request->isPostRequest) {
             foreach ($modelList as $modelName => $item) {
                 $modelData = $this->request->getPost($modelName);

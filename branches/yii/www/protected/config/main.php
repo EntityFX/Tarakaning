@@ -27,6 +27,7 @@ return array(
         'application.components.common.database.storedProcedures.*',
         'application.components.common.enum.*',
         'application.components.common.helpers.*',
+        'application.wrappers.*',
         'application.components.services.*',
         'application.components.services.user.*',
         'application.components.services.profile.*',
