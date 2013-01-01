@@ -173,6 +173,10 @@ class AddItemForm extends CFormModel {
         $list = $this->getStatusList();
         return $list[$this->status];
     }
+    
+    public function getCreateDateTimeText() {
+        return YII::app()->dateFormatter->formatDateTime($this->createDateTime, 'long', 'medium');
+    }
 }
 
 ?>

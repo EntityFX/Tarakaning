@@ -60,15 +60,24 @@ class ItemController extends ContentControllerBase {
     
     public function actionEdit($id) {
         $itemSevice = $this->ioc->create('IItemService');
+        
         $itemServiceData = $itemSevice->getReport($id);
+        
         if ($itemServiceData != null) {
-            $model = AddItemForm::createByItemServiceData($itemServiceData);
-            CVarDumper::dump($model, 10, true);
-            CVarDumper::dump($model->priorityText, 10, true);
-            CVarDumper::dump($model->defectTypeText, 10, true);
-            CVarDumper::dump($model->itemKindText, 10, true);
-            CVarDumper::dump($model->statusText, 10, true);
+            $model['editItem'] = AddItemForm::createByItemServiceData($itemServiceData);
+            $itemModel = $model['editItem'];
+            $canEditItem = !$itemSevice->canEditStatus($itemModel->itemId, $itemModel->projectId);
+            
+            $commentService = $this->ioc->create('ICommentService');
+        } else {
+            $this->redirect(array('project/index'));
         }
+        
+        return $this->render('edit', array(
+                'canEditItem' => $canEditItem,
+                'model' => $model
+            )
+        );
     }
     
     public function actionSubscribers() {
