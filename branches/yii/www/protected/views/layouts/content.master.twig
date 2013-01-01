@@ -26,7 +26,7 @@
 <div class="main-toolbar-group btn-toolbar well well-small">
     <div class="btn-group">
         <form class="form-inline" id="selectProjectForm" action="#">
-            {{C.Html.label('Текущий проект','project_id')}}
+            {{C.Html.label(yii.t('global','* CurrentProject'),'project_id')}}
             {{C.Html.dropDownList(
                     'project_id',
                     App.user.defaultProjectId,
@@ -40,13 +40,13 @@
     </div>
     <div class="btn-group">
         {% if this.userProjectsListData != none %}
-            <a class="btn btn-primary" href="{{ this.createUrl("item/add") }}" title="Создать новый дефкт/задачу">Создать элемент</a>
+            <a class="btn btn-primary" href="{{ this.createUrl("item/add") }}" title="Создать новый дефкт/задачу">{{yii.t('global','* CreateItem')}}</a>
         {% endif %}
-        <a class="btn btn-primary" href="{{ this.createUrl("project/add") }}" title="Создать новый проект">Создать проект</a>
+        <a class="btn btn-primary" href="{{ this.createUrl("project/add") }}" title="Создать новый проект">{{yii.t('global','* CreateProject')}}</a>
     </div>
     <div class="btn-group">
         <form class="form-inline" action="#">
-            <label for="item">Переход к №</label>
+            <label for="item">{{yii.t('global','* GoTo')}} №</label>
             <input class="input-mini" id="item" type="text" name="item" maxlength="8">
             <input type="submit" value="OK" id="submit_item" class="btn" />
         </form>
@@ -63,7 +63,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="/">Tarakaning</a>
+            <a class="brand" href="/">{{App.name}}</a>
             <div class="btn-group pull-right">
                 <a class="btn" href="{{ this.createUrl("profile/index") }}">
                     <i class="icon-user"></i>
@@ -90,18 +90,18 @@
             </div>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="{{ this.createUrl("project/index") }}">Проекты</a></li>
+                    <li><a href="{{ this.createUrl("project/index") }}">{{yii.t('global','* Projects')}}</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Элементы
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{yii.t('global','* Items')}}
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/my/bugs/">Мои элементы</a></li>
-                            <li><a href="/my/project/bugs/">Элементы проекта</a></li>
+                            <li><a href="/my/bugs/">{{yii.t('global','* MyItems')}}</a></li>
+                            <li><a href="/my/project/bugs/">{{yii.t('global','* ProjectItems')}}</a></li>
                         </ul>
                     </li>
-                    <li><a href="/requests/">Заявки</a></li>
-                    <li><a href="/search/">Поиск</a></li>
+                    <li><a href="/requests/">{{yii.t('global','* Requests')}}</a></li>
+                    <li><a href="/search/">{{yii.t('global','* Search')}}</a></li>
                 </ul>
             </div>
         </div>

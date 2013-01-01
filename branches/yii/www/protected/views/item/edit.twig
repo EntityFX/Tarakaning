@@ -1,0 +1,125 @@
+{% extends "views/layouts/content.master.twig" %}
+
+{% macro itemKind(itemKindValue) %}
+    {% if itemKindValue == 'Task' %}
+        {% set result = '* Task' %}
+    {% elseif status == 'Defect' %}
+        {% set result = '* Defect' %}
+    {% endif %} 
+    {{result}}
+{% endmacro %}
+
+{% import _self as view %}
+
+{% block body %}
+<ul class="nav nav-tabs" id="item-tab">
+    <li class="active"><a href="#description" data-toggle="tab">{{yii.t('global','* Description')}}</a></li>
+    <li><a href="#comments" data-toggle="tab">{{yii.t('global','* Comments')}}<span class="label label-success">0</span></a></li>
+    <li><a href="#history" data-toggle="tab">{{yii.t('global','* History')}}</a></li>
+    <li><a href="#attachments" data-toggle="tab">{{yii.t('global','* Files')}}</a></li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="description"> 
+        {{ C.Html.errorSummary(model['editItem'],
+                    '<div class="alert alert-error">
+                        <a class="close" data-dismiss="alert" href="#">&times;</a>',
+                    '</div>'
+                )
+        }}
+        {% set form = this.beginWidget(
+            'EntityFxActiveForm',
+            {
+                'id' : 'add-item-form',
+                'enableClientValidation' : true,
+                'enableAjaxValidation' : false,
+                'clientOptions' : {
+                    'validateOnSubmit' : true
+                },
+                'type' : 'horizontal',
+                'method' : 'post',
+                'errorMessageCssClass' : 'error'
+            }
+        )
+        %}
+            <fieldset>
+                <legend>{{view.itemKind(model['editItem'].itemKind)}} № {{model['editItem'].itemId}}</legend>
+                {{ form.textFieldRow(model['editItem'], 'title', {'class' : 'input-xlarge', 'disabled' : canEditItem}) }}
+                <div class="control-group">
+                    {{C.Html.activeLabel(model['editItem'],'projectName',{'class' : 'control-label'})}}
+                    <div class="controls">
+                        <label>
+                            <span>{{
+                                    C.Html.link(model['editItem'].projectName, 
+                                    {0 : 'project/edit', 'id' : model['editItem'].projectId})
+                                }}
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="control-group">
+                    {{C.Html.activeLabel(model['editItem'],'createDateTime',{'class' : 'control-label'})}}
+                    <div class="controls">
+                        <label>
+                            <span>{{model['editItem'].createDateTimeText}}
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="control-group">
+                    {{C.Html.activeLabel(model['editItem'],'itemKindText',{'class' : 'control-label'})}}
+                    <div class="controls">
+                        <label>
+                            <span>{{model['editItem'].itemKindText}}
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                {{ form.dropDownListRow(model['editItem'], 'defectType', model['editItem'].defectTypeList, {'disabled' : canEditItem}) }}
+                {{ form.dropDownListRow(model['editItem'], 'status', model['editItem'].statusList, {'disabled' : canEditItem}) }}
+                {{ form.dropDownListRow(model['editItem'], 'priority', model['editItem'].priorityList, {'disabled' : canEditItem}) }}
+                {{ form.dropDownListRow(model['editItem'], 'assigned', model['editItem'].projectUsersList, {'disabled' : canEditItem}) }}
+                {{ form.textFieldRow(model['editItem'], 'hoursRequired', {'class' : 'input-mini align-right', 'append' : 'ч', 'disabled' : canEditItem}) }}
+                <div class="control-group">
+                    {{C.Html.activeLabel(model['editItem'],'hoursFact',{'class' : 'control-label'})}}
+                    <div class="controls">
+                        <span class="help-inline"> +&nbsp;</span>
+                        <div class="input-append">
+                            {{C.Html.activeTextField(model['editItem'], 'hoursFact', {'class' : 'input-mini align-right', 'disabled' : canEditItem})}}<span class="add-on">ч</span>
+                        </div>
+                    </div>
+                </div>
+                {{ form.textAreaRow(model['editItem'], 'itemDescription', {'containerCssClass' : 'for-defect', 'class' : 'input-xxlarge', 'rows' : 7, 'disabled' : canEditItem }) }}
+                {{ form.textAreaRow(model['editItem'], 'steps', { 'class' : 'input-xxlarge', 'rows' : 10, 'disabled' : canEditItem }) }}
+            </fieldset>
+        {% do this.endWidget() %}
+    </div>
+    <div class="tab-pane" id="comments">
+        <div class="row">
+            <div class="span6">
+                1
+            </div>
+            <div class="span6">
+                {% set form = this.beginWidget(
+                    'EntityFxActiveForm',
+                    {
+                        'id' : 'add-comment-form',
+                        'enableClientValidation' : true,
+                        'enableAjaxValidation' : false,
+                        'clientOptions' : {
+                            'validateOnSubmit' : true
+                        },
+                        'method' : 'post',
+                        'errorMessageCssClass' : 'error',
+                        'htmlOptions' : {'class' : 'well'}
+                    }
+                )
+                %}
+                    <label class="control-label" for="comment">Комментарий</label>
+                    <textarea id="comment" name="comment" rows="5"></textarea>
+                    {{ void(this.widget('bootstrap.widgets.TbButton', { 'buttonType' : 'submit', 'type' : 'primary', 'label' : yii.t('global','* Send') })) }}
+                {% do this.endWidget() %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

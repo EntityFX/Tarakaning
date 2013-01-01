@@ -293,16 +293,22 @@ class ETwigViewRendererStaticClassProxy
 class ETwigViewRendererYiiCoreStaticClassesProxy
 {
     private $_classes = array();
+    
+    private $_firstLetter;
+    
+    public function __construct($letter = 'C') {
+        $this->_firstLetter = $letter;
+    }
 
     function __isset($className)
     {
-        return (isset($_classes[$className]) || class_exists('C'.$className));
+        return (isset($_classes[$className]) || class_exists($this->_firstLetter.$className));
     }
 
     function __get($className)
     {
         if (!isset($this->_classes[$className])) {
-            $this->_classes[$className] = new ETwigViewRendererStaticClassProxy('C'.$className);
+            $this->_classes[$className] = new ETwigViewRendererStaticClassProxy($this->_firstLetter.$className);
         }
 
         return $this->_classes[$className];
