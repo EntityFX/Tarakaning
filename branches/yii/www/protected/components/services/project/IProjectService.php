@@ -18,8 +18,6 @@ interface IProjectService {
      * @param $description - описание проекта.
      * @return int Новый идентификатор проекта. 
      * 
-     * @todo 1) проверку существования пользователя.<br />
-     * 2) при добавлении проекта должно происходить добавление в таблицу истории.
      */
     public function addProject($userID, $projectName, $description);
 
@@ -36,7 +34,7 @@ interface IProjectService {
      * @param int $projectID - id проекта, подлежащего изменению названия.
      * 
      */
-    public function updateProjectDataById($projectID, $userID, $projectNewName, $newDescription);
+    public function editById($projectID, $userID, $projectNewName, $newDescription);
 
     /**
      * Проверяется является ли пользователь автором проекта.
@@ -50,7 +48,6 @@ interface IProjectService {
      * @param int $userID
      * @param int $projectID
      * 
-     * @todo добавить проверку пользователя - является ли администратором. Тогда можно будет и ему удалять.
      */
     public function deleteById($userID, $projectID);
 

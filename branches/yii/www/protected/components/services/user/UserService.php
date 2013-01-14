@@ -51,7 +51,8 @@ class UserService extends ServiceBase implements IUserService {
                             UserTable::FRST_NM_FIELD       => htmlspecialchars($name, ENT_QUOTES),
                             UserTable::LAST_NM_FIELD       => htmlspecialchars($surname, ENT_QUOTES),
                             UserTable::SECND_NM_FIELD      => htmlspecialchars($secondName, ENT_QUOTES),
-                            UserTable::EMAIL_FIELD         => $email
+                            UserTable::EMAIL_FIELD         => $email,
+                            UserTable::ACTIVE_FIELD        => true
                         )
         );
         return (int)$this->db->getLastInsertID();

@@ -18,7 +18,6 @@ class ProjectService extends ServiceBase implements IProjectService {
      * @param $description - описание проекта.
      * @return int Новый идентификатор проекта. 
      * 
-     * @todo 1) проверку существования пользователя.<br />
      * 2) при добавлении проекта должно происходить добавление в таблицу истории.
      */
     public function addProject($userID, $projectName, $description) {
@@ -59,12 +58,8 @@ class ProjectService extends ServiceBase implements IProjectService {
      * @param int $userID - id пользователя, создавшего проект.
      * @param string $projectNewName - новое название проекта.
      * @param int $projectID - id проекта, подлежащего изменению названия.
-     * 
-     * @todo при изменении названия проекта происходить должно: <br /> 
-     * добавление в таблицу истории проекта (-) <br />
-     * и обновление в таблице проектов (+) <br />
      */
-    public function updateProjectDataById($projectID, $userID, $projectNewName, $newDescription) {
+    public function editById($projectID, $userID, $projectNewName, $newDescription) {
         $userID = (int) $userID;
         $projectID = (int) $projectID;
         if ($this->existsById($projectID)) {
@@ -125,7 +120,6 @@ class ProjectService extends ServiceBase implements IProjectService {
      * @param int $userID
      * @param int $projectID
      * 
-     * @todo добавить проверку пользователя - является ли администратором. Тогда можно будет и ему удалять.
      */
     public function deleteById($userID, $projectID) {
         $userID = (int) $userID;
@@ -362,7 +356,7 @@ class ProjectService extends ServiceBase implements IProjectService {
     public function getProjectUsersInfoCount($projectID) {
         $projectID = (int) $projectID;
         return $this->getCount(
-                serInProjectErrorsAndComments::NAME, 
+                UserInProjectErrorsAndComments::NAME, 
                 UserInProjectErrorsAndComments::PROJECT_ID_FIELD . ' = :projectId', 
                 array(':projectId' => $projectID)
         );

@@ -1,0 +1,65 @@
+{% extends "views/layouts/content.master.twig" %}
+
+{% block body %}
+    <ul class="nav nav-tabs" id="item-tab">
+        <li class="active"><a href="#about" data-toggle="tab">{{yii.t('global','* Description')}}</a></li>
+        <li><a href="#users" data-toggle="tab">{{yii.t('global','* Members')}}<span class="label label-success">{{usersCount}}</span></a></li>
+        {% if isProjectOwner %}
+            <li><a href="#requests" data-toggle="tab">{{yii.t('global','* Requests')}}{% if requestsCount > 0 %}<span class="label label-warning">{{requestsCount}}</span>{% endif %}</a></li>	
+        {% endif %}
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="about">
+            {{ C.Html.errorSummary(model,
+                        '<div class="alert alert-error">
+                            <a class="close" data-dismiss="alert" href="#">&times;</a>',
+                        '</div>'
+                    )
+            }}
+            {% set form = this.beginWidget(
+                'bootstrap.widgets.TbActiveForm',
+                {
+                    'id' : 'register-form',
+                    'enableClientValidation' : true,
+                    'enableAjaxValidation' : false,
+                    'clientOptions' : {
+                        'validateOnSubmit' : true
+                    },
+                    'type' : 'horizontal',
+                    'method' : 'post',
+                    'errorMessageCssClass' : 'error'
+                }
+            )
+            %}
+                <fieldset>
+                    <legend>{{yii.t('global','* Edit project')}}</legend>
+                    <div class="control-group">
+                        {{C.Html.activeLabel(model.project,'author',{'class' : 'control-label'})}}
+                        <div class="controls">
+                            <label>
+                                <span>{{
+                                        C.Html.link(model.project.author, 
+                                        {0 : 'profile/index', 'id' : model.project.authorId})
+                                    }}
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    {{ form.textFieldRow(model.project, 'name', { 'class' : 'input-xlarge' }) }}
+                    {{ form.textAreaRow(model.project, 'description', { 'class' : 'input-xxlarge', 'rows' : 10 }) }}
+                    <div class="form-actions">
+                        {{ void(this.widget('bootstrap.widgets.TbButton', { 'buttonType' : 'submit', 'type' : 'primary', 'label' : 'Сохранить' })) }}
+                        {{ void(this.widget('bootstrap.widgets.TbButton', { 'buttonType' : 'reset', 'label' : 'Сброс' })) }}
+                    </div>
+                </fieldset>
+            {% do this.endWidget() %}
+        </div>
+        <div class="tab-pane" id="users">
+        </div>
+        {% if isProjectOwner %}
+            <div class="tab-pane" id="requests">
+
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

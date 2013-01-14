@@ -18,8 +18,6 @@ class CommentService extends ServiceBase implements ICommentService {
      * @param int $reportID
      * @param string $commentText
      *
-     * @todo 1) добавить проверку на существование отчета об ошибке. <br />
-     * 2) добавить проверку на существование данного пользователя.
      */
     public function setReportComment($projectID, $userID, $reportID, $commentText) {
         /*

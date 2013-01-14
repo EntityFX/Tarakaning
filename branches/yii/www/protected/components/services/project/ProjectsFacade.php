@@ -36,7 +36,7 @@ class ProjectsFacade
 	
 	public function setProjectName($projectID,$projectNewName, $newDescription)
 	{
-		$this->_projectsController->updateProjectDataById($projectID, $this->_userInfo["USER_ID"], $projectNewName, $newDescription);
+		$this->_projectsController->editById($projectID, $this->_userInfo["USER_ID"], $projectNewName, $newDescription);
 	}
 	
 	public function searchProject($query)
