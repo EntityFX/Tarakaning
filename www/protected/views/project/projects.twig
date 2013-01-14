@@ -68,6 +68,8 @@
                                 'header' : '',
                                 'class' : 'bootstrap.widgets.TbButtonColumn',
                                 'template' : '{update} {delete}',
+                                'updateButtonUrl' : 'Yii::app()->controller->createUrl("edit",array("id"=>$data["ProjectID"]))',
+                                'deleteButtonUrl' : 'Yii::app()->controller->createUrl("delete",array("id"=>$data["ProjectID"]))'
                             }
                         ],
                         'showTableOnEmpty' : false,

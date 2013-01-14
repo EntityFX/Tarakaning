@@ -53,14 +53,28 @@ class AuthController extends EntityFxControllerBase {
 
     public function actionRegister() {
         $model = new RegisterForm();
-
         $formData = $this->request->getPost('RegisterForm');
 
         if (isset($formData)) {
             $model->attributes = $formData;
 
             if ($model->validate()) {
-
+                $userService = $this->ioc->create('IUserService');
+                try {
+                    $userService->create(
+                            $model->email, 
+                            $model->password, 
+                            0, 
+                            $model->name, 
+                            $model->surname, 
+                            $model->secondName,
+                            $model->email
+                    );
+                    $this->redirect('auth/login');
+                }
+                catch (ServiceException $exception) {
+                    $model->addError('email', $exception->getMessage());
+                }
             }
         }
 
