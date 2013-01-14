@@ -87,7 +87,7 @@ class SubscribeService extends ServiceBase implements ISubscribeService {
      * Возвращает количество заявок на проект
      * @param unknown_type $projectID
      */
-    public function getProjectSubscribesCount($projectID) {
+    public function getProjectRequestsCount($projectID) {
         return $this->getCount(self::TABLE_SUBSCR_RQST, 'PROJ_ID = :projectId',array(':projectId' => (int) $projectID));
     }
 

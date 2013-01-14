@@ -18,8 +18,6 @@ interface ICommentService {
      * @param unknown_type $reportID
      * @param unknown_type $comment
      *
-     * @todo 1) добавить проверку на существование отчета об ошибке. <br />
-     * 2) добавить проверку на существование данного пользователя.
      */
     public function setReportComment($projectID, $userID, $reportID, $comment);
 

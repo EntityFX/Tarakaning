@@ -27,9 +27,9 @@ interface ISubscribeService {
     /**
      * 
      * Возвращает количество заявок на проект
-     * @param unknown_type $projectID
+     * @param int $projectID
      */
-    function getProjectSubscribesCount($projectID);
+    function getProjectRequestsCount($projectID);
 
     /**
      * Удаление данного пользователя из списка участников проекта.

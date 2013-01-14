@@ -58,6 +58,7 @@ return array(
     // application components
     'components' => array(
         'user' => array(
+            'class' => 'User',
             'allowAutoLogin' => true,
             'loginUrl'=>array('auth/login')
         ),
