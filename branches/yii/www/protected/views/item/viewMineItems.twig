@@ -1,0 +1,79 @@
+{% extends "views/layouts/content.master.twig" %}
+
+{% block body %}
+<div class="span12" >
+</div>
+<div class="span12" >
+    <form action="#" class="reports_form" method="post">
+        {{ void(this.widget(
+                'bootstrap.widgets.TbGridView', {
+                    'dataProvider' : userItemsDataProvider,
+                    'type' : 'striped bordered condensed',
+                    'columns' : [
+                        { 
+                            'class' : 'CCheckBoxColumn',
+                            'name' : 'ID',
+                            'headerTemplate' : '{item}',
+                            'selectableRows' : 2
+                        },
+                        {
+                            'name' : 'ID',
+                            'class' : 'EntityFxLinkColumn',
+                            'labelExpression' : '$data[ID]',
+                            'urlExpression' : 'Yii::app()->controller->createUrl("index",array("id" => $data["ID"]))'
+                        },
+                        {
+                            'class' : 'EntityFxDataColumn',
+                            'name' : 'Kind',
+                            'value' : '$data["KindText"]',
+                        },
+                        'StatusText',
+                        'Title',
+                        'PriorityText',
+                        'AssignedNickName',
+                        {
+                            'name' : 'HoursRequired',
+                            'header' : '* Hours',
+                            'headerHtmlOptions' : {
+                                colspan: 2
+                            }
+                        },
+                        {
+                            'name' : 'HoursFact',
+                            'headerVisible' : false,
+                        },
+                        {
+                            'name' : 'CreateDateTime',
+                            'value' : 'strtotime($data[CreateDateTime])',
+                            'type' : 'datetime'
+                        },
+                        {
+                            'header' : '',
+                            'class' : 'bootstrap.widgets.TbButtonColumn',
+                            'template' : '{update} {delete}',
+                            'updateButtonUrl' : 'Yii::app()->controller->createUrl("edit",array("id"=>$data["ProjectID"]))',
+                            'deleteButtonUrl' : 'Yii::app()->controller->createUrl("delete",array("id"=>$data["ProjectID"]))'
+                        }
+                    ],
+                    'showTableOnEmpty' : false,
+                    'enablePagination' : true,
+                    'template' : "{summary}\n{items}\n{pager}",
+                    'emptyText' : '
+                        <div class="alert alert-info">
+                            <a class="close" data-dismiss="alert" href="#">&times;</a>
+                            <span>Проектов нет</span>
+                        </div>'
+                }
+            ))
+        }}
+        <div class="row"> 
+            <div class="span6">
+                <button class="btn btn-danger" type="submit" id="del" name="del" title="Удалить выделенные элементы">
+                    <i class="icon-trash icon-white"></i>
+                    Удалить выделенные элементы
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

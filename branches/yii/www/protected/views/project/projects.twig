@@ -89,48 +89,73 @@
                         <i class="icon-trash icon-white"></i>
                         Удалить выделенные проекты
                     </button>
-                </div> 
-                <div class="span6">
-                    {% set userProjectsPager = C.widget('CLinkPager', {'pages' : userProjectsPaginator}) %}
                 </div>
             </div>
         </form>
     </div>
     <div class="tab-pane" id="all-projects">
-        {if $PROJECTS_WITHOUT_ME neq NULL}
-            <div class="pagination pagination-right">
-                {$MEMBER_PROJECTS_PAGINATOR}
-            </div>
-            <table class="projects_table">
-                <thead>
-                    <tr>
-                        <th><a href="{$MEMBER_PROJECTS_ORDERER.ProjectName.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.ProjectName.order eq true}class="sort"{/if}>Проект</a></th>
-                        <th><a href="{$MEMBER_PROJECTS_ORDERER.Description.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.Description.order eq true}class="sort"{/if}>Описание</a></th>
-                        <th><a href="{$MEMBER_PROJECTS_ORDERER.OwnerNickName.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.OwnerNickName.order eq true}class="sort"{/if}>Владелец</a></th>
-                        <th colspan="5">Отчётов</th>
-                        <th><a href="{$MEMBER_PROJECTS_ORDERER.CountUsers.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.CountUsers.order eq true}class="sort"{/if}>Участников</a></th>
-                        <th><a href="{$MEMBER_PROJECTS_ORDERER.CreateDateTime.url}#all_projects" {if $MEMBER_PROJECTS_ORDERER.CreateDateTime.order eq true}class="sort"{/if}>Дата</a></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {foreach name=notMyProjects from=$PROJECTS_WITHOUT_ME item=element} {* Выводит мои проекты*}
-                        <tr>
-                            <td><a href="/my/project/show/{$element.ProjectID}/">{$element.ProjectName}</a></td>
-                            <td>{$element.Description}</td>
-                            <td><a href="#">{$element.OwnerNickName}</a></td>
-                            <td class="item-state-new">{$element.NEW}</td><td class="item-state-assesed">{$element.IDENTIFIED}</td><td class="item-state-inprocess">{$element.ASSESSED}</td><td class="item-state-solved">{$element.RESOLVED}</td><td class="closed">{$element.CLOSED}</td>
-                            <td>{$element.CountUsers}</td>
-                            <td>{$element.CreateDateTime}</td>
-                        </tr>
-                    {/foreach}
-                </tbody>
-            </table>
-        {else}
-            <div class="alert alert-info">
-                <a class="close" data-dismiss="alert" href="#">&times;</a>
-                <span>Проектов нет</span>
-            </div>
-        {/if}
+        {{ void(this.widget(
+            'bootstrap.widgets.TbGridView', {
+                'dataProvider' : memberProjectsDataProvider,
+                'type' : 'striped bordered condensed',
+                'columns' : [
+                    'ProjectName',
+                    'Description',
+                    'OwnerNickName',
+                    {
+                        'name' : 'NEW',
+                        'header' : 'Elements',
+                        'headerHtmlOptions' : {
+                            colspan: 5
+                        },
+                        'htmlOptions' : {
+                            'class' : 'item-state-new'
+                        }
+                    },
+
+                    {
+                        'name' : 'IDENTIFIED',
+                        'headerVisible' : false,
+                        'htmlOptions' : {
+                            'class' : 'item-state-assesed'
+                        }
+                    },
+                    {
+                        'name' : 'ASSESSED',
+                        'headerVisible' : false,
+                        'htmlOptions' : {
+                            'class' : 'item-state-inprocess'
+                        }
+                    },
+                    {
+                        'name' : 'RESOLVED',
+                        'headerVisible' : false,
+                        'htmlOptions' : {
+                            'class' : 'item-state-solved'
+                        }
+                    },
+                    {
+                        'name' : 'CLOSED',
+                        'headerVisible' : false
+                    },
+                    'CountUsers',
+                    {
+                        'name' : 'CreateDateTime',
+                        'value' : 'strtotime($data[CreateDateTime])',
+                        'type' : 'datetime'
+                    }
+                ],
+                'showTableOnEmpty' : false,
+                'enablePagination' : true,
+                'template' : "{summary}\n{items}\n{pager}",
+                'emptyText' : '
+                    <div class="alert alert-info">
+                        <a class="close" data-dismiss="alert" href="#">&times;</a>
+                        <span>Проектов нет</span>
+                    </div>'
+            }
+            ))
+        }}
     </div>
 </div>
 {% endblock %}

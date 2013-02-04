@@ -2,7 +2,7 @@
 /**
  * CLinkColumn class file.
  *
- * @author Qiang Xue <qiang.xue@gmail.com>
+ * @author EntityFX <artem.solopiy@gmail.com>
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2011 Yii Software LLC
  * @license http://www.yiiframework.com/license/
@@ -17,7 +17,7 @@ Yii::import('zii.widgets.grid.CGridColumn');
  * The {@link labelExpression}, {@link urlExpression} properties may be used instead if they are available.
  * In addition, if {@link imageUrl} is set, an image link will be rendered.
  *
- * @author Qiang Xue <qiang.xue@gmail.com>
+ * @author EntityFX <artem.solopiy@gmail.com>
  * @version $Id$
  * @package zii.widgets.grid
  * @since 1.1

@@ -457,13 +457,13 @@ class ItemService extends ServiceBase implements IItemService {
                 $kind, 
                 $page, 
                 $size, 
-                $userAndProjectArray[ItemFullInfoView::USER_ID_FIELD],
-                $userAndProjectArray[ItemFullInfoView::PROJECT_ID_FIELD]
+                $userAndProjectArray['userID'],
+                $userAndProjectArray['projectID']
         );
         $res = $getCommand
                 ->order($this->order($field, $direction))
                 ->queryAll();
-        return $this->normalizeItemsFromList($res);
+        return $res;
     }
 
     /**
