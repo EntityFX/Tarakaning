@@ -34,10 +34,10 @@ abstract class ServiceBase {
      * Returns ORDER BY token for field enum and order enum
      * 
      * @param AEnum $orderField Field to order
-     * @param MySQLOrderENUM $direction Order direction
+     * @param DBOrderENUM $direction Order direction
      * @return string 
      */
-    protected function order(AEnum $orderField, MySQLOrderENUM $direction) {
+    protected function order(AEnum $orderField, DBOrderENUM $direction) {
         return $orderField->getValue() . ' ' . $direction->getValue();
     }
 

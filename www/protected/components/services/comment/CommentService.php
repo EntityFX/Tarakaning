@@ -156,7 +156,7 @@ class CommentService extends ServiceBase implements ICommentService {
      * @param unknown_type $itemId
      * @param unknown_type $userID
      */
-    public function getReportComments($projectID, $itemId, $userID, ItemCommentsENUM $fieldEnum, MySQLOrderENUM $direction, $page = 1, $size = 15) {
+    public function getReportComments($projectID, $itemId, $userID, ItemCommentsENUM $fieldEnum, DBOrderENUM $direction, $page = 1, $size = 15) {
         $userID = (int) $userID;
         $projectID = (int) $projectID;
         $itemId = (int) $itemId;

@@ -72,22 +72,22 @@ interface IItemService {
 
     function getReports(ItemKindENUM $kind, $page = 0, $size = 15, $userID = NULL, $projectID = NULL);
 
-    function getMyOrdered(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL);
+    function getMyOrdered(ItemKindENUM $kind, ItemFieldsENUM $field, DBOrderENUM $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL);
 
     /**
      *
      * @param ItemKindENUM $kind
      * @param ItemFieldsENUM $field
-     * @param MySQLOrderEnum $direction
+     * @param DBOrderENUM $direction
      * @param type $page
      * @param type $size
      * @param type $userID
      * @param type $projectID
      * @return type
      */
-    function getAssignedToMe(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL);
+    function getAssignedToMe(ItemKindENUM $kind, ItemFieldsENUM $field, DBOrderENUM $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL);
 
-    function getProjectOrdered($projectID, ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 0, $size = 15);
+    function getProjectOrdered($projectID, ItemKindENUM $kind, ItemFieldsENUM $field, DBOrderENUM $direction, $page = 0, $size = 15);
 
     function getAll();
 
