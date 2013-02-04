@@ -27,10 +27,20 @@ class ProjectController extends ContentControllerBase {
         );
     }
 
+    /**
+     * Handles page with projects 
+     * 
+     * @uses IProjectService
+     * @return void
+     */
     public function actionIndex() {
         $projectSevice = $this->ioc->create('IProjectService');
 
-        $projectsArrayProvider = self::prepareProjectsDataProvider($projectSevice->getUserProjectsInfoCount(Yii::app()->user->id));
+        
+        //get users' projects
+        $projectsArrayProvider = self::prepareUserProjectsDataProvider(
+                $projectSevice->getUserProjectsInfoCount(Yii::app()->user->id)
+        );
         
         $projectsList = $projectSevice->getUserProjectsInfo(
                 Yii::app()->user->id, 
@@ -43,12 +53,31 @@ class ProjectController extends ContentControllerBase {
                 $projectsArrayProvider->getPagination()->getOffset(), 
                 $projectsArrayProvider->getPagination()->getPageSize()
         );
-        
         $projectsArrayProvider->setData($projectsList);
-        return $this->render('projects', array(
-                    'userProjectsDataProvider' => $projectsArrayProvider,
-                    'userProjectsPaginator' => null
-                        )
+              
+        //get project where user is member
+        $projectsMemberDataProvider = self::prepareMemberProjectsDataProvider(
+                $projectSevice->getMemberProjectsCount(Yii::app()->user->id)
+        );
+        
+        $userMemberProjectsList = $projectSevice->getMemberProjects(
+            Yii::app()->user->id, 
+            new MyProjectsFieldsENUM(
+                $projectsMemberDataProvider->getSortField() === '' ?  
+                MyProjectsFieldsENUM::PROJECT_NAME :
+                $projectsMemberDataProvider->getSortField()
+            ),
+            new DBOrderENUM($projectsMemberDataProvider->getSortDirection()),
+            $projectsMemberDataProvider->getPagination()->getOffset(), 
+            $projectsMemberDataProvider->getPagination()->getPageSize() 
+        );
+        $projectsMemberDataProvider->setData($userMemberProjectsList);
+        
+        return $this->render('projects', 
+            array(
+                'userProjectsDataProvider' => $projectsArrayProvider,
+                'memberProjectsDataProvider' => $projectsMemberDataProvider
+            )
         );
     }
 
@@ -132,15 +161,15 @@ class ProjectController extends ContentControllerBase {
     }
     
     /**
-     *
+     * Preapres data provider for users's projects
      * @param array $projectsList 
      * @return IDataProvider
      */
-    private static function prepareProjectsDataProvider($count) {
-        $projectsDataProvider = new SimpleArrayProvider(
+    private static function prepareUserProjectsDataProvider($count) {
+        $projectsDataProvider = new SimpleArrayDataProvider(
                         $count,
                         array(
-                            'id' => ProjectAndItemsView::PROJECT_ID_FIELD,
+                            'id' => 'userProjects',
                             'sort' => array(
                                 'attributes' => array(
                                     MyProjectsFieldsENUM::PROJECT_NAME,
@@ -154,70 +183,30 @@ class ProjectController extends ContentControllerBase {
         );
         return $projectsDataProvider;
     }
-
-}
-
-class SimpleArrayProvider extends CDataProvider {
-    private $sortField;
-    private $sortDirection;
-    
     
     /**
-     * @var string the name of key field. Defaults to 'id'. If it's set to false,
-     * keys of $rawData array are used.
+     * Prepares data provider for projects where user is member
+     * @param array $projectsList 
+     * @return IDataProvider
      */
-    public $keyField = 'id';
-    public $rawData;
-
-    protected function fetchData() {
-        if (($pagination = $this->getPagination()) !== false) {
-            $pagination->setItemCount($this->getTotalItemCount());
-        }
-        return $this->rawData;
-    }
-
-    /**
-     * Fetches the data item keys from the persistent data storage.
-     * @return array list of data item keys.
-     */
-    protected function fetchKeys() {
-        if ($this->keyField === false)
-            return array_keys($this->rawData);
-        $keys = array();
-        foreach ($this->getData() as $i => $data)
-            $keys[$i] = is_object($data) ? $data->{$this->keyField} : $data[$this->keyField];
-        return $keys;
-    }
-
-    /**
-     * Calculates the total number of data items.
-     * @return integer the total number of data items.
-     */
-    protected function calculateTotalItemCount() {
-        return count($this->rawData);
-    }
-
-    /**
-     * Constructor.
-     * @param array $rawData the data that is not paginated or sorted. The array elements must use zero-based integer keys.
-     * @param array $config configuration (name=>value) to be applied as the initial property values of this class.
-     */
-    public function __construct($count, $config = array()) {
-        foreach ($config as $key => $value)
-            $this->$key = $value;
-        $this->setTotalItemCount((int)$count);
-        $this->getPagination()->setItemCount($this->getTotalItemCount());
-        list($this->sortField, $this->sortDirection) = explode(' ',$this->getSort()->getOrderBy());
-    }
-    
-    public function getSortField() {
-        return $this->sortField;
-    }
-    
-    public function getSortDirection() {
-        return $this->sortDirection === null ? DBOrderENUM::ASC : DBOrderENUM::DESC;
+    private static function prepareMemberProjectsDataProvider($count) {
+        $projectsDataProvider = new SimpleArrayDataProvider(
+                        $count,
+                        array(
+                            'id' => 'memberProjects',
+                            'sort' => array(
+                                'attributes' => array(
+                                    MyProjectsFieldsENUM::PROJECT_NAME,
+                                    MyProjectsFieldsENUM::DESCRIPTION,
+                                    MyProjectsFieldsENUM::NICK_NAME,
+                                    MyProjectsFieldsENUM::COUNT_USERS,
+                                    MyProjectsFieldsENUM::CREATE_DATE,
+                                )
+                            ),
+                        )
+        );
+        return $projectsDataProvider;
     }
 
 }
 
-?>

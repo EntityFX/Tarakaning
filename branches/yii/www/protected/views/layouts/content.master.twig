@@ -96,8 +96,8 @@
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="/my/bugs/">{{yii.t('global','* MyItems')}}</a></li>
-                            <li><a href="/my/project/bugs/">{{yii.t('global','* ProjectItems')}}</a></li>
+                            <li><a href="{{ this.createUrl("item/viewMineItems") }}">{{yii.t('global','* MyItems')}}</a></li>
+                            <li><a href="{{ this.createUrl("item/viewProjectItems") }}">{{yii.t('global','* ProjectItems')}}</a></li>
                         </ul>
                     </li>
                     <li><a href="/requests/">{{yii.t('global','* Requests')}}</a></li>
