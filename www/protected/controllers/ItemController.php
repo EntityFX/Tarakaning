@@ -80,6 +80,40 @@ class ItemController extends ContentControllerBase {
         );
     }
     
+    public function actionViewMineItems() {
+        $itemSevice = $this->ioc->create('IItemService');
+        
+        $userItemsDataProvider = self::prepareUserItemsDataProvider(
+                $itemSevice->countReports(new ItemKindENUM(ItemKindENUM::ALL))
+        );
+                
+
+        $userItemsDataProvider->setData(
+            ItemWrapper::getUserItemListData(
+                $itemSevice->getMyOrdered(
+                    new ItemKindENUM(ItemKindENUM::ALL),
+                    new ItemFieldsENUM(
+                            $userItemsDataProvider->getSortField() === '' ? 
+                            ItemFieldsENUM::ID :
+                            $userItemsDataProvider->getSortField()
+                    ),
+                    new DBOrderEnum($userItemsDataProvider->getSortDirection())
+                )
+            )
+        );
+        
+        $this->render(
+                'viewMineItems',
+                array(
+                    'userItemsDataProvider' => $userItemsDataProvider
+                )
+        );
+    }
+    
+    public function actionViewProjectItems() {
+        $this->render('viewProjectItems');
+    }
+    
     public function actionSubscribers() {
         if ($this->request->isAjaxRequest) {
             $projectService = $this->ioc->create('IProjectService');
@@ -92,6 +126,32 @@ class ItemController extends ContentControllerBase {
             }
             $this->renderJson(UserWrapper::getUsers($projectUsersList));
         }
+    }
+    
+    /**
+     * Preapres data provider for users's projects
+     * @param array $projectsList 
+     * @return IDataProvider
+     */
+    private static function prepareUserItemsDataProvider($count) {
+        $projectsDataProvider = new SimpleArrayDataProvider(
+                        $count,
+                        array(
+                            'id' => 'userItems',
+                            'sort' => array(
+                                'attributes' => array(
+                                    ItemFieldsENUM::ID,
+                                    ItemFieldsENUM::KIND,
+                                    ItemFieldsENUM::STATUS,
+                                    ItemFieldsENUM::TITLE,
+                                    ItemFieldsENUM::PRIORITY,
+                                    ItemFieldsENUM::ASSIGNED_NICK_NAME,
+                                    ItemFieldsENUM::TIME
+                                )
+                            ),
+                        )
+        );
+        return $projectsDataProvider;
     }
 }
 
