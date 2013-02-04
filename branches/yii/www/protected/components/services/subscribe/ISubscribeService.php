@@ -18,11 +18,11 @@ interface ISubscribeService {
      * Получение списка проектов, на которые подписан пользователь.
      * @param int $userID - id пользователя, подавшего заявку.
      */
-    function getUserSubscribes($userID, SubscribesDetailENUM $orderField, MySQLOrderEnum $direction, $page = 0, $size = 15);
+    function getUserSubscribes($userID, SubscribesDetailENUM $orderField, DBOrderENUM $direction, $page = 0, $size = 15);
 
     function getSubscribesCount($userID);
 
-    function getProjectSubscribes($projectID, ProjectSubscribesDetailENUM $orderField, MySQLOrderEnum $direction, $page = 0, $size = 15);
+    function getProjectSubscribes($projectID, ProjectSubscribesDetailENUM $orderField, DBOrderENUM $direction, $page = 0, $size = 15);
 
     /**
      * 
