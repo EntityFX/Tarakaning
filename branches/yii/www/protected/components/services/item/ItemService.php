@@ -450,7 +450,7 @@ class ItemService extends ServiceBase implements IItemService {
         return $this->normalizeItemsFromList($res);
     }
 
-    public function getMyOrdered(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL) {
+    public function getMyOrdered(ItemKindENUM $kind, ItemFieldsENUM $field, DBOrderENUM $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL) {
         $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
         $getCommand = $this->createDbCommandForReadItems(
                 ItemFullInfoView::USER_ID_FIELD, 
@@ -470,14 +470,14 @@ class ItemService extends ServiceBase implements IItemService {
      *
      * @param ItemKindENUM $kind
      * @param ItemFieldsENUM $field
-     * @param MySQLOrderEnum $direction
+     * @param DBOrderENUM $direction
      * @param type $page
      * @param type $size
      * @param type $userID
      * @param type $projectID
      * @return type 
      */
-    public function getAssignedToMe(ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL) {
+    public function getAssignedToMe(ItemKindENUM $kind, ItemFieldsENUM $field, DBOrderENUM $direction, $page = 0, $size = 15, $userID = NULL, $projectID = NULL) {
         $userAndProjectArray = $this->tryCheckUserAndProject($userID, $projectID);
         $getCommand = $this->createDbCommandForReadItems(ItemFullInfoView::ASSIGNED_TO_FIELD, $kind, $page, $size, $userAndProjectArray['userID'], $userAndProjectArray['projectID']);
         $res = $getCommand
@@ -486,7 +486,7 @@ class ItemService extends ServiceBase implements IItemService {
         return $this->normalizeItemsFromList($res);
     }
 
-    public function getProjectOrdered($projectID, ItemKindENUM $kind, ItemFieldsENUM $field, MySQLOrderEnum $direction, $page = 0, $size = 15) {
+    public function getProjectOrdered($projectID, ItemKindENUM $kind, ItemFieldsENUM $field, DBOrderENUM $direction, $page = 0, $size = 15) {
         $this->tryCheckProject($projectID);
         $whereArray = array(
             'where' => 'ProjectID = :projectId', 
@@ -559,8 +559,8 @@ class ItemService extends ServiceBase implements IItemService {
                     ->order($this->order(
                             new ItemTableFieldsENUM(),
                             $sign === '>' ?
-                                new MySQLOrderENUM(MySQLOrderENUM::ASC) :
-                                new MySQLOrderENUM(MySQLOrderENUM::DESC)
+                                new DBOrderENUM(DBOrderENUM::ASC) :
+                                new DBOrderENUM(DBOrderENUM::DESC)
                         )
                     )
                     ->queryScalar();

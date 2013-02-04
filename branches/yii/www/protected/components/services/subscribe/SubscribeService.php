@@ -56,7 +56,7 @@ class SubscribeService extends ServiceBase implements ISubscribeService {
      * Получение списка проектов, на которые подписан пользователь.
      * @param int $userID - id пользователя, подавшего заявку.
      */
-    public function getUserSubscribes($userID, SubscribesDetailENUM $orderField, MySQLOrderEnum $direction, $page = 0, $size = 15) {
+    public function getUserSubscribes($userID, SubscribesDetailENUM $orderField, DBOrderENUM $direction, $page = 0, $size = 15) {
         $userID = (int) $userID;
         return $this->db->createCommand()
                 ->select()
@@ -71,7 +71,7 @@ class SubscribeService extends ServiceBase implements ISubscribeService {
         return $this->getCount(self::TABLE_SUBSCR_RQST, 'USER_ID = :userId',array(':userId' => (int)$userID));
     }
 
-    public function getProjectSubscribes($projectID, ProjectSubscribesDetailENUM $orderField, MySQLOrderEnum $direction, $page = 0, $size = 15) {
+    public function getProjectSubscribes($projectID, ProjectSubscribesDetailENUM $orderField, DBOrderENUM $direction, $page = 0, $size = 15) {
         $projectID = (int) $projectID;
         return $this->db->createCommand()
                 ->select()

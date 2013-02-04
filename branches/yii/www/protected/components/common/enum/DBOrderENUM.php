@@ -1,6 +1,6 @@
 <?php
 
-final class MySQLOrderENUM extends AEnum {
+final class DBOrderENUM extends AEnum {
 
     const ASC = "ASC";
     const DESC = "DESC";

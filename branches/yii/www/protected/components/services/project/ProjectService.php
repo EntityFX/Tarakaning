@@ -290,7 +290,7 @@ class ProjectService extends ServiceBase implements IProjectService {
         return $selectCommand->queryAll();
     }
 
-    public function getUserProjectsInfo($userId, MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction, $page = 0, $size = 10) {
+    public function getUserProjectsInfo($userId, MyProjectsFieldsENUM $orderField, DBOrderENUM $direction, $page = 0, $size = 10) {
         $userId = (int) $userId;
         return $this->db->createCommand()
                 ->select()
@@ -312,7 +312,7 @@ class ProjectService extends ServiceBase implements IProjectService {
             );
     }
 
-    public function getMemberProjects($userId, MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction, $page = 0, $size = 10) {
+    public function getMemberProjects($userId, MyProjectsFieldsENUM $orderField, DBOrderENUM $direction, $page = 0, $size = 10) {
         $userId = (int) $userId;
         return $this->db->createCommand()
                 ->select()
@@ -362,7 +362,7 @@ class ProjectService extends ServiceBase implements IProjectService {
         );
     }
 
-    public function getProjectsUsersInfoPagOrd($projectID, ProjectFieldsUsersInfoENUM $orderField, MySQLOrderEnum $direction, $page = 0, $size = 15) {
+    public function getProjectsUsersInfoPagOrd($projectID, ProjectFieldsUsersInfoENUM $orderField, DBOrderENUM $direction, $page = 0, $size = 15) {
         return $this->db->createCommand()
                 ->select()
                 ->from(UserInProjectErrorsAndComments::NAME)
@@ -398,7 +398,7 @@ class ProjectService extends ServiceBase implements IProjectService {
                 ->order(
                         $this->order(
                             new ProjectFieldsUsersInfoENUM(ProjectFieldsUsersInfoENUM::NICK_NAME), 
-                            new MySQLOrderENUM(MySQLOrderENUM::ASC)
+                            new DBOrderENUM(DBOrderENUM::ASC)
                         )
                 )
                 ->queryAll();

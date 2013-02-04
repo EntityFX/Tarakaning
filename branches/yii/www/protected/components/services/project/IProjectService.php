@@ -94,11 +94,11 @@ interface IProjectService {
 
     public function searchProjectsUsingLike($userID, $pattern, $page = 0, $size = 10);
 
-    public function getUserProjectsInfo($userId, MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction, $page = 0, $size = 10);
+    public function getUserProjectsInfo($userId, MyProjectsFieldsENUM $orderField, DBOrderENUM $direction, $page = 0, $size = 10);
 
     public function getUserProjectsInfoCount($userId);
 
-    public function getMemberProjects($userId, MyProjectsFieldsENUM $orderField, MySQLOrderEnum $direction, $page = 0, $size = 10);
+    public function getMemberProjects($userId, MyProjectsFieldsENUM $orderField, DBOrderENUM $direction, $page = 0, $size = 10);
 
     public function getMemberProjectsCount($userId);
 
@@ -118,7 +118,7 @@ interface IProjectService {
      */
     public function getProjectUsersInfoCount($projectID);
 
-    public function getProjectsUsersInfoPagOrd($projectID, ProjectFieldsUsersInfoENUM $orderField, MySQLOrderEnum $direction, $page = 0, $size = 15);
+    public function getProjectsUsersInfoPagOrd($projectID, ProjectFieldsUsersInfoENUM $orderField, DBOrderENUM $direction, $page = 0, $size = 15);
 
     public function getUserProjects($userId);
 
